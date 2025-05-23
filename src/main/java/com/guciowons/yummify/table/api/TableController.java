@@ -1,7 +1,7 @@
-package com.guciowons.yummify.restaurant.api;
+package com.guciowons.yummify.table.api;
 
-import com.guciowons.yummify.restaurant.RestaurantDTO;
-import com.guciowons.yummify.restaurant.logic.RestaurantService;
+import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.logic.TableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("restaurants")
+@RequestMapping("tables")
 @RequiredArgsConstructor
-public class RestaurantController {
-    private final RestaurantService restaurantService;
+public class TableController {
+    private final TableService tableService;
 
     @PostMapping
-    public ResponseEntity<RestaurantDTO> createRestaurant(@RequestBody RestaurantDTO dto) {
+    public ResponseEntity<TableDTO> create(@RequestBody TableDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(restaurantService.create(dto));
+                .body(tableService.create(dto));
     }
 }
