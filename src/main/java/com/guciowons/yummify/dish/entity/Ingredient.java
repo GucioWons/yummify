@@ -1,15 +1,14 @@
-package com.guciowons.yummify.menu.entity;
+package com.guciowons.yummify.dish.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class Dish {
+public class Ingredient {
     private UUID id;
     private String name;
-    private List<UUID> ingredientsIds;
+    private UUID restaurantId;
 }

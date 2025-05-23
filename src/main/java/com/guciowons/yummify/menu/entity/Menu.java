@@ -10,5 +10,5 @@ import java.util.UUID;
 @Setter
 public class Menu {
     private UUID restaurantId;
-    private List<Dish> dishes;
+    private List<MenuSection> sections;
 }
