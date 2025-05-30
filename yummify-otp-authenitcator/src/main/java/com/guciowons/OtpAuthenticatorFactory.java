@@ -9,8 +9,11 @@ import org.keycloak.provider.ProviderConfigProperty;
 
 import java.util.List;
 
-public class OTPAuthenticatorFactory implements AuthenticatorFactory {
-    public static final String ID = "otp-auth-with-userid";
+public class OtpAuthenticatorFactory implements AuthenticatorFactory {
+    private static final String ID = "otp-auth-with-userid";
+    private static final String DISPLAY_TYPE = "OTP Auth (with userId)";
+    private static final String HELP_TEXT = "Logs in with userId + fixed OTP (123)";
+    private static final String REFERENCE_CATEGORY = "otp";
 
     @Override
     public String getId() {
@@ -19,7 +22,7 @@ public class OTPAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public Authenticator create(KeycloakSession session) {
-        return new OTPAuthenticator();
+        return new OtpAuthenticator();
     }
 
     @Override
@@ -39,12 +42,12 @@ public class OTPAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public String getDisplayType() {
-        return "OTP Auth (with userId)";
+        return DISPLAY_TYPE;
     }
 
     @Override
     public String getHelpText() {
-        return "Logs in with userId + fixed OTP (123)";
+        return HELP_TEXT;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class OTPAuthenticatorFactory implements AuthenticatorFactory {
 
     @Override
     public String getReferenceCategory() {
-        return "otp";
+        return REFERENCE_CATEGORY;
     }
 
     @Override

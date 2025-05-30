@@ -13,7 +13,7 @@ services:
       - ./postgres/init-keycloak-schema.sql:/docker-entrypoint-initdb.d/init-keycloak-schema.sql
 
   keycloak:
-    image: yummify/keycloak:0.0.5
+    image: yummify/keycloak:0.0.1
     container_name: yummify-keycloak
     command: start-dev
     environment:
