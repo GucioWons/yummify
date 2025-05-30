@@ -13,7 +13,7 @@ services:
       - ./postgres/init-keycloak-schema.sql:/docker-entrypoint-initdb.d/init-keycloak-schema.sql
 
   keycloak:
-    image: yummify/keycloak:0.0.1
+    image: yummify/keycloak:0.0.5
     container_name: yummify-keycloak
     command: start-dev
     environment:
@@ -29,6 +29,8 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/yummify?currentSchema=keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak_password
+      JAVA_OPTS: "-Dorg.keycloak.logger.level=DEBUG -Dquarkus.log.category.\"org.keycloak.authentication\"=DEBUG -Dquarkus.log.category.\"org.keycloak.services\"=DEBUG"
+
     ports:
       - "8080:8080"
     restart: always

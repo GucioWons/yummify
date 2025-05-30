@@ -4,7 +4,7 @@
 
   <groupId>com.guciowons</groupId>
   <artifactId>yummify-otp-authenitcator</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Yummify OTP Authenitcator</name>
