@@ -1,6 +1,8 @@
 package com.guciowons;
 
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
@@ -19,6 +21,12 @@ public class OtpAuthenticator implements Authenticator {
     public static final String OTP_ATTRIBUTE = "otp";
     public static final String OTP_EXPIRATION_DATE_ATTRIBUTE = "otp_expiration_date";
 
+    public static final String ERROR_MISSING_CREDENTIALS = "Missing username or one-time password";
+    public static final String ERROR_USER_NOT_FOUND = "User not found";
+    public static final String ERROR_OTP_NOT_CONFIGURED = "OTP not configured for this user";
+    public static final String ERROR_OTP_EXPIRED = "OTP has expired";
+    public static final String ERROR_INVALID_OTP = "Invalid one-time password";
+
     @Override
     public void authenticate(AuthenticationFlowContext context) {
         MultivaluedMap<String, String> params = context.getHttpRequest().getDecodedFormParameters();
@@ -26,38 +34,53 @@ public class OtpAuthenticator implements Authenticator {
         String otp = params.getFirst(OTP_PARAM);
 
         if (isBlank(username) || isBlank(otp)) {
-            context.failure(AuthenticationFlowError.INVALID_CREDENTIALS);
+            context.failureChallenge(
+                    AuthenticationFlowError.INVALID_CREDENTIALS,
+                    createErrorResponse(ERROR_MISSING_CREDENTIALS)
+            );
             return;
         }
 
         UserModel user = getUser(context, username);
 
         if (user == null) {
-            context.failure(AuthenticationFlowError.INVALID_USER);
+            context.failureChallenge(
+                    AuthenticationFlowError.INVALID_USER,
+                    createErrorResponse(ERROR_USER_NOT_FOUND)
+            );
             return;
         }
 
-        System.out.println("Is otp expired: " + isOtpExpired(user));
-        if (isOtpExpired(user)) {
-            context.failure(AuthenticationFlowError.EXPIRED_CODE);
+        String expirationStr = user.getFirstAttribute(OTP_EXPIRATION_DATE_ATTRIBUTE);
+        String hashedOtp = user.getFirstAttribute(OTP_ATTRIBUTE);
+
+        if (isBlank(expirationStr) || isBlank(hashedOtp)) {
+            context.failureChallenge(
+                    AuthenticationFlowError.INVALID_CREDENTIALS,
+                    createErrorResponse(ERROR_OTP_NOT_CONFIGURED)
+            );
             return;
         }
 
-        System.out.println("Is otp valid: " + isOtpValid(user, otp));
-        if (!isOtpValid(user, otp)) {
-            context.setUser(user);
-            context.failure(AuthenticationFlowError.INVALID_CREDENTIALS);
-            System.out.println("Twoja stara 69");
+        if (isOtpExpired(expirationStr)) {
+            context.failureChallenge(
+                    AuthenticationFlowError.EXPIRED_CODE,
+                    createErrorResponse(ERROR_OTP_EXPIRED)
+            );
             return;
         }
 
-        System.out.println("Twoja stara 1");
+        if (isOtpInvalid(hashedOtp, otp)) {
+            context.failureChallenge(
+                    AuthenticationFlowError.INVALID_CREDENTIALS,
+                    createErrorResponse(ERROR_INVALID_OTP)
+            );
+            return;
+        }
+
         clearOtp(user);
-        System.out.println("Twoja stara 2");
         context.setUser(user);
-        System.out.println("Twoja stara 3");
         context.success();
-        System.out.println("Twoja stara 3");
     }
 
     @Override
@@ -90,30 +113,24 @@ public class OtpAuthenticator implements Authenticator {
         return context.getSession().users().getUserByUsername(context.getRealm(), username);
     }
 
-    private boolean isOtpExpired(UserModel user) {
-        String expirationStr = user.getFirstAttribute(OTP_EXPIRATION_DATE_ATTRIBUTE);
-        if (expirationStr == null) return true;
-
+    private boolean isOtpExpired(String expirationDateString) {
         try {
-            Instant expiration = Instant.parse(expirationStr);
-            return Instant.now().isAfter(expiration);
+            Instant expirationDate = Instant.parse(expirationDateString);
+            return Instant.now().isAfter(expirationDate);
         } catch (DateTimeParseException e) {
             return true;
         }
     }
 
-    private boolean isOtpValid(UserModel user, String otp) {
-        String hashedOtp = user.getFirstAttribute(OTP_ATTRIBUTE);
-        System.out.println("OTP: " + otp);
-        System.out.println("Hashed OTP: " + hashedOtp);
-        if (hashedOtp == null) return false;
+    private boolean isOtpInvalid(String hashedOtp, String otp) {
+        return !BCrypt.checkpw(otp, hashedOtp);
+    }
 
-        try {
-            return BCrypt.checkpw(otp, hashedOtp);
-        } catch (Exception e) {
-            System.out.println("BCrypt error: " + e.getMessage());
-            return false;
-        }
+    private Response createErrorResponse(String errorMessage) {
+        return Response.status(Response.Status.UNAUTHORIZED)
+                .entity(new ErrorResponseDTO(errorMessage))
+                .type(MediaType.APPLICATION_JSON_TYPE)
+                .build();
     }
 
     private void clearOtp(UserModel user) {
