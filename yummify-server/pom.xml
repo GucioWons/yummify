@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.guciowons</groupId>
-	<artifactId>yummify</artifactId>
+	<artifactId>yummify-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Yummify</name>
 	<description>Demo project for Spring Boot</description>
