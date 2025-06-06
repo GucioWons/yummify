@@ -9,10 +9,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name = "restaurant", schema = "restaurant")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
+    @Column(nullable = false)
+    private UUID ownerId;
 
     @Column(nullable = false)
     private String name;
