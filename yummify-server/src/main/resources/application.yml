@@ -4,6 +4,12 @@ server:
     context-path: /api
 
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/yummify
+    username: dev
+    password: secret
+    driver-class-name: org.postgresql.Driver
+
   security:
     oauth2:
       resourceserver:
