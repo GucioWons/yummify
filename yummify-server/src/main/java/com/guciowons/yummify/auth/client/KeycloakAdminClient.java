@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @FeignClient(name = "keycloak-admin", url = "http://localhost:8080/admin/realms/yummify")
 public interface KeycloakAdminClient {
@@ -23,5 +22,5 @@ public interface KeycloakAdminClient {
     @PutMapping(value = "/users/{id}/reset-password", consumes = MediaType.APPLICATION_JSON_VALUE)
     void setPassword(@PathVariable("id") String userId,
                      @RequestHeader("Authorization") String authorization,
-                     @RequestBody Map<String, Object> passwordPayload);
+                     @RequestBody PasswordRequestDTO passwordPayload);
 }
