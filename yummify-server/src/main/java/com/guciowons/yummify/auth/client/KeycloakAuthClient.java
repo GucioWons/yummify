@@ -1,4 +1,4 @@
-package com.guciowons.yummify.restaurant.logic;
+package com.guciowons.yummify.auth.client;
 
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;

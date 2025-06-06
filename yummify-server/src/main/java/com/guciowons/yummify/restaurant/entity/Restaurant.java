@@ -15,7 +15,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column
     private UUID ownerId;
 
     @Column(nullable = false)

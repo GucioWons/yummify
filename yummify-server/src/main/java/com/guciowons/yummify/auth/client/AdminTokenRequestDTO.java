@@ -1,10 +1,9 @@
-package com.guciowons.yummify.restaurant.logic;
+package com.guciowons.yummify.auth.client;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminTokenRequestDTO {

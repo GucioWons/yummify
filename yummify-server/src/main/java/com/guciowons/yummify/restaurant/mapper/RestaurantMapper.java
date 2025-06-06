@@ -1,5 +1,6 @@
 package com.guciowons.yummify.restaurant.mapper;
 
+import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.entity.Restaurant;
 import org.mapstruct.Mapper;
@@ -11,7 +12,7 @@ public interface RestaurantMapper {
     RestaurantDTO mapToDTO(Restaurant entity);
 
     @Mapping(target = "id", ignore = true)
-    Restaurant mapToEntity(RestaurantDTO dto);
+    Restaurant mapToEntity(RestaurantCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
     Restaurant mapToUpdateEntity(RestaurantDTO dto, @MappingTarget Restaurant entity);
