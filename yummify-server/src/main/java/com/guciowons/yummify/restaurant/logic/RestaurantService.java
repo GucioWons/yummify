@@ -14,7 +14,7 @@ public class RestaurantService {
     private final RestaurantMapper restaurantMapper;
 
     public RestaurantDTO create(RestaurantDTO dto) {
-        keycloakService.getAdminToken();
+        keycloakService.createUserAndGetId("twojastara@wp.pl");
 //        Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto));
 //        return restaurantMapper.mapToDTO(entity);
     return null;
