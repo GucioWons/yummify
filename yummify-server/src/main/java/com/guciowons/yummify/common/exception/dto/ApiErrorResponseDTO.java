@@ -13,16 +13,16 @@ public class ApiErrorResponseDTO {
     private final HttpStatus httpStatus;
     private final String path;
     private final LocalDateTime errorOccurredAt = LocalDateTime.now();
-    private final List<ApiErrorDTO> apiErrorList;
+    private final List<ApiErrorDTO> apiErrors;
 
-    public ApiErrorResponseDTO(List<ApiErrorDTO> apiErrorList, String path) {
-        this.apiErrorList = apiErrorList;
+    public ApiErrorResponseDTO(List<ApiErrorDTO> apiErrors, String path) {
+        this.apiErrors = apiErrors;
         this.path = path;
-        this.httpStatus = apiErrorList.getFirst().getHttpStatus();
+        this.httpStatus = apiErrors.getFirst().getHttpStatus();
     }
 
     public ApiErrorResponseDTO(ApiErrorDTO apiError, String path) {
-        this.apiErrorList = List.of(apiError);
+        this.apiErrors = List.of(apiError);
         this.path = path;
         this.httpStatus = apiError.getHttpStatus();
     }

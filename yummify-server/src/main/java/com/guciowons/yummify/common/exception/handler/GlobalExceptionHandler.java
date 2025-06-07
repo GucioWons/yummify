@@ -1,5 +1,6 @@
 package com.guciowons.yummify.common.exception.handler;
 
+import com.guciowons.yummify.common.exception.MultipleApiErrorException;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.exception.dto.ApiErrorDTO;
 import com.guciowons.yummify.common.exception.dto.ApiErrorResponseDTO;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -26,6 +29,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, response, new HttpHeaders(), response.getHttpStatus(), request);
     }
 
+    @ExceptionHandler(value = { MultipleApiErrorException.class })
+    protected ResponseEntity<Object> handleUnexpectedException(MultipleApiErrorException e, WebRequest request) {
+        ApiErrorResponseDTO response = buildMultipleApiErrorResponseDTO(e.getApiErrors(), request);
+        return handleExceptionInternal(e, response, new HttpHeaders(), response.getHttpStatus(), request);
+    }
+
     private ApiErrorResponseDTO buildUnexpectedApiErrorResponseDTO(WebRequest request) {
         ApiErrorDTO apiError = ApiErrorDTO.builder(ErrorMessage.UNEXPECTED_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR).build();
         return buildSingleApiErrorResponseDTO(apiError, request);
@@ -33,5 +42,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ApiErrorResponseDTO buildSingleApiErrorResponseDTO(ApiErrorDTO apiError, WebRequest request) {
         return new ApiErrorResponseDTO(apiError, request.getContextPath());
+    }
+
+    private ApiErrorResponseDTO buildMultipleApiErrorResponseDTO(List<ApiErrorDTO> apiErrors, WebRequest request) {
+        return new ApiErrorResponseDTO(apiErrors, request.getContextPath());
     }
 }
