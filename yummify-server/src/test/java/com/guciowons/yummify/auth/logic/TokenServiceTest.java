@@ -36,6 +36,35 @@ public class TokenServiceTest {
         String firstName = "Jane";
         String lastName = "Doe";
 
+        setupSecurityContextHolder(userId, restaurantId, email, username, firstName, lastName);
+
+        UserDTO result = tokenService.getUser();
+
+        assertEquals(userId, result.getId());
+        assertEquals(restaurantId, result.getRestaurantId());
+        assertEquals(email, result.getEmail());
+        assertEquals(username, result.getUsername());
+        assertEquals(firstName, result.getFirstName());
+        assertEquals(lastName, result.getLastName());
+    }
+
+    @Test
+    public void shouldReturnRestaurantId() {
+        UUID userId = UUID.randomUUID();
+        UUID restaurantId = UUID.randomUUID();
+        String email = "user@example.com";
+        String username = "user123";
+        String firstName = "Jane";
+        String lastName = "Doe";
+
+        setupSecurityContextHolder(userId, restaurantId, email, username, firstName, lastName);
+
+        UUID result = tokenService.getRestaurantId();
+
+        assertEquals(restaurantId, result);
+    }
+
+    private void setupSecurityContextHolder(UUID userId, UUID restaurantId, String email, String username, String firstName, String lastName) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("sub", userId.toString());
         claims.put("restaurant_id", restaurantId.toString());
@@ -50,14 +79,5 @@ public class TokenServiceTest {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authToken);
         SecurityContextHolder.setContext(context);
-
-        UserDTO result = tokenService.getUser();
-
-        assertEquals(userId, result.getId());
-        assertEquals(restaurantId, result.getRestaurantId());
-        assertEquals(email, result.getEmail());
-        assertEquals(username, result.getUsername());
-        assertEquals(firstName, result.getFirstName());
-        assertEquals(lastName, result.getLastName());
     }
 }

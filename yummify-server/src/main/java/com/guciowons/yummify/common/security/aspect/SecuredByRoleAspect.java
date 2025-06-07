@@ -34,6 +34,6 @@ public class SecuredByRoleAspect {
     }
 
     private boolean hasAccess(List<UserRole> roles, UserRole requiredRole) {
-        return roles.stream().anyMatch(role -> role.hasRole(requiredRole));
+        return roles.stream().anyMatch(requiredRole::hasRole);
     }
 }
