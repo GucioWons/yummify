@@ -16,3 +16,9 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8080/realms/yummify/protocol/openid-connect/certs
           issuers: http://localhost:8080/realms/yummify
+      admin:
+        auth-uri: http://localhost:8080/realms/master/protocol/openid-connect/token
+        username: admin
+        password: admin
+      yummify:
+        uri: http://localhost:8080/realms/yummify
