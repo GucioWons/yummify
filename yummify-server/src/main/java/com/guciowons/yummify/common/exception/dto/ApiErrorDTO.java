@@ -33,7 +33,6 @@ public class ApiErrorDTO {
     public static class Builder {
         private final ErrorMessage errorMessage;
         private final HttpStatus httpStatus;
-
         private String errorMessageString;
         private ErrorLocationType errorLocationType;
         private String location;
