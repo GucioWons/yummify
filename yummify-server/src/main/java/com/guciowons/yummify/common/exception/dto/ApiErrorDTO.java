@@ -64,7 +64,7 @@ public class ApiErrorDTO {
         }
 
         private String fillPlaceholders(String message, Map<String, Object> placeholders) {
-            if (placeholders == null) {
+            if (placeholders.isEmpty()) {
                 return message;
             }
             String result = message;
