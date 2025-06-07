@@ -1,5 +1,7 @@
 package com.guciowons.yummify.restaurant.api;
 
+import com.guciowons.yummify.common.security.SecuredByRole;
+import com.guciowons.yummify.common.security.UserRole;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.logic.RestaurantService;
@@ -17,6 +19,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping
+    @SecuredByRole(UserRole.ADMIN)
     public ResponseEntity<RestaurantDTO> create(@RequestBody RestaurantCreateDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -31,6 +34,7 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
+    @SecuredByRole(UserRole.OWNER)
     public ResponseEntity<RestaurantDTO> update(@PathVariable("id") UUID id, @RequestBody RestaurantDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)

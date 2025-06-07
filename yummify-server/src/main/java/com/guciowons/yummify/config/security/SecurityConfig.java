@@ -7,17 +7,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableMethodSecurity
@@ -43,23 +39,7 @@ public class SecurityConfig {
 
     private void addManager(Map<String, AuthenticationManager> authenticationManagers, String issuer) {
         JwtAuthenticationProvider authenticationProvider = new JwtAuthenticationProvider(JwtDecoders.fromOidcIssuerLocation(issuer));
-        authenticationProvider.setJwtAuthenticationConverter(getJwtAuthenticationConverter());
+        authenticationProvider.setJwtAuthenticationConverter(new KeycloakRoleConverter());
         authenticationManagers.put(issuer, authenticationProvider::authenticate);
-    }
-
-    private JwtAuthenticationConverter getJwtAuthenticationConverter() {
-        return new JwtAuthenticationConverter() {{
-            setJwtGrantedAuthoritiesConverter(jwt -> {
-                List<String> groups = jwt.getClaimAsStringList("groups");
-                if (groups == null) {
-                    groups = new ArrayList<>();
-                }
-
-                return groups.stream()
-                        .map(group -> group.replace("/", "").toUpperCase())
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-            });
-        }};
     }
 }
