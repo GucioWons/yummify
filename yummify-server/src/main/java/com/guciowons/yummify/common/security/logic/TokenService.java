@@ -1,4 +1,4 @@
-package com.guciowons.yummify.auth.logic;
+package com.guciowons.yummify.common.security.logic;
 
 import com.guciowons.yummify.auth.UserDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +19,11 @@ public class TokenService {
         user.setFirstName(getClaim(auth, "given_name"));
         user.setLastName(getClaim(auth, "family_name"));
         return user;
+    }
+
+    public UUID getRestaurantId() {
+        JwtAuthenticationToken auth = getCurrentAuthentication();
+        return UUID.fromString(getClaim(auth, "restaurant_id"));
     }
 
     private <T> T getClaim(JwtAuthenticationToken auth, String claim) {

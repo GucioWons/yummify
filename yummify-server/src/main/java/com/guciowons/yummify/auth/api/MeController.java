@@ -1,7 +1,7 @@
 package com.guciowons.yummify.auth.api;
 
 import com.guciowons.yummify.auth.UserDTO;
-import com.guciowons.yummify.auth.logic.TokenService;
+import com.guciowons.yummify.common.security.logic.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,6 +2,7 @@ package com.guciowons.yummify.restaurant.logic;
 
 import com.guciowons.yummify.auth.PublicAuthService;
 import com.guciowons.yummify.auth.UserRequestDTO;
+import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
@@ -27,6 +28,9 @@ import static org.mockito.Mockito.*;
 class RestaurantServiceTest {
     @InjectMocks
     private RestaurantService underTest;
+
+    @Mock
+    private TokenService tokenService;
 
     @Mock
     private PublicAuthService authService;
@@ -68,12 +72,14 @@ class RestaurantServiceTest {
         Restaurant restaurant = buildRestaurant(UUID.randomUUID(), UUID.randomUUID(), "Pasta palace", "This is pasta palace");
         RestaurantDTO expectedResult = buildRestaurantDTO(restaurant);
 
+        when(tokenService.getRestaurantId())
+                .thenReturn(restaurant.getId());
         when(restaurantRepository.findById(restaurant.getId()))
                 .thenReturn(Optional.of(restaurant));
         when(restaurantMapper.mapToDTO(restaurant))
                 .thenReturn(expectedResult);
 
-        RestaurantDTO result = underTest.getById(restaurant.getId());
+        RestaurantDTO result = underTest.get();
 
         assertEquals(expectedResult, result);
     }
@@ -82,10 +88,12 @@ class RestaurantServiceTest {
     public void shouldNotGetRestaurantAndThrowExceptionWhenRestaurantNotFound() {
         UUID restaurantId = UUID.randomUUID();
 
+        when(tokenService.getRestaurantId())
+                .thenReturn(restaurantId);
         when(restaurantRepository.findById(restaurantId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> underTest.getById(restaurantId));
+        assertThrows(NoSuchElementException.class, () -> underTest.get());
 
         verify(restaurantMapper, never()).mapToDTO(any());
     }
@@ -98,6 +106,8 @@ class RestaurantServiceTest {
         Restaurant afterUpdate = buildRestaurant(toUpdate.getId(), toUpdate.getOwnerId(), dto.name(), dto.description());
         RestaurantDTO expectedResult = buildRestaurantDTO(afterUpdate);
 
+        when(tokenService.getRestaurantId())
+                .thenReturn(toUpdate.getId());
         when(restaurantRepository.findById(toUpdate.getId()))
                 .thenReturn(Optional.of(toUpdate));
         when(restaurantMapper.mapToUpdateEntity(dto, toUpdate))
@@ -107,7 +117,7 @@ class RestaurantServiceTest {
         when(restaurantMapper.mapToDTO(afterUpdate))
                 .thenReturn(expectedResult);
 
-        RestaurantDTO result = underTest.update(toUpdate.getId(), dto);
+        RestaurantDTO result = underTest.update(dto);
 
         assertEquals(expectedResult, result);
     }
@@ -117,10 +127,12 @@ class RestaurantServiceTest {
         UUID restaurantId = UUID.randomUUID();
         RestaurantDTO dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
 
+        when(tokenService.getRestaurantId())
+                .thenReturn(restaurantId);
         when(restaurantRepository.findById(restaurantId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> underTest.update(restaurantId, dto));
+        assertThrows(NoSuchElementException.class, () -> underTest.update(dto));
 
         verify(restaurantRepository, never()).save(any());
         verify(restaurantMapper, never()).mapToUpdateEntity(any(), any());
