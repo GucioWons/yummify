@@ -30,4 +30,10 @@ public class RestaurantService {
 
         return restaurantMapper.mapToDTO(restaurantRepository.save(entity));
     }
+
+    public RestaurantDTO getById(UUID id) {
+        return restaurantRepository.findById(id)
+                .map(restaurantMapper::mapToDTO)
+                .orElseThrow();
+    }
 }
