@@ -14,11 +14,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RestaurantServiceTest {
@@ -37,9 +40,9 @@ class RestaurantServiceTest {
     @Test
     void shouldCreateRestaurant() {
         RestaurantCreateDTO restaurantCreate = buildRestaurantCreate();
-        Restaurant restaurant = buildRestaurant(restaurantCreate);
+        Restaurant restaurant = buildRestaurantFromCreate(restaurantCreate);
         Restaurant savedRestaurant = cloneRestaurantWithId(restaurant);
-        RestaurantDTO mappedRestaurant = buildRestaurantDTO(savedRestaurant);
+        RestaurantDTO expectedResult = buildRestaurantDTO(savedRestaurant);
 
         UUID ownerId = UUID.randomUUID();
 
@@ -47,36 +50,65 @@ class RestaurantServiceTest {
         when(restaurantRepository.save(restaurant)).thenReturn(savedRestaurant);
         when(authService.createUserAndGetId(restaurantCreate.owner())).thenReturn(ownerId);
         when(restaurantRepository.save(savedRestaurant)).thenReturn(savedRestaurant);
-        when(restaurantMapper.mapToDTO(savedRestaurant)).thenReturn(mappedRestaurant);
+        when(restaurantMapper.mapToDTO(savedRestaurant)).thenReturn(expectedResult);
 
         RestaurantDTO result = underTest.create(restaurantCreate);
 
         assertEquals(savedRestaurant.getId().toString(), restaurantCreate.owner().getAttributes().get("restaurantId"));
         assertEquals(ownerId, savedRestaurant.getOwnerId());
-        assertEquals(mappedRestaurant, result);
+        assertEquals(expectedResult, result);
 
         verify(restaurantRepository).save(restaurant);
         verify(restaurantRepository).save(savedRestaurant);
         verify(authService).createUserAndGetId(restaurantCreate.owner());
     }
 
+    @Test
+    public void shouldGetRestaurant() {
+        Restaurant restaurant = buildRestaurant(UUID.randomUUID(), UUID.randomUUID(), "Pasta palace", "This is pasta palace");
+        RestaurantDTO expectedResult = buildRestaurantDTO(restaurant);
+
+        when(restaurantRepository.findById(restaurant.getId()))
+                .thenReturn(Optional.of(restaurant));
+        when(restaurantMapper.mapToDTO(restaurant))
+                .thenReturn(expectedResult);
+
+        RestaurantDTO result = underTest.getById(restaurant.getId());
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void shouldNotGetRestaurantAndThrowExceptionWhenRestaurantNotFound() {
+        UUID restaurantId = UUID.randomUUID();
+
+        when(restaurantRepository.findById(restaurantId))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> underTest.getById(restaurantId));
+
+        verify(restaurantMapper, never()).mapToDTO(any());
+    }
+
     private RestaurantCreateDTO buildRestaurantCreate() {
         return new RestaurantCreateDTO("Pasta palace", "This is pasta palace", buildUserRequest());
     }
 
-    private Restaurant buildRestaurant(RestaurantCreateDTO restaurantCreate) {
+    private Restaurant buildRestaurant(UUID id, UUID ownerId, String name, String description) {
         Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantCreate.name());
-        restaurant.setDescription(restaurantCreate.description());
+        restaurant.setId(id);
+        restaurant.setOwnerId(ownerId);
+        restaurant.setName(name);
+        restaurant.setDescription(description);
         return restaurant;
     }
 
+    private Restaurant buildRestaurantFromCreate(RestaurantCreateDTO restaurantCreate) {
+        return buildRestaurant(null, null, restaurantCreate.name(), restaurantCreate.description());
+    }
+
     private Restaurant cloneRestaurantWithId(Restaurant restaurant) {
-        Restaurant clone = new Restaurant();
-        clone.setId(UUID.randomUUID());
-        clone.setName(restaurant.getName());
-        clone.setDescription(restaurant.getDescription());
-        return clone;
+        return buildRestaurant(UUID.randomUUID(), null, restaurant.getName(), restaurant.getDescription());
     }
 
     private RestaurantDTO buildRestaurantDTO(Restaurant restaurant) {
