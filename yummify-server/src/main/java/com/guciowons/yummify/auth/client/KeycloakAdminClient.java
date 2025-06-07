@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "keycloak-admin", url = "${spring.security.oauth2.resourceserver.jwt.realm-uri}")
+@FeignClient(name = "keycloak-admin", url = "${spring.security.oauth2.yummify.uri}")
 public interface KeycloakAdminClient {
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
     void createUser(
