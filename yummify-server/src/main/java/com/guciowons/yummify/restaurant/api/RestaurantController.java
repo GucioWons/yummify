@@ -23,16 +23,14 @@ public class RestaurantController {
                 .body(restaurantService.create(dto));
     }
 
-    @GetMapping
-    @RequestMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<RestaurantDTO> getById(@PathVariable("id") UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.getById(id));
     }
 
-    @PutMapping
-    @RequestMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<RestaurantDTO> update(@PathVariable("id") UUID id, @RequestBody RestaurantDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
