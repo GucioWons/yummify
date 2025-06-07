@@ -6,6 +6,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class AdminTokenRequestDTO {
-    private String grant_type; private String client_id; private String username; private String password;
+    private String grant_type;
+    private String client_id;
+    private String username;
+    private String password;
 }
