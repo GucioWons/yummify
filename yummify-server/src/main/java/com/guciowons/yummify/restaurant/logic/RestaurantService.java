@@ -6,6 +6,7 @@ import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
 import com.guciowons.yummify.restaurant.entity.Restaurant;
+import com.guciowons.yummify.restaurant.exception.RestaurantNotFoundException;
 import com.guciowons.yummify.restaurant.mapper.RestaurantMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,15 +35,17 @@ public class RestaurantService {
     }
 
     public RestaurantDTO get() {
-        return restaurantRepository.findById(tokenService.getRestaurantId())
+        UUID id = tokenService.getRestaurantId();
+        return restaurantRepository.findById(id)
                 .map(restaurantMapper::mapToDTO)
-                .orElseThrow();
+                .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     public RestaurantDTO update(RestaurantDTO dto) {
-        return restaurantRepository.findById(tokenService.getRestaurantId())
+        UUID id = tokenService.getRestaurantId();
+        return restaurantRepository.findById(id)
                 .map(restaurant -> updateAndMap(dto, restaurant))
-                .orElseThrow();
+                .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
     private RestaurantDTO updateAndMap(RestaurantDTO dto, Restaurant toUpdate) {

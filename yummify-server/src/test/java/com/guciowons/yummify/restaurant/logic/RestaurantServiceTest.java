@@ -7,6 +7,7 @@ import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
 import com.guciowons.yummify.restaurant.entity.Restaurant;
+import com.guciowons.yummify.restaurant.exception.RestaurantNotFoundException;
 import com.guciowons.yummify.restaurant.mapper.RestaurantMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -93,7 +93,7 @@ class RestaurantServiceTest {
         when(restaurantRepository.findById(restaurantId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> underTest.get());
+        assertThrows(RestaurantNotFoundException.class, () -> underTest.get());
 
         verify(restaurantMapper, never()).mapToDTO(any());
     }
@@ -132,7 +132,7 @@ class RestaurantServiceTest {
         when(restaurantRepository.findById(restaurantId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> underTest.update(dto));
+        assertThrows(RestaurantNotFoundException.class, () -> underTest.update(dto));
 
         verify(restaurantRepository, never()).save(any());
         verify(restaurantMapper, never()).mapToUpdateEntity(any(), any());

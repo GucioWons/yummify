@@ -36,15 +36,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ApiErrorResponseDTO buildUnexpectedApiErrorResponseDTO(WebRequest request) {
-        ApiErrorDTO apiError = ApiErrorDTO.builder(ErrorMessage.UNEXPECTED_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR).build();
+        ApiErrorDTO apiError = ApiErrorDTO
+                .builder(ErrorMessage.UNEXPECTED_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR)
+                .build();
+
         return buildSingleApiErrorResponseDTO(apiError, request);
     }
 
     private ApiErrorResponseDTO buildSingleApiErrorResponseDTO(ApiErrorDTO apiError, WebRequest request) {
-        return new ApiErrorResponseDTO(apiError, request.getContextPath());
+        return new ApiErrorResponseDTO(apiError, request.getDescription(false));
     }
 
     private ApiErrorResponseDTO buildMultipleApiErrorResponseDTO(List<ApiErrorDTO> apiErrors, WebRequest request) {
-        return new ApiErrorResponseDTO(apiErrors, request.getContextPath());
+        return new ApiErrorResponseDTO(apiErrors, request.getDescription(false));
     }
 }

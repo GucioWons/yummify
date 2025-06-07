@@ -10,6 +10,7 @@ public enum ErrorLocationType {
     QUERY_PARAM("Query Parameter"),
     HEADER_PARAM("Header Parameter"),
     BODY("Body"),
+    AUTH("Auth"),
     FILE("File");
 
     private final String name;
