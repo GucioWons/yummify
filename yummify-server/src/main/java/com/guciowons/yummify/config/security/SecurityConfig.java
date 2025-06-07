@@ -39,7 +39,7 @@ public class SecurityConfig {
 
     private void addManager(Map<String, AuthenticationManager> authenticationManagers, String issuer) {
         JwtAuthenticationProvider authenticationProvider = new JwtAuthenticationProvider(JwtDecoders.fromOidcIssuerLocation(issuer));
-        authenticationProvider.setJwtAuthenticationConverter(new CustomJwtAuthenticationConverter());
+        authenticationProvider.setJwtAuthenticationConverter(new KeycloakRoleConverter());
         authenticationManagers.put(issuer, authenticationProvider::authenticate);
     }
 }
