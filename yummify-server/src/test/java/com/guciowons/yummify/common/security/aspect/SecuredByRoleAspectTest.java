@@ -1,6 +1,8 @@
 package com.guciowons.yummify.common.security.aspect;
 
 import com.guciowons.yummify.common.security.enumerated.UserRole;
+import com.guciowons.yummify.common.security.exception.AccessDeniedException;
+import com.guciowons.yummify.common.security.exception.UnauthorizedException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -65,21 +67,21 @@ class SecuredByRoleAspectTest {
 
         when(securedByRole.value()).thenReturn(UserRole.ADMIN);
 
-        assertThrows(RuntimeException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(AccessDeniedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
 
         verify(joinPoint, never()).proceed();
     }
 
     @Test
     void shouldThrowWhenAuthenticationIsNull() {
-        assertThrows(RuntimeException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
     }
 
     @Test
     void shouldThrowWhenNotAuthenticated() {
         setupSecurityContextHolder("ADMIN", false);
 
-        assertThrows(RuntimeException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
     }
 
     private void setupSecurityContextHolder(String role, boolean isAuthenticated) {

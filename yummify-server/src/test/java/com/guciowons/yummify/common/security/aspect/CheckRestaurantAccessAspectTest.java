@@ -1,5 +1,6 @@
 package com.guciowons.yummify.common.security.aspect;
 
+import com.guciowons.yummify.common.security.exception.AccessDeniedException;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.lang.reflect.Method;
