@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.security.enumerated.UserRole;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.logic.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class RestaurantController {
 
     @PostMapping
     @SecuredByRole(UserRole.ADMIN)
-    public ResponseEntity<RestaurantDTO> create(@RequestBody RestaurantCreateDTO dto) {
+    public ResponseEntity<RestaurantDTO> create(@RequestBody @Valid RestaurantCreateDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(restaurantService.create(dto));
@@ -33,7 +34,7 @@ public class RestaurantController {
 
     @PutMapping
     @SecuredByRole(UserRole.OWNER)
-    public ResponseEntity<RestaurantDTO> update(@RequestBody RestaurantDTO dto) {
+    public ResponseEntity<RestaurantDTO> update(@RequestBody @Valid RestaurantDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.update(dto));

@@ -14,6 +14,9 @@ public enum ErrorMessage {
     ACCESS_DENIED("Access denied"),
     UNAUTHORIZED("You are not logged in"),
 
+    VALIDATION_NOT_NULL("This field is required"),
+    VALIDATION_NULL("This field has to be null"),
+
     UNEXPECTED_SERVER_ERROR("Unexpected server error");
 
     private final String message;
