@@ -4,6 +4,8 @@ import com.guciowons.yummify.auth.PublicAuthService;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.auth.UserResponseDTO;
 import com.guciowons.yummify.auth.client.*;
+import com.guciowons.yummify.auth.exception.AccountExistsByEmailException;
+import com.guciowons.yummify.auth.exception.AccountExistsByUsernameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,11 +33,11 @@ public class KeycloakService implements PublicAuthService {
         String adminToken = "Bearer " + getAdminToken().access_token();
 
         if (keycloakAdminClient.countUsersByEmail(adminToken, userRequest.getEmail()) > 0) {
-            throw new IllegalArgumentException();
+            throw new AccountExistsByEmailException("owner/email");
         }
 
         if (keycloakAdminClient.countUsersByUsername(adminToken, userRequest.getUsername()) > 0) {
-            throw new IllegalArgumentException();
+            throw new AccountExistsByUsernameException("owner/username");
         }
 
         keycloakAdminClient.createUser(adminToken, userRequest);

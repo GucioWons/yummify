@@ -1,6 +1,8 @@
 package com.guciowons.yummify.common.security.aspect;
 
 import com.guciowons.yummify.common.security.enumerated.UserRole;
+import com.guciowons.yummify.common.security.exception.AccessDeniedException;
+import com.guciowons.yummify.common.security.exception.UnauthorizedException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +21,7 @@ public class SecuredByRoleAspect {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException();
+            throw new UnauthorizedException();
         }
 
         List<UserRole> userRoles = authentication.getAuthorities().stream()
@@ -27,7 +29,7 @@ public class SecuredByRoleAspect {
                 .toList();
 
         if (!hasAccess(userRoles, securedByRole.value())) {
-            throw new RuntimeException();
+            throw new AccessDeniedException();
         }
 
         return joinPoint.proceed();

@@ -1,12 +1,12 @@
 package com.guciowons.yummify.common.security.aspect;
 
+import com.guciowons.yummify.common.security.exception.AccessDeniedException;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -25,7 +25,7 @@ public class CheckRestaurantAccessAspect {
         UUID restaurantIdParam = getRestaurantIdArgument(joinPoint);
 
         if (!allowedRestaurantId.equals(restaurantIdParam)) {
-            throw new AccessDeniedException("Access denied to restaurant");
+            throw new AccessDeniedException();
         }
 
         return joinPoint.proceed();

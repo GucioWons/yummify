@@ -3,6 +3,8 @@ package com.guciowons.yummify.auth.logic;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.auth.UserResponseDTO;
 import com.guciowons.yummify.auth.client.*;
+import com.guciowons.yummify.auth.exception.AccountExistsByEmailException;
+import com.guciowons.yummify.auth.exception.AccountExistsByUsernameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,7 +91,7 @@ class KeycloakServiceTest {
         when(keycloakAdminClient.countUsersByEmail(BEARER_ADMIN_TOKEN, "test@example.com"))
                 .thenReturn(1);
 
-        assertThrows(IllegalArgumentException.class, () -> underTest.createUserAndGetId(userRequest));
+        assertThrows(AccountExistsByEmailException.class, () -> underTest.createUserAndGetId(userRequest));
 
         verify(keycloakAdminClient, never()).countUsersByUsername(any(), any());
         verify(keycloakAdminClient, never()).createUser(any(), any());
@@ -110,7 +112,7 @@ class KeycloakServiceTest {
         when(keycloakAdminClient.countUsersByUsername(BEARER_ADMIN_TOKEN, "test"))
                 .thenReturn(1);
 
-        assertThrows(IllegalArgumentException.class, () -> underTest.createUserAndGetId(userRequest));
+        assertThrows(AccountExistsByUsernameException.class, () -> underTest.createUserAndGetId(userRequest));
 
         verify(keycloakAdminClient, never()).createUser(any(), any());
         verify(keycloakAdminClient, never()).setPassword(any(), any(), any());
