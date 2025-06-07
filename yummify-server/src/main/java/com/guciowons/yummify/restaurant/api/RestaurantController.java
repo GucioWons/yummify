@@ -30,4 +30,12 @@ public class RestaurantController {
                 .status(HttpStatus.OK)
                 .body(restaurantService.getById(id));
     }
+
+    @PutMapping
+    @RequestMapping("{id}")
+    public ResponseEntity<RestaurantDTO> update(@PathVariable("id") UUID id, @RequestBody RestaurantDTO dto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(restaurantService.update(id, dto));
+    }
 }

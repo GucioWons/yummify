@@ -36,4 +36,15 @@ public class RestaurantService {
                 .map(restaurantMapper::mapToDTO)
                 .orElseThrow();
     }
+
+    public RestaurantDTO update(UUID id, RestaurantDTO dto) {
+        return restaurantRepository.findById(id)
+                .map(restaurant -> updateAndMap(dto, restaurant))
+                .orElseThrow();
+    }
+
+    private RestaurantDTO updateAndMap(RestaurantDTO dto, Restaurant toUpdate) {
+        Restaurant toSave = restaurantMapper.mapToUpdateEntity(dto, toUpdate);
+        return restaurantMapper.mapToDTO(restaurantRepository.save(toSave));
+    }
 }

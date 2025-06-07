@@ -90,16 +90,51 @@ class RestaurantServiceTest {
         verify(restaurantMapper, never()).mapToDTO(any());
     }
 
+    @Test
+    public void shouldUpdateRestaurant() {
+        Restaurant toUpdate = buildRestaurant(UUID.randomUUID(), UUID.randomUUID(), "Pasta palace", "This is pasta palace");
+        RestaurantDTO dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
+        Restaurant toSave = buildRestaurantFromDTO(dto);
+        Restaurant afterUpdate = buildRestaurant(toUpdate.getId(), toUpdate.getOwnerId(), dto.name(), dto.description());
+        RestaurantDTO expectedResult = buildRestaurantDTO(afterUpdate);
+
+        when(restaurantRepository.findById(toUpdate.getId()))
+                .thenReturn(Optional.of(toUpdate));
+        when(restaurantMapper.mapToUpdateEntity(dto, toUpdate))
+                .thenReturn(toSave);
+        when(restaurantRepository.save(toSave))
+                .thenReturn(afterUpdate);
+        when(restaurantMapper.mapToDTO(afterUpdate))
+                .thenReturn(expectedResult);
+
+        RestaurantDTO result = underTest.update(toUpdate.getId(), dto);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    public void shouldNotUpdateRestaurantAndThrowExceptionWhenRestaurantNotFound() {
+        UUID restaurantId = UUID.randomUUID();
+        RestaurantDTO dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
+
+        when(restaurantRepository.findById(restaurantId))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> underTest.update(restaurantId, dto));
+
+        verify(restaurantRepository, never()).save(any());
+        verify(restaurantMapper, never()).mapToUpdateEntity(any(), any());
+        verify(restaurantMapper, never()).mapToDTO(any());
+    }
+
     private RestaurantCreateDTO buildRestaurantCreate() {
         return new RestaurantCreateDTO("Pasta palace", "This is pasta palace", buildUserRequest());
     }
 
-    private Restaurant buildRestaurant(UUID id, UUID ownerId, String name, String description) {
+    private Restaurant buildRestaurantFromDTO(RestaurantDTO dto) {
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(id);
-        restaurant.setOwnerId(ownerId);
-        restaurant.setName(name);
-        restaurant.setDescription(description);
+        restaurant.setName(dto.name());
+        restaurant.setDescription(dto.description());
         return restaurant;
     }
 
@@ -109,6 +144,15 @@ class RestaurantServiceTest {
 
     private Restaurant cloneRestaurantWithId(Restaurant restaurant) {
         return buildRestaurant(UUID.randomUUID(), null, restaurant.getName(), restaurant.getDescription());
+    }
+
+    private Restaurant buildRestaurant(UUID id, UUID ownerId, String name, String description) {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(id);
+        restaurant.setOwnerId(ownerId);
+        restaurant.setName(name);
+        restaurant.setDescription(description);
+        return restaurant;
     }
 
     private RestaurantDTO buildRestaurantDTO(Restaurant restaurant) {
