@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.security;
+package com.guciowons.yummify.common.security.enumerated;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

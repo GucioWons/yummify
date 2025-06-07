@@ -1,5 +1,6 @@
-package com.guciowons.yummify.common.security;
+package com.guciowons.yummify.common.security.aspect;
 
+import com.guciowons.yummify.common.security.enumerated.UserRole;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

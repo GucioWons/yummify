@@ -1,7 +1,7 @@
 package com.guciowons.yummify.restaurant.api;
 
-import com.guciowons.yummify.common.security.SecuredByRole;
-import com.guciowons.yummify.common.security.UserRole;
+import com.guciowons.yummify.common.security.aspect.SecuredByRole;
+import com.guciowons.yummify.common.security.enumerated.UserRole;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.logic.RestaurantService;
@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("restaurants")
@@ -26,18 +24,18 @@ public class RestaurantController {
                 .body(restaurantService.create(dto));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RestaurantDTO> getById(@PathVariable("id") UUID id) {
+    @GetMapping
+    public ResponseEntity<RestaurantDTO> get() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.getById(id));
+                .body(restaurantService.get());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @SecuredByRole(UserRole.OWNER)
-    public ResponseEntity<RestaurantDTO> update(@PathVariable("id") UUID id, @RequestBody RestaurantDTO dto) {
+    public ResponseEntity<RestaurantDTO> update(@RequestBody RestaurantDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.update(id, dto));
+                .body(restaurantService.update(dto));
     }
 }

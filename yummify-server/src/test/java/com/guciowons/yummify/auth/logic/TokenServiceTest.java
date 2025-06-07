@@ -1,6 +1,7 @@
 package com.guciowons.yummify.auth.logic;
 
 import com.guciowons.yummify.auth.UserDTO;
+import com.guciowons.yummify.common.security.logic.TokenService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,6 +1,7 @@
 package com.guciowons.yummify.restaurant.logic;
 
 import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
+    private final TokenService tokenService;
     private final PublicAuthService authService;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
@@ -31,14 +33,14 @@ public class RestaurantService {
         return restaurantMapper.mapToDTO(restaurantRepository.save(entity));
     }
 
-    public RestaurantDTO getById(UUID id) {
-        return restaurantRepository.findById(id)
+    public RestaurantDTO get() {
+        return restaurantRepository.findById(tokenService.getRestaurantId())
                 .map(restaurantMapper::mapToDTO)
                 .orElseThrow();
     }
 
-    public RestaurantDTO update(UUID id, RestaurantDTO dto) {
-        return restaurantRepository.findById(id)
+    public RestaurantDTO update(RestaurantDTO dto) {
+        return restaurantRepository.findById(tokenService.getRestaurantId())
                 .map(restaurant -> updateAndMap(dto, restaurant))
                 .orElseThrow();
     }
