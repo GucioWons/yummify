@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("tables")
@@ -31,5 +32,12 @@ public class TableController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tableService.getAll());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<TableDTO> getById(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tableService.getById(id));
     }
 }

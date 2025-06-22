@@ -7,6 +7,7 @@ import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
 import com.guciowons.yummify.table.exception.TableExistsByNameException;
+import com.guciowons.yummify.table.exception.TableNotFoundException;
 import com.guciowons.yummify.table.mapper.TableMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,12 @@ public class TableService {
         return tableRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(tableMapper::mapToDTO)
                 .toList();
+    }
+
+    public TableDTO getById(UUID id) {
+        UUID restaurantId = tokenService.getRestaurantId();
+        Table table = tableRepository.findByIdAndRestaurantId(id, restaurantId)
+                .orElseThrow(() -> new TableNotFoundException(id));
+        return tableMapper.mapToDTO(table);
     }
 }
