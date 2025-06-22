@@ -25,20 +25,19 @@ public class TableService {
     private final TokenService tokenService;
     private final PublicAuthService authService;
 
-    @Transactional
     public TableDTO create(TableCreateDTO dto) {
         UUID restaurantId = tokenService.getRestaurantId();
         if (tableRepository.existsByNameAndRestaurantId(dto.name(), restaurantId)) {
             throw new TableExistsByNameException(dto.name());
         }
 
-        Table entity = tableRepository.save(tableMapper.mapToEntity(dto));
+        Table entity = tableMapper.mapToEntity(dto);
+        entity.setRestaurantId(restaurantId);
         dto.user().setAttributes(Map.of("restaurantId", entity.getId().toString()));
         UUID tableUserId = authService.createUserAndGetId(dto.user());
         entity.setUserId(tableUserId);
-        entity.setRestaurantId(restaurantId);
 
-        return tableMapper.mapToDTO(entity);
+        return tableMapper.mapToDTO(tableRepository.save(entity));
     }
 
     public List<TableDTO> getAll() {
@@ -50,8 +49,16 @@ public class TableService {
 
     public TableDTO getById(UUID id) {
         UUID restaurantId = tokenService.getRestaurantId();
-        Table table = tableRepository.findByIdAndRestaurantId(id, restaurantId)
+        return tableRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(tableMapper::mapToDTO)
                 .orElseThrow(() -> new TableNotFoundException(id));
-        return tableMapper.mapToDTO(table);
+    }
+
+    @Transactional
+    public TableDTO update(UUID id, TableDTO dto) {
+        UUID restaurantId = tokenService.getRestaurantId();
+        return tableRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(table -> tableMapper.mapToDTO(tableMapper.mapToUpdateEntity(dto, table)))
+                .orElseThrow(() -> new TableNotFoundException(id));
     }
 }
