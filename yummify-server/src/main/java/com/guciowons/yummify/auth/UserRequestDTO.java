@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -23,6 +24,6 @@ public class UserRequestDTO {
     @NotNull
     private String lastName;
     @Null
-    private Map<String, String> attributes;
+    private Map<String, List<String>> attributes;
     private final boolean enabled = true;
 }

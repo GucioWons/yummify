@@ -3,14 +3,17 @@ package com.guciowons.yummify.auth.logic;
 import com.guciowons.yummify.auth.OtpDTO;
 import com.guciowons.yummify.auth.PublicAuthService;
 import com.guciowons.yummify.auth.UserRequestDTO;
-import com.guciowons.yummify.auth.UserResponseDTO;
 import com.guciowons.yummify.auth.client.*;
 import com.guciowons.yummify.auth.exception.AccountExistsByEmailException;
 import com.guciowons.yummify.auth.exception.AccountExistsByUsernameException;
+import com.guciowons.yummify.auth.mapper.UserRequestMapper;
 import lombok.RequiredArgsConstructor;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -28,6 +31,7 @@ public class KeycloakService implements PublicAuthService {
     private final SecurePasswordGenerator securePasswordGenerator;
     private final KeycloakAuthClient keycloakAuthClient;
     private final KeycloakAdminClient keycloakAdminClient;
+    private final UserRequestMapper userRequestMapper;
 
     @Override
     public UUID createUserAndGetId(UserRequestDTO userRequest) {
@@ -41,19 +45,26 @@ public class KeycloakService implements PublicAuthService {
             throw new AccountExistsByUsernameException("owner/username");
         }
 
-        keycloakAdminClient.createUser(adminToken, userRequest);
+        keycloakAdminClient.createUser(adminToken, userRequestMapper.toUserRepresentation(userRequest));
 
-        UserResponseDTO userResponse = keycloakAdminClient.getUserByEmail(adminToken, userRequest.getEmail()).getFirst();
+        UserRepresentation userResponse = keycloakAdminClient.getUserByEmail(adminToken, userRequest.getEmail()).getFirst();
         String password = securePasswordGenerator.generate(16);
-        keycloakAdminClient.setPassword(userResponse.id().toString(), adminToken, new PasswordRequestDTO(password));
+        keycloakAdminClient.setPassword(userResponse.getId(), adminToken, new PasswordRequestDTO(password));
 
-        return userResponse.id();
+        return UUID.fromString(userResponse.getId());
     }
 
     public OtpDTO createOtp(UUID userId) {
         String adminToken = "Bearer " + getAdminToken().access_token();
+        UserRepresentation userResponse = keycloakAdminClient.getUser(userId.toString(), adminToken);
 
-        return new OtpDTO("tmp", securePasswordGenerator.generate(16));
+        String otp = securePasswordGenerator.generate(16);
+        String otpExpirationDate = LocalDateTime.now().plusMinutes(5).toString();
+        userResponse.getAttributes().put("otp", Collections.singletonList(otp));
+        userResponse.getAttributes().put("otpExpirationDate", Collections.singletonList(otpExpirationDate));
+        keycloakAdminClient.updateUser(userId.toString(), adminToken, userResponse);
+
+        return new OtpDTO(userResponse.getUsername(), otp);
     }
 
     private AdminTokenResponseDTO getAdminToken() {

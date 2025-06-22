@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class RestaurantService {
     public RestaurantDTO create(RestaurantCreateDTO dto) {
         Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto));
 
-        dto.owner().setAttributes(Map.of("restaurantId", entity.getId().toString()));
+        dto.owner().setAttributes(Map.of("restaurantId", List.of(entity.getId().toString())));
         UUID ownerId = authService.createUserAndGetId(dto.owner());
         entity.setOwnerId(ownerId);
 
