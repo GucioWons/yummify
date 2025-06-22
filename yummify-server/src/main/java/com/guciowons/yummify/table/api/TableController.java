@@ -40,4 +40,11 @@ public class TableController {
                 .status(HttpStatus.OK)
                 .body(tableService.getById(id));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<TableDTO> update(@PathVariable UUID id, @RequestBody TableDTO dto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tableService.update(id, dto));
+    }
 }
