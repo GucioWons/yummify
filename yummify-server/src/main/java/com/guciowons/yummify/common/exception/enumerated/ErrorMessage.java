@@ -9,6 +9,7 @@ public enum ErrorMessage {
     RESTAURANT_NOT_FOUND_BY_ID("Could not find restaurant with ID '{{id}}'"),
 
     TABLE_EXISTS_BY_NAME("Table with name '{{name}}' already exists"),
+    TABLE_NOT_FOUND_BY_ID("Could not find table with ID '{{id}}'"),
 
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),
     KEYCLOAK_ACCOUNT_EXISTS_BY_USERNAME("Account with this username already exists"),
