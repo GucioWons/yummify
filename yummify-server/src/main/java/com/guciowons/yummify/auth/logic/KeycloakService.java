@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.logic;
 
+import com.guciowons.yummify.auth.OtpDTO;
 import com.guciowons.yummify.auth.PublicAuthService;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.auth.UserResponseDTO;
@@ -47,6 +48,12 @@ public class KeycloakService implements PublicAuthService {
         keycloakAdminClient.setPassword(userResponse.id().toString(), adminToken, new PasswordRequestDTO(password));
 
         return userResponse.id();
+    }
+
+    public OtpDTO createOtp(UUID userId) {
+        String adminToken = "Bearer " + getAdminToken().access_token();
+
+        return new OtpDTO("tmp", securePasswordGenerator.generate(16));
     }
 
     private AdminTokenResponseDTO getAdminToken() {

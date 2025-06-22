@@ -1,9 +1,11 @@
 package com.guciowons.yummify.table.api;
 
+import com.guciowons.yummify.auth.OtpDTO;
 import com.guciowons.yummify.common.security.aspect.SecuredByRole;
 import com.guciowons.yummify.common.security.enumerated.UserRole;
 import com.guciowons.yummify.table.TableCreateDTO;
 import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.logic.TableAuthService;
 import com.guciowons.yummify.table.logic.TableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TableController {
     private final TableService tableService;
+    private final TableAuthService tableAuthService;
 
     @PostMapping
     @SecuredByRole(UserRole.OWNER)
@@ -46,5 +49,12 @@ public class TableController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tableService.update(id, dto));
+    }
+
+    @GetMapping("{id}/generate-otp")
+    public ResponseEntity<OtpDTO> generateOtp(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tableAuthService.generateOtp(id));
     }
 }
