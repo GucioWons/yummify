@@ -15,8 +15,11 @@ public class Table {
     private UUID id;
 
     @Column(nullable = false)
-    private String name;
+    private UUID restaurantId;
+
+    @Column
+    private UUID userId;
 
     @Column(nullable = false)
-    private UUID restaurantId;
+    private String name;
 }

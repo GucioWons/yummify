@@ -1,5 +1,6 @@
 package com.guciowons.yummify.table.mapper;
 
+import com.guciowons.yummify.table.TableCreateDTO;
 import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.entity.Table;
 import org.mapstruct.Mapper;
@@ -11,7 +12,7 @@ public interface TableMapper {
     TableDTO mapToDTO(Table entity);
 
     @Mapping(target = "id", ignore = true)
-    Table mapToEntity(TableDTO dto);
+    Table mapToEntity(TableCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
     Table mapToUpdateEntity(TableDTO dto, @MappingTarget Table table);
