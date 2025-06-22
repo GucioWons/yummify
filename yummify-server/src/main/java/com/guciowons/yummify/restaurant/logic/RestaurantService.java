@@ -31,7 +31,7 @@ public class RestaurantService {
         UUID ownerId = authService.createUserAndGetId(dto.owner());
         entity.setOwnerId(ownerId);
 
-        return restaurantMapper.mapToDTO(restaurantRepository.save(entity));
+        return restaurantMapper.mapToDTO(entity);
     }
 
     public RestaurantDTO get() {

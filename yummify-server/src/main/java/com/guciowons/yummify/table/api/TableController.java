@@ -1,5 +1,8 @@
 package com.guciowons.yummify.table.api;
 
+import com.guciowons.yummify.common.security.aspect.SecuredByRole;
+import com.guciowons.yummify.common.security.enumerated.UserRole;
+import com.guciowons.yummify.table.TableCreateDTO;
 import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.logic.TableService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +20,8 @@ public class TableController {
     private final TableService tableService;
 
     @PostMapping
-    public ResponseEntity<TableDTO> create(@RequestBody TableDTO dto) {
+    @SecuredByRole(UserRole.OWNER)
+    public ResponseEntity<TableDTO> create(@RequestBody TableCreateDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(tableService.create(dto));
