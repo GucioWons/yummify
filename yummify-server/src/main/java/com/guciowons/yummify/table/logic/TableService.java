@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,5 +38,12 @@ public class TableService {
         entity.setRestaurantId(restaurantId);
 
         return tableMapper.mapToDTO(entity);
+    }
+
+    public List<TableDTO> getAll() {
+        UUID restaurantId = tokenService.getRestaurantId();
+        return tableRepository.findAllByRestaurantId(restaurantId).stream()
+                .map(tableMapper::mapToDTO)
+                .toList();
     }
 }
