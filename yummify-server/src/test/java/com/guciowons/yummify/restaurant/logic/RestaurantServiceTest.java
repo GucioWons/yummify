@@ -1,6 +1,6 @@
 package com.guciowons.yummify.restaurant.logic;
 
-import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
@@ -33,7 +33,7 @@ class RestaurantServiceTest {
     private TokenService tokenService;
 
     @Mock
-    private PublicAuthService authService;
+    private PublicUserCreateService userCreateService;
 
     @Mock
     private RestaurantRepository restaurantRepository;
@@ -52,7 +52,7 @@ class RestaurantServiceTest {
 
         when(restaurantMapper.mapToEntity(restaurantCreate)).thenReturn(restaurant);
         when(restaurantRepository.save(restaurant)).thenReturn(savedRestaurant);
-        when(authService.createUserAndGetId(restaurantCreate.owner())).thenReturn(ownerId);
+        when(userCreateService.createUserWithPassword(restaurantCreate.owner())).thenReturn(ownerId);
         when(restaurantRepository.save(savedRestaurant)).thenReturn(savedRestaurant);
         when(restaurantMapper.mapToDTO(savedRestaurant)).thenReturn(expectedResult);
 
@@ -64,7 +64,7 @@ class RestaurantServiceTest {
 
         verify(restaurantRepository).save(restaurant);
         verify(restaurantRepository).save(savedRestaurant);
-        verify(authService).createUserAndGetId(restaurantCreate.owner());
+        verify(userCreateService).createUserWithPassword(restaurantCreate.owner());
     }
 
     @Test
