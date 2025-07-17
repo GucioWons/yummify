@@ -56,10 +56,7 @@ class UserCreateServiceTest {
         AdminTokenRequestDTO tokenRequest = buildAdminTokenRequest();
 
         UserRequestDTO userRequest = buildUserRequest();
-
-        UserRepresentation userRepresentationResponse = new UserRepresentation();
-        userRepresentationResponse.setId(UUID.randomUUID().toString());
-
+        UserRepresentation userRepresentationResponse = buildUserRepresentation();
         UserRepresentation userRepresentationRequest = new UserRepresentation();
 
         when(keycloakAuthClient.getAdminAccessToken(tokenRequest))
@@ -83,10 +80,7 @@ class UserCreateServiceTest {
         AdminTokenRequestDTO tokenRequest = buildAdminTokenRequest();
 
         UserRequestDTO userRequest = buildUserRequest();
-
-        UserRepresentation userRepresentationResponse = new UserRepresentation();
-        userRepresentationResponse.setId(UUID.randomUUID().toString());
-
+        UserRepresentation userRepresentationResponse = buildUserRepresentation();
         UserRepresentation userRepresentationRequest = new UserRepresentation();
 
         when(keycloakAuthClient.getAdminAccessToken(tokenRequest))
@@ -156,6 +150,12 @@ class UserCreateServiceTest {
 
     private AdminTokenRequestDTO buildAdminTokenRequest() {
         return new AdminTokenRequestDTO("admin", "password");
+    }
+
+    private UserRepresentation buildUserRepresentation() {
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(UUID.randomUUID().toString());
+        return userRepresentation;
     }
 
     private UserRequestDTO buildUserRequest() {
