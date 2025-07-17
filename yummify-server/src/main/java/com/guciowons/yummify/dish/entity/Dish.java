@@ -15,6 +15,9 @@ public class Dish {
     private UUID id;
 
     @Column(nullable = false)
+    private UUID restaurantId;
+
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
