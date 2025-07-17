@@ -1,7 +1,7 @@
 package com.guciowons.yummify.table.logic;
 
 import com.guciowons.yummify.auth.OtpDTO;
-import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.auth.PublicOtpService;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
@@ -16,13 +16,13 @@ import java.util.UUID;
 public class TableAuthService {
     private final TableRepository tableRepository;
     private final TokenService tokenService;
-    private final PublicAuthService authService;
+    private final PublicOtpService otpService;
 
     public OtpDTO generateOtp(UUID id) {
         UUID restaurantId = tokenService.getRestaurantId();
         UUID tableUserId = tableRepository.findByIdAndRestaurantId(id, restaurantId)
                 .map(Table::getUserId)
                 .orElseThrow(() -> new TableNotFoundException(id));
-        return authService.createOtp(tableUserId);
+        return otpService.createOtp(tableUserId);
     }
 }

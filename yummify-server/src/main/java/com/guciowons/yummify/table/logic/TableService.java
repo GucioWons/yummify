@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.logic;
 
-import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.table.TableDTO;
@@ -23,8 +23,9 @@ public class TableService {
     private final TableRepository tableRepository;
     private final TableMapper tableMapper;
     private final TokenService tokenService;
-    private final PublicAuthService authService;
+    private final PublicUserCreateService userCreateService;
 
+    @Transactional
     public TableDTO create(TableDTO dto) {
         UUID restaurantId = tokenService.getRestaurantId();
         if (tableRepository.existsByNameAndRestaurantId(dto.name(), restaurantId)) {
@@ -39,7 +40,7 @@ public class TableService {
                 "Fake last name",
                 Map.of("restaurantId", List.of(restaurantId.toString()))
         );
-        UUID tableUserId = authService.createUserAndGetId(userRequest);
+        UUID tableUserId = userCreateService.createUser(userRequest);
         entity.setUserId(tableUserId);
 
         return tableMapper.mapToDTO(tableRepository.save(entity));
