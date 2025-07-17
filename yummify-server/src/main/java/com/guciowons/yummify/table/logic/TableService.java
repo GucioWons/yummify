@@ -1,8 +1,8 @@
 package com.guciowons.yummify.table.logic;
 
-import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.auth.PublicUserCreateService;
+import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.security.logic.TokenService;
-import com.guciowons.yummify.table.TableCreateDTO;
 import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
@@ -23,18 +23,24 @@ public class TableService {
     private final TableRepository tableRepository;
     private final TableMapper tableMapper;
     private final TokenService tokenService;
-    private final PublicAuthService authService;
+    private final PublicUserCreateService userCreateService;
 
-    public TableDTO create(TableCreateDTO dto) {
+    @Transactional
+    public TableDTO create(TableDTO dto) {
         UUID restaurantId = tokenService.getRestaurantId();
         if (tableRepository.existsByNameAndRestaurantId(dto.name(), restaurantId)) {
             throw new TableExistsByNameException(dto.name());
         }
 
-        Table entity = tableMapper.mapToEntity(dto);
-        entity.setRestaurantId(restaurantId);
-        dto.user().setAttributes(Map.of("restaurantId", entity.getId().toString()));
-        UUID tableUserId = authService.createUserAndGetId(dto.user());
+        Table entity = tableRepository.save(tableMapper.mapToEntity(dto));
+        UserRequestDTO userRequest = new UserRequestDTO(
+                entity.getId() + "@table.fake",
+                entity.getId().toString(),
+                "Fake first name",
+                "Fake last name",
+                Map.of("restaurantId", List.of(restaurantId.toString()))
+        );
+        UUID tableUserId = userCreateService.createUser(userRequest);
         entity.setUserId(tableUserId);
 
         return tableMapper.mapToDTO(tableRepository.save(entity));

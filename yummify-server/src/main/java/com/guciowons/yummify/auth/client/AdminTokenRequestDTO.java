@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class AdminTokenRequestDTO {
-    private String grant_type;
-    private String client_id;
+    private final String grant_type = "password";
+    private final String client_id = "admin-cli";
     private String username;
     private String password;
 }

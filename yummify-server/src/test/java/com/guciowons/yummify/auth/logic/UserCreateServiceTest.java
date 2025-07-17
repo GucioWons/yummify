@@ -1,13 +1,14 @@
 package com.guciowons.yummify.auth.logic;
 
 import com.guciowons.yummify.auth.UserRequestDTO;
-import com.guciowons.yummify.auth.UserResponseDTO;
 import com.guciowons.yummify.auth.client.*;
 import com.guciowons.yummify.auth.exception.AccountExistsByEmailException;
 import com.guciowons.yummify.auth.exception.AccountExistsByUsernameException;
+import com.guciowons.yummify.auth.mapper.UserRequestMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,9 +25,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class KeycloakServiceTest {
+class UserCreateServiceTest {
     @InjectMocks
-    private KeycloakService underTest;
+    private UserCreateService underTest;
 
     @Mock
     private SecurePasswordGenerator securePasswordGenerator;
@@ -36,6 +37,9 @@ class KeycloakServiceTest {
 
     @Mock
     private KeycloakAdminClient keycloakAdminClient;
+
+    @Mock
+    private UserRequestMapper userRequestMapper;
 
     private static final String RESTAURANT_ID = UUID.randomUUID().toString();
     private static final String ADMIN_TOKEN = "admin-token";
@@ -51,14 +55,9 @@ class KeycloakServiceTest {
     void shouldCreateUser() {
         AdminTokenRequestDTO tokenRequest = buildAdminTokenRequest();
 
-        UserRequestDTO userRequest = new UserRequestDTO(
-                "test@example.com",
-                "test",
-                "Jane",
-                "Doe",
-                Map.of("restaurantId", RESTAURANT_ID));
-
-        UserResponseDTO userResponse = new UserResponseDTO(UUID.randomUUID());
+        UserRequestDTO userRequest = buildUserRequest();
+        UserRepresentation userRepresentationResponse = buildUserRepresentation();
+        UserRepresentation userRepresentationRequest = new UserRepresentation();
 
         when(keycloakAuthClient.getAdminAccessToken(tokenRequest))
                 .thenReturn(new AdminTokenResponseDTO(ADMIN_TOKEN));
@@ -67,16 +66,41 @@ class KeycloakServiceTest {
         when(keycloakAdminClient.countUsersByUsername(BEARER_ADMIN_TOKEN, "test"))
                 .thenReturn(0);
         when(keycloakAdminClient.getUserByEmail(BEARER_ADMIN_TOKEN, "test@example.com"))
-                .thenReturn(List.of(userResponse));
+                .thenReturn(List.of(userRepresentationResponse));
+        when(userRequestMapper.toUserRepresentation(userRequest)).thenReturn(userRepresentationRequest);
+
+        UUID result = underTest.createUser(userRequest);
+
+        assertEquals(userRepresentationResponse.getId(), result.toString());
+        verify(keycloakAdminClient).createUser(BEARER_ADMIN_TOKEN, userRepresentationRequest);
+    }
+
+    @Test
+    void shouldCreateUserWithPassword() {
+        AdminTokenRequestDTO tokenRequest = buildAdminTokenRequest();
+
+        UserRequestDTO userRequest = buildUserRequest();
+        UserRepresentation userRepresentationResponse = buildUserRepresentation();
+        UserRepresentation userRepresentationRequest = new UserRepresentation();
+
+        when(keycloakAuthClient.getAdminAccessToken(tokenRequest))
+                .thenReturn(new AdminTokenResponseDTO(ADMIN_TOKEN));
+        when(keycloakAdminClient.countUsersByEmail(BEARER_ADMIN_TOKEN, "test@example.com"))
+                .thenReturn(0);
+        when(keycloakAdminClient.countUsersByUsername(BEARER_ADMIN_TOKEN, "test"))
+                .thenReturn(0);
+        when(keycloakAdminClient.getUserByEmail(BEARER_ADMIN_TOKEN, "test@example.com"))
+                .thenReturn(List.of(userRepresentationResponse));
         when(securePasswordGenerator.generate(anyInt())).thenReturn("password");
+        when(userRequestMapper.toUserRepresentation(userRequest)).thenReturn(userRepresentationRequest);
 
-        UUID result = underTest.createUserAndGetId(userRequest);
+        UUID result = underTest.createUserWithPassword(userRequest);
 
-        assertEquals(userResponse.id(), result);
-        verify(keycloakAdminClient).createUser(BEARER_ADMIN_TOKEN, userRequest);
+        assertEquals(userRepresentationResponse.getId(), result.toString());
+        verify(keycloakAdminClient).createUser(BEARER_ADMIN_TOKEN, userRepresentationRequest);
 
         ArgumentCaptor<PasswordRequestDTO> captor = ArgumentCaptor.forClass(PasswordRequestDTO.class);
-        verify(keycloakAdminClient).setPassword(eq(userResponse.id().toString()), eq(BEARER_ADMIN_TOKEN), captor.capture());
+        verify(keycloakAdminClient).setPassword(eq(userRepresentationResponse.getId()), eq(BEARER_ADMIN_TOKEN), captor.capture());
         assertEquals("password", captor.getValue().getValue());
     }
 
@@ -91,7 +115,7 @@ class KeycloakServiceTest {
         when(keycloakAdminClient.countUsersByEmail(BEARER_ADMIN_TOKEN, "test@example.com"))
                 .thenReturn(1);
 
-        assertThrows(AccountExistsByEmailException.class, () -> underTest.createUserAndGetId(userRequest));
+        assertThrows(AccountExistsByEmailException.class, () -> underTest.createUser(userRequest));
 
         verify(keycloakAdminClient, never()).countUsersByUsername(any(), any());
         verify(keycloakAdminClient, never()).createUser(any(), any());
@@ -112,20 +136,26 @@ class KeycloakServiceTest {
         when(keycloakAdminClient.countUsersByUsername(BEARER_ADMIN_TOKEN, "test"))
                 .thenReturn(1);
 
-        assertThrows(AccountExistsByUsernameException.class, () -> underTest.createUserAndGetId(userRequest));
+        assertThrows(AccountExistsByUsernameException.class, () -> underTest.createUser(userRequest));
 
         verify(keycloakAdminClient, never()).createUser(any(), any());
         verify(keycloakAdminClient, never()).setPassword(any(), any(), any());
     }
 
     private void setField(String name, String value) throws NoSuchFieldException, IllegalAccessException {
-        Field passwordField = KeycloakService.class.getDeclaredField(name);
+        Field passwordField = AbstractKeycloakService.class.getDeclaredField(name);
         passwordField.setAccessible(true);
         passwordField.set(underTest, value);
     }
 
     private AdminTokenRequestDTO buildAdminTokenRequest() {
-        return new AdminTokenRequestDTO("password", "admin-cli", "admin", "password");
+        return new AdminTokenRequestDTO("admin", "password");
+    }
+
+    private UserRepresentation buildUserRepresentation() {
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(UUID.randomUUID().toString());
+        return userRepresentation;
     }
 
     private UserRequestDTO buildUserRequest() {
@@ -134,7 +164,7 @@ class KeycloakServiceTest {
                 "test",
                 "Jane",
                 "Doe",
-                Map.of("restaurantId", RESTAURANT_ID)
+                Map.of("restaurantId", List.of(RESTAURANT_ID))
         );
     }
 }

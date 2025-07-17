@@ -1,6 +1,6 @@
 package com.guciowons.yummify.restaurant.logic;
 
-import com.guciowons.yummify.auth.PublicAuthService;
+import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.common.security.logic.TokenService;
 import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
 import com.guciowons.yummify.restaurant.RestaurantDTO;
@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestaurantService {
     private final TokenService tokenService;
-    private final PublicAuthService authService;
+    private final PublicUserCreateService userCreateService;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
 
@@ -27,8 +28,8 @@ public class RestaurantService {
     public RestaurantDTO create(RestaurantCreateDTO dto) {
         Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto));
 
-        dto.owner().setAttributes(Map.of("restaurantId", entity.getId().toString()));
-        UUID ownerId = authService.createUserAndGetId(dto.owner());
+        dto.owner().setAttributes(Map.of("restaurantId", List.of(entity.getId().toString())));
+        UUID ownerId = userCreateService.createUserWithPassword(dto.owner());
         entity.setOwnerId(ownerId);
 
         return restaurantMapper.mapToDTO(entity);

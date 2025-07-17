@@ -1,7 +1,6 @@
 package com.guciowons.yummify.auth.client;
 
-import com.guciowons.yummify.auth.UserRequestDTO;
-import com.guciowons.yummify.auth.UserResponseDTO;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +12,11 @@ public interface KeycloakAdminClient {
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
     void createUser(
             @RequestHeader("Authorization") String authorization,
-            @RequestBody UserRequestDTO user
+            @RequestBody UserRepresentation user
     );
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<UserResponseDTO> getUserByEmail(
+    List<UserRepresentation> getUserByEmail(
             @RequestHeader("Authorization") String authorization,
             @RequestParam("email") String email
     );
@@ -39,5 +38,18 @@ public interface KeycloakAdminClient {
             @PathVariable("id") String userId,
             @RequestHeader("Authorization") String authorization,
             @RequestBody PasswordRequestDTO passwordPayload
+    );
+
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    UserRepresentation getUser(
+            @PathVariable("id") String userId,
+            @RequestHeader("Authorization") String authorization
+    );
+
+    @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    void updateUser(
+            @PathVariable("id") String userId,
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody UserRepresentation userResponseDTO
     );
 }
