@@ -47,7 +47,7 @@ class ApiErrorDTOTest {
                 .textParam("id", id)
                 .build();
 
-        assertEquals("Could not find restaurant with ID " + id, error.getErrorMessageString());
+        assertEquals("Could not find restaurant with ID '" + id + "'", error.getErrorMessageString());
     }
 
 }

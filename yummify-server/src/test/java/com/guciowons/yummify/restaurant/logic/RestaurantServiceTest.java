@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,17 +54,15 @@ class RestaurantServiceTest {
         when(restaurantMapper.mapToEntity(restaurantCreate)).thenReturn(restaurant);
         when(restaurantRepository.save(restaurant)).thenReturn(savedRestaurant);
         when(userCreateService.createUserWithPassword(restaurantCreate.owner())).thenReturn(ownerId);
-        when(restaurantRepository.save(savedRestaurant)).thenReturn(savedRestaurant);
         when(restaurantMapper.mapToDTO(savedRestaurant)).thenReturn(expectedResult);
 
         RestaurantDTO result = underTest.create(restaurantCreate);
 
-        assertEquals(savedRestaurant.getId().toString(), restaurantCreate.owner().getAttributes().get("restaurantId"));
+        assertEquals(List.of(savedRestaurant.getId().toString()), restaurantCreate.owner().getAttributes().get("restaurantId"));
         assertEquals(ownerId, savedRestaurant.getOwnerId());
         assertEquals(expectedResult, result);
 
         verify(restaurantRepository).save(restaurant);
-        verify(restaurantRepository).save(savedRestaurant);
         verify(userCreateService).createUserWithPassword(restaurantCreate.owner());
     }
 
