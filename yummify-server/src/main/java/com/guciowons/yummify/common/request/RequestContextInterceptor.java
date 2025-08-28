@@ -13,6 +13,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 public class RequestContextInterceptor implements HandlerInterceptor {
+    private static final String LANGUAGE_HEADER = "X-Language";
+    private static final String DEFAULT_LANGUAGE_HEADER = "X-Default-Language";
+
     private final TokenService tokenService;
 
     @Override
@@ -22,9 +25,10 @@ public class RequestContextInterceptor implements HandlerInterceptor {
             @NonNull Object handler
     ) {
         UserDTO user = tokenService.getUser();
-        Language language = getLanguage(request);
+        Language language = getLanguage(request, LANGUAGE_HEADER);
+        Language defaultLanguage = getLanguage(request, DEFAULT_LANGUAGE_HEADER);
 
-        RequestContext.set(new RequestContext(user, language));
+        RequestContext.set(new RequestContext(user, language, defaultLanguage));
         return true;
     }
 
@@ -38,11 +42,8 @@ public class RequestContextInterceptor implements HandlerInterceptor {
         RequestContext.clear();
     }
 
-    private Language getLanguage(HttpServletRequest request) {
-        String language = request.getHeader("X-Language");
-        if (language == null) {
-            return null;
-        }
+    private Language getLanguage(HttpServletRequest request, String header) {
+        String language = request.getHeader(header);
         return Language.valueOf(language);
     }
 }

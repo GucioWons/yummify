@@ -15,7 +15,7 @@ public class TranslatedStringConverter implements AttributeConverter<TranslatedS
     @Override
     public String convertToDatabaseColumn(TranslatedString attribute) {
         try {
-            return objectMapper.writeValueAsString(attribute.getAll());
+            return objectMapper.writeValueAsString(attribute.getTranslations());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

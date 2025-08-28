@@ -12,6 +12,7 @@ public class RequestContext {
 
     private final UserDTO user;
     private final Language language;
+    private final Language defaultLanguage;
 
     public static void set(RequestContext context) {
         current.set(context);

@@ -1,5 +1,8 @@
 package com.guciowons.yummify.restaurant.entity;
 
+import com.guciowons.yummify.common.i8n.Language;
+import com.guciowons.yummify.common.i8n.TranslatedString;
+import com.guciowons.yummify.common.i8n.TranslatedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +25,10 @@ public class Restaurant {
     private String name;
 
     @Column(nullable = false)
-    private String description;
+    @Convert(converter = TranslatedStringConverter.class)
+    private TranslatedString description;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Language defaultLanguage;
 }
