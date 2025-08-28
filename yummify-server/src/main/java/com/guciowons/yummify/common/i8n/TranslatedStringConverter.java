@@ -7,21 +7,15 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
-@Converter(autoApply = true)
+@Converter
 public class TranslatedStringConverter implements AttributeConverter<TranslatedString, String> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String convertToDatabaseColumn(TranslatedString attribute) {
-        Map<String, String> map = attribute.getAll().entrySet().stream()
-                .collect(Collectors.toMap(
-                        e -> e.getKey().getCode(),
-                        Map.Entry::getValue)
-                );
         try {
-            return objectMapper.writeValueAsString(map);
+            return objectMapper.writeValueAsString(attribute.getAll());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -32,9 +26,7 @@ public class TranslatedStringConverter implements AttributeConverter<TranslatedS
         try {
             Map<String, String> map = objectMapper.readValue(dbData, new TypeReference<>() {});
             TranslatedString ts = new TranslatedString();
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                ts.put(Language.fromCode(entry.getKey()), entry.getValue());
-            }
+            map.forEach((key, value) -> ts.put(Language.valueOf(key), value));
             return ts;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
