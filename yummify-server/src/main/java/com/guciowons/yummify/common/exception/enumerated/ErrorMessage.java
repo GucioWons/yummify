@@ -13,7 +13,7 @@ public enum ErrorMessage {
 
     INGREDIENT_NOT_FOUND_BY_ID("Could not find ingredient with ID '{{id}}'"),
 
-    DISH_EXISTS_BY_NAME("Dish with name '{{name}}' already exists"),
+    DISH_NOT_FOUND_BY_ID("Could not find dish with ID '{{id}}'"),
 
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),
     KEYCLOAK_ACCOUNT_EXISTS_BY_USERNAME("Account with this username already exists"),

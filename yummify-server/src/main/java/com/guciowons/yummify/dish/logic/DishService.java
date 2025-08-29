@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.dish.DishDTO;
 import com.guciowons.yummify.dish.data.DishRepository;
 import com.guciowons.yummify.dish.entity.Dish;
+import com.guciowons.yummify.dish.exception.DishNotFoundException;
 import com.guciowons.yummify.dish.mapper.DishMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,12 @@ public class DishService {
         return dishRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(dishMapper::mapToClientDTO)
                 .toList();
+    }
+
+    public DishDTO<String> getById(UUID id) {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return dishRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(dishMapper::mapToClientDTO)
+                .orElseThrow(() -> new DishNotFoundException(id));
     }
 }

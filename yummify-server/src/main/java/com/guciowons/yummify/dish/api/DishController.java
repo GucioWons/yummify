@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("dishes")
@@ -28,5 +29,12 @@ public class DishController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishService.getAll());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DishDTO<String>> getById(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishService.getById(id));
     }
 }
