@@ -8,5 +8,4 @@ import java.util.UUID;
 
 @Repository
 public interface DishRepository extends JpaRepository<Dish, UUID> {
-    boolean existsByNameAndRestaurantId(String name, UUID restaurantId);
 }

@@ -1,5 +1,6 @@
 package com.guciowons.yummify.dish.api;
 
+import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.dish.DishDTO;
 import com.guciowons.yummify.dish.logic.DishService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class DishController {
     private final DishService dishService;
 
     @PostMapping
-    public ResponseEntity<DishDTO> create(@RequestBody DishDTO dto) {
+    public ResponseEntity<DishDTO<TranslatedStringDTO>> create(@RequestBody DishDTO<TranslatedStringDTO> dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(dishService.create(dto));
