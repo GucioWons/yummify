@@ -5,6 +5,7 @@ import com.guciowons.yummify.dish.IngredientDTO;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
@@ -15,4 +16,7 @@ public interface IngredientMapper {
 
     @Mapping(target = "id", ignore = true)
     Ingredient mapToEntity(IngredientDTO<TranslatedStringDTO> ingredientDTO);
+
+    @Mapping(target = "id", ignore = true)
+    Ingredient mapToUpdateEntity(IngredientDTO<TranslatedStringDTO> ingredientDTO, @MappingTarget Ingredient ingredient);
 }

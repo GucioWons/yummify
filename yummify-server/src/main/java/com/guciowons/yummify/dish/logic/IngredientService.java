@@ -39,4 +39,11 @@ public class IngredientService {
                 .map(ingredientMapper::mapToAdminDTO)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
+
+    public IngredientDTO<TranslatedStringDTO> update(UUID id, IngredientDTO<TranslatedStringDTO> dto) {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(ingredient -> ingredientMapper.mapToAdminDTO(ingredientMapper.mapToUpdateEntity(dto, ingredient)))
+                .orElseThrow(() -> new IngredientNotFoundException(id));
+    }
 }
