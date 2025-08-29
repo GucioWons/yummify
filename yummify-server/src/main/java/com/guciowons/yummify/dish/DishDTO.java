@@ -3,6 +3,7 @@ package com.guciowons.yummify.dish;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -11,5 +12,5 @@ public class DishDTO<T>{
     private UUID id;
     private T name;
     private T description;
-    private IngredientDTO<String> ingredients;
+    private List<IngredientDTO<String>> ingredients;
 }

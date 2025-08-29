@@ -28,7 +28,8 @@ public class IngredientService {
     }
 
     public List<IngredientDTO<String>> getAll() {
-        return ingredientRepository.findAll().stream()
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return ingredientRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(ingredientMapper::mapToClientDTO)
                 .toList();
     }

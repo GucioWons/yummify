@@ -10,6 +10,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class DishService {
@@ -21,5 +24,12 @@ public class DishService {
         Dish entity = dishMapper.mapToEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
         return dishMapper.mapToAdminDTO(dishRepository.save(entity));
+    }
+
+    public List<DishDTO<String>> getAll() {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return dishRepository.findAllByRestaurantId(restaurantId).stream()
+                .map(dishMapper::mapToClientDTO)
+                .toList();
     }
 }
