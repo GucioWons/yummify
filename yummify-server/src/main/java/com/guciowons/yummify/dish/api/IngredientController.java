@@ -37,4 +37,11 @@ public class IngredientController {
                 .status(HttpStatus.OK)
                 .body(ingredientService.getById(id));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<IngredientDTO<TranslatedStringDTO>> getById(@PathVariable UUID id, @RequestBody IngredientDTO<TranslatedStringDTO> dto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ingredientService.update(id, dto));
+    }
 }
