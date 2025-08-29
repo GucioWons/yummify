@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class IngredientService {
@@ -21,5 +23,11 @@ public class IngredientService {
         Ingredient entity = ingredientMapper.mapToEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
         return ingredientMapper.mapToAdminDTO(ingredientRepository.save(entity));
+    }
+
+    public List<IngredientDTO<String>> getAll() {
+        return ingredientRepository.findAll().stream()
+                .map(ingredientMapper::mapToClientDTO)
+                .toList();
     }
 }
