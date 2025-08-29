@@ -1,9 +1,10 @@
 package com.guciowons.yummify.restaurant.api;
 
+import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.security.aspect.SecuredByRole;
 import com.guciowons.yummify.common.security.enumerated.UserRole;
-import com.guciowons.yummify.restaurant.RestaurantCreateDTO;
-import com.guciowons.yummify.restaurant.RestaurantDTO;
+import com.guciowons.yummify.restaurant.dto.RestaurantCreateDTO;
+import com.guciowons.yummify.restaurant.dto.RestaurantDTO;
 import com.guciowons.yummify.restaurant.logic.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +20,30 @@ public class RestaurantController {
 
     @PostMapping
     @SecuredByRole(UserRole.ADMIN)
-    public ResponseEntity<RestaurantDTO> create(@RequestBody @Valid RestaurantCreateDTO dto) {
+    public ResponseEntity<RestaurantDTO<TranslatedStringDTO>> create(@RequestBody @Valid RestaurantCreateDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(restaurantService.create(dto));
     }
 
     @GetMapping
-    public ResponseEntity<RestaurantDTO> get() {
+    public ResponseEntity<RestaurantDTO<String>> getForClient() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.get());
+                .body(restaurantService.getForClient());
+    }
+
+    @GetMapping("/admin")
+    @SecuredByRole(UserRole.ADMIN)
+    public ResponseEntity<RestaurantDTO<TranslatedStringDTO>> getForAdmin() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(restaurantService.getForAdmin());
     }
 
     @PutMapping
     @SecuredByRole(UserRole.OWNER)
-    public ResponseEntity<RestaurantDTO> update(@RequestBody @Valid RestaurantDTO dto) {
+    public ResponseEntity<RestaurantDTO<TranslatedStringDTO>> update(@RequestBody @Valid RestaurantDTO<TranslatedStringDTO> dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.update(dto));

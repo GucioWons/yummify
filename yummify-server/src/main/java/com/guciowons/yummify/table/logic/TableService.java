@@ -2,7 +2,7 @@ package com.guciowons.yummify.table.logic;
 
 import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.auth.UserRequestDTO;
-import com.guciowons.yummify.common.security.logic.TokenService;
+import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
@@ -22,12 +22,11 @@ import java.util.UUID;
 public class TableService {
     private final TableRepository tableRepository;
     private final TableMapper tableMapper;
-    private final TokenService tokenService;
     private final PublicUserCreateService userCreateService;
 
     @Transactional
     public TableDTO create(TableDTO dto) {
-        UUID restaurantId = tokenService.getRestaurantId();
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         if (tableRepository.existsByNameAndRestaurantId(dto.name(), restaurantId)) {
             throw new TableExistsByNameException(dto.name());
         }
@@ -47,14 +46,14 @@ public class TableService {
     }
 
     public List<TableDTO> getAll() {
-        UUID restaurantId = tokenService.getRestaurantId();
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return tableRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(tableMapper::mapToDTO)
                 .toList();
     }
 
     public TableDTO getById(UUID id) {
-        UUID restaurantId = tokenService.getRestaurantId();
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return tableRepository.findByIdAndRestaurantId(id, restaurantId)
                 .map(tableMapper::mapToDTO)
                 .orElseThrow(() -> new TableNotFoundException(id));
@@ -62,7 +61,7 @@ public class TableService {
 
     @Transactional
     public TableDTO update(UUID id, TableDTO dto) {
-        UUID restaurantId = tokenService.getRestaurantId();
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return tableRepository.findByIdAndRestaurantId(id, restaurantId)
                 .map(table -> tableMapper.mapToDTO(tableMapper.mapToUpdateEntity(dto, table)))
                 .orElseThrow(() -> new TableNotFoundException(id));
