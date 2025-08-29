@@ -8,6 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
+    @Mapping(target = "description", expression = "java(entity.getDescription().get())")
+    IngredientDTO<String> mapToClientDTO(Ingredient ingredient);
+
     IngredientDTO<TranslatedStringDTO> mapToAdminDTO(Ingredient ingredient);
 
     @Mapping(target = "id", ignore = true)
