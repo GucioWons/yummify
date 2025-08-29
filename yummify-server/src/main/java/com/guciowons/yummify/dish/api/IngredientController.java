@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("ingredients")
@@ -28,5 +29,12 @@ public class IngredientController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ingredientService.getAll());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<IngredientDTO<TranslatedStringDTO>> getById(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ingredientService.getById(id));
     }
 }

@@ -5,12 +5,14 @@ import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.dish.IngredientDTO;
 import com.guciowons.yummify.dish.data.IngredientRepository;
 import com.guciowons.yummify.dish.entity.Ingredient;
+import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
 import com.guciowons.yummify.dish.mapper.IngredientMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +31,12 @@ public class IngredientService {
         return ingredientRepository.findAll().stream()
                 .map(ingredientMapper::mapToClientDTO)
                 .toList();
+    }
+
+    public IngredientDTO<TranslatedStringDTO> getById(UUID id) {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(ingredientMapper::mapToAdminDTO)
+                .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 }

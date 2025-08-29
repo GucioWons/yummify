@@ -11,6 +11,8 @@ public enum ErrorMessage {
     TABLE_EXISTS_BY_NAME("Table with name '{{name}}' already exists"),
     TABLE_NOT_FOUND_BY_ID("Could not find table with ID '{{id}}'"),
 
+    INGREDIENT_NOT_FOUND_BY_ID("Could not find ingredient with ID '{{id}}'"),
+
     DISH_EXISTS_BY_NAME("Dish with name '{{name}}' already exists"),
 
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),
