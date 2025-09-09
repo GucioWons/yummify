@@ -1,11 +1,11 @@
 package com.guciowons.yummify.restaurant.logic;
 
 import com.guciowons.yummify.auth.PublicUserCreateService;
-import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
+import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
 import com.guciowons.yummify.restaurant.dto.RestaurantCreateDTO;
-import com.guciowons.yummify.restaurant.dto.RestaurantDTO;
+import com.guciowons.yummify.restaurant.dto.RestaurantManageDTO;
 import com.guciowons.yummify.restaurant.entity.Restaurant;
 import com.guciowons.yummify.restaurant.exception.RestaurantNotFoundException;
 import com.guciowons.yummify.restaurant.mapper.RestaurantMapper;
@@ -25,8 +25,8 @@ public class RestaurantService {
     private final RestaurantMapper restaurantMapper;
 
     @Transactional
-    public RestaurantDTO<TranslatedStringDTO> create(RestaurantCreateDTO dto) {
-        Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto));
+    public RestaurantManageDTO create(RestaurantCreateDTO dto) {
+        Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto.restaurant()));
 
         dto.owner().setAttributes(Map.of("restaurantId", List.of(entity.getId().toString())));
         UUID ownerId = userCreateService.createUserWithPassword(dto.owner());
@@ -35,17 +35,17 @@ public class RestaurantService {
         return restaurantMapper.mapToAdminDTO(entity);
     }
 
-    public RestaurantDTO<String> getForClient() {
+    public RestaurantClientDTO getForClient() {
         Restaurant restaurant = getActiveRestaurant();
         return restaurantMapper.mapToClientDTO(restaurant);
     }
 
-    public RestaurantDTO<TranslatedStringDTO> getForAdmin() {
+    public RestaurantManageDTO getForAdmin() {
         Restaurant restaurant = getActiveRestaurant();
         return restaurantMapper.mapToAdminDTO(restaurant);
     }
 
-    public RestaurantDTO<TranslatedStringDTO> update(RestaurantDTO<TranslatedStringDTO> dto) {
+    public RestaurantManageDTO update(RestaurantManageDTO dto) {
         Restaurant updatedRestaurant = restaurantMapper.mapToUpdateEntity(dto, getActiveRestaurant());
         return restaurantMapper.mapToAdminDTO(updatedRestaurant);
     }

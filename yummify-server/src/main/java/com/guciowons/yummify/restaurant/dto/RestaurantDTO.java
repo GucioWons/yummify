@@ -10,13 +10,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class RestaurantDTO<T> {
+public class RestaurantDTO {
     @Null
     private UUID id;
     @NotNull
     private String name;
-    @NotNull
-    private T description;
     @NotNull
     private Language defaultLanguage;
 }

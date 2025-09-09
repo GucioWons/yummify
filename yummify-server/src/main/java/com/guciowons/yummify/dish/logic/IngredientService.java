@@ -1,8 +1,8 @@
 package com.guciowons.yummify.dish.logic;
 
-import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.IngredientDTO;
+import com.guciowons.yummify.dish.IngredientClientDTO;
+import com.guciowons.yummify.dish.IngredientManageDTO;
 import com.guciowons.yummify.dish.data.IngredientRepository;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
@@ -21,31 +21,31 @@ public class IngredientService {
     private final IngredientMapper ingredientMapper;
 
     @Transactional
-    public IngredientDTO<TranslatedStringDTO> create(IngredientDTO<TranslatedStringDTO> dto) {
+    public IngredientManageDTO create(IngredientManageDTO dto) {
         Ingredient entity = ingredientMapper.mapToEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
-        return ingredientMapper.mapToAdminDTO(ingredientRepository.save(entity));
+        return ingredientMapper.mapToManageDTO(ingredientRepository.save(entity));
     }
 
-    public List<IngredientDTO<String>> getAll() {
+    public List<IngredientClientDTO> getAll() {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return ingredientRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(ingredientMapper::mapToClientDTO)
                 .toList();
     }
 
-    public IngredientDTO<TranslatedStringDTO> getById(UUID id) {
+    public IngredientManageDTO getById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
-                .map(ingredientMapper::mapToAdminDTO)
+                .map(ingredientMapper::mapToManageDTO)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
     @Transactional
-    public IngredientDTO<TranslatedStringDTO> update(UUID id, IngredientDTO<TranslatedStringDTO> dto) {
+    public IngredientManageDTO update(UUID id, IngredientManageDTO dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
-                .map(ingredient -> ingredientMapper.mapToAdminDTO(ingredientMapper.mapToUpdateEntity(dto, ingredient)))
+                .map(ingredient -> ingredientMapper.mapToManageDTO(ingredientMapper.mapToUpdateEntity(dto, ingredient)))
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 }

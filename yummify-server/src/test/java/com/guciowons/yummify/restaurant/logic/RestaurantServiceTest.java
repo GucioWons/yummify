@@ -60,7 +60,7 @@ class RestaurantServiceTest {
 //        RestaurantCreateDTO restaurantCreate = buildRestaurantCreate();
 //        Restaurant restaurant = buildRestaurantFromCreate(restaurantCreate);
 //        Restaurant savedRestaurant = cloneRestaurantWithId(restaurant);
-//        RestaurantDTO<TranslatedStringDTO> expectedResult = buildRestaurantAdminDTO(savedRestaurant);
+//        RestaurantManageDTO expectedResult = buildRestaurantAdminDTO(savedRestaurant);
 //
 //        UUID ownerId = UUID.randomUUID();
 //
@@ -69,7 +69,7 @@ class RestaurantServiceTest {
 //        when(userCreateService.createUserWithPassword(restaurantCreate.owner())).thenReturn(ownerId);
 //        when(restaurantMapper.mapToAdminDTO(savedRestaurant)).thenReturn(expectedResult);
 //
-//        RestaurantDTO<TranslatedStringDTO> result = underTest.create(restaurantCreate);
+//        RestaurantManageDTO result = underTest.create(restaurantCreate);
 //
 //        assertEquals(List.of(savedRestaurant.getId().toString()), restaurantCreate.owner().getAttributes().get("restaurantId"));
 //        assertEquals(ownerId, savedRestaurant.getOwnerId());
@@ -82,7 +82,7 @@ class RestaurantServiceTest {
 //    @Test
 //    public void shouldGetRestaurantForClient() {
 //        Restaurant restaurant = buildRestaurant(UUID.randomUUID(), UUID.randomUUID(), "Pasta palace", "This is pasta palace");
-//        RestaurantDTO<String> expectedResult = buildRestaurantClientDTO(restaurant);
+//        RestaurantClientDTO expectedResult = buildRestaurantClientDTO(restaurant);
 //
 //        when(tokenService.getRestaurantId())
 //                .thenReturn(restaurant.getId());
@@ -91,7 +91,7 @@ class RestaurantServiceTest {
 //        when(restaurantMapper.mapToClientDTO(restaurant))
 //                .thenReturn(expectedResult);
 //
-//        RestaurantDTO<String> result = underTest.getForClient();
+//        RestaurantClientDTO result = underTest.getForClient();
 //
 //        assertEquals(expectedResult, result);
 //    }
@@ -113,10 +113,10 @@ class RestaurantServiceTest {
 //    @Test
 //    public void shouldUpdateRestaurant() {
 //        Restaurant toUpdate = buildRestaurant(UUID.randomUUID(), UUID.randomUUID(), "Pasta palace", "This is pasta palace");
-//        RestaurantDTO<TranslatedStringDTO> dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
+//        RestaurantManageDTO dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
 //        Restaurant toSave = buildRestaurantFromDTO(dto);
 //        Restaurant afterUpdate = buildRestaurant(toUpdate.getId(), toUpdate.getOwnerId(), dto.name(), dto.description());
-//        RestaurantDTO<TranslatedStringDTO> expectedResult = buildRestaurantAdminDTO(afterUpdate);
+//        RestaurantManageDTO expectedResult = buildRestaurantAdminDTO(afterUpdate);
 //
 //        when(tokenService.getRestaurantId())
 //                .thenReturn(toUpdate.getId());
@@ -129,7 +129,7 @@ class RestaurantServiceTest {
 //        when(restaurantMapper.mapToAdminDTO(afterUpdate))
 //                .thenReturn(expectedResult);
 //
-//        RestaurantDTO<TranslatedStringDTO> result = underTest.update(dto);
+//        RestaurantManageDTO result = underTest.update(dto);
 //
 //        assertEquals(expectedResult, result);
 //    }
@@ -137,7 +137,7 @@ class RestaurantServiceTest {
 //    @Test
 //    public void shouldNotUpdateRestaurantAndThrowExceptionWhenRestaurantNotFound() {
 //        UUID restaurantId = UUID.randomUUID();
-//        RestaurantDTO<TranslatedStringDTO> dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
+//        RestaurantManageDTO dto = new RestaurantDTO(null, "Pizza world", "This is pizza world");
 //
 //        when(tokenService.getRestaurantId())
 //                .thenReturn(restaurantId);
@@ -166,7 +166,7 @@ class RestaurantServiceTest {
 //
 //    private Restaurant
 //
-//    private Restaurant buildRestaurantFromDTO(RestaurantDTO<TranslatedStringDTO> dto) {
+//    private Restaurant buildRestaurantFromDTO(RestaurantManageDTO dto) {
 //        Restaurant restaurant = new Restaurant();
 //        restaurant.setName(dto.getName());
 //        restaurant.setDescription(dto.getDescription());
@@ -191,8 +191,8 @@ class RestaurantServiceTest {
 //        return restaurant;
 //    }
 //
-//    private RestaurantDTO<String> buildRestaurantClientDTO(Restaurant restaurant) {
-//        RestaurantDTO<String> dto = new RestaurantDTO<>();
+//    private RestaurantClientDTO buildRestaurantClientDTO(Restaurant restaurant) {
+//        RestaurantClientDTO dto = new RestaurantDTO<>();
 //        dto.setId(restaurant.getId());
 //        dto.setName(restaurant.getName());
 //        dto.setDescription(restaurant.getDescription().get());
@@ -200,8 +200,8 @@ class RestaurantServiceTest {
 //        return dto;
 //    }
 //
-//    private RestaurantDTO<TranslatedStringDTO> buildRestaurantAdminDTO(Restaurant restaurant) {
-//        RestaurantDTO<TranslatedStringDTO> dto = new RestaurantDTO<>();
+//    private RestaurantManageDTO buildRestaurantAdminDTO(Restaurant restaurant) {
+//        RestaurantManageDTO dto = new RestaurantDTO<>();
 //        dto.setId(restaurant.getId());
 //        dto.setName(restaurant.getName());
 //        dto.setDescription(restaurant.getDescription());

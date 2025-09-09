@@ -8,9 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class DishDTO<T>{
+public class DishDTO{
     private UUID id;
-    private T name;
-    private T description;
-    private List<IngredientDTO<String>> ingredients;
+    private List<IngredientClientDTO> ingredients;
 }

@@ -1,8 +1,8 @@
 package com.guciowons.yummify.dish.logic;
 
-import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.DishDTO;
+import com.guciowons.yummify.dish.DishClientDTO;
+import com.guciowons.yummify.dish.DishManageDTO;
 import com.guciowons.yummify.dish.data.DishRepository;
 import com.guciowons.yummify.dish.entity.Dish;
 import com.guciowons.yummify.dish.exception.DishNotFoundException;
@@ -21,20 +21,20 @@ public class DishService {
     private final DishMapper dishMapper;
 
     @Transactional
-    public DishDTO<TranslatedStringDTO> create(DishDTO<TranslatedStringDTO> dto) {
+    public DishManageDTO create(DishManageDTO dto) {
         Dish entity = dishMapper.mapToEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
         return dishMapper.mapToAdminDTO(dishRepository.save(entity));
     }
 
-    public List<DishDTO<String>> getAll() {
+    public List<DishClientDTO> getAll() {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findAllByRestaurantId(restaurantId).stream()
                 .map(dishMapper::mapToClientDTO)
                 .toList();
     }
 
-    public DishDTO<TranslatedStringDTO> getById(UUID id) {
+    public DishManageDTO getById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
                 .map(dishMapper::mapToAdminDTO)
@@ -42,7 +42,7 @@ public class DishService {
     }
 
     @Transactional
-    public DishDTO<TranslatedStringDTO> update(UUID id, DishDTO<TranslatedStringDTO> dto) {
+    public DishManageDTO update(UUID id, DishManageDTO dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
                 .map(ingredient -> dishMapper.mapToAdminDTO(dishMapper.mapToUpdateEntity(dto, ingredient)))
