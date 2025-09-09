@@ -22,9 +22,9 @@ public class DishService {
 
     @Transactional
     public DishManageDTO create(DishManageDTO dto) {
-        Dish entity = dishMapper.mapToEntity(dto);
+        Dish entity = dishMapper.mapToSaveEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
-        return dishMapper.mapToAdminDTO(dishRepository.save(entity));
+        return dishMapper.mapToManageDTO(dishRepository.save(entity));
     }
 
     public List<DishClientDTO> getAll() {
@@ -37,7 +37,7 @@ public class DishService {
     public DishManageDTO getById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
-                .map(dishMapper::mapToAdminDTO)
+                .map(dishMapper::mapToManageDTO)
                 .orElseThrow(() -> new DishNotFoundException(id));
     }
 
@@ -45,7 +45,7 @@ public class DishService {
     public DishManageDTO update(UUID id, DishManageDTO dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
-                .map(ingredient -> dishMapper.mapToAdminDTO(dishMapper.mapToUpdateEntity(dto, ingredient)))
+                .map(ingredient -> dishMapper.mapToManageDTO(dishMapper.mapToUpdateEntity(dto, ingredient)))
                 .orElseThrow(() -> new DishNotFoundException(id));
     }
 }

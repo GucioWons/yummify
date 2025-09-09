@@ -22,7 +22,7 @@ public class IngredientService {
 
     @Transactional
     public IngredientManageDTO create(IngredientManageDTO dto) {
-        Ingredient entity = ingredientMapper.mapToEntity(dto);
+        Ingredient entity = ingredientMapper.mapToSaveEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
         return ingredientMapper.mapToManageDTO(ingredientRepository.save(entity));
     }

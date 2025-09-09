@@ -26,13 +26,13 @@ public class RestaurantService {
 
     @Transactional
     public RestaurantManageDTO create(RestaurantCreateDTO dto) {
-        Restaurant entity = restaurantRepository.save(restaurantMapper.mapToEntity(dto.restaurant()));
+        Restaurant entity = restaurantRepository.save(restaurantMapper.mapToSaveEntity(dto.restaurant()));
 
         dto.owner().setAttributes(Map.of("restaurantId", List.of(entity.getId().toString())));
         UUID ownerId = userCreateService.createUserWithPassword(dto.owner());
         entity.setOwnerId(ownerId);
 
-        return restaurantMapper.mapToAdminDTO(entity);
+        return restaurantMapper.mapToManageDTO(entity);
     }
 
     public RestaurantClientDTO getForClient() {
@@ -42,12 +42,12 @@ public class RestaurantService {
 
     public RestaurantManageDTO getForAdmin() {
         Restaurant restaurant = getActiveRestaurant();
-        return restaurantMapper.mapToAdminDTO(restaurant);
+        return restaurantMapper.mapToManageDTO(restaurant);
     }
 
     public RestaurantManageDTO update(RestaurantManageDTO dto) {
         Restaurant updatedRestaurant = restaurantMapper.mapToUpdateEntity(dto, getActiveRestaurant());
-        return restaurantMapper.mapToAdminDTO(updatedRestaurant);
+        return restaurantMapper.mapToManageDTO(updatedRestaurant);
     }
 
     private Restaurant getActiveRestaurant() {
