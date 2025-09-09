@@ -6,12 +6,14 @@ import com.guciowons.yummify.common.exception.enumerated.ErrorLocationType;
 import com.guciowons.yummify.common.exception.enumerated.ErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public class DishExistsByNameException extends SingleApiErrorException {
-    public DishExistsByNameException(String name) {
-        super(ApiErrorDTO.builder(ErrorMessage.RESTAURANT_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND)
-                .errorLocationType(ErrorLocationType.BODY)
-                .location("name")
-                .textParam("name", name)
+import java.util.UUID;
+
+public class DishNotFoundException extends SingleApiErrorException {
+    public DishNotFoundException(UUID id) {
+        super(ApiErrorDTO.builder(ErrorMessage.INGREDIENT_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND)
+                .errorLocationType(ErrorLocationType.PATH_PARAM)
+                .location("id")
+                .textParam("id", id.toString())
         );
     }
 }
