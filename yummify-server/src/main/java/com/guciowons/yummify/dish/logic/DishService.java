@@ -41,6 +41,7 @@ public class DishService {
                 .orElseThrow(() -> new DishNotFoundException(id));
     }
 
+    @Transactional
     public DishDTO<TranslatedStringDTO> update(UUID id, DishDTO<TranslatedStringDTO> dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)

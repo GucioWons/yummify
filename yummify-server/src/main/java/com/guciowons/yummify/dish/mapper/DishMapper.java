@@ -4,8 +4,11 @@ import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
 import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.dish.DishDTO;
+import com.guciowons.yummify.dish.IngredientDTO;
 import com.guciowons.yummify.dish.data.IngredientRepository;
 import com.guciowons.yummify.dish.entity.Dish;
+import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
+import com.guciowons.yummify.dish.exception.IngredientsNotFoundException;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -46,17 +49,19 @@ public abstract class DishMapper {
 
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
-        List<UUID> notFoundIds = new ArrayList<>();
+        List<UUID> missing = new ArrayList<>();
 
-        dto.getIngredients()
-                .forEach(ingredientDTO -> ingredientRepository.findByIdAndRestaurantId(ingredientDTO.getId(), restaurantId)
-                        .ifPresentOrElse(
-                                dish.getIngredients()::add,
-                                () -> notFoundIds.add(ingredientDTO.getId())
-                        ));
+        for (IngredientDTO<String> ingredientDTO : dto.getIngredients()) {
+            ingredientRepository.findByIdAndRestaurantId(ingredientDTO.getId(), restaurantId)
+                    .ifPresentOrElse(dish.getIngredients()::add, () -> missing.add(ingredientDTO.getId()));
+        }
 
-        if (!notFoundIds.isEmpty()) {
-            throw new IllegalArgumentException();
+        if (!missing.isEmpty()) {
+            if (missing.size() > 1) {
+                throw new IngredientsNotFoundException(missing);
+            } else {
+                throw new IngredientNotFoundException(missing.getFirst());
+            }
         }
     }
 }

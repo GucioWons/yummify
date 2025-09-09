@@ -41,6 +41,7 @@ public class IngredientService {
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
+    @Transactional
     public IngredientDTO<TranslatedStringDTO> update(UUID id, IngredientDTO<TranslatedStringDTO> dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
