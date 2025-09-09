@@ -34,10 +34,17 @@ public class DishService {
                 .toList();
     }
 
-    public DishDTO<String> getById(UUID id) {
+    public DishDTO<TranslatedStringDTO> getById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
-                .map(dishMapper::mapToClientDTO)
+                .map(dishMapper::mapToAdminDTO)
+                .orElseThrow(() -> new DishNotFoundException(id));
+    }
+
+    public DishDTO<TranslatedStringDTO> update(UUID id, DishDTO<TranslatedStringDTO> dto) {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+        return dishRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(ingredient -> dishMapper.mapToAdminDTO(dishMapper.mapToUpdateEntity(dto, ingredient)))
                 .orElseThrow(() -> new DishNotFoundException(id));
     }
 }

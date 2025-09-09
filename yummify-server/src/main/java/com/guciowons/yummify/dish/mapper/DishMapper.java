@@ -20,7 +20,8 @@ public abstract class DishMapper {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    @Mapping(target = "description", expression = "java(entity.getDescription().get())")
+    @Mapping(target = "name", expression = "java(dish.getName().get())")
+    @Mapping(target = "description", expression = "java(dish.getDescription().get())")
     public abstract DishDTO<String> mapToClientDTO(Dish dish);
 
     public abstract DishDTO<TranslatedStringDTO> mapToAdminDTO(Dish dish);

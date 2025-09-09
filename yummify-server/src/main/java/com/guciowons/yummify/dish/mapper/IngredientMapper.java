@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
-    @Mapping(target = "description", expression = "java(entity.getDescription().get())")
+    @Mapping(target = "name", expression = "java(ingredient.getName().get())")
     IngredientDTO<String> mapToClientDTO(Ingredient ingredient);
 
     IngredientDTO<TranslatedStringDTO> mapToAdminDTO(Ingredient ingredient);

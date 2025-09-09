@@ -32,9 +32,16 @@ public class DishController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DishDTO<String>> getById(@PathVariable UUID id) {
+    public ResponseEntity<DishDTO<TranslatedStringDTO>> getById(@PathVariable UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishService.getById(id));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<DishDTO<TranslatedStringDTO>> update(@PathVariable UUID id, @RequestBody DishDTO<TranslatedStringDTO> dto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishService.update(id, dto));
     }
 }
