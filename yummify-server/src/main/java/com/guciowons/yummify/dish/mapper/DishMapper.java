@@ -1,6 +1,7 @@
 package com.guciowons.yummify.dish.mapper;
 
 import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
+import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
 import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.dish.DishDTO;
 import com.guciowons.yummify.dish.data.IngredientRepository;
@@ -15,13 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = IngredientMapper.class)
+@Mapper(componentModel = "spring", uses = {
+        IngredientMapper.class,
+        TranslatedStringMapper.class,
+})
 public abstract class DishMapper {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    @Mapping(target = "name", expression = "java(dish.getName().get())")
-    @Mapping(target = "description", expression = "java(dish.getDescription().get())")
     public abstract DishDTO<String> mapToClientDTO(Dish dish);
 
     public abstract DishDTO<TranslatedStringDTO> mapToAdminDTO(Dish dish);
