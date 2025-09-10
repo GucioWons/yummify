@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.mapper;
 
 import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
-import com.guciowons.yummify.common.temp.TranslatableMapper;
+import com.guciowons.yummify.common.temp.mapper.TranslatableMapper;
 import com.guciowons.yummify.dish.IngredientClientDTO;
 import com.guciowons.yummify.dish.IngredientDTO;
 import com.guciowons.yummify.dish.IngredientManageDTO;

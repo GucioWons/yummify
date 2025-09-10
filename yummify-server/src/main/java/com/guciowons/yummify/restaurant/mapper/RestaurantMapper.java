@@ -1,7 +1,7 @@
 package com.guciowons.yummify.restaurant.mapper;
 
 import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
-import com.guciowons.yummify.common.temp.TranslatableMapper;
+import com.guciowons.yummify.common.temp.mapper.TranslatableMapper;
 import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
 import com.guciowons.yummify.restaurant.dto.RestaurantDTO;
 import com.guciowons.yummify.restaurant.dto.RestaurantManageDTO;

@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.temp;
+package com.guciowons.yummify.common.temp.mapper;
 
 public interface TranslatableMapper<Entity, DTO, ManageDTO extends DTO, ClientDTO extends DTO> {
     ManageDTO mapToManageDTO(Entity entity);
