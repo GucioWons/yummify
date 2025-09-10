@@ -1,12 +1,6 @@
 package com.guciowons.yummify.dish;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 
-import java.util.UUID;
-
-@Getter
-@Setter
-public class IngredientDTO {
-    private UUID id;
+public class IngredientDTO extends BaseEntityDTO {
 }

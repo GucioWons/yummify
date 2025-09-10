@@ -4,7 +4,7 @@ import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.common.temp.service.RestaurantScopedService;
+import com.guciowons.yummify.common.core.service.RestaurantScopedService;
 import com.guciowons.yummify.table.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
@@ -30,8 +30,8 @@ public class TableService extends RestaurantScopedService<Table, TableDTO, Table
     @Transactional
     public TableDTO create(TableDTO dto) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
-        if (repository.existsByNameAndRestaurantId(dto.name(), restaurantId)) {
-            throw new TableExistsByNameException(dto.name());
+        if (repository.existsByNameAndRestaurantId(dto.getName(), restaurantId)) {
+            throw new TableExistsByNameException(dto.getName());
         }
 
         Table entity = repository.save(mapper.mapToEntity(dto));

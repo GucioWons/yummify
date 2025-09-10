@@ -1,10 +1,12 @@
-package com.guciowons.yummify.common.temp.service;
+package com.guciowons.yummify.common.core.service;
 
+import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.common.temp.RestaurantScoped;
-import com.guciowons.yummify.common.temp.repository.RestaurantScopedRepository;
-import com.guciowons.yummify.common.temp.mapper.TranslatableMapper;
+import com.guciowons.yummify.common.core.entity.BaseEntity;
+import com.guciowons.yummify.common.core.mapper.BaseEntityMapper;
+import com.guciowons.yummify.common.core.entity.RestaurantScoped;
+import com.guciowons.yummify.common.core.repository.RestaurantScopedRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -12,37 +14,31 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public abstract class TranslatableRestaurantScopedService<
-        Entity extends RestaurantScoped, DTO, ManageDTO extends DTO, ClientDTO extends DTO,
+public abstract class RestaurantScopedService<
+        Entity extends BaseEntity & RestaurantScoped,
+        DTO extends BaseEntityDTO,
         Repository extends RestaurantScopedRepository<Entity>,
-        Mapper extends TranslatableMapper<Entity, DTO, ManageDTO, ClientDTO>
+        Mapper extends BaseEntityMapper<DTO, Entity>
         > {
 
     protected final Repository repository;
     protected final Mapper mapper;
 
-    @Transactional
-    public ManageDTO create(ManageDTO dto) {
-        Entity entity = mapper.mapToSaveEntity(dto);
-        entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
-        return mapper.mapToManageDTO(repository.save(entity));
-    }
-
-    public List<ClientDTO> getAll() {
+    public List<DTO> getAll() {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return repository.findAllByRestaurantId(restaurantId).stream()
-                .map(mapper::mapToClientDTO)
+                .map(mapper::mapToDTO)
                 .toList();
     }
 
-    public ManageDTO getById(UUID id) {
-        return mapper.mapToManageDTO(getEntityById(id));
+    public DTO getById(UUID id) {
+        return mapper.mapToDTO(getEntityById(id));
     }
 
     @Transactional
-    public ManageDTO update(UUID id, ManageDTO dto) {
+    public DTO update(UUID id, DTO dto) {
         Entity updatedEntity = mapper.mapToUpdateEntity(dto, getEntityById(id));
-        return mapper.mapToManageDTO(updatedEntity);
+        return mapper.mapToDTO(updatedEntity);
     }
 
     private Entity getEntityById(UUID id) {

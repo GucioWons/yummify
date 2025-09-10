@@ -1,18 +1,14 @@
 package com.guciowons.yummify.restaurant.dto;
 
+import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.i8n.Language;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
-public class RestaurantDTO {
-    @Null
-    private UUID id;
+public class RestaurantDTO extends BaseEntityDTO {
     @NotNull
     private String name;
     @NotNull

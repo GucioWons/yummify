@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.logic;
 
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
-import com.guciowons.yummify.common.temp.service.TranslatableRestaurantScopedService;
+import com.guciowons.yummify.common.core.service.TranslatableRestaurantScopedService;
 import com.guciowons.yummify.dish.DishClientDTO;
 import com.guciowons.yummify.dish.DishDTO;
 import com.guciowons.yummify.dish.DishManageDTO;

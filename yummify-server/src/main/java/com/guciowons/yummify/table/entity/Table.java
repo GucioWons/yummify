@@ -1,6 +1,7 @@
 package com.guciowons.yummify.table.entity;
 
-import com.guciowons.yummify.common.temp.RestaurantScoped;
+import com.guciowons.yummify.common.core.entity.BaseEntity;
+import com.guciowons.yummify.common.core.entity.RestaurantScoped;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-public class Table implements RestaurantScoped {
+public class Table implements BaseEntity, RestaurantScoped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;

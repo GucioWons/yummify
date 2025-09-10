@@ -3,6 +3,7 @@ package com.guciowons.yummify.restaurant.entity;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.i8n.TranslatedString;
 import com.guciowons.yummify.common.i8n.TranslatedStringConverter;
+import com.guciowons.yummify.common.core.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "restaurant", schema = "restaurant")
-public class Restaurant {
+public class Restaurant implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;

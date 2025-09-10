@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.temp;
+package com.guciowons.yummify.common.core.entity;
 
 import java.util.UUID;
 
