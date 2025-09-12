@@ -15,7 +15,6 @@ import java.util.UUID;
 @Setter
 public class Ingredient implements BaseEntity, RestaurantScoped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(nullable = false)

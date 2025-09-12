@@ -16,7 +16,6 @@ import java.util.UUID;
 @Setter
 public class Dish implements BaseEntity, RestaurantScoped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(nullable = false)
