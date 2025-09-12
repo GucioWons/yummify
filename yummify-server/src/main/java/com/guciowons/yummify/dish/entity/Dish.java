@@ -22,11 +22,11 @@ public class Dish implements BaseEntity, RestaurantScoped {
     private UUID restaurantId;
 
     @Convert(converter = TranslatedStringConverter.class)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "jsonb")
     private TranslatedString name;
 
+    @Column(columnDefinition = "jsonb")
     @Convert(converter = TranslatedStringConverter.class)
-    @Column
     private TranslatedString description;
 
     @ManyToMany

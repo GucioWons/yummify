@@ -5,7 +5,7 @@
            http://www.liquibase.org/xml/ns/dbchangelog
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <include file="db/changelog/dish/2025-09-10-create-ingredient-table.sql" relativeToChangelogFile="false"/>
-    <include file="db/changelog/dish/2025-09-10-create-dish-table.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/dish/2025-09-10-create-ingredient-table.sql"/>
+    <include file="/db/changelog/dish/2025-09-12-create-dish-table.sql"/>
 
 </databaseChangeLog>

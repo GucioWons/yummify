@@ -21,6 +21,6 @@ public class Ingredient implements BaseEntity, RestaurantScoped {
     private UUID restaurantId;
 
     @Convert(converter = TranslatedStringConverter.class)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "jsonb")
     private TranslatedString name;
 }
