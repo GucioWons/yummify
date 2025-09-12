@@ -16,7 +16,6 @@ import java.util.UUID;
 @Table(name = "restaurant", schema = "restaurant")
 public class Restaurant implements BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column

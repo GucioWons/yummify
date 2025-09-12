@@ -13,7 +13,6 @@ import java.util.UUID;
 @Entity
 public class Table implements BaseEntity, RestaurantScoped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(nullable = false)
