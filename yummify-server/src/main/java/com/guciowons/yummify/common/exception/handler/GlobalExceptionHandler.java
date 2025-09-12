@@ -6,6 +6,7 @@ import com.guciowons.yummify.common.exception.dto.ApiErrorDTO;
 import com.guciowons.yummify.common.exception.dto.ApiErrorResponseDTO;
 import com.guciowons.yummify.common.exception.enumerated.ErrorLocationType;
 import com.guciowons.yummify.common.exception.enumerated.ErrorMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Map<String, ErrorMessage> errorMessageMap = Map.of(
@@ -30,6 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleUnexpectedException(Exception e, WebRequest request) {
+        log.error(e.getMessage(), e);
         ApiErrorResponseDTO response = buildUnexpectedApiErrorResponseDTO(request);
         return handleExceptionInternal(e, response, new HttpHeaders(), response.getHttpStatus(), request);
     }

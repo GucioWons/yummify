@@ -31,7 +31,3 @@ spring:
         password: admin
       yummify:
         uri: http://localhost:8080/realms/yummify
-
-logging:
-  level:
-    org.springframework.boot.autoconfigure.liquibase: DEBUG
