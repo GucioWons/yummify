@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-CREATE TABLE dish
+CREATE TABLE dish.dish
 (
     id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     restaurant_id UUID  NOT NULL,
@@ -8,11 +8,11 @@ CREATE TABLE dish
     description   JSONB
 );
 
-CREATE TABLE dish_ingredients
+CREATE TABLE dish.dish_ingredients
 (
     dish_id       UUID NOT NULL,
     ingredient_id UUID NOT NULL,
     PRIMARY KEY (dish_id, ingredient_id),
-    CONSTRAINT fk_dish FOREIGN KEY (dish_id) REFERENCES dish (id),
-    CONSTRAINT fk_ingredient FOREIGN KEY (ingredient_id) REFERENCES ingredient (id)
+    CONSTRAINT fk_dish FOREIGN KEY (dish_id) REFERENCES dish.dish (id),
+    CONSTRAINT fk_ingredient FOREIGN KEY (ingredient_id) REFERENCES dish.ingredient (id)
 );

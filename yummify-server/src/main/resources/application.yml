@@ -17,7 +17,6 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.xml
-    default-schema: yummify
     liquibase-schema: liquibase_meta
 
   security:

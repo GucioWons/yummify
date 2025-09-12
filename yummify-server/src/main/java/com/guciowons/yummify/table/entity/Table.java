@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@jakarta.persistence.Table(name = "my_table")
+@jakarta.persistence.Table(name = "my_table", schema = "my_table")
 public class Table implements BaseEntity, RestaurantScoped {
     @Id
     private UUID id;

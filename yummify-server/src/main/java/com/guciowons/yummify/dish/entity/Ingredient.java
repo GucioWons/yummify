@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "ingredient", schema = "dish")
 public class Ingredient implements BaseEntity, RestaurantScoped {
     @Id
     private UUID id;

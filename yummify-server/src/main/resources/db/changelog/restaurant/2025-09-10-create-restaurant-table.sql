@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-CREATE TABLE restaurant
+CREATE TABLE restaurant.restaurant
 (
     id               UUID PRIMARY KEY     DEFAULT gen_random_uuid(),
     owner_id         UUID,

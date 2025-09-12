@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "dish", schema = "dish")
 public class Dish implements BaseEntity, RestaurantScoped {
     @Id
     private UUID id;
@@ -32,7 +33,8 @@ public class Dish implements BaseEntity, RestaurantScoped {
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "dishId"),
-            inverseJoinColumns = @JoinColumn(name = "ingredientId")
+            inverseJoinColumns = @JoinColumn(name = "ingredientId"),
+            schema = "dish"
     )
     private List<Ingredient> ingredients;
 }
