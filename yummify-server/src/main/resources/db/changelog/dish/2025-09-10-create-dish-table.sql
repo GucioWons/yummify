@@ -6,7 +6,7 @@ CREATE TABLE dish
     restaurant_id UUID  NOT NULL,
     name          JSONB NOT NULL,
     description   JSONB NOT NULL,
-)
+);
 
 CREATE TABLE dish_ingredient
 (
