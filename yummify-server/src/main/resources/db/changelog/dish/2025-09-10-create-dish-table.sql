@@ -5,7 +5,7 @@ CREATE TABLE dish
     id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     restaurant_id UUID  NOT NULL,
     name          JSONB NOT NULL,
-    description   JSONB NOT NULL,
+    description   JSONB,
 );
 
 CREATE TABLE dish_ingredient
