@@ -30,4 +30,4 @@ spring:
         username: admin
         password: admin
       yummify:
-        uri: http://localhost:8080/realms/yummify
+        uri: http://localhost:8080/admin/realms/yummify

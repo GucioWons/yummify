@@ -33,7 +33,7 @@ public class RestaurantController {
                 .body(restaurantService.getForClient());
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/manage")
     @SecuredByRole(UserRole.ADMIN)
     public ResponseEntity<RestaurantManageDTO> getForAdmin() {
         return ResponseEntity
