@@ -34,7 +34,10 @@ public class TableService extends RestaurantScopedService<Table, TableDTO, Table
             throw new TableExistsByNameException(dto.getName());
         }
 
-        Table entity = repository.save(mapper.mapToEntity(dto));
+        Table entity = mapper.mapToEntity(dto);
+        entity.setRestaurantId(restaurantId);
+        repository.save(entity);
+
         UserRequestDTO userRequest = new UserRequestDTO(
                 entity.getId() + "@table.fake",
                 entity.getId().toString(),
@@ -45,7 +48,7 @@ public class TableService extends RestaurantScopedService<Table, TableDTO, Table
         UUID tableUserId = userCreateService.createUser(userRequest);
         entity.setUserId(tableUserId);
 
-        return mapper.mapToDTO(repository.save(entity));
+        return mapper.mapToDTO(entity);
     }
 
     @Override
