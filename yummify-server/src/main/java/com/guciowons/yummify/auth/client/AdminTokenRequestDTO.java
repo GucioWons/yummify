@@ -4,12 +4,16 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class AdminTokenRequestDTO {
-    private final String grant_type = "password";
-    private final String client_id = "admin-cli";
+    private String grant_type = "password";
+    private String client_id = "admin-cli";
     private String username;
     private String password;
+
+    public AdminTokenRequestDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

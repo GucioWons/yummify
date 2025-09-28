@@ -3,11 +3,13 @@ package com.guciowons.yummify.restaurant.entity;
 import com.guciowons.yummify.common.core.entity.BaseEntity;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.i8n.TranslatedString;
-import com.guciowons.yummify.common.i8n.TranslatedStringConverter;
-import com.guciowons.yummify.common.core.entity.BaseEntity;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Table(name = "restaurant", schema = "restaurant")
 public class Restaurant implements BaseEntity {
     @Id
+    @GeneratedValue
     private UUID id;
 
     @Column
@@ -25,8 +28,9 @@ public class Restaurant implements BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "jsonb")
-    @Convert(converter = TranslatedStringConverter.class)
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
     private TranslatedString description;
 
     @Column(nullable = false)

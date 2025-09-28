@@ -50,7 +50,7 @@ public class TableController {
                 .body(tableService.update(id, dto));
     }
 
-    @GetMapping("{id}/generate-otp")
+    @PostMapping("{id}/generate-otp")
     public ResponseEntity<OtpDTO> generateOtp(@PathVariable UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
