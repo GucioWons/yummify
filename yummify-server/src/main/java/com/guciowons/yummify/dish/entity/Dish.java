@@ -26,8 +26,8 @@ public class Dish implements BaseEntity, RestaurantScoped {
     @Column(nullable = false, columnDefinition = "jsonb")
     private TranslatedString name;
 
-    @Column(columnDefinition = "jsonb")
     @Convert(converter = TranslatedStringConverter.class)
+    @Column(columnDefinition = "jsonb")
     private TranslatedString description;
 
     @ManyToMany

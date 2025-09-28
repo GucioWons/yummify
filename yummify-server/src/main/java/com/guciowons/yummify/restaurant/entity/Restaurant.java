@@ -4,6 +4,7 @@ import com.guciowons.yummify.common.core.entity.BaseEntity;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.i8n.TranslatedString;
 import com.guciowons.yummify.common.i8n.TranslatedStringConverter;
+import com.guciowons.yummify.common.core.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
