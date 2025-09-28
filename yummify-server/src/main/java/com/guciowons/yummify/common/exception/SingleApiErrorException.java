@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class SingleApiErrorException extends RuntimeException {
     private final ApiErrorDTO apiError;
+
     public SingleApiErrorException(ApiErrorDTO.Builder apiError) {
         this.apiError = apiError.build();
     }
