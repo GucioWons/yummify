@@ -14,26 +14,27 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "dish", schema = "dish")
 public class Dish implements BaseEntity, RestaurantScoped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(nullable = false)
     private UUID restaurantId;
 
     @Convert(converter = TranslatedStringConverter.class)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "jsonb")
     private TranslatedString name;
 
     @Convert(converter = TranslatedStringConverter.class)
-    @Column
+    @Column(columnDefinition = "jsonb")
     private TranslatedString description;
 
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "dishId"),
-            inverseJoinColumns = @JoinColumn(name = "ingredientId")
+            inverseJoinColumns = @JoinColumn(name = "ingredientId"),
+            schema = "dish"
     )
     private List<Ingredient> ingredients;
 }

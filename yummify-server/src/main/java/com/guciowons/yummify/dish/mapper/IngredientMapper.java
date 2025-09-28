@@ -6,11 +6,16 @@ import com.guciowons.yummify.dish.IngredientClientDTO;
 import com.guciowons.yummify.dish.IngredientDTO;
 import com.guciowons.yummify.dish.IngredientManageDTO;
 import com.guciowons.yummify.dish.entity.Ingredient;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = TranslatedStringMapper.class)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = TranslatedStringMapper.class
+)
 public interface IngredientMapper extends TranslatableMapper<Ingredient, IngredientDTO, IngredientManageDTO, IngredientClientDTO> {
     IngredientManageDTO mapToManageDTO(Ingredient entity);
 

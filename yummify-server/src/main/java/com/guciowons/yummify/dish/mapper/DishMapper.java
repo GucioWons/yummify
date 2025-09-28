@@ -11,20 +11,20 @@ import com.guciowons.yummify.dish.data.IngredientRepository;
 import com.guciowons.yummify.dish.entity.Dish;
 import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
 import com.guciowons.yummify.dish.exception.IngredientsNotFoundException;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = {
-        IngredientMapper.class,
-        TranslatedStringMapper.class,
-})
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {
+                IngredientMapper.class,
+                TranslatedStringMapper.class,
+        })
 public abstract class DishMapper implements TranslatableMapper<Dish, DishDTO, DishManageDTO, DishClientDTO> {
     @Autowired
     private IngredientRepository ingredientRepository;

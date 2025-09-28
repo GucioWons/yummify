@@ -6,11 +6,16 @@ import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
 import com.guciowons.yummify.restaurant.dto.RestaurantDTO;
 import com.guciowons.yummify.restaurant.dto.RestaurantManageDTO;
 import com.guciowons.yummify.restaurant.entity.Restaurant;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = TranslatedStringMapper.class)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = TranslatedStringMapper.class
+)
 public interface RestaurantMapper extends TranslatableMapper<Restaurant, RestaurantDTO, RestaurantManageDTO, RestaurantClientDTO> {
     RestaurantManageDTO mapToManageDTO(Restaurant entity);
 

@@ -13,15 +13,15 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "ingredient", schema = "dish")
 public class Ingredient implements BaseEntity, RestaurantScoped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(nullable = false)
     private UUID restaurantId;
 
     @Convert(converter = TranslatedStringConverter.class)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "jsonb")
     private TranslatedString name;
 }
