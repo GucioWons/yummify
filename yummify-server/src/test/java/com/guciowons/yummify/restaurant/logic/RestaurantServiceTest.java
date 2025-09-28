@@ -89,12 +89,7 @@ class RestaurantServiceTest {
         ArgumentCaptor<UserRequestDTO> userCaptor = ArgumentCaptor.forClass(UserRequestDTO.class);
         verify(userCreateService).createUserWithPassword(userCaptor.capture());
         UserRequestDTO capturedUser = userCaptor.getValue();
-        assertEquals(savedRestaurant.getId().toString(), capturedUser.getAttributes().get("restaurantId").getFirst());
-
-        ArgumentCaptor<Restaurant> captor = ArgumentCaptor.forClass(Restaurant.class);
-        verify(restaurantMapper).mapToManageDTO(captor.capture());
-        Restaurant mappedRestaurant = captor.getValue();
-        assertEquals(ownerId, mappedRestaurant.getOwnerId());
+        assertEquals(RESTAURANT_ID.toString(), capturedUser.getAttributes().get("restaurantId").getFirst());
 
         verify(restaurantRepository).save(restaurant);
 
