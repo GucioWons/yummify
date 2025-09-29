@@ -181,6 +181,7 @@ class TableServiceTest {
     public void shouldUpdateTable() {
         // given
         String newName = "A02";
+
         Table toUpdate = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, TABLE_NAME);
         TableDTO dto = buildDTO(TABLE_ID, newName);
         Table updated = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, newName);
