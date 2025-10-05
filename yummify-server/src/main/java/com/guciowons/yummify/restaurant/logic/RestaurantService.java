@@ -45,6 +45,7 @@ public class RestaurantService {
         return restaurantMapper.mapToManageDTO(restaurant);
     }
 
+    @Transactional
     public RestaurantManageDTO update(RestaurantManageDTO dto) {
         Restaurant updatedRestaurant = restaurantMapper.mapToUpdateEntity(dto, getActiveRestaurant());
         return restaurantMapper.mapToManageDTO(updatedRestaurant);

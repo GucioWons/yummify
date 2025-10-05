@@ -36,7 +36,7 @@ public class TableService extends RestaurantScopedService<Table, TableDTO, Table
 
         Table entity = mapper.mapToEntity(dto);
         entity.setRestaurantId(restaurantId);
-        repository.save(entity);
+        entity = repository.save(entity);
 
         UserRequestDTO userRequest = new UserRequestDTO(
                 entity.getId() + "@table.fake",
