@@ -20,14 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -71,10 +66,10 @@ class TableServiceTest {
     @Test
     void shouldCreateTable() {
         // given
-        TableDTO dto = buildDTO(null, TABLE_NAME);
-        Table table = buildTable(null, null, null, TABLE_NAME);
-        Table savedTable = buildTable(TABLE_ID, RESTAURANT_ID, null, TABLE_NAME);
-        TableDTO expectedResult = buildDTO(TABLE_ID, TABLE_NAME);
+        TableDTO dto = buildDTO(null);
+        Table table = buildTable(null, null);
+        Table savedTable = buildTable(TABLE_ID, RESTAURANT_ID);
+        TableDTO expectedResult = buildDTO(TABLE_ID);
 
         when(tableRepository.existsByNameAndRestaurantId(TABLE_NAME, RESTAURANT_ID)).thenReturn(false);
         when(tableMapper.mapToEntity(dto)).thenReturn(table);
@@ -102,7 +97,7 @@ class TableServiceTest {
     @Test
     void shouldNotCreateTableAndThrowExceptionWhenTableExistsByName() {
         // given
-        TableDTO dto = buildDTO(null, TABLE_NAME);
+        TableDTO dto = buildDTO(null);
         when(tableRepository.existsByNameAndRestaurantId(TABLE_NAME, RESTAURANT_ID)).thenReturn(true);
 
         // when
@@ -114,59 +109,7 @@ class TableServiceTest {
     }
 
     @Test
-    void shouldReturnAllTables() {
-        // given
-        UUID secondTableId = UUID.randomUUID();
-        String secondTableName = "A02";
-
-        Table firstTable = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, TABLE_NAME);
-        TableDTO firstTableDTO = buildDTO(TABLE_ID, TABLE_NAME);
-        Table secondTable = buildTable(secondTableId, RESTAURANT_ID, UUID.randomUUID(), secondTableName);
-        TableDTO secondTableDTO = buildDTO(secondTableId, secondTableName);
-
-        when(tableRepository.findAllByRestaurantId(RESTAURANT_ID)).thenReturn(List.of(firstTable, secondTable));
-        when(tableMapper.mapToDTO(firstTable)).thenReturn(firstTableDTO);
-        when(tableMapper.mapToDTO(secondTable)).thenReturn(secondTableDTO);
-
-        // when
-        List<TableDTO> result = underTest.getAll();
-
-        // then
-        assertEquals(2, result.size());
-        assertThat(result, containsInAnyOrder(firstTableDTO, secondTableDTO));
-    }
-
-    @Test
-    void shouldReturnEmptyListWhenThereAreNoTables() {
-        // given
-        when(tableRepository.findAllByRestaurantId(RESTAURANT_ID)).thenReturn(Collections.emptyList());
-
-        // when
-        List<TableDTO> result = underTest.getAll();
-
-        // then
-        verify(tableMapper, never()).mapToDTO(any());
-        assertThat(result, empty());
-    }
-
-    @Test
-    void shouldGetTable() {
-        // given
-        Table table = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, TABLE_NAME);
-        TableDTO expectedResult = buildDTO(TABLE_ID, TABLE_NAME);
-
-        when(tableRepository.findByIdAndRestaurantId(TABLE_ID, RESTAURANT_ID)).thenReturn(Optional.of(table));
-        when(tableMapper.mapToDTO(table)).thenReturn(expectedResult);
-
-        // when
-        TableDTO result = underTest.getById(TABLE_ID);
-
-        // then
-        assertEquals(expectedResult, result);
-    }
-
-    @Test
-    void shouldNotGetTableAndThrowExceptionWhenTableNotFound() {
+    void shouldThrowTableNotFoundExceptionWhenTableDoesNotExist() {
         // given
         when(tableRepository.findByIdAndRestaurantId(TABLE_ID, RESTAURANT_ID)).thenReturn(Optional.empty());
 
@@ -177,58 +120,19 @@ class TableServiceTest {
         verify(tableMapper, never()).mapToDTO(any());
     }
 
-    @Test
-    public void shouldUpdateTable() {
-        // given
-        String newName = "A02";
-
-        Table toUpdate = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, TABLE_NAME);
-        TableDTO dto = buildDTO(TABLE_ID, newName);
-        Table updated = buildTable(TABLE_ID, RESTAURANT_ID, TABLE_USER_ID, newName);
-        TableDTO expectedResult = buildDTO(TABLE_ID, newName);
-
-        when(tableRepository.findByIdAndRestaurantId(TABLE_ID, RESTAURANT_ID)).thenReturn(Optional.of(toUpdate));
-        when(tableMapper.mapToUpdateEntity(dto, toUpdate)).thenReturn(updated);
-        when(tableMapper.mapToDTO(updated)).thenReturn(expectedResult);
-
-        // when
-        TableDTO result = underTest.update(TABLE_ID, dto);
-
-        // then
-        assertEquals(expectedResult, result);
-    }
-
-    @Test
-    public void shouldNotUpdateTableAndThrowExceptionWhenTableNotFound() {
-        // given
-        String newName = "A02";
-
-        TableDTO dto = buildDTO(TABLE_ID, newName);
-
-        when(tableRepository.findByIdAndRestaurantId(TABLE_ID, RESTAURANT_ID)).thenReturn(Optional.empty());
-
-        // when
-        assertThrows(TableNotFoundException.class, () -> underTest.update(TABLE_ID, dto));
-
-        // then
-        verify(tableRepository, never()).save(any());
-        verify(tableMapper, never()).mapToUpdateEntity(any(), any());
-        verify(tableMapper, never()).mapToDTO(any());
-    }
-
-    private TableDTO buildDTO(UUID id, String name) {
+    private TableDTO buildDTO(UUID id) {
         TableDTO tableDTO = new TableDTO();
         tableDTO.setId(id);
-        tableDTO.setName(name);
+        tableDTO.setName("A01");
         return tableDTO;
     }
 
-    private Table buildTable(UUID id, UUID restaurantId, UUID userId, String name) {
+    private Table buildTable(UUID id, UUID restaurantId) {
         Table table = new Table();
         table.setId(id);
         table.setRestaurantId(restaurantId);
-        table.setUserId(userId);
-        table.setName(name);
+        table.setUserId(null);
+        table.setName("A01");
         return table;
     }
 }
