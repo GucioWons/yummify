@@ -3,9 +3,9 @@ package com.guciowons.yummify.dish.logic;
 import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.data.IngredientRepository;
-import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
-import com.guciowons.yummify.dish.mapper.IngredientMapper;
+import com.guciowons.yummify.dish.data.DishRepository;
+import com.guciowons.yummify.dish.exception.DishNotFoundException;
+import com.guciowons.yummify.dish.mapper.DishMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,20 +22,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class IngredientServiceTest {
+class DishServiceTest {
     @InjectMocks
-    private IngredientService underTest;
+    private DishService underTest;
 
     @Mock
-    private IngredientRepository ingredientRepository;
+    private DishRepository dishRepository;
 
     @Mock
-    private IngredientMapper ingredientMapper;
+    private DishMapper dishMapper;
 
     private final UUID RESTAURANT_ID = UUID.randomUUID();
     private final Language LANGUAGE = Language.EN;
 
-    private final UUID INGREDIENT_ID = UUID.randomUUID();
+    private final UUID DISH_ID = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
@@ -53,14 +53,14 @@ class IngredientServiceTest {
     }
 
     @Test
-    void shouldThrowIngredientNotFoundExceptionWhenIngredientDoesNotExist() {
+    void shouldNotGetIngredientAndThrowExceptionWhenIngredientNotFound() {
         // given
-        when(ingredientRepository.findByIdAndRestaurantId(INGREDIENT_ID, RESTAURANT_ID)).thenReturn(Optional.empty());
+        when(dishRepository.findByIdAndRestaurantId(DISH_ID, RESTAURANT_ID)).thenReturn(Optional.empty());
 
         // when
-        assertThrows(IngredientNotFoundException.class, () -> underTest.getById(INGREDIENT_ID));
+        assertThrows(DishNotFoundException.class, () -> underTest.getById(DISH_ID));
 
         // then
-        verify(ingredientMapper, never()).mapToManageDTO(any());
+        verify(dishMapper, never()).mapToManageDTO(any());
     }
 }
