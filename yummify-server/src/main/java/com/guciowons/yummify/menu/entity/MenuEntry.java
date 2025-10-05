@@ -1,29 +1,30 @@
 package com.guciowons.yummify.menu.entity;
 
 import com.guciowons.yummify.common.core.entity.BaseEntity;
-import com.guciowons.yummify.common.core.entity.RestaurantScoped;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-public class Menu implements BaseEntity, RestaurantScoped {
+public class MenuEntry implements BaseEntity {
     @Id
     @GeneratedValue
     private UUID id;
 
-    private UUID restaurantId;
+    @ManyToOne
+    private MenuSection section;
 
-    @OneToMany
-    private List<MenuSection> sections;
+    private UUID dishId;
 
-    private boolean isActive;
+    private Integer position;
+
+    private BigDecimal price;
 }
