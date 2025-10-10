@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.core.service.TranslatableRestaurantScopedSer
 import com.guciowons.yummify.dish.DishClientDTO;
 import com.guciowons.yummify.dish.DishDTO;
 import com.guciowons.yummify.dish.DishManageDTO;
+import com.guciowons.yummify.dish.PublicDishService;
 import com.guciowons.yummify.dish.data.DishRepository;
 import com.guciowons.yummify.dish.entity.Dish;
 import com.guciowons.yummify.dish.exception.DishNotFoundException;
@@ -14,9 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DishService extends TranslatableRestaurantScopedService<Dish, DishDTO, DishManageDTO, DishClientDTO, DishRepository, DishMapper> {
+public class DishService
+        extends TranslatableRestaurantScopedService<Dish, DishDTO, DishManageDTO, DishClientDTO, DishRepository, DishMapper>
+        implements PublicDishService
+{
     public DishService(DishRepository dishRepository, DishMapper dishMapper) {
         super(dishRepository, dishMapper);
+    }
+
+    public void validateDishId(UUID id) {
+        getEntityById(id);
     }
 
     @Override

@@ -5,6 +5,6 @@
            http://www.liquibase.org/xml/ns/dbchangelog
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <include file="db/changelog/restaurant/2025-09-10-create-restaurant-table.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/menu/2025-10-10-create-menu-table.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

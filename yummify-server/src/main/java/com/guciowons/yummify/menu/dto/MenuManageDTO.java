@@ -1,5 +1,6 @@
 package com.guciowons.yummify.menu.dto;
 
+import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.core.validation.CheckPositionedList;
 import com.guciowons.yummify.menu.dto.section.MenuSectionManageDTO;
 import jakarta.validation.Valid;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class MenuManageDTO extends MenuDTO {
+public class MenuManageDTO extends BaseEntityDTO {
     @Valid
     @NotNull
     @NotEmpty

@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface MenuEntryMapper extends BaseEntityMapper<MenuEntryDTO, MenuEntry> {
-    @Override
+    @Mapping(target = "dish", expression = "java(getDishClientDTO(entity.getDishId()))")
     MenuEntryDTO mapToDTO(MenuEntry entity);
 
     @Mapping(target = "id", ignore = true)
