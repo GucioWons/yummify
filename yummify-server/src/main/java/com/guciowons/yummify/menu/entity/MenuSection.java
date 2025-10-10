@@ -16,21 +16,24 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "menu_section", schema = "menu")
 public class MenuSection implements Positioned {
     @Id
     @GeneratedValue
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
+    @Column(nullable = false)
     private Integer position;
 
     @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private TranslatedString name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuEntry> entries;
 }
