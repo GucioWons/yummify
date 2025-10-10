@@ -1,6 +1,6 @@
 package com.guciowons.yummify.menu.entity;
 
-import com.guciowons.yummify.common.core.entity.BaseEntity;
+import com.guciowons.yummify.common.core.entity.Positioned;
 import com.guciowons.yummify.common.i8n.TranslatedString;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-public class MenuSection implements BaseEntity {
+public class MenuSection implements Positioned {
     @Id
     @GeneratedValue
     private UUID id;

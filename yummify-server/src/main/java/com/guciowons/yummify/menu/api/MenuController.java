@@ -1,6 +1,6 @@
 package com.guciowons.yummify.menu.api;
 
-import com.guciowons.yummify.menu.MenuDTO;
+import com.guciowons.yummify.menu.dto.MenuManageDTO;
 import com.guciowons.yummify.menu.logic.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping
-    public ResponseEntity<MenuDTO> create(@RequestBody MenuDTO dto) {
+    public ResponseEntity<MenuManageDTO> create(@RequestBody MenuManageDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(menuService.create(dto));
