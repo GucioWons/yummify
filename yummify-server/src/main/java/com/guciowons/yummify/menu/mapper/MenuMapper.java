@@ -25,8 +25,10 @@ public interface MenuMapper extends TranslatableMapper<Menu, MenuManageDTO, Menu
     MenuClientDTO mapToClientDTO(Menu entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "sections", ignore = true)
     Menu mapToSaveEntity(MenuManageDTO dto);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "sections", ignore = true)
     Menu mapToUpdateEntity(MenuManageDTO dto, @MappingTarget Menu entity);
 }

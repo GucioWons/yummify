@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.api;
 
-import com.guciowons.yummify.dish.IngredientClientDTO;
-import com.guciowons.yummify.dish.IngredientManageDTO;
+import com.guciowons.yummify.dish.dto.IngredientClientDTO;
+import com.guciowons.yummify.dish.dto.IngredientManageDTO;
 import com.guciowons.yummify.dish.logic.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

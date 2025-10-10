@@ -1,10 +1,9 @@
 package com.guciowons.yummify.dish.logic;
 
-import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.core.service.TranslatableRestaurantScopedService;
-import com.guciowons.yummify.dish.IngredientClientDTO;
-import com.guciowons.yummify.dish.IngredientDTO;
-import com.guciowons.yummify.dish.IngredientManageDTO;
+import com.guciowons.yummify.common.exception.SingleApiErrorException;
+import com.guciowons.yummify.dish.dto.IngredientClientDTO;
+import com.guciowons.yummify.dish.dto.IngredientManageDTO;
 import com.guciowons.yummify.dish.data.IngredientRepository;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import com.guciowons.yummify.dish.exception.IngredientNotFoundException;
@@ -14,9 +13,13 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class IngredientService extends TranslatableRestaurantScopedService<Ingredient, IngredientDTO, IngredientManageDTO, IngredientClientDTO, IngredientRepository, IngredientMapper> {
+public class IngredientService extends TranslatableRestaurantScopedService<Ingredient, IngredientManageDTO, IngredientClientDTO, IngredientClientDTO> {
     public IngredientService(IngredientRepository ingredientRepository, IngredientMapper ingredientMapper) {
         super(ingredientRepository, ingredientMapper);
+    }
+
+    public void validateIngredientId(UUID id) {
+        getEntityById(id);
     }
 
     @Override

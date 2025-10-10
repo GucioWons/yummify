@@ -1,7 +1,7 @@
 package com.guciowons.yummify.table.mapper;
 
 import com.guciowons.yummify.common.core.mapper.BaseEntityMapper;
-import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.dto.TableDTO;
 import com.guciowons.yummify.table.entity.Table;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

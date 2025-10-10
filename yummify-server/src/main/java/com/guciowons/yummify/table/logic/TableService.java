@@ -5,7 +5,7 @@ import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.common.core.service.RestaurantScopedService;
-import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.dto.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
 import com.guciowons.yummify.table.exception.TableExistsByNameException;

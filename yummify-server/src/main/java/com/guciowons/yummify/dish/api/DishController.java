@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.api;
 
-import com.guciowons.yummify.dish.DishClientDTO;
-import com.guciowons.yummify.dish.DishManageDTO;
+import com.guciowons.yummify.dish.dto.DishManageDTO;
+import com.guciowons.yummify.dish.dto.DishListDTO;
 import com.guciowons.yummify.dish.logic.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class DishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DishClientDTO>> getAll() {
+    public ResponseEntity<List<DishListDTO>> getAll() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishService.getAll());
