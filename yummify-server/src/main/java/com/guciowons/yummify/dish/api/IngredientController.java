@@ -1,6 +1,6 @@
 package com.guciowons.yummify.dish.api;
 
-import com.guciowons.yummify.dish.dto.IngredientClientDTO;
+import com.guciowons.yummify.dish.dto.IngredientListDTO;
 import com.guciowons.yummify.dish.dto.IngredientManageDTO;
 import com.guciowons.yummify.dish.logic.IngredientService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class IngredientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IngredientClientDTO>> getAll() {
+    public ResponseEntity<List<IngredientListDTO>> getAll() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ingredientService.getAll());

@@ -24,6 +24,10 @@ public interface MenuSectionMapper extends TranslatableMapper<MenuSection, MenuS
 
     MenuSectionClientDTO mapToClientDTO(MenuSection entity);
 
+    default BaseEntityDTO mapToListDTO(MenuSection entity) {
+        throw new UnsupportedOperationException();
+    }
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "entries", ignore = true)
     MenuSection mapToSaveEntity(MenuSectionManageDTO dto);
@@ -31,8 +35,4 @@ public interface MenuSectionMapper extends TranslatableMapper<MenuSection, MenuS
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "entries", ignore = true)
     MenuSection mapToUpdateEntity(MenuSectionManageDTO dto, @MappingTarget MenuSection entity);
-
-    default BaseEntityDTO mapToListDTO(MenuSection entity) {
-        throw new UnsupportedOperationException();
-    }
 }
