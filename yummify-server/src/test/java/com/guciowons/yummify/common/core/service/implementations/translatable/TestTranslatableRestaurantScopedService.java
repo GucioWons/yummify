@@ -1,5 +1,7 @@
 package com.guciowons.yummify.common.core.service.implementations.translatable;
 
+import com.guciowons.yummify.common.core.mapper.TranslatableMapper;
+import com.guciowons.yummify.common.core.repository.RestaurantScopedRepository;
 import com.guciowons.yummify.common.core.service.TranslatableRestaurantScopedService;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.exception.dto.ApiErrorDTO;
@@ -10,14 +12,15 @@ import java.util.UUID;
 
 public class TestTranslatableRestaurantScopedService extends TranslatableRestaurantScopedService<
         TestTranslatableRestaurantScopedEntity,
-        TestTranslatableRestaurantScopedDTO,
         TestTranslatableRestaurantScopedManageDTO,
         TestTranslatableRestaurantScopedClientDTO,
-        TestTranslatableRestaurantScopedRepository,
-        TestTranslatableRestaurantScopedMapper
+        TestTranslatableRestaurantScopedListDTO
         >
 {
-    public TestTranslatableRestaurantScopedService(TestTranslatableRestaurantScopedRepository repository, TestTranslatableRestaurantScopedMapper mapper) {
+    public TestTranslatableRestaurantScopedService(
+            RestaurantScopedRepository<TestTranslatableRestaurantScopedEntity> repository,
+            TranslatableMapper<TestTranslatableRestaurantScopedEntity, TestTranslatableRestaurantScopedManageDTO, TestTranslatableRestaurantScopedClientDTO, TestTranslatableRestaurantScopedListDTO> mapper
+    ) {
         super(repository, mapper);
     }
 

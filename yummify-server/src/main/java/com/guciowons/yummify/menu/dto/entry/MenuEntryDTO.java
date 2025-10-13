@@ -2,7 +2,7 @@ package com.guciowons.yummify.menu.dto.entry;
 
 import com.guciowons.yummify.common.core.dto.PositionedDTO;
 import com.guciowons.yummify.common.core.validation.CheckEntityId;
-import com.guciowons.yummify.dish.dto.DishClientDTO;
+import com.guciowons.yummify.dish.DishClientDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;

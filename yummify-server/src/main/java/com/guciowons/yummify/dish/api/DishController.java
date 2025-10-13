@@ -35,7 +35,7 @@ public class DishController {
     public ResponseEntity<DishManageDTO> getById(@PathVariable UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(dishService.getById(id));
+                .body(dishService.getManageDTO(id));
     }
 
     @PutMapping("{id}")

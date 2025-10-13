@@ -42,7 +42,7 @@ public abstract class TranslatableRestaurantScopedService<
                 .toList();
     }
 
-    public ManageDTO getById(UUID id) {
+    public ManageDTO getManageDTO(UUID id) {
         return mapper.mapToManageDTO(getEntityById(id));
     }
 

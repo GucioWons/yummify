@@ -6,6 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestTranslatableRestaurantScopedClientDTO extends BaseEntityDTO {
+public class TestTranslatableRestaurantScopedListDTO extends BaseEntityDTO {
     private String test;
 }

@@ -35,7 +35,7 @@ public class IngredientController {
     public ResponseEntity<IngredientManageDTO> getById(@PathVariable UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ingredientService.getById(id));
+                .body(ingredientService.getManageDTO(id));
     }
 
     @PutMapping("{id}")
