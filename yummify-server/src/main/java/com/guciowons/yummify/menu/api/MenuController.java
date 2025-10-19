@@ -28,4 +28,18 @@ public class MenuController {
                 .status(HttpStatus.OK)
                 .body(menuService.update(id, dto));
     }
+
+    @PatchMapping("{id}/activate")
+    public ResponseEntity<MenuManageDTO> activateMenu(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuService.activate(id));
+    }
+
+    @PatchMapping("{id}/deactivate")
+    public ResponseEntity<MenuManageDTO> deactivateMenu(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuService.deactivate(id));
+    }
 }

@@ -10,6 +10,7 @@ import com.guciowons.yummify.menu.dto.MenuManageDTO;
 import com.guciowons.yummify.menu.entity.Menu;
 import com.guciowons.yummify.menu.exception.MenuNotFoundException;
 import com.guciowons.yummify.menu.mapper.MenuMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -56,5 +57,21 @@ public class MenuService extends TranslatableRestaurantScopedService<Menu, MenuM
     @Override
     protected SingleApiErrorException getNotFoundException(UUID id) {
         return new MenuNotFoundException(id);
+    }
+
+    @Transactional
+    public MenuManageDTO activate(UUID id) {
+        Menu menu = getEntityById(id);
+        ((MenuRepository) repository).findByRestaurantIdAndActive(menu.getRestaurantId(), true)
+                .ifPresent(activeMenu -> activeMenu.setActive(false));
+        menu.setActive(true);
+        return mapper.mapToManageDTO(repository.save(menu));
+    }
+
+    @Transactional
+    public MenuManageDTO deactivate(UUID id) {
+        Menu menu = getEntityById(id);
+        menu.setActive(false);
+        return mapper.mapToManageDTO(repository.save(menu));
     }
 }
