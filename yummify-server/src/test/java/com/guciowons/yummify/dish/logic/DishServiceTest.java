@@ -151,7 +151,7 @@ class DishServiceTest {
     }
 
     @Test
-    void shouldNotGetIngredientAndThrowExceptionWhenIngredientNotFound() {
+    void shouldNotGetDishAndThrowExceptionWhenDishNotFound() {
         // given
         when(dishRepository.findByIdAndRestaurantId(DISH_ID, RESTAURANT_ID)).thenReturn(Optional.empty());
 
