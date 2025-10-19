@@ -8,5 +8,6 @@
     <include file="db/changelog/dish/master-dish.xml"/>
     <include file="db/changelog/restaurant/master-restaurant.xml"/>
     <include file="db/changelog/table/master-table.xml"/>
+    <include file="db/changelog/menu/master-menu.xml"/>
 
 </databaseChangeLog>

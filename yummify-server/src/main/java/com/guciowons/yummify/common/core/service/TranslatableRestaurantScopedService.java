@@ -15,42 +15,68 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 public abstract class TranslatableRestaurantScopedService<
-        Entity extends BaseEntity & RestaurantScoped, DTO extends BaseEntityDTO, ManageDTO extends DTO, ClientDTO extends DTO,
-        Repository extends RestaurantScopedRepository<Entity>,
-        Mapper extends TranslatableMapper<Entity, DTO, ManageDTO, ClientDTO>
-        > {
-
-    protected final Repository repository;
-    protected final Mapper mapper;
+        Entity extends BaseEntity & RestaurantScoped,
+        ManageDTO extends BaseEntityDTO,
+        ClientDTO extends BaseEntityDTO,
+        ListDTO extends BaseEntityDTO>
+{
+    protected final RestaurantScopedRepository<Entity> repository;
+    protected final TranslatableMapper<Entity, ManageDTO, ClientDTO, ListDTO> mapper;
 
     @Transactional
     public ManageDTO create(ManageDTO dto) {
+        validate(dto);
         Entity entity = mapper.mapToSaveEntity(dto);
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
-        return mapper.mapToManageDTO(repository.save(entity));
+        afterMappingEntity(dto, entity);
+        Entity savedEntity = repository.save(entity);
+        ManageDTO response = mapper.mapToManageDTO(savedEntity);
+        afterMappingManageDTO(response, savedEntity);
+        return response;
     }
 
-    public List<ClientDTO> getAll() {
+    public List<ListDTO> getAll() {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return repository.findAllByRestaurantId(restaurantId).stream()
-                .map(mapper::mapToClientDTO)
+                .map(mapper::mapToListDTO)
                 .toList();
     }
 
-    public ManageDTO getById(UUID id) {
+    public ManageDTO getManageDTO(UUID id) {
         return mapper.mapToManageDTO(getEntityById(id));
+    }
+
+    public ClientDTO getClientDTO(UUID id) {
+        return mapper.mapToClientDTO(getEntityById(id));
     }
 
     @Transactional
     public ManageDTO update(UUID id, ManageDTO dto) {
+        validate(dto);
         Entity updatedEntity = mapper.mapToUpdateEntity(dto, getEntityById(id));
-        return mapper.mapToManageDTO(updatedEntity);
+        afterMappingEntity(dto, updatedEntity);
+        Entity savedEntity = repository.save(updatedEntity);
+        ManageDTO response = mapper.mapToManageDTO(savedEntity);
+        afterMappingManageDTO(response, savedEntity);
+        return response;
     }
 
-    private Entity getEntityById(UUID id) {
+    protected Entity getEntityById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return repository.findByIdAndRestaurantId(id, restaurantId)
                 .orElseThrow(() -> getNotFoundException(id));
+    }
+
+    protected void validate(ManageDTO dto) {
+
+    }
+
+    protected void afterMappingEntity(ManageDTO dto, Entity entity) {
+
+    }
+
+    protected void afterMappingManageDTO(ManageDTO dto, Entity entity) {
+
     }
 
     protected abstract SingleApiErrorException getNotFoundException(UUID id);

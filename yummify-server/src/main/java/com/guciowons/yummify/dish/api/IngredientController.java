@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.api;
 
-import com.guciowons.yummify.dish.IngredientClientDTO;
-import com.guciowons.yummify.dish.IngredientManageDTO;
+import com.guciowons.yummify.dish.dto.IngredientListDTO;
+import com.guciowons.yummify.dish.dto.IngredientManageDTO;
 import com.guciowons.yummify.dish.logic.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class IngredientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IngredientClientDTO>> getAll() {
+    public ResponseEntity<List<IngredientListDTO>> getAll() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ingredientService.getAll());
@@ -35,7 +35,7 @@ public class IngredientController {
     public ResponseEntity<IngredientManageDTO> getById(@PathVariable UUID id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ingredientService.getById(id));
+                .body(ingredientService.getManageDTO(id));
     }
 
     @PutMapping("{id}")

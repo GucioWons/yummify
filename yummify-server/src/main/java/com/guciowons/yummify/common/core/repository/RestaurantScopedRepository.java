@@ -13,4 +13,6 @@ public interface RestaurantScopedRepository<Entity extends BaseEntity & Restaura
     List<Entity> findAllByRestaurantId(UUID restaurantId);
 
     Optional<Entity> findByIdAndRestaurantId(UUID id, UUID restaurantId);
+
+    List<Entity> findByIdInAndRestaurantId(List<UUID> ids, UUID restaurantId);
 }

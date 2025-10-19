@@ -5,7 +5,7 @@ import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.auth.UserRequestDTO;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.dto.TableDTO;
 import com.guciowons.yummify.table.data.TableRepository;
 import com.guciowons.yummify.table.entity.Table;
 import com.guciowons.yummify.table.exception.TableExistsByNameException;

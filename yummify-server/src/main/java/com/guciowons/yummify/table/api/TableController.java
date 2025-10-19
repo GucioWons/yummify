@@ -3,7 +3,7 @@ package com.guciowons.yummify.table.api;
 import com.guciowons.yummify.auth.OtpDTO;
 import com.guciowons.yummify.common.security.aspect.SecuredByRole;
 import com.guciowons.yummify.common.security.enumerated.UserRole;
-import com.guciowons.yummify.table.TableDTO;
+import com.guciowons.yummify.table.dto.TableDTO;
 import com.guciowons.yummify.table.logic.TableAuthService;
 import com.guciowons.yummify.table.logic.TableService;
 import lombok.RequiredArgsConstructor;

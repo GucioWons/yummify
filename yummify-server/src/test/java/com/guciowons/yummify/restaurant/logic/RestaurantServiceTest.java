@@ -3,9 +3,8 @@ package com.guciowons.yummify.restaurant.logic;
 import com.guciowons.yummify.auth.PublicUserCreateService;
 import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.auth.UserRequestDTO;
+import com.guciowons.yummify.common.TranslatedStringHelper;
 import com.guciowons.yummify.common.i8n.Language;
-import com.guciowons.yummify.common.i8n.TranslatedString;
-import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.restaurant.data.RestaurantRepository;
 import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
@@ -24,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -198,12 +196,8 @@ class RestaurantServiceTest {
         RestaurantManageDTO manageDTO = new RestaurantManageDTO();
         manageDTO.setId(id);
         manageDTO.setName(name);
-        manageDTO.setDescription(buildTranslatedStringDTO(description));
+        manageDTO.setDescription(TranslatedStringHelper.buildDTO(description, LANGUAGE));
         return manageDTO;
-    }
-
-    private TranslatedStringDTO buildTranslatedStringDTO(String text) {
-        return new TranslatedStringDTO(Map.of(LANGUAGE, text));
     }
 
     private Restaurant buildEntity(UUID id, UUID ownerId, String name, String description) {
@@ -211,15 +205,9 @@ class RestaurantServiceTest {
         restaurant.setId(id);
         restaurant.setOwnerId(ownerId);
         restaurant.setName(name);
-        restaurant.setDescription(buildTranslatedString(description));
+        restaurant.setDescription(TranslatedStringHelper.buildEntity(description, LANGUAGE));
         restaurant.setDefaultLanguage(LANGUAGE);
         return restaurant;
-    }
-
-    private TranslatedString buildTranslatedString(String text) {
-        TranslatedString translatedString = new TranslatedString();
-        translatedString.put(LANGUAGE, text);
-        return translatedString;
     }
 
     private RestaurantClientDTO buildClientDTO(UUID id, String name, String description) {

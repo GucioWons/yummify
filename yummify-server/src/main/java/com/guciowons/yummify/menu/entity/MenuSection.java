@@ -1,8 +1,14 @@
 package com.guciowons.yummify.menu.entity;
 
+import com.guciowons.yummify.common.core.entity.Positioned;
+import com.guciowons.yummify.common.i8n.TranslatedString;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,16 +16,24 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-public class MenuSection {
+@Table(name = "menu_section", schema = "menu")
+public class MenuSection implements Positioned {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "menu_id", nullable = false)
+    private Menu menu;
 
-    @ElementCollection(targetClass = UUID.class)
-    @CollectionTable(name = "menu_section_dish_ids", joinColumns = @JoinColumn(name = "menu_section_id"))
-    @Column(name = "dish_id", nullable = false)
-    private List<UUID> dishIds;
+    @Column(nullable = false)
+    private Integer position;
+
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private TranslatedString name;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuEntry> entries;
 }

@@ -2,9 +2,9 @@ package com.guciowons.yummify.dish.mapper;
 
 import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
 import com.guciowons.yummify.common.core.mapper.TranslatableMapper;
-import com.guciowons.yummify.dish.IngredientClientDTO;
-import com.guciowons.yummify.dish.IngredientDTO;
-import com.guciowons.yummify.dish.IngredientManageDTO;
+import com.guciowons.yummify.dish.dto.IngredientClientDTO;
+import com.guciowons.yummify.dish.dto.IngredientListDTO;
+import com.guciowons.yummify.dish.dto.IngredientManageDTO;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -16,10 +16,12 @@ import org.mapstruct.MappingTarget;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         uses = TranslatedStringMapper.class
 )
-public interface IngredientMapper extends TranslatableMapper<Ingredient, IngredientDTO, IngredientManageDTO, IngredientClientDTO> {
+public interface IngredientMapper extends TranslatableMapper<Ingredient, IngredientManageDTO, IngredientClientDTO, IngredientListDTO> {
     IngredientManageDTO mapToManageDTO(Ingredient entity);
 
     IngredientClientDTO mapToClientDTO(Ingredient entity);
+
+    IngredientListDTO mapToListDTO(Ingredient entity);
 
     @Mapping(target = "id", ignore = true)
     Ingredient mapToSaveEntity(IngredientManageDTO ingredientDTO);
