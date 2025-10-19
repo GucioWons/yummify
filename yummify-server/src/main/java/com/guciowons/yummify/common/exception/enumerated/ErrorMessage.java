@@ -16,6 +16,10 @@ public enum ErrorMessage {
 
     DISH_NOT_FOUND_BY_ID("Could not find dish with ID '{{id}}'"),
 
+    MENU_NOT_FOUND_BY_ID("Could not find menu with ID '{{id}}'"),
+    MENU_SECTION_NOT_FOUND_BY_ID("Could not find menu section with ID '{{id}}'"),
+    MENU_ENTRY_NOT_FOUND_BY_ID("Could not find menu entry with ID '{{id}}'"),
+
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),
     KEYCLOAK_ACCOUNT_EXISTS_BY_USERNAME("Account with this username already exists"),
 

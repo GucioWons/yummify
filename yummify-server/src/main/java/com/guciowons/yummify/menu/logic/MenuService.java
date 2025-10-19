@@ -8,6 +8,7 @@ import com.guciowons.yummify.menu.dto.MenuClientDTO;
 import com.guciowons.yummify.menu.dto.MenuListDTO;
 import com.guciowons.yummify.menu.dto.MenuManageDTO;
 import com.guciowons.yummify.menu.entity.Menu;
+import com.guciowons.yummify.menu.exception.MenuNotFoundException;
 import com.guciowons.yummify.menu.mapper.MenuMapper;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,6 @@ public class MenuService extends TranslatableRestaurantScopedService<Menu, MenuM
 
     @Override
     protected SingleApiErrorException getNotFoundException(UUID id) {
-        return null;
+        return new MenuNotFoundException(id);
     }
 }

@@ -5,6 +5,7 @@ import com.guciowons.yummify.menu.data.MenuSectionRepository;
 import com.guciowons.yummify.menu.dto.section.MenuSectionManageDTO;
 import com.guciowons.yummify.menu.entity.Menu;
 import com.guciowons.yummify.menu.entity.MenuSection;
+import com.guciowons.yummify.menu.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.mapper.MenuSectionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,10 @@ public class MenuSectionService {
         if (dto.getId() == null) {
             entity = menuSectionMapper.mapToSaveEntity(dto);
         } else {
-            MenuSection toUpdate = menuSectionRepository.findByIdAndMenuRestaurantId(dto.getId(), restaurantId)
-                    .orElseThrow();
+            MenuSection toUpdate = menuSectionRepository
+                    .findByIdAndMenuRestaurantId(dto.getId(), restaurantId)
+                    .orElseThrow(() -> new MenuSectionNotFoundException(dto.getId()));
+
             entity = menuSectionMapper.mapToUpdateEntity(dto, toUpdate);
         }
         entity.setMenu(menu);
