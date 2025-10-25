@@ -19,4 +19,6 @@ public class MenuManageDTO extends BaseEntityDTO {
     @NotEmpty
     @CheckPositionedList
     private List<MenuSectionManageDTO> sections;
+
+    private boolean isActive;
 }
