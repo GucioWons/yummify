@@ -23,8 +23,5 @@ public class File implements BaseEntity, RestaurantScoped {
     private UUID restaurantId;
 
     @Column(nullable = false)
-    private String fileName;
-
-    @Column(nullable = false)
     private String storageKey;
 }
