@@ -5,6 +5,8 @@ import com.guciowons.yummify.menu.data.MenuRepository;
 import com.guciowons.yummify.menu.dto.MenuClientDTO;
 import com.guciowons.yummify.menu.dto.MenuManageDTO;
 import com.guciowons.yummify.menu.entity.Menu;
+import com.guciowons.yummify.menu.exception.MenuIsActiveException;
+import com.guciowons.yummify.menu.exception.MenuIsNotActiveException;
 import com.guciowons.yummify.menu.exception.NoActiveMenuException;
 import com.guciowons.yummify.menu.mapper.MenuMapper;
 import jakarta.transaction.Transactional;
@@ -22,16 +24,22 @@ public class MenuActiveService {
 
     public MenuClientDTO getActive() {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
-        Menu menu = menuRepository.findByRestaurantIdAndActive(restaurantId, true)
+        return menuRepository.findByRestaurantIdAndActive(restaurantId, true)
+                .map(menuMapper::mapToClientDTO)
                 .orElseThrow(NoActiveMenuException::new);
-        return menuMapper.mapToClientDTO(menu);
     }
 
     @Transactional
     public MenuManageDTO activate(UUID id) {
         Menu menu = menuService.getEntityById(id);
+
+        if (menu.isActive()) {
+            throw new MenuIsActiveException();
+        }
+
         menuRepository.findByRestaurantIdAndActive(menu.getRestaurantId(), true)
                 .ifPresent(activeMenu -> activeMenu.setActive(false));
+
         menu.setActive(true);
         return menuMapper.mapToManageDTO(menuRepository.save(menu));
     }
@@ -39,6 +47,11 @@ public class MenuActiveService {
     @Transactional
     public MenuManageDTO deactivate(UUID id) {
         Menu menu = menuService.getEntityById(id);
+
+        if (!menu.isActive()) {
+            throw new MenuIsNotActiveException();
+        }
+
         menu.setActive(false);
         return menuMapper.mapToManageDTO(menuRepository.save(menu));
     }

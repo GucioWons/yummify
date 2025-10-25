@@ -20,6 +20,8 @@ public enum ErrorMessage {
     MENU_SECTION_NOT_FOUND_BY_ID("Could not find menu section with ID '{{id}}'"),
     MENU_ENTRY_NOT_FOUND_BY_ID("Could not find menu entry with ID '{{id}}'"),
     NO_ACTIVE_MENU("Could not find active menu"),
+    MENU_IS_ACTIVE("Menu is active"),
+    MENU_IS_NOT_ACTIVE("Menu is not active"),
 
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),
     KEYCLOAK_ACCOUNT_EXISTS_BY_USERNAME("Account with this username already exists"),
