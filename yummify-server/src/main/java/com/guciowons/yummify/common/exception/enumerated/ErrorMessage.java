@@ -23,6 +23,7 @@ public enum ErrorMessage {
     MENU_IS_ACTIVE("Menu is active"),
     MENU_IS_NOT_ACTIVE("Menu is not active"),
 
+    FILE_NOT_FOUND_EXCEPTION("Could not find file with ID '{{id}}'"),
     CANNOT_GET_FILE("Could not get file"),
 
     KEYCLOAK_ACCOUNT_EXISTS_BY_EMAIL("Account with this email already exists"),

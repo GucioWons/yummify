@@ -4,6 +4,7 @@ import com.guciowons.yummify.common.request.RequestContext;
 import com.guciowons.yummify.file.data.FileRepository;
 import com.guciowons.yummify.file.entity.File;
 import com.guciowons.yummify.file.exception.CannotGetFileException;
+import com.guciowons.yummify.file.exception.FileNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class FileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public void create(String directory, MultipartFile file) {
+    public String create(String directory, MultipartFile file) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         String storageKey = buildStorageKey(file.getOriginalFilename(), restaurantId, directory);
@@ -30,22 +31,30 @@ public class FileService {
         entity.setStorageKey(storageKey);
         entity.setRestaurantId(restaurantId);
         fileRepository.save(entity);
+        return fileStorageService.getPresignedUrl(storageKey);
     }
 
     @Transactional
-    public void update(UUID id, String directory, MultipartFile file) {
+    public String update(UUID id, String directory, MultipartFile file) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         File fileEntity = fileRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new FileNotFoundException(id));
 
-        fileStorageService.deleteFile(fileEntity.getStorageKey());
+        String oldStorageKey = fileEntity.getStorageKey();
+        String newStorageKey = buildStorageKey(file.getOriginalFilename(), restaurantId, directory);
+        uploadToStorage(newStorageKey, file);
 
-        String newFileName = buildStorageKey(file.getOriginalFilename(), restaurantId, directory);
-        uploadToStorage(newFileName, file);
+        try {
+            fileEntity.setStorageKey(newStorageKey);
+            fileRepository.save(fileEntity);
+            fileStorageService.deleteFile(oldStorageKey);
+        } catch (Exception e) {
+            fileStorageService.deleteFile(newStorageKey);
+            throw e;
+        }
 
-        fileEntity.setStorageKey(newFileName);
-        fileRepository.save(fileEntity);
+        return fileStorageService.getPresignedUrl(newStorageKey);
     }
 
     @Transactional
@@ -53,7 +62,7 @@ public class FileService {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         File file = fileRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new FileNotFoundException(id));
 
         fileStorageService.deleteFile(file.getStorageKey());
         fileRepository.delete(file);
