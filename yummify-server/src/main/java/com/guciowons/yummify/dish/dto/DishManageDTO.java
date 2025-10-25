@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,5 +21,8 @@ public class DishManageDTO extends BaseEntityDTO {
     @Valid
     @NotNull
     private List<IngredientClientDTO> ingredients;
+
+    private MultipartFile image;
+
     private String imageUrl;
 }

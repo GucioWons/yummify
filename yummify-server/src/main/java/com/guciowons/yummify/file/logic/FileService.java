@@ -22,7 +22,7 @@ public class FileService implements PublicFileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public String create(String directory, MultipartFile file) {
+    public void create(String directory, MultipartFile file) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         String storageKey = buildStorageKey(file.getOriginalFilename(), restaurantId, directory);
@@ -32,11 +32,10 @@ public class FileService implements PublicFileService {
         entity.setStorageKey(storageKey);
         entity.setRestaurantId(restaurantId);
         fileRepository.save(entity);
-        return fileStorageService.getPresignedUrl(storageKey);
     }
 
     @Transactional
-    public String update(UUID id, String directory, MultipartFile file) {
+    public void update(UUID id, String directory, MultipartFile file) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         File fileEntity = fileRepository.findByIdAndRestaurantId(id, restaurantId)
@@ -54,8 +53,6 @@ public class FileService implements PublicFileService {
             fileStorageService.deleteFile(newStorageKey);
             throw e;
         }
-
-        return fileStorageService.getPresignedUrl(newStorageKey);
     }
 
     @Transactional
@@ -67,6 +64,14 @@ public class FileService implements PublicFileService {
 
         fileStorageService.deleteFile(file.getStorageKey());
         fileRepository.delete(file);
+    }
+
+    public String getPresignedUrl(UUID id) {
+        UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
+
+        return fileRepository.findByIdAndRestaurantId(id, restaurantId)
+                .map(file -> fileStorageService.getPresignedUrl(file.getStorageKey()))
+                .orElseThrow(() -> new FileNotFoundException(id));
     }
 
     private void uploadToStorage(String storageKey, MultipartFile file) {

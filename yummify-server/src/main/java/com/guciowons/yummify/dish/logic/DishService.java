@@ -3,9 +3,9 @@ package com.guciowons.yummify.dish.logic;
 import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.core.service.TranslatableRestaurantScopedService;
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
+import com.guciowons.yummify.dish.DishClientDTO;
 import com.guciowons.yummify.dish.PublicDishService;
 import com.guciowons.yummify.dish.data.DishRepository;
-import com.guciowons.yummify.dish.DishClientDTO;
 import com.guciowons.yummify.dish.dto.DishListDTO;
 import com.guciowons.yummify.dish.dto.DishManageDTO;
 import com.guciowons.yummify.dish.entity.Dish;
@@ -33,15 +33,6 @@ public class DishService extends TranslatableRestaurantScopedService<Dish, DishM
         this.publicFileService = publicFileService;
     }
 
-    public DishManageDTO create(DishManageDTO dto, MultipartFile image) {
-        DishManageDTO result = super.create(dto);
-        if (image != null) {
-            String imageUrl = publicFileService.create("dish", image);
-            result.setImageUrl(imageUrl);
-        }
-        return result;
-    }
-
     @Override
     protected void afterMappingEntity(DishManageDTO dto, Dish entity) {
         if (entity.getIngredients() == null) {
@@ -53,6 +44,37 @@ public class DishService extends TranslatableRestaurantScopedService<Dish, DishM
         List<UUID> ingredientsIds = dto.getIngredients().stream().map(BaseEntityDTO::getId).toList();
         List<Ingredient> ingredients = ingredientService.getEntitiesByIds(ingredientsIds, entity.getRestaurantId());
         entity.getIngredients().addAll(ingredients);
+    }
+
+    @Override
+    protected void afterSave(DishManageDTO dto, Dish entity) {
+        MultipartFile image = dto.getImage();
+        if (image == null) {
+            return;
+        }
+        if (entity.getImageId() == null) {
+            publicFileService.create("dish", image);
+        } else {
+            if (image.isEmpty()) {
+                publicFileService.delete(entity.getId());
+            } else {
+                publicFileService.update(entity.getImageId(), "dish", image);
+            }
+        }
+    }
+
+    @Override
+    protected void afterMappingManageDTO(DishManageDTO dto, Dish entity) {
+        if (entity.getImageId() != null) {
+            dto.setImageUrl(publicFileService.getPresignedUrl(entity.getImageId()));
+        }
+    }
+
+    @Override
+    protected void afterMappingClientDTO(DishClientDTO dto, Dish entity) {
+        if (entity.getImageId() != null) {
+            dto.setImageUrl(publicFileService.getPresignedUrl(entity.getImageId()));
+        }
     }
 
     public void validateDishId(UUID id) {
