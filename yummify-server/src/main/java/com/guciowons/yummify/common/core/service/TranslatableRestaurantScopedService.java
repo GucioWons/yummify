@@ -61,7 +61,7 @@ public abstract class TranslatableRestaurantScopedService<
         return response;
     }
 
-    protected Entity getEntityById(UUID id) {
+    public Entity getEntityById(UUID id) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
         return repository.findByIdAndRestaurantId(id, restaurantId)
                 .orElseThrow(() -> getNotFoundException(id));
