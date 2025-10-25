@@ -1,6 +1,7 @@
 package com.guciowons.yummify.file.logic;
 
 import com.guciowons.yummify.common.request.RequestContext;
+import com.guciowons.yummify.file.PublicFileService;
 import com.guciowons.yummify.file.data.FileRepository;
 import com.guciowons.yummify.file.entity.File;
 import com.guciowons.yummify.file.exception.CannotGetFileException;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FileService {
+public class FileService implements PublicFileService {
     private final FileStorageService fileStorageService;
     private final FileRepository fileRepository;
 

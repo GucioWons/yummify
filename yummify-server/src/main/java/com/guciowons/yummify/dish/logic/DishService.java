@@ -12,7 +12,9 @@ import com.guciowons.yummify.dish.entity.Dish;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import com.guciowons.yummify.dish.exception.DishNotFoundException;
 import com.guciowons.yummify.dish.mapper.DishMapper;
+import com.guciowons.yummify.file.PublicFileService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,21 @@ public class DishService extends TranslatableRestaurantScopedService<Dish, DishM
         implements PublicDishService {
 
     private final IngredientService ingredientService;
+    private final PublicFileService publicFileService;
 
-    public DishService(DishRepository dishRepository, DishMapper dishMapper, IngredientService ingredientService) {
+    public DishService(DishRepository dishRepository, DishMapper dishMapper, IngredientService ingredientService, PublicFileService publicFileService) {
         super(dishRepository, dishMapper);
         this.ingredientService = ingredientService;
+        this.publicFileService = publicFileService;
+    }
+
+    public DishManageDTO create(DishManageDTO dto, MultipartFile image) {
+        DishManageDTO result = super.create(dto);
+        if (image != null) {
+            String imageUrl = publicFileService.create("dish", image);
+            result.setImageUrl(imageUrl);
+        }
+        return result;
     }
 
     @Override

@@ -13,4 +13,5 @@ public class DishClientDTO extends BaseEntityDTO {
     private String name;
     private String description;
     private List<IngredientClientDTO> ingredients;
+    private String imageUrl;
 }

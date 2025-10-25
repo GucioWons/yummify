@@ -20,4 +20,5 @@ public class DishManageDTO extends BaseEntityDTO {
     @Valid
     @NotNull
     private List<IngredientClientDTO> ingredients;
+    private String imageUrl;
 }
