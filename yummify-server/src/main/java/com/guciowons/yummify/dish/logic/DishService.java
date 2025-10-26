@@ -53,10 +53,11 @@ public class DishService extends TranslatableRestaurantScopedService<Dish, DishM
             return;
         }
         if (entity.getImageId() == null) {
-            publicFileService.create("dish", image);
+            entity.setImageId(publicFileService.create("dish", image));
         } else {
             if (image.isEmpty()) {
                 publicFileService.delete(entity.getId());
+                entity.setImageId(null);
             } else {
                 publicFileService.update(entity.getImageId(), "dish", image);
             }

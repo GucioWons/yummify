@@ -22,7 +22,7 @@ public class FileService implements PublicFileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public void create(String directory, MultipartFile file) {
+    public UUID create(String directory, MultipartFile file) {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         String storageKey = buildStorageKey(file.getOriginalFilename(), restaurantId, directory);
@@ -31,7 +31,7 @@ public class FileService implements PublicFileService {
         File entity = new File();
         entity.setStorageKey(storageKey);
         entity.setRestaurantId(restaurantId);
-        fileRepository.save(entity);
+        return fileRepository.save(entity).getId();
     }
 
     @Transactional
