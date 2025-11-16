@@ -30,7 +30,6 @@ public abstract class TranslatableRestaurantScopedService<
         entity.setRestaurantId(RequestContext.get().getUser().getRestaurantId());
         afterMappingEntity(dto, entity);
         Entity savedEntity = repository.save(entity);
-        afterSave(dto, savedEntity);
         ManageDTO response = mapper.mapToManageDTO(savedEntity);
         afterMappingManageDTO(response, savedEntity);
         return response;
@@ -61,7 +60,6 @@ public abstract class TranslatableRestaurantScopedService<
         Entity updatedEntity = mapper.mapToUpdateEntity(dto, getEntityById(id));
         afterMappingEntity(dto, updatedEntity);
         Entity savedEntity = repository.save(updatedEntity);
-        afterSave(dto, savedEntity);
         ManageDTO response = mapper.mapToManageDTO(savedEntity);
         afterMappingManageDTO(response, savedEntity);
         return response;
@@ -76,8 +74,6 @@ public abstract class TranslatableRestaurantScopedService<
     protected void validate(ManageDTO dto) {}
 
     protected void afterMappingEntity(ManageDTO dto, Entity entity) {}
-
-    protected void afterSave(ManageDTO dto, Entity entity) {}
 
     protected void afterMappingManageDTO(ManageDTO dto, Entity entity) {}
 

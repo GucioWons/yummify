@@ -14,7 +14,6 @@ import com.guciowons.yummify.dish.exception.DishNotFoundException;
 import com.guciowons.yummify.dish.mapper.DishMapper;
 import com.guciowons.yummify.file.PublicFileService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,26 +40,10 @@ public class DishService extends TranslatableRestaurantScopedService<Dish, DishM
             entity.getIngredients().clear();
         }
 
-        List<UUID> ingredientsIds = dto.getIngredients().stream().map(BaseEntityDTO::getId).toList();
-        List<Ingredient> ingredients = ingredientService.getEntitiesByIds(ingredientsIds, entity.getRestaurantId());
-        entity.getIngredients().addAll(ingredients);
-    }
-
-    @Override
-    protected void afterSave(DishManageDTO dto, Dish entity) {
-        MultipartFile image = dto.getImage();
-        if (image == null) {
-            return;
-        }
-        if (entity.getImageId() == null) {
-            entity.setImageId(publicFileService.create("dish", image));
-        } else {
-            if (image.isEmpty()) {
-                publicFileService.delete(entity.getId());
-                entity.setImageId(null);
-            } else {
-                publicFileService.update(entity.getImageId(), "dish", image);
-            }
+        if (dto.getIngredients() != null) {
+            List<UUID> ingredientsIds = dto.getIngredients().stream().map(BaseEntityDTO::getId).toList();
+            List<Ingredient> ingredients = ingredientService.getEntitiesByIds(ingredientsIds, entity.getRestaurantId());
+            entity.getIngredients().addAll(ingredients);
         }
     }
 

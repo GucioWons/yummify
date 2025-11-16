@@ -25,5 +25,5 @@ public class Menu implements BaseEntity, RestaurantScoped {
     private List<MenuSection> sections;
 
     @Column(nullable = false)
-    private boolean isActive;
+    private boolean active;
 }
