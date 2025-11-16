@@ -4,7 +4,7 @@ CREATE TABLE menu.menu
 (
     id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     restaurant_id UUID    NOT NULL,
-    is_active     BOOLEAN NOT NULL
+    active     BOOLEAN NOT NULL
 );
 
 CREATE TABLE menu.menu_section
