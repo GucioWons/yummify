@@ -92,10 +92,77 @@ public class FileServiceTest {
     }
 
     @Test
-    public void shouldUpdate() {
+    public void shouldUpdate() throws IOException {
         // given
+        String directory = "test";
+        String storageKey = "testStorageKey";
+        UUID id = UUID.randomUUID();
+
+        MultipartFile file = buildMultipartFile(false);
+        File entity = buildFile(id, storageKey);
+
+        when(fileRepository.findByIdAndRestaurantId(id, RESTAURANT_ID)).thenReturn(Optional.of(entity));
+
         // when
+        underTest.update(id, directory, file);
+
         // then
+        ArgumentCaptor<String> storageKeyCaptor = ArgumentCaptor.forClass(String.class);
+        verify(fileStorageService).putFile(storageKeyCaptor.capture(), anyString(), any(InputStream.class), anyLong());
+        String capturedStorageKey = storageKeyCaptor.getValue();
+        assertTrue(capturedStorageKey.startsWith(RESTAURANT_ID + "/" + directory + "/"));
+        assertTrue(capturedStorageKey.endsWith("-filename"));
+
+        verify(fileRepository).save(entity);
+        verify(fileStorageService).deleteFile(storageKey);
+    }
+
+    @Test
+    public void shouldNotUpdateWhenInputStreamThrowsException() throws IOException {
+        // given
+        String directory = "test";
+        String storageKey = "testStorageKey";
+        UUID id = UUID.randomUUID();
+
+        MultipartFile file = buildMultipartFile(true);
+        File entity = buildFile(id, storageKey);
+
+        when(fileRepository.findByIdAndRestaurantId(id, RESTAURANT_ID)).thenReturn(Optional.of(entity));
+
+        // when
+        assertThrows(CannotGetFileException.class, () -> underTest.update(id, directory, file));
+
+        // then
+        verify(fileStorageService, never()).putFile(any(), any(), any(), any());
+        verify(fileRepository, never()).save(any());
+        verify(fileStorageService, never()).deleteFile(any());
+    }
+
+    @Test
+    public void shouldRollbackUpdateWhenSaveThrowsException() throws IOException {
+        // given
+        String directory = "test";
+        String storageKey = "testStorageKey";
+        UUID id = UUID.randomUUID();
+
+        MultipartFile file = buildMultipartFile(false);
+        File entity = buildFile(id, storageKey);
+
+        when(fileRepository.findByIdAndRestaurantId(id, RESTAURANT_ID)).thenReturn(Optional.of(entity));
+        when(fileRepository.save(entity)).thenThrow(RuntimeException.class);
+
+        // when
+        assertThrows(RuntimeException.class, () -> underTest.update(id, directory, file));
+
+        // then
+        ArgumentCaptor<String> storageKeyCaptor = ArgumentCaptor.forClass(String.class);
+        verify(fileStorageService).putFile(storageKeyCaptor.capture(), anyString(), any(InputStream.class), anyLong());
+        String capturedStorageKey = storageKeyCaptor.getValue();
+        assertTrue(capturedStorageKey.startsWith(RESTAURANT_ID + "/" + directory + "/"));
+        assertTrue(capturedStorageKey.endsWith("-filename"));
+
+        verify(fileStorageService).deleteFile(storageKeyCaptor.getValue());
+        verify(fileStorageService, never()).deleteFile(storageKey);
     }
 
     @Test
