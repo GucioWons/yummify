@@ -1,11 +1,11 @@
 import {createContext} from "react";
-import type {User} from "./User.ts";
+import type {User} from "../model/User.ts";
+import type {KeycloakTokenParsed} from "keycloak-js";
 
 interface AuthContextType {
     user: User | null;
     token: string | null;
-    setUser: (user: User | null) => void;
-    setToken: (token: string | null) => void;
+    saveUserAndToken: (user: KeycloakTokenParsed, token: string) => void;
     logout: () => void;
 }
 
@@ -13,7 +13,6 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
     user: null,
     token: null,
-    setUser: () => {},
-    setToken: () => {},
+    saveUserAndToken: () => {},
     logout: () => {},
 });

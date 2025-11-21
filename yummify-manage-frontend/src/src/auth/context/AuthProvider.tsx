@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { AuthContext } from "./AuthContext";
-import keycloak from "./keycloak";
-import type {User} from "./User.ts";
-
+import { AuthContext } from "./AuthContext.tsx";
+import keycloak from "../config/keycloak.ts";
+import type {User} from "../model/User.ts";
+import type {KeycloakTokenParsed} from "keycloak-js";
 
 export interface AuthProviderProps {
     children: React.ReactNode;
@@ -18,21 +18,27 @@ function AuthProvider(props: AuthProviderProps) {
 
     const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
 
+    const saveUserAndToken = (tokenParsed: KeycloakTokenParsed, token: string) => {
+        const user: User = {
+            id: tokenParsed.sub!,
+            restaurantId: tokenParsed.restaurantId!,
+            email: tokenParsed.email!,
+            lastName: tokenParsed.family_name!,
+            name: tokenParsed.given_name!,
+            username: tokenParsed.preferred_username!,
+        };
+
+        setUser(user);
+        setToken(token);
+
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+    }
+
     useEffect(() => {
         keycloak.init({ onLoad: "check-sso" }).then(authenticated => {
             if (authenticated && keycloak.token && keycloak.tokenParsed) {
-                setUser({
-                    id: keycloak.tokenParsed.sub!,
-                    restaurantId: keycloak.tokenParsed.restaurantId!,
-                    email: keycloak.tokenParsed.email!,
-                    lastName: keycloak.tokenParsed.family_name!,
-                    name: keycloak.tokenParsed.given_name!,
-                    username: keycloak.tokenParsed.preferred_username!,
-                });
-                setToken(keycloak.token);
-
-                localStorage.setItem("user", JSON.stringify(keycloak.tokenParsed));
-                localStorage.setItem("token", keycloak.token);
+                saveUserAndToken(keycloak.tokenParsed, keycloak.token);
             }
         }).catch(err => console.error("Keycloak init error:", err));
     }, []);
@@ -48,7 +54,7 @@ function AuthProvider(props: AuthProviderProps) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, setUser, setToken, logout }}>
+        <AuthContext.Provider value={{ user, token, saveUserAndToken, logout }}>
             {children}
         </AuthContext.Provider>
     );
