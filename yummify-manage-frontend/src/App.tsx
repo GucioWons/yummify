@@ -10,6 +10,7 @@ function App() {
     return <LoginPage />;
   }
 
+  console.log(user);
   return <div>Witaj!</div>;
 }
 

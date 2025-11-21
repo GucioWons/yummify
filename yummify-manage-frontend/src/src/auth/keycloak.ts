@@ -1,9 +1,9 @@
 import Keycloak from "keycloak-js";
 
 const keycloak = new Keycloak({
-    url: "https://your-keycloak-domain/auth",
-    realm: "your-realm",
-    clientId: "your-client-id",
+    url: "http://localhost:8080/",
+    realm: "yummify",
+    clientId: "yummify-manage-client",
 });
 
 export default keycloak;
