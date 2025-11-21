@@ -4,14 +4,17 @@ import {AuthContext} from "./src/auth/AuthContext.tsx";
 import {useContext} from "react";
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   if (!user) {
     return <LoginPage />;
   }
 
   console.log(user);
-  return <div>Witaj!</div>;
+  return <>
+      <div>Witaj!</div>;
+      <button onClick={logout}>Logout</button>
+    </>
 }
 
 export default App

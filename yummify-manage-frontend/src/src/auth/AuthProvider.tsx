@@ -8,7 +8,9 @@ export interface AuthProviderProps {
     children: React.ReactNode;
 }
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+function AuthProvider(props: AuthProviderProps) {
+    const {children} = props;
+
     const [user, setUser] = useState<User | null>(() => {
         const saved = localStorage.getItem("user");
         return saved ? JSON.parse(saved) : null;
@@ -35,12 +37,21 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }).catch(err => console.error("Keycloak init error:", err));
     }, []);
 
+    const logout = () => {
+        keycloak.logout({redirectUri: window.location.origin}).then(() => {
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            }
+        );
+    };
+
     return (
-        <AuthContext.Provider value={{ user, token, setUser, setToken }}>
+        <AuthContext.Provider value={{ user, token, setUser, setToken, logout }}>
             {children}
         </AuthContext.Provider>
     );
-};
-
+}
 
 export default AuthProvider;
