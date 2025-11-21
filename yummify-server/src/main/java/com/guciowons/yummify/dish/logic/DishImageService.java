@@ -26,8 +26,9 @@ public class DishImageService {
             if (dish.getImageId() != null) {
                 publicFileService.delete(dish.getImageId());
                 dish.setImageId(null);
-                return new DishImageUrlDTO(null);
+                dishRepository.save(dish);
             }
+            return new DishImageUrlDTO(null);
         } else {
             if (dish.getImageId() == null) {
                 dish.setImageId(publicFileService.create("dish", image));
