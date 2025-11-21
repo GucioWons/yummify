@@ -1,0 +1,5 @@
+{
+  "login": "Zaloguj",
+  "logout": "Wyloguj",
+  "welcome": "Witaj, {{name}}!"
+}
