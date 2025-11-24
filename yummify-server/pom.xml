@@ -159,6 +159,39 @@
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>cz.habarta.typescript-generator</groupId>
+				<artifactId>typescript-generator-maven-plugin</artifactId>
+				<version>3.2.1263</version>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>process-classes</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<jsonLibrary>jackson2</jsonLibrary>
+					<classPatterns>
+						<classPattern>com.guciowons.yummify.**.*DTO</classPattern>
+					</classPatterns>
+					<outputKind>module</outputKind>
+					<outputFile>../yummify-manage-frontend/src/src/common/dtos.ts</outputFile>
+					<outputFileType>implementationFile</outputFileType>
+					<mapEnum>asEnum</mapEnum>
+					<mapDate>asString</mapDate>
+					<nonConstEnums>true</nonConstEnums>
+					<noFileComment>true</noFileComment>
+<!--					<nullableAnnotations>org.checkerframework.checker.nullness.qual.Nullable</nullableAnnotations>-->
+					<nullabilityDefinition>nullAndUndefinedUnion</nullabilityDefinition>
+					<classesFromAutomaticJaxrsApplication>true</classesFromAutomaticJaxrsApplication>
+					<namespace>DTOs</namespace>
+					<sortDeclarations>true</sortDeclarations>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
