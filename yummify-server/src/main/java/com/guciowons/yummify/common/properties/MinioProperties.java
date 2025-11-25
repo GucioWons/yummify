@@ -1,4 +1,4 @@
-package com.guciowons.yummify.file.config;
+package com.guciowons.yummify.common.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

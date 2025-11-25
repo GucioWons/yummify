@@ -1,6 +1,6 @@
 package com.guciowons.yummify.file.logic;
 
-import com.guciowons.yummify.file.config.MinioProperties;
+import com.guciowons.yummify.common.properties.MinioProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;

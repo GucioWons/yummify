@@ -1,6 +1,6 @@
 package com.guciowons.yummify;
 
-import com.guciowons.yummify.file.config.MinioProperties;
+import com.guciowons.yummify.common.properties.MinioProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

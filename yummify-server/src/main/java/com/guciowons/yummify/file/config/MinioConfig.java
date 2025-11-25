@@ -1,5 +1,6 @@
 package com.guciowons.yummify.file.config;
 
+import com.guciowons.yummify.common.properties.MinioProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
