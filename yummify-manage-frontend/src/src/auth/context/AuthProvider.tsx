@@ -21,7 +21,7 @@ function AuthProvider(props: AuthProviderProps) {
     const saveUserAndToken = (tokenParsed: KeycloakTokenParsed, token: string) => {
         const user: User = {
             id: tokenParsed.sub!,
-            restaurantId: tokenParsed.restaurantId!,
+            restaurantId: tokenParsed.restaurant_id!,
             email: tokenParsed.email!,
             lastName: tokenParsed.family_name!,
             name: tokenParsed.given_name!,
