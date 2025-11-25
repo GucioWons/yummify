@@ -1,0 +1,10 @@
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s;
+    margin-left: 0;
+}
+
+.main-wrapper.sidebar-open {
+    margin-left: 250px;
+}

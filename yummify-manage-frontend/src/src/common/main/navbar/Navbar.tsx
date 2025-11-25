@@ -1,16 +1,24 @@
 import {Bell, PanelLeftIcon, User} from "lucide-react";
 import "./Navbar.css";
-import {RestaurantContext} from "../../restaurant/context/RestaurantContext.tsx";
+import {RestaurantContext} from "../../../restaurant/context/RestaurantContext.tsx";
 import {useContext} from "react";
 
-function Navbar() {
-    const { restaurant } = useContext(RestaurantContext);
+export interface NavbarProps {
+    sidebarOpen: boolean;
+    toggleSidebarOpen: () => void;
+}
+
+function Navbar(props: NavbarProps) {
+    const {restaurant} = useContext(RestaurantContext);
 
     return (
-        <header className="navbar">
+        <header className={`navbar ${props.sidebarOpen ? "sidebar-open" : ""}`}>
             <div className="navbar-container">
-                <button className="icon-button">
-                    <PanelLeftIcon />
+                <button
+                    onClick={() => props.toggleSidebarOpen()}
+                    className="icon-button"
+                >
+                    <PanelLeftIcon/>
                 </button>
 
                 <div className="navbar-title">
@@ -19,10 +27,10 @@ function Navbar() {
 
                 <div className="navbar-actions">
                     <button className="icon-button">
-                        <Bell />
+                        <Bell/>
                     </button>
                     <button className="icon-button">
-                        <User />
+                        <User/>
                     </button>
                 </div>
             </div>

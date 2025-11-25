@@ -5,24 +5,25 @@ import {useContext} from "react";
 import "./src/common/i18n/i18n";
 import {useTranslation} from "react-i18next";
 import {RestaurantContext} from "./src/restaurant/context/RestaurantContext.tsx";
-import Navbar from "./src/common/navbar/Navbar.tsx";
+import MainWrapper from "./src/common/main/MainWrapper.tsx";
 
 function App() {
-  const { user, logout } = useContext(AuthContext);
-  const { restaurant } = useContext(RestaurantContext);
+    const {user, logout} = useContext(AuthContext);
+    const {restaurant} = useContext(RestaurantContext);
 
-  const { t } = useTranslation();
+    const {t} = useTranslation();
 
-  if (!user) {
-    return <LoginPage />;
-  }
+    if (!user) {
+        return <LoginPage/>;
+    }
 
-  return <>
-      <Navbar />
-      <div>{t("welcome", { name: user.username })}</div>
-      <div>{restaurant?.name}</div>
-      <button onClick={logout}>{t("logout")}</button>
-    </>
+    return (
+        <MainWrapper>
+            <div>{t("welcome", {name: user.username})}</div>
+            <div>{restaurant?.name}</div>
+            <button onClick={logout}>{t("logout")}</button>
+        </MainWrapper>
+    );
 }
 
 export default App;
