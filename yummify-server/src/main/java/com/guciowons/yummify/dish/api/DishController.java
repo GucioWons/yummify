@@ -1,12 +1,15 @@
 package com.guciowons.yummify.dish.api;
 
-import com.guciowons.yummify.dish.dto.DishManageDTO;
+import com.guciowons.yummify.dish.dto.DishImageUrlDTO;
 import com.guciowons.yummify.dish.dto.DishListDTO;
+import com.guciowons.yummify.dish.dto.DishManageDTO;
+import com.guciowons.yummify.dish.logic.DishImageService;
 import com.guciowons.yummify.dish.logic.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DishController {
     private final DishService dishService;
+    private final DishImageService dishImageService;
 
     @PostMapping
     public ResponseEntity<DishManageDTO> create(@RequestBody DishManageDTO dto) {
@@ -38,10 +42,20 @@ public class DishController {
                 .body(dishService.getManageDTO(id));
     }
 
-    @PutMapping("{id}")
+    @PutMapping(value = "{id}")
     public ResponseEntity<DishManageDTO> update(@PathVariable UUID id, @RequestBody DishManageDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(dishService.update(id, dto));
+    }
+
+    @PutMapping(value = "{id}/image", consumes = "multipart/form-data")
+    public ResponseEntity<DishImageUrlDTO> updateImage(
+            @PathVariable UUID id,
+            @RequestParam MultipartFile image
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(dishImageService.update(id, image));
     }
 }

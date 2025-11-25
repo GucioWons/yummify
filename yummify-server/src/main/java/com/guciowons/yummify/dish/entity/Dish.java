@@ -43,4 +43,6 @@ public class Dish implements BaseEntity, RestaurantScoped {
             schema = "dish"
     )
     private List<Ingredient> ingredients;
+
+    private UUID imageId;
 }

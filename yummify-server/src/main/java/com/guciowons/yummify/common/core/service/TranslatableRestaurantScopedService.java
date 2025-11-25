@@ -43,11 +43,15 @@ public abstract class TranslatableRestaurantScopedService<
     }
 
     public ManageDTO getManageDTO(UUID id) {
-        return mapper.mapToManageDTO(getEntityById(id));
+        ManageDTO response = mapper.mapToManageDTO(getEntityById(id));
+        afterMappingManageDTO(response, getEntityById(id));
+        return response;
     }
 
     public ClientDTO getClientDTO(UUID id) {
-        return mapper.mapToClientDTO(getEntityById(id));
+        ClientDTO response = mapper.mapToClientDTO(getEntityById(id));
+        afterMappingClientDTO(response, getEntityById(id));
+        return response;
     }
 
     @Transactional
@@ -67,17 +71,13 @@ public abstract class TranslatableRestaurantScopedService<
                 .orElseThrow(() -> getNotFoundException(id));
     }
 
-    protected void validate(ManageDTO dto) {
+    protected void validate(ManageDTO dto) {}
 
-    }
+    protected void afterMappingEntity(ManageDTO dto, Entity entity) {}
 
-    protected void afterMappingEntity(ManageDTO dto, Entity entity) {
+    protected void afterMappingManageDTO(ManageDTO dto, Entity entity) {}
 
-    }
-
-    protected void afterMappingManageDTO(ManageDTO dto, Entity entity) {
-
-    }
+    protected void afterMappingClientDTO(ClientDTO dto, Entity entity) {}
 
     protected abstract SingleApiErrorException getNotFoundException(UUID id);
 }

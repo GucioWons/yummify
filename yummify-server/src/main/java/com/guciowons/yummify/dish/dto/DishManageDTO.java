@@ -4,6 +4,7 @@ import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.i8n.TranslatedStringDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,7 @@ public class DishManageDTO extends BaseEntityDTO {
     @Valid
     @NotNull
     private List<IngredientClientDTO> ingredients;
+
+    @Null
+    private String imageUrl;
 }

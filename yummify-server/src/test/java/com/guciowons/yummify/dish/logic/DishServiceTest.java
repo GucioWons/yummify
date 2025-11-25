@@ -4,6 +4,7 @@ import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.common.TranslatedStringHelper;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
+import com.guciowons.yummify.dish.DishClientDTO;
 import com.guciowons.yummify.dish.data.DishRepository;
 import com.guciowons.yummify.dish.dto.DishManageDTO;
 import com.guciowons.yummify.dish.dto.IngredientClientDTO;
@@ -11,6 +12,7 @@ import com.guciowons.yummify.dish.entity.Dish;
 import com.guciowons.yummify.dish.entity.Ingredient;
 import com.guciowons.yummify.dish.exception.DishNotFoundException;
 import com.guciowons.yummify.dish.mapper.DishMapper;
+import com.guciowons.yummify.file.PublicFileService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +45,10 @@ class DishServiceTest {
 
     @Mock
     private DishMapper dishMapper;
+
+    @Mock
+    private PublicFileService publicFileService;
+
 
     private final UUID RESTAURANT_ID = UUID.randomUUID();
     private final Language LANGUAGE = Language.EN;
@@ -160,6 +166,70 @@ class DishServiceTest {
 
         // then
         verify(dishMapper, never()).mapToManageDTO(any());
+    }
+
+    @Test
+    void shouldSetImageUrlAfterMappingToManageDTO() {
+        // given
+        UUID imageId = UUID.randomUUID();
+        String imageUrl = "imageUrl";
+
+        DishManageDTO dto = new DishManageDTO();
+        Dish entity = new Dish();
+        entity.setImageId(imageId);
+
+        when(publicFileService.getPresignedUrl(imageId)).thenReturn(imageUrl);
+
+        // when
+        ReflectionTestUtils.invokeMethod(underTest, "afterMappingManageDTO", dto, entity);
+
+        // then
+        assertEquals(imageUrl, dto.getImageUrl());
+    }
+
+    @Test
+    void shouldNotSetImageUrlAfterMappingToManageDTOWhenImageIdIsNull() {
+        // given
+        DishManageDTO dto = new DishManageDTO();
+        Dish entity = new Dish();
+
+        // when
+        ReflectionTestUtils.invokeMethod(underTest, "afterMappingManageDTO", dto, entity);
+
+        // then
+        assertNull(dto.getImageUrl());
+    }
+
+    @Test
+    void shouldSetImageUrlAfterMappingToClientDTO() {
+        // given
+        UUID imageId = UUID.randomUUID();
+        String imageUrl = "imageUrl";
+
+        DishClientDTO dto = new DishClientDTO();
+        Dish entity = new Dish();
+        entity.setImageId(imageId);
+
+        when(publicFileService.getPresignedUrl(imageId)).thenReturn(imageUrl);
+
+        // when
+        ReflectionTestUtils.invokeMethod(underTest, "afterMappingClientDTO", dto, entity);
+
+        // then
+        assertEquals(imageUrl, dto.getImageUrl());
+    }
+
+    @Test
+    void shouldNotSetImageUrlAfterMappingToClientDTOWhenImageIdIsNull() {
+        // given
+        DishClientDTO dto = new DishClientDTO();
+        Dish entity = new Dish();
+
+        // when
+        ReflectionTestUtils.invokeMethod(underTest, "afterMappingClientDTO", dto, entity);
+
+        // then
+        assertNull(dto.getImageUrl());
     }
 
     private DishManageDTO buildManageDTO(UUID id, String name, IngredientClientDTO... ingredients) {
