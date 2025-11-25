@@ -5,6 +5,7 @@ import {useContext} from "react";
 import "./src/common/i18n/i18n";
 import {useTranslation} from "react-i18next";
 import {RestaurantContext} from "./src/restaurant/context/RestaurantContext.tsx";
+import Navbar from "./src/common/navbar/Navbar.tsx";
 
 function App() {
   const { user, logout } = useContext(AuthContext);
@@ -17,8 +18,9 @@ function App() {
   }
 
   return <>
-      <div>{t("welcome", { name: user.username })}</div>;
-      <div>{restaurant?.name}</div>;
+      <Navbar />
+      <div>{t("welcome", { name: user.username })}</div>
+      <div>{restaurant?.name}</div>
       <button onClick={logout}>{t("logout")}</button>
     </>
 }

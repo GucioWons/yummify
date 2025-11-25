@@ -11,6 +11,8 @@ axiosInstance.interceptors.request.use(async (config) => {
 
         config.headers = new AxiosHeaders(config.headers);
         config.headers.set("Authorization", `Bearer ${keycloak.token}`);
+        config.headers.set("X-Language", "PL")
+        config.headers.set("X-Default-Language", "EN")
     }
     return config;
 }, (error) => {
