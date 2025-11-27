@@ -3,26 +3,32 @@ import LoginPage from "./src/auth/page/LoginPage.tsx";
 import {AuthContext} from "./src/auth/context/AuthContext.tsx";
 import {useContext} from "react";
 import "./src/common/i18n/i18n";
-import {useTranslation} from "react-i18next";
-import {RestaurantContext} from "./src/restaurant/context/RestaurantContext.tsx";
-import Navbar from "./src/common/navbar/Navbar.tsx";
+import MainWrapper from "./src/common/main/MainWrapper.tsx";
+import {Route, Routes} from "react-router-dom";
+import DashboardPage from "./src/dashboard/DashboardPage.tsx";
+import MenuPage from "./src/menu/MenuPage.tsx";
+import TableListPage from "./src/table/TableListPage.tsx";
+import IngredientListPage from "./src/ingredient/IngredientListPage.tsx";
+import DishListPage from "./src/dish/DishListPage.tsx";
 
 function App() {
-  const { user, logout } = useContext(AuthContext);
-  const { restaurant } = useContext(RestaurantContext);
+    const {user} = useContext(AuthContext);
 
-  const { t } = useTranslation();
+    if (!user) {
+        return <LoginPage/>;
+    }
 
-  if (!user) {
-    return <LoginPage />;
-  }
-
-  return <>
-      <Navbar />
-      <div>{t("welcome", { name: user.username })}</div>
-      <div>{restaurant?.name}</div>
-      <button onClick={logout}>{t("logout")}</button>
-    </>
+    return (
+        <MainWrapper>
+            <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/tables" element={<TableListPage />} />
+                <Route path="/ingredients" element={<IngredientListPage />} />
+                <Route path="/dishes" element={<DishListPage />} />
+                <Route path="/menu" element={<MenuPage />} />
+            </Routes>
+        </MainWrapper>
+    );
 }
 
 export default App;
