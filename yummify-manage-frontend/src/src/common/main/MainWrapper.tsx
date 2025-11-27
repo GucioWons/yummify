@@ -2,6 +2,7 @@ import Sidebar from "./sidebar/Sidebar.tsx";
 import Navbar from "./navbar/Navbar.tsx";
 import React, {useState} from "react";
 import "./MainWrapper.css";
+import MainContent from "./MainContent.tsx";
 
 export interface MainWrapperProps {
     children: React.ReactNode;
@@ -14,7 +15,9 @@ function MainWrapper(props: MainWrapperProps) {
         <>
             <Sidebar isOpen={sideBarOpen}/>
             <Navbar sidebarOpen={sideBarOpen} toggleSidebarOpen={() => setSideBarOpen(!sideBarOpen)}/>
-            {props.children}
+            <MainContent>
+                {props.children}
+            </MainContent>
         </>
     )
 }

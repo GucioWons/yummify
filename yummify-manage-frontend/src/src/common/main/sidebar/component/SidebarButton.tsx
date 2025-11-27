@@ -17,8 +17,10 @@ function SidebarButton(props: SidebarButtonProps) {
     return (
         <button className={`sidebar-button ${isSelected ? "selected" : ""}`} onClick={() => navigate(path)}>
             <div className="sidebar-button-container">
-                {React.createElement(icon, { strokeWidth: isSelected ? 2 : 1 })}
-                {text}
+                {React.createElement(icon, { width: 16, height: 16, strokeWidth: isSelected ? 3 : 2})}
+                <div className="sidebar-button-text">
+                    {text}
+                </div>
             </div>
         </button>
     )

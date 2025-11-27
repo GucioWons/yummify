@@ -32,6 +32,7 @@
     cursor: pointer;
     padding: 4px;
     border-radius: 4px;
+    line-height: 0;
 }
 
 .icon-button:hover {

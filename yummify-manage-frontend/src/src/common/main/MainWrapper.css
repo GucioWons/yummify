@@ -8,3 +8,7 @@
 .main-wrapper.sidebar-open {
     margin-left: 250px;
 }
+
+.main-content {
+    margin-top: 64px;
+}
