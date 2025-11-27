@@ -1,4 +1,4 @@
-import {Bell, PanelLeftIcon, User} from "lucide-react";
+import {Bell, LogOut, PanelLeftIcon, User} from "lucide-react";
 import "./Navbar.css";
 import {RestaurantContext} from "../../../restaurant/context/RestaurantContext.tsx";
 import {useContext} from "react";
@@ -24,6 +24,7 @@ function Navbar(props: NavbarProps) {
                 <div className="navbar-actions">
                     <NavbarIconButton onClick={() => {}} icon={Bell} />
                     <NavbarIconButton onClick={() => {}} icon={User} />
+                    <NavbarIconButton onClick={() => {}} icon={LogOut} />
                 </div>
             </div>
         </header>
