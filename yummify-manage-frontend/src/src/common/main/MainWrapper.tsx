@@ -9,13 +9,13 @@ export interface MainWrapperProps {
 }
 
 function MainWrapper(props: MainWrapperProps) {
-    const [sideBarOpen, setSideBarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
         <>
-            <Sidebar isOpen={sideBarOpen}/>
-            <Navbar sidebarOpen={sideBarOpen} toggleSidebarOpen={() => setSideBarOpen(!sideBarOpen)}/>
-            <MainContent>
+            <Sidebar isOpen={sidebarOpen}/>
+            <Navbar sidebarOpen={sidebarOpen} toggleSidebarOpen={() => setSidebarOpen(!sidebarOpen)}/>
+            <MainContent sidebarOpen={sidebarOpen}>
                 {props.children}
             </MainContent>
         </>
