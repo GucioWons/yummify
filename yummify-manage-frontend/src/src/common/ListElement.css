@@ -1,0 +1,10 @@
+.list-element {
+    width: 100%;
+    padding: 12px 8px;
+    border-color: #a7f3d0;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+}
