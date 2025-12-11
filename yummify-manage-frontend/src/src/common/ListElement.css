@@ -1,6 +1,7 @@
 .list-element {
     width: 100%;
-    padding: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     border-color: #a7f3d0;
     border-width: 1px;
     border-style: solid;

@@ -20,8 +20,7 @@ function IngredientsList() {
         <div>
             {data?.map(
                 ingredient => <IngredientListElement key={ingredient.id} ingredient={ingredient}/>
-            )
-            }
+            )}
         </div>
     )
 }
