@@ -1,0 +1,9 @@
+.ingredient-list-element {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ingredient-list-element-field {
+    padding-right: 8px;
+    padding-left: 8px;
+}

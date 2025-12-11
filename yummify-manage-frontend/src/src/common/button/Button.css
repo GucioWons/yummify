@@ -1,0 +1,12 @@
+.custom-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #059669;
+    color: #ffffff;
+}
+
+button:hover {
+    background-color: #047857;
+}

@@ -1,14 +1,11 @@
-.main-wrapper {
+.main-content {
     display: flex;
     flex-direction: column;
     transition: margin-left 0.3s;
     margin-left: 0;
+    padding: 64px 20px;
 }
 
-.main-wrapper.sidebar-open {
-    margin-left: 250px;
-}
-
-.main-content {
-    margin-top: 64px;
+.main-content.sidebar-open {
+    margin-left: 282px;
 }
