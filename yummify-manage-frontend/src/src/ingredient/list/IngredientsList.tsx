@@ -1,8 +1,10 @@
 import {useQuery} from "@tanstack/react-query";
-import {DTOs} from "../common/dtos.ts";
+import {DTOs} from "../../common/dtos.ts";
 import IngredientListDTO = DTOs.IngredientListDTO;
-import {ingredientService} from "./service/ingredientService.ts";
-import ListElement from "../common/ListElement.tsx";
+import {ingredientService} from "../service/ingredientService.ts";
+import "./IngredientList.css";
+import IngredientListElement from "./IngredientListElement.tsx";
+
 
 function IngredientsList() {
     const {data, isLoading, isError} = useQuery<IngredientListDTO[]>({
@@ -16,15 +18,9 @@ function IngredientsList() {
 
     return (
         <div>
-            {data?.map(ingredient => (
-                <ListElement key={ingredient.id}>
-                    <div>{ingredient.name}</div>
-                    <div>
-                        <span>Stock: 50kg</span>
-                        <span>Reorder at: 20kg</span>
-                    </div>
-                </ListElement>
-            ))
+            {data?.map(
+                ingredient => <IngredientListElement key={ingredient.id} ingredient={ingredient}/>
+            )
             }
         </div>
     )

@@ -1,10 +1,14 @@
 .list-element {
     width: 100%;
-    padding: 12px 8px;
+    padding: 12px;
     border-color: #a7f3d0;
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
     margin-bottom: 8px;
     background-color: #ffffff;
+}
+
+.list-element:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
