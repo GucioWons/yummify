@@ -14,3 +14,39 @@
     border-radius: 8px;
     min-width: 320px;
 }
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.modal-header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.modal-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.modal-close:hover {
+    background: transparent;
+}
