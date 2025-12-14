@@ -6,13 +6,19 @@ export interface ButtonProps {
     text?: string;
     icon?: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
     onClick?: () => void;
+    type?: "submit" | "reset" | "button";
+    outlined?: boolean
 }
 
 function Button(props: ButtonProps) {
-    const { text, icon, onClick } = props;
+    const { text, icon, onClick, type, outlined} = props;
 
     return (
-        <button className="custom-button" onClick={onClick}>
+        <button
+            className={`custom-button ${outlined ? "outlined" : ""}`}
+            onClick={onClick}
+            type={type}
+        >
             {icon && React.createElement(icon)}
             {text && <span>{text}</span>}
         </button>

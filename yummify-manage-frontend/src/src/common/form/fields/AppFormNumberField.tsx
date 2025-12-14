@@ -1,0 +1,22 @@
+import {FieldPath, FieldValues, useFormContext} from "react-hook-form";
+
+export interface AppFormNumberFieldProps<T extends FieldValues> {
+    name: FieldPath<T>;
+    label: string;
+    labelPosition?: "top" | "left";
+}
+
+function AppFormNumberField<T extends FieldValues>(props: AppFormNumberFieldProps<T>) {
+    const { name, label, labelPosition = "top" } = props;
+
+    const {register} = useFormContext<T>();
+
+    return (
+        <label className={`form-field ${labelPosition}`}>
+            {label}
+            <input {...register(name)} />
+        </label>
+    )
+}
+
+export default AppFormNumberField;

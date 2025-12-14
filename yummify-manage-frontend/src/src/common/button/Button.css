@@ -7,6 +7,20 @@
     color: #ffffff;
 }
 
+.custom-button.outlined {
+    color: #059669;
+    background-color: #ffffff;
+    outline: 2px solid #059669;
+    outline-offset: -2px;
+}
+
+.custom-button.outlined:hover {
+    color: #059669;
+    background-color: #ffffff;
+    outline: 2px solid #059669;
+    outline-offset: -2px;
+}
+
 button:hover {
     background-color: #047857;
 }
