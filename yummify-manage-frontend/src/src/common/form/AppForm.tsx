@@ -8,10 +8,11 @@ export interface AppFormProps<T extends FieldValues> {
     initialData: DefaultValues<T>;
     onSubmit: (data: T) => void;
     children: React.ReactNode;
+    onCancel: () => void;
 }
 
 function AppForm<T extends FieldValues>(props: AppFormProps<T>) {
-    const {initialData, onSubmit, children} = props;
+    const {initialData, onSubmit, children, onCancel} = props;
 
     const methods = useForm<T>({ defaultValues: initialData });
 
@@ -20,7 +21,7 @@ function AppForm<T extends FieldValues>(props: AppFormProps<T>) {
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className="app-form">
                     {children}
-                    <AppFormButtons />
+                    <AppFormButtons onCancel={onCancel} />
                 </div>
             </form>
         </FormProvider>

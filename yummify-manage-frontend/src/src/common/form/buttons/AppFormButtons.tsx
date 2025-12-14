@@ -1,10 +1,16 @@
 import AppFormCancelButton from "./AppFormCancelButton.tsx";
 import AppFormSubmitButton from "./AppFormSubmitButton.tsx";
 
-function AppFormButtons() {
+export interface AppFormButtonsProps {
+    onCancel: () => void;
+}
+
+function AppFormButtons(props: AppFormButtonsProps) {
+    const {onCancel} = props;
+
     return (
         <div className="app-form-buttons">
-            <AppFormCancelButton />
+            <AppFormCancelButton onCancel={onCancel} />
             <AppFormSubmitButton />
         </div>
     )
