@@ -20,6 +20,7 @@ function TableList() {
             items={data!}
             columns={4}
             renderItem={(table) => <TableListElement table={table}/>}
+            onItemClick={() => {}}
         />
     );
 }
