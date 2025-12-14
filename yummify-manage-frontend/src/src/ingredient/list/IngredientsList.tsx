@@ -4,6 +4,7 @@ import IngredientListDTO = DTOs.IngredientListDTO;
 import {ingredientService} from "../service/ingredientService.ts";
 import "./IngredientList.css";
 import IngredientListElement from "./IngredientListElement.tsx";
+import List from "../../common/list/List.tsx";
 
 
 function IngredientsList() {
@@ -17,12 +18,12 @@ function IngredientsList() {
     if (isError) return <div>Błąd podczas pobierania składników.</div>;
 
     return (
-        <div>
-            {data?.map(
-                ingredient => <IngredientListElement key={ingredient.id} ingredient={ingredient}/>
-            )}
-        </div>
-    )
+        <List
+            items={data!}
+            columns={1}
+            renderItem={(ingredient) => <IngredientListElement ingredient={ingredient}/>}
+        />
+    );
 }
 
 export default IngredientsList;

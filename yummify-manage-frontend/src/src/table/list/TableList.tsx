@@ -3,6 +3,7 @@ import {tableService} from "../service/tableService.ts";
 import {DTOs} from "../../common/dtos.ts";
 import TableDTO = DTOs.TableDTO;
 import TableListElement from "./TableListElement.tsx";
+import List from "../../common/list/List.tsx";
 
 function TableList() {
     const {data, isLoading, isError} = useQuery<TableDTO[]>({
@@ -15,11 +16,11 @@ function TableList() {
     if (isError) return <div>Błąd podczas pobierania składników.</div>;
 
     return (
-        <div>
-            {data?.map(
-                table => <TableListElement key={table.id} table={table}/>
-            )}
-        </div>
+        <List
+            items={data!}
+            columns={4}
+            renderItem={(table) => <TableListElement table={table}/>}
+        />
     );
 }
 

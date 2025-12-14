@@ -1,4 +1,3 @@
-import ListElement from "../../common/ListElement.tsx";
 import {DTOs} from "../../common/dtos.ts";
 import IngredientClientDTO = DTOs.IngredientClientDTO;
 
@@ -10,21 +9,19 @@ function IngredientListElement(props: IngredientListElementProps) {
     const {ingredient} = props;
 
     return (
-        <ListElement key={ingredient.id}>
-            <div className="ingredient-list-element">
+        <div className="ingredient-list-element">
+            <div className="ingredient-list-element-field">
+                {ingredient.name}
+            </div>
+            <div style={{display: 'flex'}}>
                 <div className="ingredient-list-element-field">
-                    {ingredient.name}
+                    Stock: 50kg
                 </div>
-                <div style={{display: 'flex'}}>
-                    <div className="ingredient-list-element-field">
-                        Stock: 50kg
-                    </div>
-                    <div className="ingredient-list-element-field">
-                        Reorder at: 20kg
-                    </div>
+                <div className="ingredient-list-element-field">
+                    Reorder at: 20kg
                 </div>
             </div>
-        </ListElement>
+        </div>
     )
 }
 
