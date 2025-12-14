@@ -1,0 +1,14 @@
+.input {
+    display: flex;
+    gap: 8px;
+    text-align: left;
+}
+
+.input.label-top {
+    flex-direction: column;
+}
+
+.input.label-left {
+    flex-direction: row;
+    align-items: center;
+}
