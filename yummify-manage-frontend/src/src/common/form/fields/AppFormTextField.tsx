@@ -1,4 +1,5 @@
 import {FieldPath, FieldValues, useFormContext} from "react-hook-form";
+import TextInput from "../../input/TextInput.tsx";
 
 export interface AppFormTextFieldProps<T extends FieldValues> {
     name: FieldPath<T>;
@@ -13,11 +14,13 @@ function AppFormTextField<T extends FieldValues>(props: AppFormTextFieldProps<T>
     const {register} = useFormContext<T>();
 
     return (
-        <label className={`form-field ${labelPosition}`}>
-            {label}
-            <input placeholder={placeholder} {...register(name)} />
-        </label>
-    )
+        <TextInput
+            label={label}
+            labelPosition={labelPosition}
+            placeholder={placeholder}
+            {...register(name)}
+        />
+    );
 }
 
 export default AppFormTextField;

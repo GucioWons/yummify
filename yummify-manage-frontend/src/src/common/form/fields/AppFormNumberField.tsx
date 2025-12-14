@@ -1,4 +1,5 @@
 import {FieldPath, FieldValues, useFormContext} from "react-hook-form";
+import NumberInput from "../../input/NumberInput.tsx";
 
 export interface AppFormNumberFieldProps<T extends FieldValues> {
     name: FieldPath<T>;
@@ -8,16 +9,18 @@ export interface AppFormNumberFieldProps<T extends FieldValues> {
 }
 
 function AppFormNumberField<T extends FieldValues>(props: AppFormNumberFieldProps<T>) {
-    const { name, label, labelPosition = "top", placeholder } = props;
+    const { name, label, labelPosition, placeholder } = props;
 
     const {register} = useFormContext<T>();
 
     return (
-        <label className={`form-field ${labelPosition}`}>
-            {label}
-            <input placeholder={placeholder} type="number" {...register(name)} />
-        </label>
-    )
+        <NumberInput
+            label={label}
+            labelPosition={labelPosition}
+            placeholder={placeholder}
+            {...register(name)}
+        />
+    );
 }
 
 export default AppFormNumberField;
