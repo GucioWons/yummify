@@ -3,6 +3,8 @@ import AppForm from "../../common/form/AppForm.tsx";
 import AppFormTranslatedTextField from "../../common/form/fields/AppFormTranslatedTextField.tsx";
 import DishManageDTO = DTOs.DishManageDTO;
 import Language = DTOs.Language;
+import ImagePicker from "../../common/image/ImagePicker.tsx";
+import {useState} from "react";
 
 export interface DishFormProps {
     dish?: DishManageDTO;
@@ -12,6 +14,8 @@ export interface DishFormProps {
 function DishForm(props: DishFormProps) {
     const {dish, onCancel} = props;
 
+    const [imageFile, setImageFile] = useState<File | undefined>();
+
     return (
         <AppForm
             <DishManageDTO>
@@ -19,6 +23,11 @@ function DishForm(props: DishFormProps) {
             onSubmit={(data) => console.log(data)}
             onCancel={onCancel}
         >
+            <ImagePicker
+                value={imageFile}
+                onChange={setImageFile}
+            />
+
             <AppFormTranslatedTextField
                 name="name"
                 label="Dish name"
