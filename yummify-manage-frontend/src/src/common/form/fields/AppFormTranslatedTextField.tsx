@@ -24,7 +24,7 @@ function AppFormTranslatedTextField<T extends FieldValues>(props: AppFormTransla
                     key={lang}
                     label={`${label} (${lang})`}
                     placeholder={placeholder}
-                    {...register(`${name}.${lang}` as FieldPath<T>)}
+                    {...register(`${name}.translations.${lang}` as FieldPath<T>)}
                 />
             ))}
 
@@ -35,7 +35,7 @@ function AppFormTranslatedTextField<T extends FieldValues>(props: AppFormTransla
                             key={lang}
                             label={`${label} (${lang})`}
                             placeholder={placeholder}
-                            {...register(`${name}.${lang}` as FieldPath<T>)}
+                            {...register(`${name}.translations.${lang}` as FieldPath<T>)}
                         />
                     ))}
                 </Expandable>

@@ -12,7 +12,7 @@ function IngredientFormModal(props: IngredientFormModalProps) {
     const {ingredient, onClose} = props;
 
     return (
-        <Modal title="Add New Table" subtitle="Add a new table to your restaurant" onClose={onClose}>
+        <Modal title="Add New Ingredient" subtitle="Add a new ingredient to your inventory" onClose={onClose}>
             <IngredientForm ingredient={ingredient} onCancel={onClose} />
         </Modal>
     )
