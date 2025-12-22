@@ -1,7 +1,8 @@
 import {DTOs} from "../../common/dtos.ts";
-import IngredientManageDTO = DTOs.IngredientManageDTO;
 import AppForm from "../../common/form/AppForm.tsx";
-import AppFormTextField from "../../common/form/fields/AppFormTextField.tsx";
+import AppFormTranslatedTextField from "../../common/form/fields/AppFormTranslatedTextField.tsx";
+import IngredientManageDTO = DTOs.IngredientManageDTO;
+import Language = DTOs.Language;
 
 export interface IngredientFormProps {
     ingredient?: IngredientManageDTO;
@@ -18,10 +19,12 @@ function IngredientForm(props: IngredientFormProps) {
             onSubmit={(data) => console.log(data)}
             onCancel={onCancel}
         >
-            <AppFormTextField
+            <AppFormTranslatedTextField
                 name="name"
                 label="Name"
                 placeholder="Eg. Tomatoes"
+                requiredLanguages={[Language.EN]}
+                optionalLanguages={[Language.PL, Language.DE]}
             />
         </AppForm>
     );
