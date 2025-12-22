@@ -1,0 +1,18 @@
+.expandable {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.expandable-button {
+    background: none;
+    border: none;
+    color: #064e3b;
+    padding: 0;
+    width: fit-content;
+    font-size: 12px;
+}
+
+.expandable-button:hover {
+    background: none;
+}
