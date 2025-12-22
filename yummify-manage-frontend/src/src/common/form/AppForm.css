@@ -1,0 +1,12 @@
+.app-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.app-form-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: flex-end
+}

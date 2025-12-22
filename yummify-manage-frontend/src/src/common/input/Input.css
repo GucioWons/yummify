@@ -1,0 +1,21 @@
+.input {
+    display: flex;
+    gap: 8px;
+    text-align: left;
+}
+
+.input.label-top {
+    flex-direction: column;
+}
+
+.input.label-left {
+    flex-direction: row;
+    align-items: center;
+}
+
+.input-input {
+    font-size: 14px;
+    padding: 8px;
+    border: 2px solid #a7f3d0;
+    border-radius: 8px;
+}

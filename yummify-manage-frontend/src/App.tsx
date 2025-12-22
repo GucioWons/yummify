@@ -7,7 +7,7 @@ import MainWrapper from "./src/common/main/MainWrapper.tsx";
 import {Route, Routes} from "react-router-dom";
 import DashboardPage from "./src/dashboard/DashboardPage.tsx";
 import MenuPage from "./src/menu/MenuPage.tsx";
-import TableListPage from "./src/table/TableListPage.tsx";
+import TableListPage from "./src/table/list/TableListPage.tsx";
 import IngredientListPage from "./src/ingredient/list/IngredientListPage.tsx";
 import DishListPage from "./src/dish/DishListPage.tsx";
 
