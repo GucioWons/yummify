@@ -6,4 +6,8 @@ export const tableService = {
     async getTables() {
         return axiosInstance.get<TableDTO[]>('tables');
     },
+
+    async createTable(data: TableDTO) {
+        return axiosInstance.post<TableDTO, TableDTO>('tables', data);
+    },
 }
