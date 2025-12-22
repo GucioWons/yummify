@@ -13,7 +13,7 @@ function Input(props: InputProps) {
     return (
         <label className={`input label-${labelPosition}`} htmlFor={id}>
             {label && <span className="input-label">{label}</span>}
-            <input placeholder={placeholder} id={id} {...rest} />
+            <input className="input-input" placeholder={placeholder} id={id} {...rest} />
         </label>
     );
 }
