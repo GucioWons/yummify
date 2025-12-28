@@ -8,8 +8,9 @@
     align-items: center;
     justify-content: center;
     color: #888;
-    margin-bottom: 16px;
     overflow: hidden;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .image-preview {
