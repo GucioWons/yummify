@@ -2,8 +2,13 @@ import axiosInstance from "../../common/api/axiosInstance.ts";
 import {DTOs} from "../../common/dtos.ts";
 import DishManageDTO = DTOs.DishManageDTO;
 import DishImageUrlDTO = DTOs.DishImageUrlDTO;
+import DishListDTO = DTOs.DishListDTO;
 
 export const dishService = {
+    async getDishes() {
+        return axiosInstance.get<DishListDTO[]>('dishes');
+    },
+
     async createDish(data: DishManageDTO) {
         return axiosInstance.post<DishManageDTO>('dishes', data);
     },

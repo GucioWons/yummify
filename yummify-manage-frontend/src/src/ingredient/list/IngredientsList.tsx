@@ -6,7 +6,6 @@ import "./IngredientList.css";
 import IngredientListElement from "./IngredientListElement.tsx";
 import List from "../../common/list/List.tsx";
 
-
 function IngredientsList() {
     const {data, isLoading, isError} = useQuery<IngredientListDTO[]>({
         queryKey: ["ingredients"],

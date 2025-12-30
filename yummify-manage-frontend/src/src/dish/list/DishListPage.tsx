@@ -1,8 +1,8 @@
-import PageTitle from "../common/PageTitle.tsx";
+import PageTitle from "../../common/PageTitle.tsx";
 import {Plus} from "lucide-react";
-import Button from "../common/button/Button.tsx";
+import Button from "../../common/button/Button.tsx";
 import {useState} from "react";
-import DishFormModal from "./form/DishFormModal.tsx";
+import DishFormModal from "../form/DishFormModal.tsx";
 
 function DishListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
