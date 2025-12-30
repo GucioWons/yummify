@@ -20,7 +20,9 @@ function AppForm<T extends FieldValues>(props: AppFormProps<T>) {
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <div className="app-form">
-                    {children}
+                    <div className="app-form-fields">
+                        {children}
+                    </div>
                     <AppFormButtons onCancel={onCancel} />
                 </div>
             </form>

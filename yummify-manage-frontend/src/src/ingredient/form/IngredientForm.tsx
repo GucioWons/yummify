@@ -16,7 +16,6 @@ function IngredientForm(props: IngredientFormProps) {
 
     const queryClient = useQueryClient();
 
-
     const handleSubmit = useMutation({
         mutationFn: (data: IngredientManageDTO) => {
             return ingredientService.createIngredient(data);
