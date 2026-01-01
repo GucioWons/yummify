@@ -3,7 +3,7 @@ package com.guciowons.yummify.menu.logic;
 import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.DishClientDTO;
+import com.guciowons.yummify.dish.application.dto.DishClientDTO;
 import com.guciowons.yummify.menu.data.MenuEntryRepository;
 import com.guciowons.yummify.menu.dto.entry.MenuEntryDTO;
 import com.guciowons.yummify.menu.entity.MenuEntry;
@@ -64,7 +64,7 @@ class MenuEntryServiceTest {
         // given
         DishClientDTO dish = buildDishClientDTO(UUID.randomUUID());
         MenuEntryDTO dto = buildDto(null, dish, ENTRY_PRICE, ENTRY_POSITION);
-        MenuEntry expectedResult = buildEntity(null, dish.getId(), ENTRY_PRICE, ENTRY_POSITION);
+        MenuEntry expectedResult = buildEntity(null, dish.id(), ENTRY_PRICE, ENTRY_POSITION);
         MenuSection section = new MenuSection();
 
         when(menuEntryMapper.mapToSaveEntity(dto)).thenReturn(expectedResult);
@@ -88,7 +88,7 @@ class MenuEntryServiceTest {
         DishClientDTO newDish = buildDishClientDTO(UUID.randomUUID());
         MenuEntryDTO dto = buildDto(ENTRY_ID, newDish, newPrice, newPosition);
         MenuEntry entity = buildEntity(ENTRY_ID, UUID.randomUUID(), ENTRY_PRICE, ENTRY_POSITION);
-        MenuEntry expectedResult = buildEntity(ENTRY_ID, newDish.getId(), newPrice, newPosition);
+        MenuEntry expectedResult = buildEntity(ENTRY_ID, newDish.id(), newPrice, newPosition);
         MenuSection section = new MenuSection();
 
         when(menuEntryRepository.findByIdAndSectionMenuRestaurantId(ENTRY_ID, RESTAURANT_ID))

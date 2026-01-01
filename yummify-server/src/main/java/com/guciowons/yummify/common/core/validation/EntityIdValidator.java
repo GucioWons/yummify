@@ -10,6 +10,6 @@ public class EntityIdValidator implements ConstraintValidator<CheckPositionedLis
         if (value == null) {
             return true;
         }
-        return value.getId() != null;
+        return value.id() != null;
     }
 }

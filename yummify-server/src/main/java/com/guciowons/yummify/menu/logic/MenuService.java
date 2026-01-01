@@ -30,7 +30,7 @@ public class MenuService extends TranslatableRestaurantScopedService<Menu, MenuM
     protected void validate(MenuManageDTO dto) {
         dto.getSections().stream()
                 .flatMap(section -> section.getEntries().stream())
-                .forEach(entry -> dishService.validateDishId(entry.getDish().getId()));
+                .forEach(entry -> dishService.validateDishId(entry.getDish().id()));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MenuService extends TranslatableRestaurantScopedService<Menu, MenuM
     protected void afterMappingManageDTO(MenuManageDTO dto, Menu entity) {
         dto.getSections().stream()
                 .flatMap(section -> section.getEntries().stream())
-                .forEach(entry -> entry.setDish(dishService.getClientDTO(entry.getDish().getId())));
+                .forEach(entry -> entry.setDish(dishService.getClientDTO(entry.getDish().id())));
     }
 
     @Override

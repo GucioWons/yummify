@@ -4,15 +4,15 @@ import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.common.TranslatedStringHelper;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.DishClientDTO;
-import com.guciowons.yummify.dish.data.DishRepository;
-import com.guciowons.yummify.dish.dto.DishManageDTO;
-import com.guciowons.yummify.dish.dto.IngredientClientDTO;
-import com.guciowons.yummify.dish.entity.Dish;
-import com.guciowons.yummify.dish.entity.Ingredient;
-import com.guciowons.yummify.dish.exception.DishNotFoundException;
-import com.guciowons.yummify.dish.mapper.DishMapper;
-import com.guciowons.yummify.file.PublicFileService;
+import com.guciowons.yummify.dish.application.dto.DishClientDTO;
+import com.guciowons.yummify.dish.infractructure.data.DishRepository;
+import com.guciowons.yummify.dish.application.dto.DishManageDTO;
+import com.guciowons.yummify.dish.application.dto.IngredientClientDTO;
+import com.guciowons.yummify.dish.infractructure.entity.Dish;
+import com.guciowons.yummify.dish.infractructure.entity.Ingredient;
+import com.guciowons.yummify.dish.domain.exception.DishNotFoundException;
+import com.guciowons.yummify.dish.infractructure.mapper.DishMapper;
+import com.guciowons.yummify.file.PublicFileFacade;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +47,7 @@ class DishServiceTest {
     private DishMapper dishMapper;
 
     @Mock
-    private PublicFileService publicFileService;
+    private PublicFileFacade publicFileFacade;
 
 
     private final UUID RESTAURANT_ID = UUID.randomUUID();
@@ -178,13 +178,13 @@ class DishServiceTest {
         Dish entity = new Dish();
         entity.setImageId(imageId);
 
-        when(publicFileService.getPresignedUrl(imageId)).thenReturn(imageUrl);
+        when(publicFileFacade.getPresignedUrl(imageId)).thenReturn(imageUrl);
 
         // when
         ReflectionTestUtils.invokeMethod(underTest, "afterMappingManageDTO", dto, entity);
 
         // then
-        assertEquals(imageUrl, dto.getImageUrl());
+        assertEquals(imageUrl, dto.imageUrl());
     }
 
     @Test
@@ -197,7 +197,7 @@ class DishServiceTest {
         ReflectionTestUtils.invokeMethod(underTest, "afterMappingManageDTO", dto, entity);
 
         // then
-        assertNull(dto.getImageUrl());
+        assertNull(dto.imageUrl());
     }
 
     @Test
@@ -210,13 +210,13 @@ class DishServiceTest {
         Dish entity = new Dish();
         entity.setImageId(imageId);
 
-        when(publicFileService.getPresignedUrl(imageId)).thenReturn(imageUrl);
+        when(publicFileFacade.getPresignedUrl(imageId)).thenReturn(imageUrl);
 
         // when
         ReflectionTestUtils.invokeMethod(underTest, "afterMappingClientDTO", dto, entity);
 
         // then
-        assertEquals(imageUrl, dto.getImageUrl());
+        assertEquals(imageUrl, dto.imageUrl());
     }
 
     @Test
@@ -229,7 +229,7 @@ class DishServiceTest {
         ReflectionTestUtils.invokeMethod(underTest, "afterMappingClientDTO", dto, entity);
 
         // then
-        assertNull(dto.getImageUrl());
+        assertNull(dto.imageUrl());
     }
 
     private DishManageDTO buildManageDTO(UUID id, String name, IngredientClientDTO... ingredients) {

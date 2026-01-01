@@ -1,0 +1,12 @@
+package com.guciowons.yummify.dish.infractructure.data;
+
+import com.guciowons.yummify.common.core.repository.RestaurantScopedRepository;
+import com.guciowons.yummify.dish.infractructure.entity.Dish;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DishRepository extends RestaurantScopedRepository<Dish> {
+}
+
+
+

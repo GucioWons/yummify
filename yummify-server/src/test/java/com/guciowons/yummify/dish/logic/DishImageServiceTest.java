@@ -1,9 +1,9 @@
 package com.guciowons.yummify.dish.logic;
 
-import com.guciowons.yummify.dish.data.DishRepository;
-import com.guciowons.yummify.dish.dto.DishImageUrlDTO;
-import com.guciowons.yummify.dish.entity.Dish;
-import com.guciowons.yummify.file.PublicFileService;
+import com.guciowons.yummify.dish.infractructure.data.DishRepository;
+import com.guciowons.yummify.dish.application.dto.DishImageUrlDTO;
+import com.guciowons.yummify.dish.infractructure.entity.Dish;
+import com.guciowons.yummify.file.PublicFileFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +25,7 @@ class DishImageServiceTest {
     private DishService dishService;
 
     @Mock
-    private PublicFileService publicFileService;
+    private PublicFileFacade publicFileFacade;
 
     @Mock
     private DishRepository dishRepository;
@@ -41,8 +41,8 @@ class DishImageServiceTest {
         MultipartFile image = mockMultipartFile(false);
 
         when(dishService.getEntityById(DISH_ID)).thenReturn(entity);
-        when(publicFileService.create("dish", image)).thenReturn(IMAGE_ID);
-        when(publicFileService.getPresignedUrl(IMAGE_ID)).thenReturn(imageUrl);
+        when(publicFileFacade.create("dish", image)).thenReturn(IMAGE_ID);
+        when(publicFileFacade.getPresignedUrl(IMAGE_ID)).thenReturn(imageUrl);
 
         // when
         DishImageUrlDTO result = underTest.update(DISH_ID, image);
@@ -62,13 +62,13 @@ class DishImageServiceTest {
         MultipartFile image = mockMultipartFile(false);
 
         when(dishService.getEntityById(DISH_ID)).thenReturn(entity);
-        when(publicFileService.getPresignedUrl(IMAGE_ID)).thenReturn(imageUrl);
+        when(publicFileFacade.getPresignedUrl(IMAGE_ID)).thenReturn(imageUrl);
 
         // when
         DishImageUrlDTO result = underTest.update(DISH_ID, image);
 
         // then
-        verify(publicFileService).update(IMAGE_ID, "dish", image);
+        verify(publicFileFacade).update(IMAGE_ID, "dish", image);
         verify(dishRepository).save(entity);
 
         assertEquals(imageUrl, result.imageUrl());
@@ -87,7 +87,7 @@ class DishImageServiceTest {
         DishImageUrlDTO result = underTest.update(DISH_ID, image);
 
         // then
-        verify(publicFileService).delete(IMAGE_ID);
+        verify(publicFileFacade).delete(IMAGE_ID);
         verify(dishRepository).save(entity);
 
         assertNull(result.imageUrl());

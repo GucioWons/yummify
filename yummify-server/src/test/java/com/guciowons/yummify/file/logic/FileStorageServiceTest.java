@@ -1,6 +1,7 @@
 package com.guciowons.yummify.file.logic;
 
 import com.guciowons.yummify.common.properties.MinioProperties;
+import com.guciowons.yummify.file.infrastructure.service.FileStorageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

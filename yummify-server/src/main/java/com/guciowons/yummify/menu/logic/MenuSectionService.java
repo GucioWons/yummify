@@ -24,12 +24,12 @@ public class MenuSectionService {
         UUID restaurantId = RequestContext.get().getUser().getRestaurantId();
 
         MenuSection entity;
-        if (dto.getId() == null) {
+        if (dto.id() == null) {
             entity = menuSectionMapper.mapToSaveEntity(dto);
         } else {
             MenuSection toUpdate = menuSectionRepository
-                    .findByIdAndMenuRestaurantId(dto.getId(), restaurantId)
-                    .orElseThrow(() -> new MenuSectionNotFoundException(dto.getId()));
+                    .findByIdAndMenuRestaurantId(dto.id(), restaurantId)
+                    .orElseThrow(() -> new MenuSectionNotFoundException(dto.id()));
 
             entity = menuSectionMapper.mapToUpdateEntity(dto, toUpdate);
         }

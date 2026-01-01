@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class PositionedDTO extends BaseEntityDTO {
+public abstract class PositionedDTO implements BaseEntityDTO {
     @NotNull
     private Integer position;
 }
