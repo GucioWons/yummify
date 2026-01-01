@@ -1,6 +1,6 @@
 package com.guciowons.yummify.dish;
 
-import com.guciowons.yummify.dish.application.dto.DishClientDTO;
+import com.guciowons.yummify.dish.application.dish.dto.DishClientDTO;
 
 import java.util.UUID;
 

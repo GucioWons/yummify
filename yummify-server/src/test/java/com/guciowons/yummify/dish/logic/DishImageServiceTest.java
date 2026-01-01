@@ -1,8 +1,8 @@
 package com.guciowons.yummify.dish.logic;
 
-import com.guciowons.yummify.dish.infractructure.data.DishRepository;
-import com.guciowons.yummify.dish.application.dto.DishImageUrlDTO;
-import com.guciowons.yummify.dish.infractructure.entity.Dish;
+import com.guciowons.yummify.dish.infractructure.dish.repository.DishRepository;
+import com.guciowons.yummify.dish.application.dish.dto.DishImageUrlDTO;
+import com.guciowons.yummify.dish.domain.dish.entity.Dish;
 import com.guciowons.yummify.file.PublicFileFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

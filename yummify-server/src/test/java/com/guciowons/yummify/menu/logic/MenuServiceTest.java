@@ -3,7 +3,7 @@ package com.guciowons.yummify.menu.logic;
 import com.guciowons.yummify.auth.UserDTO;
 import com.guciowons.yummify.common.i8n.Language;
 import com.guciowons.yummify.common.request.RequestContext;
-import com.guciowons.yummify.dish.application.dto.DishClientDTO;
+import com.guciowons.yummify.dish.application.dish.dto.DishClientDTO;
 import com.guciowons.yummify.dish.PublicDishService;
 import com.guciowons.yummify.menu.data.MenuRepository;
 import com.guciowons.yummify.menu.dto.MenuManageDTO;
