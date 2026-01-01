@@ -1,4 +1,4 @@
-package com.guciowons.yummify.restaurant.dto;
+package com.guciowons.yummify.restaurant.application.dto;
 
 import com.guciowons.yummify.auth.UserRequestDTO;
 import jakarta.validation.Valid;

@@ -1,11 +1,11 @@
-package com.guciowons.yummify.restaurant.api;
+package com.guciowons.yummify.restaurant.application.api;
 
 import com.guciowons.yummify.common.security.aspect.SecuredByRole;
 import com.guciowons.yummify.common.security.enumerated.UserRole;
-import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
-import com.guciowons.yummify.restaurant.dto.RestaurantCreateDTO;
-import com.guciowons.yummify.restaurant.dto.RestaurantManageDTO;
-import com.guciowons.yummify.restaurant.logic.RestaurantService;
+import com.guciowons.yummify.restaurant.application.facade.RestaurantFacade;
+import com.guciowons.yummify.restaurant.application.dto.RestaurantClientDTO;
+import com.guciowons.yummify.restaurant.application.dto.RestaurantCreateDTO;
+import com.guciowons.yummify.restaurant.application.dto.RestaurantManageDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
-    private final RestaurantService restaurantService;
+    private final RestaurantFacade restaurantFacade;
 
     @PostMapping
     @SecuredByRole(UserRole.ADMIN)
     public ResponseEntity<RestaurantManageDTO> create(@RequestBody @Valid RestaurantCreateDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(restaurantService.create(dto));
+                .body(restaurantFacade.create(dto));
     }
 
     @GetMapping
     public ResponseEntity<RestaurantClientDTO> getForClient() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.getForClient());
+                .body(restaurantFacade.getForClient());
     }
 
     @GetMapping("/manage")
@@ -38,7 +38,7 @@ public class RestaurantController {
     public ResponseEntity<RestaurantManageDTO> getForAdmin() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.getForAdmin());
+                .body(restaurantFacade.getForAdmin());
     }
 
     @PutMapping
@@ -46,6 +46,6 @@ public class RestaurantController {
     public ResponseEntity<RestaurantManageDTO> update(@RequestBody @Valid RestaurantManageDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.update(dto));
+                .body(restaurantFacade.update(dto));
     }
 }

@@ -1,6 +1,6 @@
 package com.guciowons.yummify.dish.domain.ingredient.logic;
 
-import com.guciowons.yummify.dish.domain.ingredient.exception.IngredientsNotFoundException;
+import com.guciowons.yummify.dish.exception.ingredient.IngredientsNotFoundException;
 import com.guciowons.yummify.dish.infractructure.ingredient.repository.IngredientRepository;
 import com.guciowons.yummify.dish.domain.ingredient.entity.Ingredient;
 import lombok.RequiredArgsConstructor;

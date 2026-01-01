@@ -1,4 +1,4 @@
-package com.guciowons.yummify.dish.domain.ingredient.exception;
+package com.guciowons.yummify.dish.exception.ingredient;
 
 import com.guciowons.yummify.common.exception.SingleApiErrorException;
 import com.guciowons.yummify.common.exception.dto.ApiErrorDTO;

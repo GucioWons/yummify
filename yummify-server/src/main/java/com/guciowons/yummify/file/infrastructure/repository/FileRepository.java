@@ -1,10 +1,12 @@
 package com.guciowons.yummify.file.infrastructure.repository;
 
-import com.guciowons.yummify.common.core.repository.RestaurantScopedRepository;
 import com.guciowons.yummify.file.domain.port.FileRepositoryPort;
 import com.guciowons.yummify.file.domain.entity.File;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface FileRepository extends RestaurantScopedRepository<File>, FileRepositoryPort {
+public interface FileRepository extends FileRepositoryPort, JpaRepository<File, UUID> {
 }

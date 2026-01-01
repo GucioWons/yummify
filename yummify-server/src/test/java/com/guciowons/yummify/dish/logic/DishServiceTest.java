@@ -10,7 +10,7 @@ import com.guciowons.yummify.dish.application.dish.dto.DishManageDTO;
 import com.guciowons.yummify.dish.application.ingredient.dto.IngredientClientDTO;
 import com.guciowons.yummify.dish.domain.dish.entity.Dish;
 import com.guciowons.yummify.dish.domain.ingredient.entity.Ingredient;
-import com.guciowons.yummify.dish.domain.dish.exception.DishNotFoundException;
+import com.guciowons.yummify.dish.exception.dish.DishNotFoundException;
 import com.guciowons.yummify.dish.application.dish.mapper.DishMapper;
 import com.guciowons.yummify.file.PublicFileFacade;
 import org.hamcrest.Matchers;

@@ -1,4 +1,4 @@
-package com.guciowons.yummify.restaurant.entity;
+package com.guciowons.yummify.restaurant.domain.entity;
 
 import com.guciowons.yummify.common.core.entity.BaseEntity;
 import com.guciowons.yummify.common.i8n.Language;

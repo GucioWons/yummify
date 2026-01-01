@@ -1,11 +1,9 @@
-package com.guciowons.yummify.restaurant.mapper;
+package com.guciowons.yummify.restaurant.application.mapper;
 
-import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
 import com.guciowons.yummify.common.i8n.TranslatedStringMapper;
-import com.guciowons.yummify.common.core.mapper.TranslatableMapper;
-import com.guciowons.yummify.restaurant.dto.RestaurantClientDTO;
-import com.guciowons.yummify.restaurant.dto.RestaurantManageDTO;
-import com.guciowons.yummify.restaurant.entity.Restaurant;
+import com.guciowons.yummify.restaurant.application.dto.RestaurantClientDTO;
+import com.guciowons.yummify.restaurant.application.dto.RestaurantManageDTO;
+import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,14 +14,10 @@ import org.mapstruct.MappingTarget;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         uses = TranslatedStringMapper.class
 )
-public interface RestaurantMapper extends TranslatableMapper<Restaurant, RestaurantManageDTO, RestaurantClientDTO, BaseEntityDTO> {
+public interface RestaurantMapper {
     RestaurantManageDTO mapToManageDTO(Restaurant entity);
 
     RestaurantClientDTO mapToClientDTO(Restaurant entity);
-
-    default BaseEntityDTO mapToListDTO(Restaurant entity) {
-        throw new UnsupportedOperationException();
-    }
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "ownerId", ignore = true)
