@@ -34,7 +34,7 @@ public class RestaurantScopedService<T extends RestaurantScoped & BaseEntity> {
                 .orElseThrow(() -> getNotFoundException.apply(id));
     }
 
-    private UUID restaurantId() {
+    public UUID restaurantId() {
         return RequestContext.get().getUser().getRestaurantId();
     }
 }

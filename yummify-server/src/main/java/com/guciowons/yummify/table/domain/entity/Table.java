@@ -1,4 +1,4 @@
-package com.guciowons.yummify.table.entity;
+package com.guciowons.yummify.table.domain.entity;
 
 import com.guciowons.yummify.common.core.entity.BaseEntity;
 import com.guciowons.yummify.common.core.entity.RestaurantScoped;

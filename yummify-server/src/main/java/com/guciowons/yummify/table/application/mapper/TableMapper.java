@@ -1,14 +1,13 @@
-package com.guciowons.yummify.table.mapper;
+package com.guciowons.yummify.table.application.mapper;
 
-import com.guciowons.yummify.common.core.mapper.BaseEntityMapper;
-import com.guciowons.yummify.table.dto.TableDTO;
-import com.guciowons.yummify.table.entity.Table;
+import com.guciowons.yummify.table.application.dto.TableDTO;
+import com.guciowons.yummify.table.domain.entity.Table;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface TableMapper extends BaseEntityMapper<TableDTO, Table> {
+public interface TableMapper {
     TableDTO mapToDTO(Table entity);
 
     @Mapping(target = "id", ignore = true)
