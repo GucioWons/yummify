@@ -1,12 +1,13 @@
 package com.guciowons.yummify.file.application;
 
-import com.guciowons.yummify.file.PublicFileFacade;
 import com.guciowons.yummify.file.application.usecase.FileCreateUsecase;
 import com.guciowons.yummify.file.application.usecase.FileDeleteUsecase;
 import com.guciowons.yummify.file.application.usecase.FileGetUrlUsecase;
 import com.guciowons.yummify.file.application.usecase.FileUpdateUsecase;
 import com.guciowons.yummify.file.domain.exception.CannotGetFileException;
 import com.guciowons.yummify.file.domain.entity.File;
+import com.guciowons.yummify.file.domain.model.FileContent;
+import com.guciowons.yummify.file.exposed.FileFacadePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,31 +17,31 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class FileFacade implements PublicFileFacade {
+public class FileFacade implements FileFacadePort {
     private final FileCreateUsecase fileCreateUsecase;
     private final FileUpdateUsecase fileUpdateUsecase;
     private final FileDeleteUsecase fileDeleteUsecase;
     private final FileGetUrlUsecase fileGetUrlUsecase;
 
     @Override
-    public UUID create(String directory, MultipartFile file) {
-        File fileEntity = fileCreateUsecase.create(directory, getFileContent(file));
+    public UUID create(String directory, MultipartFile file, UUID restaurantId) {
+        File fileEntity = fileCreateUsecase.create(directory, getFileContent(file), restaurantId);
         return fileEntity.getId();
     }
 
     @Override
-    public void update(UUID id, String directory, MultipartFile file) {
-        fileUpdateUsecase.update(id, directory, getFileContent(file));
+    public void update(UUID id, String directory, MultipartFile file, UUID restaurantId) {
+        fileUpdateUsecase.update(id, directory, getFileContent(file), restaurantId);
     }
 
     @Override
-    public void delete(UUID id) {
-        fileDeleteUsecase.delete(id);
+    public void delete(UUID id, UUID restaurantId) {
+        fileDeleteUsecase.delete(id, restaurantId);
     }
 
     @Override
-    public String getPresignedUrl(UUID id) {
-        return fileGetUrlUsecase.getPresignedUrl(id);
+    public String getUrl(UUID id, UUID restaurantId) {
+        return fileGetUrlUsecase.getPresignedUrl(id, restaurantId);
     }
 
     private FileContent getFileContent(MultipartFile file) {

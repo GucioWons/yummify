@@ -1,19 +1,14 @@
 package com.guciowons.yummify.file.domain.exception;
 
-import com.guciowons.yummify.common.exception.SingleApiErrorException;
-import com.guciowons.yummify.common.exception.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.enumerated.ErrorLocationType;
-import com.guciowons.yummify.common.exception.enumerated.ErrorMessage;
-import org.springframework.http.HttpStatus;
+import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.common.exception.domain.model.DomainError;
 
+import java.util.Map;
 import java.util.UUID;
 
-public class FileNotFoundException extends SingleApiErrorException {
+public class FileNotFoundException extends DomainException {
     public FileNotFoundException(UUID id) {
-        super(ApiErrorDTO.builder(ErrorMessage.INGREDIENT_NOT_FOUND_BY_ID, HttpStatus.NOT_FOUND)
-                .errorLocationType(ErrorLocationType.BODY)
-                .location("id")
-                .textParam("id", id.toString())
+        super(new DomainError(FileErrorMessage.FILE_NOT_FOUND_EXCEPTION, Map.of("id", id))
         );
     }
 }

@@ -1,8 +1,8 @@
 package com.guciowons.yummify.restaurant.domain.entity;
 
-import com.guciowons.yummify.common.core.entity.BaseEntity;
-import com.guciowons.yummify.common.i8n.Language;
-import com.guciowons.yummify.common.i8n.TranslatedString;
+import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
+import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
+import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Getter;

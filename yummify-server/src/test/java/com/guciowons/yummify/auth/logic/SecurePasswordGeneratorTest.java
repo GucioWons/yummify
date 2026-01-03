@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.logic;
 
+import com.guciowons.yummify.auth.domain.service.SecurePasswordGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -126,6 +126,7 @@ export namespace DTOs {
 
     export interface TableDTO extends BaseEntityDTO {
         name: string;
+        capacity: number;
     }
 
     export interface TranslatedStringDTO {

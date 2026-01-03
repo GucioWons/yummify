@@ -1,0 +1,16 @@
+package com.guciowons.yummify.auth.infrastructure.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PasswordRequest {
+    private final String type = "password";
+    private String value;
+    private final boolean temporary = false;
+}

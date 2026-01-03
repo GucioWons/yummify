@@ -1,7 +1,7 @@
 package com.guciowons.yummify.file.domain.entity;
 
-import com.guciowons.yummify.common.core.entity.BaseEntity;
-import com.guciowons.yummify.common.core.entity.RestaurantScoped;
+import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
+import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

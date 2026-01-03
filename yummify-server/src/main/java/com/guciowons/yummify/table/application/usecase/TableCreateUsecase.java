@@ -1,49 +1,41 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.PublicUserCreateService;
-import com.guciowons.yummify.auth.UserRequestDTO;
-import com.guciowons.yummify.common.RestaurantScopedService;
-import com.guciowons.yummify.table.application.mapper.TableMapper;
+import com.guciowons.yummify.auth.exposed.AuthFacadePort;
+import com.guciowons.yummify.table.application.dto.mapper.TableMapper;
 import com.guciowons.yummify.table.domain.logic.TableValidateService;
 import com.guciowons.yummify.table.application.dto.TableDTO;
 import com.guciowons.yummify.table.domain.entity.Table;
+import com.guciowons.yummify.table.domain.repository.TableRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class TableCreateUsecase {
-    private final RestaurantScopedService<Table> restaurantScopedService;
+    private final TableRepository tableRepository;
     private final TableValidateService tableValidateService;
-    private final PublicUserCreateService userCreateService;
+    private final AuthFacadePort authFacadePort;
     private final TableMapper tableMapper;
 
     @Transactional
-    public Table create(TableDTO dto) {
-        UUID restaurantId = restaurantScopedService.restaurantId();
+    public Table create(TableDTO dto, UUID restaurantId) {
         tableValidateService.checkNameUnique(dto.name(), restaurantId);
 
-        Table table = restaurantScopedService.create(tableMapper.mapToEntity(dto));
-        table = restaurantScopedService.save(table);
+        Table table = tableRepository.save(tableMapper.mapToEntity(dto, restaurantId));
 
         UUID tableUserId = createTableUser(table.getId(), restaurantId);
         table.setUserId(tableUserId);
-        return restaurantScopedService.save(table);
+        return tableRepository.save(table);
     }
 
     private UUID createTableUser(UUID id, UUID restaurantId) {
-        UserRequestDTO userRequest = new UserRequestDTO(
-                id + "@table.fake",
-                id.toString(),
-                "Fake first name",
-                "Fake last name",
-                Map.of("restaurantId", List.of(restaurantId.toString()))
-        );
-        return userCreateService.createUser(userRequest);
+        String email = "%s@table.fake".formatted(id);
+        String username = id.toString();
+        String firstName = "Fake first name";
+        String lastName = "Fake last name";
+        return authFacadePort.createUser(email, username, firstName, lastName, restaurantId);
     }
 }

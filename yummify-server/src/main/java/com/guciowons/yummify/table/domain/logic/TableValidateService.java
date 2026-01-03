@@ -1,7 +1,7 @@
 package com.guciowons.yummify.table.domain.logic;
 
-import com.guciowons.yummify.table.exception.TableExistsByNameException;
-import com.guciowons.yummify.table.infrastructure.repository.TableRepository;
+import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
+import com.guciowons.yummify.table.domain.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

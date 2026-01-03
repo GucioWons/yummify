@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.dto;
 
-import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
+import com.guciowons.yummify.common.core.application.dto.BaseEntityDTO;
 
 import java.util.UUID;
 

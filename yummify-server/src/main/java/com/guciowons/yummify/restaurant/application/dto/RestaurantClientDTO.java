@@ -1,7 +1,7 @@
 package com.guciowons.yummify.restaurant.application.dto;
 
-import com.guciowons.yummify.common.core.dto.BaseEntityDTO;
-import com.guciowons.yummify.common.i8n.Language;
+import com.guciowons.yummify.common.core.application.dto.BaseEntityDTO;
+import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 
 import java.util.UUID;
 

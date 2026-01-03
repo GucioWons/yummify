@@ -1,8 +1,10 @@
 package com.guciowons.yummify.common.security.aspect;
 
-import com.guciowons.yummify.common.security.enumerated.UserRole;
-import com.guciowons.yummify.common.security.exception.AccessDeniedException;
-import com.guciowons.yummify.common.security.exception.UnauthorizedException;
+import com.guciowons.yummify.common.security.application.SecuredByRole;
+import com.guciowons.yummify.common.security.application.SecuredByRoleAspect;
+import com.guciowons.yummify.common.security.domain.UserRole;
+import com.guciowons.yummify.common.security.domain.AccessDeniedException;
+import com.guciowons.yummify.common.security.domain.UnauthorizedException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
