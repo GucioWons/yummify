@@ -48,7 +48,7 @@ public class Dish implements BaseEntity, RestaurantScoped {
 
     private UUID imageId;
 
-    public void replaceIngredientIds(List<UUID> ingredientIds) {
+    public void setIngredientIds(List<UUID> ingredientIds) {
         this.ingredientIds.clear();
         this.ingredientIds.addAll(ingredientIds);
     }

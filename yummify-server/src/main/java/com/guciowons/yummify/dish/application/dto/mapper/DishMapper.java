@@ -24,8 +24,10 @@ public interface DishMapper {
     DishClientDTO mapToClientDTO(Dish entity, @Context Function<UUID, String> getImageUrl);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredientIds", ignore = true)
     Dish mapToSaveEntity(DishManageDTO dto, @Context UUID restaurantId);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ingredientIds", ignore = true)
     Dish mapToUpdateEntity(DishManageDTO dto, @MappingTarget Dish entity);
 }

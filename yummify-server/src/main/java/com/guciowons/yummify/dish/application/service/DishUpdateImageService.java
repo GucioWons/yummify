@@ -6,24 +6,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class DishUpdateImageService {
     private final FileFacadePort fileFacadePort;
 
-    public void updateImage(Dish dish, MultipartFile image, UUID restaurantId) {
+    public void updateImage(Dish dish, MultipartFile image) {
         if (image.isEmpty()) {
             if (dish.getImageId() != null) {
-                fileFacadePort.delete(dish.getImageId(), restaurantId);
+                fileFacadePort.delete(dish.getImageId(), dish.getRestaurantId());
                 dish.setImageId(null);
             }
         } else {
             if (dish.getImageId() == null) {
-                dish.setImageId(fileFacadePort.create("dish", image, restaurantId));
+                dish.setImageId(fileFacadePort.create("dish", image, dish.getRestaurantId()));
             } else {
-                fileFacadePort.update(dish.getImageId(), "dish", image, restaurantId);
+                fileFacadePort.update(dish.getImageId(), "dish", image, dish.getRestaurantId());
             }
         }
     }

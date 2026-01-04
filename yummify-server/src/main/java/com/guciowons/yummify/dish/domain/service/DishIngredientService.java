@@ -16,11 +16,11 @@ public class DishIngredientService {
 
     public void replaceIngredients(Dish dish, List<UUID> ingredientsIds) {
         if (ingredientsIds.isEmpty()) {
-            dish.replaceIngredientIds(Collections.emptyList());
+            dish.setIngredientIds(Collections.emptyList());
             return;
         }
 
         ingredientExistencePort.assertAllExist(ingredientsIds, dish.getRestaurantId());
-        dish.replaceIngredientIds(ingredientsIds);
+        dish.setIngredientIds(ingredientsIds);
     }
 }

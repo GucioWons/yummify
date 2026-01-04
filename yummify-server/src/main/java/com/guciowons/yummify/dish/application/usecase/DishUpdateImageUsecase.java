@@ -19,7 +19,7 @@ public class DishUpdateImageUsecase {
     public UUID updateImage(UUID id, MultipartFile image, UUID restaurantId) {
         Dish dish = dishGetUsecase.getById(id, restaurantId);
 
-        dishUpdateImageService.updateImage(dish, image, restaurantId);
+        dishUpdateImageService.updateImage(dish, image);
 
         return dishRepository.save(dish).getImageId();
     }
