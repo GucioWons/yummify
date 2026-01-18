@@ -1,0 +1,1 @@
+ALTER TABLE restaurant.restaurant ALTER COLUMN id DROP DEFAULT;

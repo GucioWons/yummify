@@ -6,5 +6,6 @@
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <include file="db/changelog/file/2025-11-16-create-file-table.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/file/2026-18-01-backend-refactor.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

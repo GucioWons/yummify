@@ -17,8 +17,8 @@ public interface RestaurantCommandMapper {
     CreateRestaurantCommand toCreateRestaurantCommand(
             String name,
             TranslatedString description,
-            Language language,
-            RestaurantOwner restaurantOwner
+            Language defaultLanguage,
+            RestaurantOwner owner
     );
 
     @Mapping(target = "id", expression = "java(RestaurantId.of(id))")

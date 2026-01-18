@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("me")
+@RequestMapping("/me")
 @RequiredArgsConstructor
 public class MeController {
     private final UserMapper userMapper;

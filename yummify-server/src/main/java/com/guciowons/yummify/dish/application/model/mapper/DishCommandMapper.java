@@ -12,7 +12,6 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface DishCommandMapper {
     @Mapping(target = "restaurantId", expression = "java(RestaurantId.of(restaurantId))")
-    @Mapping(target = "ingredientIds", expression = "java(DishIngredientIds.of(ingredientIds))")
     CreateDishCommand toCreateDishCommand(
             UUID restaurantId,
             TranslatedString name,
@@ -29,7 +28,6 @@ public interface DishCommandMapper {
 
     @Mapping(target = "id", expression = "java(DishId.of(id))")
     @Mapping(target = "restaurantId", expression = "java(RestaurantId.of(restaurantId))")
-    @Mapping(target = "ingredientIds", expression = "java(DishIngredientIds.of(ingredientIds))")
     UpdateDishCommand toUpdateDishCommand(
             UUID id,
             UUID restaurantId,

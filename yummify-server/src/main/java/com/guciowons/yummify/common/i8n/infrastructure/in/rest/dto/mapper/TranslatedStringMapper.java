@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class TranslatedStringMapper {
     public TranslatedStringDTO toDto(TranslatedString translatedString) {
+        if (translatedString == null) {
+            return null;
+        }
+
         Map<String, String> translations = translatedString.value().entrySet().stream()
                 .collect(Collectors.toMap(
                         e -> e.getKey().name(),

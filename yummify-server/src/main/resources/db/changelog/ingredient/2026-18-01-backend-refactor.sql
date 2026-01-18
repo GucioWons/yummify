@@ -1,0 +1,1 @@
+ALTER TABLE ingredient.ingredient ALTER COLUMN id DROP DEFAULT;

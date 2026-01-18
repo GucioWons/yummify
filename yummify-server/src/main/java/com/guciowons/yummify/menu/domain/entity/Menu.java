@@ -24,9 +24,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu {
     @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "id", nullable = false))
     private MenuId id;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "restaurant_id", nullable = false))
     private RestaurantId restaurantId;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)

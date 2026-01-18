@@ -10,5 +10,6 @@
     <include file="db/changelog/table/master-table.xml"/>
     <include file="db/changelog/menu/master-menu.xml"/>
     <include file="db/changelog/file/master-file.xml"/>
+    <include file="db/changelog/ingredient/master-file.xml"/>
 
 </databaseChangeLog>

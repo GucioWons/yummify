@@ -15,11 +15,9 @@ import org.mapstruct.Mapping;
                 TranslatedStringMapper.class,
         })
 public interface DishMapper {
-    @Mapping(target = "id", source = "id.value")
-    @Mapping(target = "ingredientIds", source = "ingredientIds.value")
+    @Mapping(target = "id", source = "entity.id.value")
     DishManageDTO toManageDTO(Dish entity, String imageUrl);
 
-    @Mapping(target = "id", source = "id.value")
-    @Mapping(target = "ingredientIds", source = "ingredientIds.value")
+    @Mapping(target = "id", source = "entity.id.value")
     DishClientDTO toClientDTO(Dish entity, String imageUrl);
 }

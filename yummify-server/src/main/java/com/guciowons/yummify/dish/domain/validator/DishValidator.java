@@ -1,6 +1,5 @@
 package com.guciowons.yummify.dish.domain.validator;
 
-import com.guciowons.yummify.dish.domain.entity.value.DishIngredientIds;
 import com.guciowons.yummify.dish.domain.exception.DishIngredientsNotFoundException;
 import com.guciowons.yummify.ingredient.IngredientExistencePort;
 import com.guciowons.yummify.restaurant.RestaurantId;
@@ -15,12 +14,12 @@ import java.util.UUID;
 public class DishValidator {
     private final IngredientExistencePort ingredientExistencePort;
 
-    public void validate(DishIngredientIds ingredientIds, RestaurantId restaurantId) throws DishIngredientsNotFoundException {
-        if (ingredientIds.value().isEmpty()) {
+    public void validate(List<UUID> ingredientIds, RestaurantId restaurantId) throws DishIngredientsNotFoundException {
+        if (ingredientIds.isEmpty()) {
             return;
         }
 
-        List<UUID> missing = ingredientExistencePort.findMissing(ingredientIds.value(), restaurantId);
+        List<UUID> missing = ingredientExistencePort.findMissing(ingredientIds, restaurantId);
 
         if (!missing.isEmpty()) {
             throw new DishIngredientsNotFoundException(missing);

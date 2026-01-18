@@ -2,17 +2,16 @@ package com.guciowons.yummify.restaurant.domain.entity;
 
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
+import com.guciowons.yummify.common.i8n.infrastructure.jpa.TranslatedStringConverter;
 import com.guciowons.yummify.restaurant.RestaurantId;
 import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantName;
 import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantOwnerId;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 @Getter
@@ -22,17 +21,20 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "restaurant", schema = "restaurant")
 public class Restaurant {
     @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "id", nullable = false))
     private RestaurantId id;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "owner_id", nullable = false))
     private RestaurantOwnerId ownerId;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
     private RestaurantName name;
 
-    @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
+    @Convert(converter = TranslatedStringConverter.class)
     private TranslatedString description;
 
     @Column(nullable = false)

@@ -4,9 +4,7 @@ import com.guciowons.yummify.restaurant.RestaurantId;
 import com.guciowons.yummify.table.domain.entity.value.TableId;
 import com.guciowons.yummify.table.domain.entity.value.TableName;
 import com.guciowons.yummify.table.domain.entity.value.TableUserId;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,15 +17,19 @@ import lombok.NoArgsConstructor;
 @jakarta.persistence.Table(name = "my_table", schema = "my_table")
 public class Table {
     @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "id", nullable = false))
     private TableId id;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "restaurant_id", nullable = false))
     private RestaurantId restaurantId;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "user_id", nullable = false))
     private TableUserId userId;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
     private TableName name;
 
     public static Table of(RestaurantId restaurantId, TableName name) {

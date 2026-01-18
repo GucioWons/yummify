@@ -1,13 +1,15 @@
 package com.guciowons.yummify.ingredient.domain.entity;
 
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.common.i8n.infrastructure.jpa.TranslatedStringConverter;
 import com.guciowons.yummify.ingredient.domain.entity.value.IngredientId;
 import com.guciowons.yummify.restaurant.RestaurantId;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 @Entity
@@ -17,14 +19,16 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "ingredient", schema = "ingredient")
 public class Ingredient {
     @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "id", nullable = false))
     private IngredientId id;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "restaurant_id", nullable = false))
     private RestaurantId restaurantId;
 
-    @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
+    @Convert(converter = TranslatedStringConverter.class)
     private TranslatedString name;
 
     public static Ingredient of(RestaurantId restaurantId, TranslatedString name) {
