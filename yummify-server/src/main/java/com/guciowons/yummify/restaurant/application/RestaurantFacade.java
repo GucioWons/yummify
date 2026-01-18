@@ -1,45 +1,43 @@
 package com.guciowons.yummify.restaurant.application;
 
-import com.guciowons.yummify.restaurant.application.dto.RestaurantClientDTO;
-import com.guciowons.yummify.restaurant.application.dto.RestaurantCreateDTO;
-import com.guciowons.yummify.restaurant.application.dto.RestaurantManageDTO;
-import com.guciowons.yummify.restaurant.application.dto.mapper.RestaurantMapper;
-import com.guciowons.yummify.restaurant.application.usecase.RestaurantCreateUsecase;
-import com.guciowons.yummify.restaurant.application.usecase.RestaurantGetUsecase;
-import com.guciowons.yummify.restaurant.application.usecase.RestaurantUpdateUsecase;
+import com.guciowons.yummify.common.core.application.annotation.Facade;
+import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
+import com.guciowons.yummify.restaurant.application.model.CreateRestaurantCommand;
+import com.guciowons.yummify.restaurant.application.model.GetRestaurantCommand;
+import com.guciowons.yummify.restaurant.application.model.RestaurantOwner;
+import com.guciowons.yummify.restaurant.application.model.UpdateRestaurantCommand;
+import com.guciowons.yummify.restaurant.application.model.mapper.RestaurantCommandMapper;
+import com.guciowons.yummify.restaurant.application.usecase.CreateRestaurantUsecase;
+import com.guciowons.yummify.restaurant.application.usecase.GetRestaurantUsecase;
+import com.guciowons.yummify.restaurant.application.usecase.UpdateRestaurantUsecase;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component
+@Facade
 @RequiredArgsConstructor
 public class RestaurantFacade {
-    private final RestaurantCreateUsecase restaurantCreateUsecase;
-    private final RestaurantGetUsecase restaurantGetUsecase;
-    private final RestaurantUpdateUsecase restaurantUpdateUsecase;
-    private final RestaurantMapper restaurantMapper;
+    private final CreateRestaurantUsecase createRestaurantUsecase;
+    private final GetRestaurantUsecase getRestaurantUsecase;
+    private final UpdateRestaurantUsecase updateRestaurantUsecase;
+    private final DomainExceptionHandler restaurantDomainExceptionHandler;
+    private final RestaurantCommandMapper restaurantCommandMapper;
 
-    public RestaurantManageDTO create(RestaurantCreateDTO dto) {
-        Restaurant restaurant = restaurantCreateUsecase.create(dto);
-        return restaurantMapper.mapToManageDTO(restaurant);
+    public Restaurant create(String name, TranslatedString description, Language language, RestaurantOwner owner) {
+        CreateRestaurantCommand command = restaurantCommandMapper.toCreateRestaurantCommand(name, description, language, owner);
+        return createRestaurantUsecase.create(command);
     }
 
-    public RestaurantClientDTO getForClient(UUID id) {
-        Restaurant restaurant = restaurantGetUsecase.get(id);
-        return restaurantMapper.mapToClientDTO(restaurant);
+    public Restaurant getById(UUID id) {
+        GetRestaurantCommand command = restaurantCommandMapper.toGetRestaurantCommand(id);
+        return restaurantDomainExceptionHandler.handle(() -> getRestaurantUsecase.get(command));
     }
 
-    public RestaurantManageDTO getForAdmin(UUID id) {
-        Restaurant restaurant = restaurantGetUsecase.get(id);
-        return restaurantMapper.mapToManageDTO(restaurant);
-    }
-
-    @Transactional
-    public RestaurantManageDTO update(UUID id, RestaurantManageDTO dto) {
-        Restaurant updatedRestaurant = restaurantUpdateUsecase.update(id, dto);
-        return restaurantMapper.mapToManageDTO(updatedRestaurant);
+    public Restaurant update(UUID id, String name, TranslatedString description, Language language) {
+        UpdateRestaurantCommand command = restaurantCommandMapper.toUpdateRestaurantCommand(id, name, description, language);
+        return restaurantDomainExceptionHandler.handle(() -> updateRestaurantUsecase.update(command));
     }
 }

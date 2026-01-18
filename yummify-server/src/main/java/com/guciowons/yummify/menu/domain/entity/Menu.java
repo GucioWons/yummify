@@ -1,40 +1,74 @@
 package com.guciowons.yummify.menu.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
-import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
+import com.guciowons.yummify.menu.domain.entity.update.MenuData;
+import com.guciowons.yummify.menu.domain.entity.update.MenuSectionData;
+import com.guciowons.yummify.menu.domain.entity.value.MenuId;
+import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
+import com.guciowons.yummify.restaurant.RestaurantId;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "menu", schema = "menu")
-public class Menu implements BaseEntity, RestaurantScoped {
-    @Id
-    @GeneratedValue
-    private UUID id;
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Menu {
+    @EmbeddedId
+    private MenuId id;
 
-    @Column(nullable = false)
-    private UUID restaurantId;
+    @Embedded
+    private RestaurantId restaurantId;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuSection> sections = new ArrayList<>();
+    private final List<MenuSection> sections = new ArrayList<>();
 
-    @Column(nullable = false)
-    private boolean active;
-
-    public void addSection(MenuSection section) {
-        sections.add(section);
-        section.setMenu(this);
+    private Menu(UUID id, UUID restaurantId) {
+        this.id = MenuId.of(id);
+        this.restaurantId = RestaurantId.of(restaurantId);
     }
 
-    public void rebuildSections(List<MenuSection> newSections) {
+    public static Menu create(MenuData data) throws MenuSectionNotFoundException, MenuEntryNotFoundException {
+        Menu menu = new Menu(UUID.randomUUID(), data.restaurantId());
+        menu.syncSections(data.sections());
+        return menu;
+    }
+
+    public void syncSections(List<MenuSectionData> sectionsData) throws MenuSectionNotFoundException, MenuEntryNotFoundException {
+        Map<UUID, MenuSection> existingById = getSectionsMap();
+
         sections.clear();
-        newSections.forEach(this::addSection);
+
+        for (MenuSectionData sectionData : sectionsData) {
+            if (sectionData.id() == null) {
+                sections.add(MenuSection.from(sectionData, this));
+            } else {
+                MenuSection section = existingById.get(sectionData.id());
+                updateSection(section, sectionData);
+                sections.add(section);
+            }
+        }
+    }
+
+    private Map<UUID, MenuSection> getSectionsMap() {
+        return sections.stream()
+                .filter(section -> section.getId() != null)
+                .collect(Collectors.toMap(MenuSection::getId, Function.identity()));
+    }
+
+    private void updateSection(MenuSection section, MenuSectionData sectionData) throws MenuSectionNotFoundException, MenuEntryNotFoundException {
+        if (section == null) {
+            throw new MenuSectionNotFoundException(sectionData.id());
+        }
+        section.syncWith(sectionData);
     }
 }

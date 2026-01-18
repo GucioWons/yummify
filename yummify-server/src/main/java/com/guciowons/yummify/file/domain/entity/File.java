@@ -1,32 +1,37 @@
 package com.guciowons.yummify.file.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
-import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
-import jakarta.persistence.*;
+import com.guciowons.yummify.file.domain.entity.value.FileId;
+import com.guciowons.yummify.file.domain.entity.value.StorageKey;
+import com.guciowons.yummify.restaurant.RestaurantId;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.UUID;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "file", schema = "file")
-public class File implements BaseEntity, RestaurantScoped {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class File {
+    @EmbeddedId
+    private FileId id;
 
-    @Column(nullable = false)
-    private UUID restaurantId;
+    @Embedded
+    private RestaurantId restaurantId;
 
-    @Column(nullable = false)
-    private String storageKey;
+    @Embedded
+    private StorageKey storageKey;
 
-    public File(UUID restaurantId, String storageKey) {
-        this.restaurantId = restaurantId;
-        this.storageKey = storageKey;
+    public static File of(RestaurantId restaurantId, StorageKey storageKey) {
+        return new File(FileId.random(), restaurantId, storageKey);
+    }
+
+    public void changeStorageKey(StorageKey newKey) {
+        this.storageKey = newKey;
     }
 }

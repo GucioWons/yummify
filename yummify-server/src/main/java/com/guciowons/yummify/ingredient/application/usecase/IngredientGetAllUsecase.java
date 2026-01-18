@@ -1,19 +1,19 @@
 package com.guciowons.yummify.ingredient.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsCommand;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import com.guciowons.yummify.ingredient.domain.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class IngredientGetAllUsecase {
     private final IngredientRepository ingredientRepository;
 
-    public List<Ingredient> getAll(UUID restaurantId) {
-        return ingredientRepository.findAllByRestaurantId(restaurantId);
+    public List<Ingredient> getAll(GetAllIngredientsCommand command) {
+        return ingredientRepository.findAllByRestaurantId(command.restaurantId());
     }
 }

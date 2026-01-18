@@ -1,41 +1,43 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.exposed.AuthFacadePort;
-import com.guciowons.yummify.table.application.dto.mapper.TableMapper;
-import com.guciowons.yummify.table.domain.logic.TableValidateService;
-import com.guciowons.yummify.table.application.dto.TableDTO;
+import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.table.application.model.CreateTableCommand;
 import com.guciowons.yummify.table.domain.entity.Table;
+import com.guciowons.yummify.table.domain.entity.value.TableId;
+import com.guciowons.yummify.table.domain.entity.value.TableUserId;
+import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
 import com.guciowons.yummify.table.domain.repository.TableRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class TableCreateUsecase {
     private final TableRepository tableRepository;
-    private final TableValidateService tableValidateService;
     private final AuthFacadePort authFacadePort;
-    private final TableMapper tableMapper;
 
     @Transactional
-    public Table create(TableDTO dto, UUID restaurantId) {
-        tableValidateService.checkNameUnique(dto.name(), restaurantId);
+    public Table create(CreateTableCommand command) throws TableExistsByNameException {
+        if (tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())) {
+            throw new TableExistsByNameException(command.name());
+        }
 
-        Table table = tableRepository.save(tableMapper.mapToEntity(dto, restaurantId));
+        Table table = Table.of(command.restaurantId(), command.name());
 
-        UUID tableUserId = createTableUser(table.getId(), restaurantId);
-        table.setUserId(tableUserId);
+        table.changeUser(createTableUser(table.getId(), table.getRestaurantId()));
         return tableRepository.save(table);
     }
 
-    private UUID createTableUser(UUID id, UUID restaurantId) {
-        String email = "%s@table.fake".formatted(id);
-        String username = id.toString();
+    private TableUserId createTableUser(TableId id, RestaurantId restaurantId) {
+        String email = "%s@table.fake".formatted(id.value());
+        String username = id.value().toString();
         String firstName = "Fake first name";
         String lastName = "Fake last name";
-        return authFacadePort.createUser(email, username, firstName, lastName, restaurantId);
+
+        return TableUserId.of(
+                authFacadePort.createUser(email, username, firstName, lastName, restaurantId.value(), false)
+        );
     }
 }

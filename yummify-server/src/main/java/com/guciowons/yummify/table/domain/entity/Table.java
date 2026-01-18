@@ -1,28 +1,44 @@
 package com.guciowons.yummify.table.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
-import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
-import jakarta.persistence.*;
+import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.table.domain.entity.value.TableId;
+import com.guciowons.yummify.table.domain.entity.value.TableName;
+import com.guciowons.yummify.table.domain.entity.value.TableUserId;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @jakarta.persistence.Table(name = "my_table", schema = "my_table")
-public class Table implements BaseEntity, RestaurantScoped {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Table {
+    @EmbeddedId
+    private TableId id;
 
-    @Column(nullable = false)
-    private UUID restaurantId;
+    @Embedded
+    private RestaurantId restaurantId;
 
-    @Column
-    private UUID userId;
+    @Embedded
+    private TableUserId userId;
 
-    @Column(nullable = false)
-    private String name;
+    @Embedded
+    private TableName name;
+
+    public static Table of(RestaurantId restaurantId, TableName name) {
+        return new Table(TableId.random(), restaurantId, null, name);
+    }
+
+    public void update(TableName name) {
+        this.name = name;
+    }
+
+    public void changeUser(TableUserId userId) {
+        this.userId = userId;
+    }
 }

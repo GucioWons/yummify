@@ -25,15 +25,17 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8080/realms/yummify/protocol/openid-connect/certs
           issuers: http://localhost:8080/realms/yummify
-      admin:
-        auth-uri: http://localhost:8080/realms/master/protocol/openid-connect/token
-        username: admin
-        password: admin
-      yummify:
-        uri: http://localhost:8080/admin/realms/yummify
 
 minio:
   minio-url: http://localhost:9000
   access-key: FQT6M88SSBiGJ6LhZ6vq
   secret-key: vhdLjxpVntXfjP4mhhbEiAfmFteRVm0kt7wvF0mZ
   bucket-name: yummify
+
+modules:
+  auth:
+    keycloak:
+      auth-uri: http://localhost:8080/realms/master/protocol/openid-connect/token
+      realm-uri: http://localhost:8080/admin/realms/yummify
+      admin-username: admin
+      admin-password: admin

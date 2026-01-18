@@ -1,31 +1,45 @@
 package com.guciowons.yummify.auth.application;
 
+import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.application.model.CreateUserCommand;
+import com.guciowons.yummify.auth.application.model.GenerateOtpCommand;
+import com.guciowons.yummify.auth.application.model.mapper.AuthCommandMapper;
 import com.guciowons.yummify.auth.application.usecase.CreateUserUsecase;
 import com.guciowons.yummify.auth.application.usecase.GenerateOtpUsecase;
-import com.guciowons.yummify.auth.exposed.AuthFacadePort;
+import com.guciowons.yummify.common.core.application.annotation.Facade;
+import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component
+@Facade
 @RequiredArgsConstructor
 public class AuthFacade implements AuthFacadePort {
     private final CreateUserUsecase createUserUsecase;
     private final GenerateOtpUsecase generateOtpUsecase;
+    private final DomainExceptionHandler authDomainExceptionHandler;
+    private final AuthCommandMapper authCommandMapper;
 
     @Override
-    public UUID createUser(String email, String username, String firstName, String lastName, UUID restaurantId) {
-        return createUserUsecase.create(email, username, firstName, lastName, restaurantId);
-    }
+    public UUID createUser(
+            String email,
+            String username,
+            String firstName,
+            String lastName,
+            UUID restaurantId,
+            boolean withPassword
+    ) {
+        CreateUserCommand command = authCommandMapper.toCreateUserCommand(
+                email, username, firstName, lastName, restaurantId, withPassword
+        );
 
-    @Override
-    public UUID createUserWithPassword(String email, String username, String firstName, String lastName, UUID restaurantId) {
-        return createUserUsecase.createWithPassword(email, username, firstName, lastName, restaurantId);
+        return authDomainExceptionHandler.handle(() -> createUserUsecase.create(command).value());
     }
 
     @Override
     public String generateOtp(UUID userId) {
-        return generateOtpUsecase.generate(userId);
+        GenerateOtpCommand command = authCommandMapper.toGenerateOtpCommand(userId);
+
+        return generateOtpUsecase.generate(command).value();
     }
 }

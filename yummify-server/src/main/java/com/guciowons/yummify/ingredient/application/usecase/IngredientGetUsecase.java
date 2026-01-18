@@ -1,20 +1,18 @@
 package com.guciowons.yummify.ingredient.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
+import com.guciowons.yummify.ingredient.application.service.IngredientLookupService;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import com.guciowons.yummify.ingredient.domain.exception.IngredientNotFoundException;
-import com.guciowons.yummify.ingredient.domain.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class IngredientGetUsecase {
-    private final IngredientRepository ingredientRepository;
+    private final IngredientLookupService ingredientLookupService;
 
-    public Ingredient getById(UUID id, UUID restaurantId) {
-        return ingredientRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(() -> new IngredientNotFoundException(id));
+    public Ingredient getById(GetIngredientCommand command) throws IngredientNotFoundException {
+        return ingredientLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
     }
 }

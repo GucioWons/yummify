@@ -1,26 +1,31 @@
 package com.guciowons.yummify.menu.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.Positioned;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.menu.domain.entity.update.MenuEntryData;
+import com.guciowons.yummify.menu.domain.entity.update.MenuSectionData;
+import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "menu_section", schema = "menu")
-public class MenuSection implements Positioned {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MenuSection {
     @Id
-    @GeneratedValue
     private UUID id;
 
     @ManyToOne
@@ -36,15 +41,48 @@ public class MenuSection implements Positioned {
     private TranslatedString name;
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuEntry> entries = new ArrayList<>();
+    private final List<MenuEntry> entries = new ArrayList<>();
 
-    public void addEntry(MenuEntry entry) {
-        entries.add(entry);
-        entry.setSection(this);
+    private MenuSection(UUID id, Menu menu) {
+        this.id = id;
+        this.menu = menu;
     }
 
-    public void rebuildEntries(List<MenuEntry> entriesToAdd) {
+    public static MenuSection from(MenuSectionData data, Menu menu) throws MenuEntryNotFoundException {
+        MenuSection section = new MenuSection(UUID.randomUUID(), menu);
+        section.syncWith(data);
+        return section;
+    }
+
+    public void syncWith(MenuSectionData data) throws MenuEntryNotFoundException {
+        this.position = data.position();
+        this.name = data.name();
+
+        Map<UUID, MenuEntry> existingById = getEntriesMap();
+
         entries.clear();
-        entriesToAdd.forEach(this::addEntry);
+
+        for (MenuEntryData entryData : data.entries()) {
+            if (entryData.id() == null) {
+                entries.add(MenuEntry.from(entryData, this));
+            } else {
+                MenuEntry entry = existingById.get(entryData.id());
+                updateEntry(entry, entryData);
+                entries.add(entry);
+            }
+        }
+    }
+
+    private Map<UUID, MenuEntry> getEntriesMap() {
+        return entries.stream()
+                .filter(entry -> entry.getId() != null)
+                .collect(Collectors.toMap(MenuEntry::getId, Function.identity()));
+    }
+
+    private void updateEntry(MenuEntry entry, MenuEntryData data) throws MenuEntryNotFoundException {
+        if (entry == null) {
+            throw new MenuEntryNotFoundException(data.id());
+        }
+        entry.syncWith(data);
     }
 }

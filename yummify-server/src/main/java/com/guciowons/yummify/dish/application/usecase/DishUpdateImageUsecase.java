@@ -1,25 +1,26 @@
 package com.guciowons.yummify.dish.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.dish.application.model.UpdateDishImageCommand;
+import com.guciowons.yummify.dish.application.service.DishLookupService;
 import com.guciowons.yummify.dish.application.service.DishUpdateImageService;
 import com.guciowons.yummify.dish.domain.entity.Dish;
+import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
+import com.guciowons.yummify.dish.domain.exception.DishNotFoundException;
 import com.guciowons.yummify.dish.domain.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class DishUpdateImageUsecase {
-    private final DishGetUsecase dishGetUsecase;
+    private final DishLookupService dishLookupService;
     private final DishRepository dishRepository;
     private final DishUpdateImageService dishUpdateImageService;
 
-    public UUID updateImage(UUID id, MultipartFile image, UUID restaurantId) {
-        Dish dish = dishGetUsecase.getById(id, restaurantId);
+    public DishImageId updateImage(UpdateDishImageCommand command) throws DishNotFoundException {
+        Dish dish = dishLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
 
-        dishUpdateImageService.updateImage(dish, image);
+        dishUpdateImageService.updateImage(dish, command.image());
 
         return dishRepository.save(dish).getImageId();
     }

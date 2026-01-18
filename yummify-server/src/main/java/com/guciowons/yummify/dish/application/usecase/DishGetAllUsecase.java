@@ -1,19 +1,19 @@
 package com.guciowons.yummify.dish.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.dish.application.model.GetAllDishesCommand;
 import com.guciowons.yummify.dish.domain.entity.Dish;
 import com.guciowons.yummify.dish.domain.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class DishGetAllUsecase {
     private final DishRepository dishRepository;
 
-    public List<Dish> getAll(UUID restaurantId) {
-        return dishRepository.findAllByRestaurantId(restaurantId);
+    public List<Dish> getAll(GetAllDishesCommand command) {
+        return dishRepository.findAllByRestaurantId(command.restaurantId());
     }
 }

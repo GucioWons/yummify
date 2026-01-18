@@ -1,40 +1,33 @@
 package com.guciowons.yummify.menu.application.usecase;
 
-import com.guciowons.yummify.menu.application.dto.MenuEntryDTO;
-import com.guciowons.yummify.menu.application.dto.MenuManageDTO;
-import com.guciowons.yummify.menu.application.dto.mapper.MenuMapper;
-import com.guciowons.yummify.menu.application.service.MenuRebuildService;
 import com.guciowons.yummify.menu.domain.entity.Menu;
-import com.guciowons.yummify.dish.exposed.DishExistencePort;
-import com.guciowons.yummify.menu.domain.repository.MenuRepository;
+import com.guciowons.yummify.dish.DishExistencePort;
+import com.guciowons.yummify.menu.domain.entity.update.MenuData;
+import com.guciowons.yummify.menu.domain.entity.update.MenuEntryData;
+import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
+import com.guciowons.yummify.menu.domain.port.in.MenuCreateUsecasePort;
+import com.guciowons.yummify.menu.domain.port.out.MenuRepositoryPort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
 @RequiredArgsConstructor
-public class MenuCreateUsecase {
-    private final MenuRepository menuRepository;
-    private final MenuRebuildService menuRebuildService;
+public class MenuCreateUsecase implements MenuCreateUsecasePort {
+    private final MenuRepositoryPort menuRepository;
     private final DishExistencePort dishExistencePort;
-    private final MenuMapper menuMapper;
 
-    public Menu create(MenuManageDTO dto, UUID restaurantId) {
-        dishExistencePort.assertAllExist(getDishIds(dto), restaurantId);
-
-        Menu menu = menuMapper.mapToSaveEntity(dto, restaurantId);
-
-        menuRebuildService.rebuild(menu, dto);
-
-        return menuRepository.save(menu);
+    @Override
+    public Menu create(MenuData menuData) throws MenuSectionNotFoundException, MenuEntryNotFoundException {
+        dishExistencePort.findMissing(getDishIds(menuData), menuData.restaurantId());
+        return menuRepository.save(Menu.create(menuData));
     }
 
-    private List<UUID> getDishIds(MenuManageDTO dto) {
-        return dto.sections().stream()
+    private List<UUID> getDishIds(MenuData menuData) {
+        return menuData.sections().stream()
                 .flatMap(section -> section.entries().stream())
-                .map(MenuEntryDTO::dishId)
+                .map(MenuEntryData::dishId)
                 .toList();
     }
 }

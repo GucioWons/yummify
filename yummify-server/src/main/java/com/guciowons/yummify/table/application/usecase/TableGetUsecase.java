@@ -1,20 +1,18 @@
 package com.guciowons.yummify.table.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.table.application.model.GetTableCommand;
+import com.guciowons.yummify.table.application.service.TableLookupService;
 import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.domain.exception.TableNotFoundException;
-import com.guciowons.yummify.table.domain.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class TableGetUsecase {
-    private final TableRepository tableRepository;
+    private final TableLookupService tableLookupService;
 
-    public Table get(UUID id, UUID restaurantId) {
-        return tableRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(() -> new TableNotFoundException(id));
+    public Table get(GetTableCommand command) throws TableNotFoundException {
+        return tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
     }
 }

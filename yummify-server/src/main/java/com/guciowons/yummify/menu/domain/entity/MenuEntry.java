@@ -1,20 +1,20 @@
 package com.guciowons.yummify.menu.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.Positioned;
+import com.guciowons.yummify.menu.domain.entity.update.MenuEntryData;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "menu_entry", schema = "menu")
-public class MenuEntry implements Positioned {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MenuEntry {
     @Id
-    @GeneratedValue
     private UUID id;
 
     @ManyToOne
@@ -29,4 +29,21 @@ public class MenuEntry implements Positioned {
 
     @Column(nullable = false)
     private BigDecimal price;
+
+    private MenuEntry(UUID id, MenuSection section) {
+        this.id = id;
+        this.section = section;
+    }
+
+    public static MenuEntry from(MenuEntryData data, MenuSection section) {
+        MenuEntry entry = new MenuEntry(UUID.randomUUID(), section);
+        entry.syncWith(data);
+        return entry;
+    }
+
+    public void syncWith(MenuEntryData updateData) {
+        this.dishId = updateData.dishId();
+        this.position = updateData.position();
+        this.price = updateData.price();
+    }
 }

@@ -1,24 +1,26 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.table.application.dto.mapper.TableMapper;
-import com.guciowons.yummify.table.application.dto.TableDTO;
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.table.application.model.UpdateTableCommand;
+import com.guciowons.yummify.table.application.service.TableLookupService;
 import com.guciowons.yummify.table.domain.entity.Table;
+import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
 import com.guciowons.yummify.table.domain.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class TableUpdateUsecase {
-    private final TableGetUsecase tableGetUsecase;
+    private final TableLookupService tableLookupService;
     private final TableRepository tableRepository;
-    private final TableMapper tableMapper;
 
-    public Table update(UUID id, TableDTO dto, UUID restaurantId) {
-        Table table = tableGetUsecase.get(id, restaurantId);
-        table = tableMapper.mapToUpdateEntity(dto, table);
+    public Table update(UpdateTableCommand command) {
+        if (tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())) {
+            throw new TableExistsByNameException(command.name());
+        }
+
+        Table table = tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
+        table.update(command.name());
         return tableRepository.save(table);
     }
 }

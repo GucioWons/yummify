@@ -1,27 +1,24 @@
 package com.guciowons.yummify.ingredient.application.usecase;
 
-import com.guciowons.yummify.ingredient.application.dto.IngredientManageDTO;
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.ingredient.application.model.UpdateIngredientCommand;
+import com.guciowons.yummify.ingredient.application.service.IngredientLookupService;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
-import com.guciowons.yummify.ingredient.application.dto.mapper.IngredientMapper;
+import com.guciowons.yummify.ingredient.domain.exception.IngredientNotFoundException;
 import com.guciowons.yummify.ingredient.domain.repository.IngredientRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class IngredientUpdateUsecase {
-    private final IngredientGetUsecase ingredientGetUsecase;
+    private final IngredientLookupService ingredientLookupService;
     private final IngredientRepository ingredientRepository;
-    private final IngredientMapper ingredientMapper;
 
     @Transactional
-    public Ingredient update(UUID id, IngredientManageDTO dto, UUID restaurantId) {
-        Ingredient ingredient = ingredientGetUsecase.getById(id, restaurantId);
-        ingredient = ingredientMapper.mapToUpdateEntity(dto, ingredient);
-
+    public Ingredient update(UpdateIngredientCommand command) throws IngredientNotFoundException {
+        Ingredient ingredient = ingredientLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
+        ingredient.update(command.name());
         return ingredientRepository.save(ingredient);
     }
 }

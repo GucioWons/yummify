@@ -1,28 +1,45 @@
 package com.guciowons.yummify.auth.application.usecase;
 
-import com.guciowons.yummify.auth.domain.model.UserRequest;
-import com.guciowons.yummify.auth.domain.service.UserCreator;
-import com.guciowons.yummify.auth.domain.service.UserPasswordService;
+import com.guciowons.yummify.auth.application.model.CreateUserCommand;
+import com.guciowons.yummify.auth.domain.exception.AccountExistsByEmailException;
+import com.guciowons.yummify.auth.domain.exception.AccountExistsByUsernameException;
+import com.guciowons.yummify.auth.domain.model.User;
+import com.guciowons.yummify.auth.domain.model.value.Password;
+import com.guciowons.yummify.auth.domain.model.value.UserId;
+import com.guciowons.yummify.auth.domain.port.out.PasswordGeneratorPort;
+import com.guciowons.yummify.auth.domain.port.out.UserRepository;
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class CreateUserUsecase {
-    private final UserCreator userCreator;
-    private final UserPasswordService userPasswordService;
+    private final PasswordGeneratorPort passwordGenerator;
+    private final UserRepository userRepository;
 
-    public UUID create(String email, String username, String firstName, String lastName, UUID restaurantId) {
-        return userCreator.create(new UserRequest(email, username, firstName, lastName, restaurantId));
+    public UserId create(CreateUserCommand command) {
+        if (userRepository.existsByEmail(command.email())) {
+            throw new AccountExistsByEmailException();
+        }
+
+        if (userRepository.existsByUsername(command.username())) {
+            throw new AccountExistsByUsernameException();
+        }
+
+        User user = User.of(
+                command.email(),
+                command.username(),
+                command.personalData(),
+                command.restaurantId(),
+                generatePassword(command.withPassword())
+        );
+
+        return userRepository.createUser(user);
     }
 
-    public UUID createWithPassword(String email, String username, String firstName, String lastName, UUID restaurantId) {
-        UUID userId = userCreator.create(new UserRequest(email, username, firstName, lastName, restaurantId));
-
-        userPasswordService.set(userId);
-
-        return userId;
+    private Password generatePassword(boolean withPassword) {
+        return withPassword
+                ? Password.of(passwordGenerator.generate(12, 2, 2, 2))
+                : null;
     }
 }

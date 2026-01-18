@@ -1,17 +1,29 @@
 package com.guciowons.yummify.auth.application.usecase;
 
-import com.guciowons.yummify.auth.domain.service.UserOtpService;
+import com.guciowons.yummify.auth.application.model.GenerateOtpCommand;
+import com.guciowons.yummify.auth.domain.model.Otp;
+import com.guciowons.yummify.auth.domain.port.out.PasswordGeneratorPort;
+import com.guciowons.yummify.auth.domain.port.out.UserRepository;
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class GenerateOtpUsecase {
-    private final UserOtpService userOtpService;
+    private final PasswordGeneratorPort passwordGenerator;
+    private final UserRepository userRepository;
 
-    public String generate(UUID userId) {
-        return userOtpService.set(userId);
+    public Otp generate(GenerateOtpCommand generateOtpCommand) {
+        Otp otp = Otp.of(
+                passwordGenerator.generate(16, 3, 3, 3),
+                LocalDateTime.now().plus(Duration.ofMinutes(5))
+        );
+
+        userRepository.updateOtp(generateOtpCommand.userId(), otp);
+
+        return otp;
     }
 }

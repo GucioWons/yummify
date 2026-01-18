@@ -1,13 +1,15 @@
 package com.guciowons.yummify.dish.domain.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.common.exception.domain.model.DomainError;
+import com.guciowons.yummify.dish.domain.entity.value.DishId;
+import lombok.Getter;
 
-import java.util.Map;
-import java.util.UUID;
-
+@Getter
 public class DishNotFoundException extends DomainException {
-    public DishNotFoundException(UUID id) {
-        super(new DomainError(DishErrorMessage.DISH_NOT_FOUND_BY_ID, Map.of("id", id)));
+    private final DishId id;
+
+    public DishNotFoundException(DishId id) {
+        super("Dish not found");
+        this.id = id;
     }
 }

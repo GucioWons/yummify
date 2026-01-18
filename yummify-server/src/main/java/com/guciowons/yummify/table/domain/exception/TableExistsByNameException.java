@@ -1,12 +1,15 @@
 package com.guciowons.yummify.table.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.model.DomainError;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.table.domain.entity.value.TableName;
+import lombok.Getter;
 
-import java.util.Map;
-
+@Getter
 public class TableExistsByNameException extends DomainException {
-    public TableExistsByNameException(String name) {
-        super(new DomainError(TableErrorMessage.TABLE_EXISTS_BY_NAME, Map.of("name", name)));
+    private final TableName name;
+
+    public TableExistsByNameException(TableName name) {
+        super("Table exists by name");
+        this.name = name;
     }
 }

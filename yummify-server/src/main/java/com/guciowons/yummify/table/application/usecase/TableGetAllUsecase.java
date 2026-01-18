@@ -1,19 +1,19 @@
 package com.guciowons.yummify.table.application.usecase;
 
+import com.guciowons.yummify.common.core.application.annotation.Usecase;
+import com.guciowons.yummify.table.application.model.GetAllTablesCommand;
 import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.domain.repository.TableRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
-@Component
+@Usecase
 @RequiredArgsConstructor
 public class TableGetAllUsecase {
     private final TableRepository tableRepository;
 
-    public List<Table> getAll(UUID restaurantId) {
-        return tableRepository.findAllByRestaurantId(restaurantId);
+    public List<Table> getAll(GetAllTablesCommand command) {
+        return tableRepository.findAllByRestaurantId(command.restaurantId());
     }
 }

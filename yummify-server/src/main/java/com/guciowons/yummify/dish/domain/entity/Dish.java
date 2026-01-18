@@ -1,31 +1,31 @@
 package com.guciowons.yummify.dish.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
-import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.dish.domain.entity.value.DishId;
+import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
+import com.guciowons.yummify.dish.domain.entity.value.DishIngredientIds;
+import com.guciowons.yummify.restaurant.RestaurantId;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "dish", schema = "dish")
-public class Dish implements BaseEntity, RestaurantScoped {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Dish {
+    @EmbeddedId
+    private DishId id;
 
-    @Column(nullable = false)
-    private UUID restaurantId;
+    @Embedded
+    private RestaurantId restaurantId;
 
     @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
@@ -37,19 +37,28 @@ public class Dish implements BaseEntity, RestaurantScoped {
     @Column(columnDefinition = "jsonb")
     private TranslatedString description;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "dish_ingredient_id",
-            joinColumns = @JoinColumn(name = "dish_id"),
-            schema = "dish"
-    )
-    @Column(name = "ingredient_id")
-    private List<UUID> ingredientIds = new ArrayList<>();
+    @Embedded
+    private DishIngredientIds ingredientIds;
 
-    private UUID imageId;
+    @Embedded
+    private DishImageId imageId;
 
-    public void setIngredientIds(List<UUID> ingredientIds) {
-        this.ingredientIds.clear();
-        this.ingredientIds.addAll(ingredientIds);
+    public static Dish of(
+            RestaurantId restaurantId,
+            TranslatedString name,
+            TranslatedString description,
+            DishIngredientIds ingredientIds
+    ) {
+        return new Dish(DishId.random(), restaurantId, name, description, ingredientIds, null);
+    }
+
+    public void update(TranslatedString name, TranslatedString description, DishIngredientIds ingredientIds) {
+        this.name = name;
+        this.description = description;
+        this.ingredientIds = ingredientIds;
+    }
+
+    public void changeImage(DishImageId imageId) {
+        this.imageId = imageId;
     }
 }

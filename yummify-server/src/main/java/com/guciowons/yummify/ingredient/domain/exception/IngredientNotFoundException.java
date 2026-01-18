@@ -1,13 +1,15 @@
 package com.guciowons.yummify.ingredient.domain.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.common.exception.domain.model.DomainError;
+import com.guciowons.yummify.ingredient.domain.entity.value.IngredientId;
+import lombok.Getter;
 
-import java.util.Map;
-import java.util.UUID;
-
+@Getter
 public class IngredientNotFoundException extends DomainException {
-  public IngredientNotFoundException(UUID id) {
-    super(new DomainError(IngredientErrorMessage.INGREDIENT_NOT_FOUND_BY_ID, Map.of("id", id)));
-  }
+    private final IngredientId id;
+
+    public IngredientNotFoundException(IngredientId id) {
+        super("Ingredient not found");
+        this.id = id;
+    }
 }

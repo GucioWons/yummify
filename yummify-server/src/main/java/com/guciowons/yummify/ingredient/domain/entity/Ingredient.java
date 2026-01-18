@@ -1,32 +1,37 @@
 package com.guciowons.yummify.ingredient.domain.entity;
 
-import com.guciowons.yummify.common.core.domain.entity.BaseEntity;
-import com.guciowons.yummify.common.core.domain.entity.RestaurantScoped;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.ingredient.domain.entity.value.IngredientId;
+import com.guciowons.yummify.restaurant.RestaurantId;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
-import java.util.UUID;
-
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "ingredient", schema = "ingredient")
-public class Ingredient implements BaseEntity, RestaurantScoped {
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Ingredient {
+    @EmbeddedId
+    private IngredientId id;
 
-    @Column(nullable = false)
-    private UUID restaurantId;
+    @Embedded
+    private RestaurantId restaurantId;
 
     @Type(JsonBinaryType.class)
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private TranslatedString name;
+
+    public static Ingredient of(RestaurantId restaurantId, TranslatedString name) {
+        return new Ingredient(IngredientId.random(), restaurantId, name);
+    }
+
+    public void update(TranslatedString name) {
+        this.name = name;
+    }
 }

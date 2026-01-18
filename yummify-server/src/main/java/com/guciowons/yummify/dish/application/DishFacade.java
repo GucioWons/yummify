@@ -1,20 +1,20 @@
 package com.guciowons.yummify.dish.application;
 
-import com.guciowons.yummify.dish.application.dto.DishClientDTO;
-import com.guciowons.yummify.dish.application.dto.DishImageUrlDTO;
-import com.guciowons.yummify.dish.application.dto.DishManageDTO;
-import com.guciowons.yummify.dish.application.dto.mapper.DishMapper;
-import com.guciowons.yummify.dish.application.service.DishImageUrlProvider;
+import com.guciowons.yummify.common.core.application.annotation.Facade;
+import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.dish.application.model.*;
+import com.guciowons.yummify.dish.application.model.mapper.DishCommandMapper;
 import com.guciowons.yummify.dish.application.usecase.*;
 import com.guciowons.yummify.dish.domain.entity.Dish;
+import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Facade
 @RequiredArgsConstructor
 public class DishFacade {
     private final DishCreateUsecase dishCreateUsecase;
@@ -22,33 +22,31 @@ public class DishFacade {
     private final DishGetUsecase dishGetUsecase;
     private final DishUpdateUsecase dishUpdateUsecase;
     private final DishUpdateImageUsecase dishUpdateImageUsecase;
-    private final DishImageUrlProvider dishImageUrlProvider;
-    private final DishMapper dishMapper;
+    private final DomainExceptionHandler dishDomainExceptionHandler;
+    private final DishCommandMapper dishCommandMapper;
 
-    public DishManageDTO create(DishManageDTO dto, UUID restaurantId) {
-        Dish dish = dishCreateUsecase.create(dto, restaurantId);
-        return dishMapper.mapToManageDTO(dish, imageId -> dishImageUrlProvider.get(imageId, restaurantId));
+    public Dish create(UUID restaurantId, TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
+        CreateDishCommand command = dishCommandMapper.toCreateDishCommand(restaurantId, name, description, ingredientIds);
+        return dishDomainExceptionHandler.handle(() -> dishCreateUsecase.create(command));
     }
 
-    public List<DishClientDTO> getAll(UUID restaurantId) {
-        return dishGetAllUsecase.getAll(restaurantId).stream()
-                .map(dish -> dishMapper.mapToClientDTO(dish, imageId -> dishImageUrlProvider.get(imageId, restaurantId)))
-                .toList();
+    public List<Dish> getAll(UUID restaurantId) {
+        GetAllDishesCommand command = dishCommandMapper.toGetAllDishesCommand(restaurantId);
+        return dishDomainExceptionHandler.handle(() -> dishGetAllUsecase.getAll(command));
     }
 
-    public DishManageDTO getManageDTO(UUID id, UUID restaurantId) {
-        Dish dish = dishGetUsecase.getById(id, restaurantId);
-        return dishMapper.mapToManageDTO(dish, imageId -> dishImageUrlProvider.get(imageId, restaurantId));
+    public Dish getById(UUID id, UUID restaurantId) {
+        GetDishCommand command = dishCommandMapper.toGetDishCommand(id, restaurantId);
+        return dishDomainExceptionHandler.handle(() -> dishGetUsecase.getById(command));
     }
 
-    public DishManageDTO update(UUID id, DishManageDTO dto, UUID restaurantId) {
-        Dish dish = dishUpdateUsecase.update(id, dto, restaurantId);
-        return dishMapper.mapToManageDTO(dish, imageId -> dishImageUrlProvider.get(imageId, restaurantId));
+    public Dish update(UUID id, UUID restaurantId, TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
+        UpdateDishCommand command = dishCommandMapper.toUpdateDishCommand(id, restaurantId, name, description, ingredientIds);
+        return dishDomainExceptionHandler.handle(() -> dishUpdateUsecase.update(command));
     }
 
-    public DishImageUrlDTO updateImage(UUID id, MultipartFile image, UUID restaurantId) {
-        UUID imageId = dishUpdateImageUsecase.updateImage(id, image, restaurantId);
-        String url = dishImageUrlProvider.get(imageId, restaurantId);
-        return new DishImageUrlDTO(url);
+    public DishImageId updateImage(UUID id, UUID restaurantId, MultipartFile image) {
+        UpdateDishImageCommand command = dishCommandMapper.toUpdateDishImageCommand(id, image, restaurantId);
+        return dishDomainExceptionHandler.handle(() -> dishUpdateImageUsecase.updateImage(command));
     }
 }
