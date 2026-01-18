@@ -22,7 +22,7 @@ public class RestaurantDomainExceptionMapper implements DomainExceptionMapper {
         return ApiException.notFound(
                 exception,
                 RestaurantErrorMessage.RESTAURANT_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
     }
 }

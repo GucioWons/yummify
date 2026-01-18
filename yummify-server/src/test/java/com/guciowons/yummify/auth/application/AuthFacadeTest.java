@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenCreateUserCommand;
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenGenerateOtpCommand;
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
+import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +38,7 @@ class AuthFacadeTest {
         var username = givenUsername().value();
         var firstName = givenPersonalData().firstName();
         var lastName = givenPersonalData().lastName();
-        var restaurantId = givenRestaurantId().value();
+        var restaurantId = givenRestaurantId(1).value();
         var withPassword = true;
         var command = givenCreateUserCommand(true);
         var expectedUserId = givenUserId();
@@ -45,7 +46,7 @@ class AuthFacadeTest {
         when(authCommandMapper.toCreateUserCommand(email, username, firstName, lastName, restaurantId, withPassword))
                 .thenReturn(command);
         when(authDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<UserId>>any()))
-                .thenAnswer(null);
+                .thenAnswer(inv -> inv.<Supplier<UserId>>getArgument(0).get());
         when(createUserUsecase.create(command)).thenReturn(expectedUserId);
 
         // when

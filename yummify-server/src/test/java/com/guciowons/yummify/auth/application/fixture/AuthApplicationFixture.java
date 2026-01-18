@@ -4,6 +4,7 @@ import com.guciowons.yummify.auth.application.model.CreateUserCommand;
 import com.guciowons.yummify.auth.application.model.GenerateOtpCommand;
 
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
+import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 
 public class AuthApplicationFixture {
     public static CreateUserCommand givenCreateUserCommand(boolean withPassword) {
@@ -11,7 +12,7 @@ public class AuthApplicationFixture {
                 givenEmail(),
                 givenUsername(),
                 givenPersonalData(),
-                givenRestaurantId(),
+                givenRestaurantId(1),
                 withPassword
         );
     }

@@ -3,11 +3,12 @@ package com.guciowons.yummify.auth.domain.fixture;
 import com.guciowons.yummify.auth.domain.model.Otp;
 import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.domain.model.value.*;
-import com.guciowons.yummify.restaurant.RestaurantId;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 
 public class AuthDomainFixture {
     public static User givenUser(boolean withPassword) {
@@ -15,7 +16,7 @@ public class AuthDomainFixture {
                 givenEmail(),
                 givenUsername(),
                 givenPersonalData(),
-                givenRestaurantId(),
+                givenRestaurantId(1),
                 withPassword ? givenPassword() : null
         );
     }
@@ -36,17 +37,11 @@ public class AuthDomainFixture {
         return PersonalData.of("firstName", "lastName");
     }
 
-    public static RestaurantId givenRestaurantId() {
-        return RestaurantId.of(UUID.randomUUID());
-    }
-
     public static Password givenPassword() {
         return Password.of("password");
     }
 
     public static UserId givenUserId() {
-        return UserId.of(UUID.randomUUID().toString());
+        return UserId.of(UUID.randomUUID());
     }
-
-
 }
