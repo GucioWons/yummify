@@ -8,7 +8,6 @@ import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantName;
 import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantOwnerId;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
@@ -17,29 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RestaurantDomainFixture {
     public static Restaurant givenRestaurant(int seed) {
-        return givenRestaurantBuilder(seed).build();
-    }
-
-    public static RestaurantBuilder givenRestaurantBuilder(int seed) {
-        return builder()
-                .name(givenRestaurantName(seed))
-                .description(givenRestaurantDescription(seed))
-                .defaultLanguage(Language.EN)
-                .ownerId(givenRestaurantOwnerId(seed));
-    }
-
-    @Builder
-    private static Restaurant createRestaurant(
-            RestaurantName name,
-            TranslatedString description,
-            Language defaultLanguage,
-            RestaurantOwnerId ownerId
-    ) {
-        var restaurant = Restaurant.of(name, description, defaultLanguage);
-
-        if (ownerId != null) {
-            restaurant.changeOwner(ownerId);
-        }
+        var restaurant = Restaurant.of(givenRestaurantName(seed), givenRestaurantDescription(seed), Language.EN);
+        restaurant.changeOwner(givenRestaurantOwnerId(seed));
         return restaurant;
     }
 
