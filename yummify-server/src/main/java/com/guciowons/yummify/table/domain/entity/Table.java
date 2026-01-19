@@ -36,7 +36,7 @@ public class Table {
         return new Table(TableId.random(), restaurantId, null, name);
     }
 
-    public void update(TableName name) {
+    public void updateDetails(TableName name) {
         this.name = name;
     }
 

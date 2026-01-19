@@ -16,35 +16,35 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TableFacade {
     private final DomainExceptionHandler tableDomainExceptionHandler;
-    private final TableCreateUsecase tableCreateUsecase;
-    private final TableGetAllUsecase tableGetAllUsecase;
-    private final TableGetUsecase tableGetUsecase;
-    private final TableUpdateUsecase tableUpdateUsecase;
-    private final TableGenerateOtpUsecase tableGenerateOtpUsecase;
+    private final CreateTableUsecase createTableUsecase;
+    private final GetAllTablesUsecase getAllTablesUsecase;
+    private final GetTableUsecase getTableUsecase;
+    private final UpdateTableUsecase updateTableUsecase;
+    private final GenerateTableOtpUsecase generateTableOtpUsecase;
     private final TableCommandMapper tableCommandMapper;
 
     public Table create(UUID restaurantId, String name) {
         CreateTableCommand command = tableCommandMapper.toCreateTableCommand(restaurantId, name);
-        return tableDomainExceptionHandler.handle(() -> tableCreateUsecase.create(command));
+        return tableDomainExceptionHandler.handle(() -> createTableUsecase.create(command));
     }
 
     public List<Table> getAll(UUID restaurantId) {
         GetAllTablesCommand command = tableCommandMapper.toGetAllTablesCommand(restaurantId);
-        return tableGetAllUsecase.getAll(command);
+        return getAllTablesUsecase.getAll(command);
     }
 
     public Table getById(UUID id, UUID restaurantId) {
         GetTableCommand command = tableCommandMapper.toGetTableCommand(id, restaurantId);
-        return tableDomainExceptionHandler.handle(() -> tableGetUsecase.get(command));
+        return tableDomainExceptionHandler.handle(() -> getTableUsecase.get(command));
     }
 
     public Table update(UUID id, UUID restaurantId, String name) {
         UpdateTableCommand command = tableCommandMapper.toUpdateTableCommand(id, restaurantId, name);
-        return tableDomainExceptionHandler.handle(() -> tableUpdateUsecase.update(command));
+        return tableDomainExceptionHandler.handle(() -> updateTableUsecase.update(command));
     }
 
     public TableOtpDTO generateOtp(UUID id, UUID restaurantId) {
         GenerateTableOtpCommand command = tableCommandMapper.toGenerateTableOtpCommand(id, restaurantId);
-        return tableDomainExceptionHandler.handle(() -> new TableOtpDTO(tableGenerateOtpUsecase.generate(command), id));
+        return tableDomainExceptionHandler.handle(() -> new TableOtpDTO(generateTableOtpUsecase.generate(command), id));
     }
 }

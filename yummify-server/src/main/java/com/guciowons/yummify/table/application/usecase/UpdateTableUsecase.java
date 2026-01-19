@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class TableUpdateUsecase {
+public class UpdateTableUsecase {
     private final TableLookupService tableLookupService;
     private final TableRepository tableRepository;
 
@@ -20,7 +20,7 @@ public class TableUpdateUsecase {
         }
 
         Table table = tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
-        table.update(command.name());
+        table.updateDetails(command.name());
         return tableRepository.save(table);
     }
 }

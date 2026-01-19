@@ -24,7 +24,7 @@ public class TableDomainExceptionMapper implements DomainExceptionMapper {
         return ApiException.notFound(
                 exception,
                 TableErrorMessage.TABLE_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
     }
 
@@ -32,7 +32,7 @@ public class TableDomainExceptionMapper implements DomainExceptionMapper {
         return ApiException.conflict(
                 exception,
                 TableErrorMessage.TABLE_EXISTS_BY_NAME,
-                Map.of("name", exception.getName())
+                Map.of("name", exception.getName().value())
         );
     }
 }

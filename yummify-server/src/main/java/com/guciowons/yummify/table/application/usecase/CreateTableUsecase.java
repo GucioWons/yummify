@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class TableCreateUsecase {
+public class CreateTableUsecase {
     private final TableRepository tableRepository;
     private final AuthFacadePort authFacadePort;
 

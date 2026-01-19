@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class TableGenerateOtpUsecase {
+public class GenerateTableOtpUsecase {
     private final TableLookupService tableLookupService;
     private final AuthFacadePort authFacadePort;
 

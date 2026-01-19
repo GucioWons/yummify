@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class TableGetUsecase {
+public class GetTableUsecase {
     private final TableLookupService tableLookupService;
 
     public Table get(GetTableCommand command) throws TableNotFoundException {

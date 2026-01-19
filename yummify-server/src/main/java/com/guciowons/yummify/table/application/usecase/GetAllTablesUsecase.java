@@ -10,7 +10,7 @@ import java.util.List;
 
 @Usecase
 @RequiredArgsConstructor
-public class TableGetAllUsecase {
+public class GetAllTablesUsecase {
     private final TableRepository tableRepository;
 
     public List<Table> getAll(GetAllTablesCommand command) {
