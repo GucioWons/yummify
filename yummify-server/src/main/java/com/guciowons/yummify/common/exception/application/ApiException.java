@@ -30,6 +30,10 @@ public class ApiException extends RuntimeException {
         return new ApiException(cause, HttpStatus.CONFLICT, message, props);
     }
 
+    public static ApiException badRequest(Throwable cause, ErrorMessage message) {
+        return new ApiException(cause, HttpStatus.BAD_REQUEST, message, null);
+    }
+
     public static ApiException internalServerError(Throwable cause, ErrorMessage message) {
         return new ApiException(cause, HttpStatus.INTERNAL_SERVER_ERROR, message, null);
     }

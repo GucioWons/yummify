@@ -1,6 +1,7 @@
 package com.guciowons.yummify.file.domain.entity.value;
 
 import com.guciowons.yummify.common.core.domain.entity.ValueObject;
+import com.guciowons.yummify.file.domain.exception.InvalidStorageKeyException;
 import com.guciowons.yummify.restaurant.RestaurantId;
 
 import java.util.UUID;
@@ -8,13 +9,13 @@ import java.util.UUID;
 public record StorageKey(String value) implements ValueObject<String> {
     public StorageKey {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("StorageKey cannot be blank");
+            throw InvalidStorageKeyException.blank();
         }
         if (value.startsWith("/")) {
-            throw new IllegalArgumentException("StorageKey cannot start with /");
+            throw InvalidStorageKeyException.startsWithSlash();
         }
         if (value.contains("..")) {
-            throw new IllegalArgumentException("StorageKey cannot contain '..'");
+            throw InvalidStorageKeyException.containsDots();
         }
     }
 
