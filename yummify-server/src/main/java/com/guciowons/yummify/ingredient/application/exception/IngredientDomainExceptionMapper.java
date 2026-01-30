@@ -22,7 +22,7 @@ public class IngredientDomainExceptionMapper implements DomainExceptionMapper {
         return ApiException.notFound(
                 exception,
                 IngredientErrorMessage.INGREDIENT_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
     }
 }

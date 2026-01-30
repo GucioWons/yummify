@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class IngredientGetUsecase {
+public class GetIngredientUsecase {
     private final IngredientLookupService ingredientLookupService;
 
     public Ingredient getById(GetIngredientCommand command) throws IngredientNotFoundException {

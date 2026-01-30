@@ -8,10 +8,10 @@ import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsComma
 import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
 import com.guciowons.yummify.ingredient.application.model.UpdateIngredientCommand;
 import com.guciowons.yummify.ingredient.application.model.mapper.IngredientCommandMapper;
-import com.guciowons.yummify.ingredient.application.usecase.IngredientCreateUsecase;
-import com.guciowons.yummify.ingredient.application.usecase.IngredientGetAllUsecase;
-import com.guciowons.yummify.ingredient.application.usecase.IngredientGetUsecase;
-import com.guciowons.yummify.ingredient.application.usecase.IngredientUpdateUsecase;
+import com.guciowons.yummify.ingredient.application.usecase.CreateIngredientUsecase;
+import com.guciowons.yummify.ingredient.application.usecase.GetAllIngredientsUsecase;
+import com.guciowons.yummify.ingredient.application.usecase.GetIngredientUsecase;
+import com.guciowons.yummify.ingredient.application.usecase.UpdateIngredientUsecase;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import lombok.RequiredArgsConstructor;
 
@@ -21,30 +21,30 @@ import java.util.UUID;
 @Facade
 @RequiredArgsConstructor
 public class IngredientFacade {
-    private final IngredientCreateUsecase ingredientCreateUsecase;
-    private final IngredientGetAllUsecase ingredientGetAllUsecase;
-    private final IngredientGetUsecase ingredientGetUsecase;
-    private final IngredientUpdateUsecase ingredientUpdateUsecase;
+    private final CreateIngredientUsecase createIngredientUsecase;
+    private final GetAllIngredientsUsecase getAllIngredientsUsecase;
+    private final GetIngredientUsecase getIngredientUsecase;
+    private final UpdateIngredientUsecase updateIngredientUsecase;
     private final DomainExceptionHandler ingredientDomainExceptionHandler;
     private final IngredientCommandMapper ingredientCommandMapper;
 
     public Ingredient create(UUID restaurantId, TranslatedString name) {
         CreateIngredientCommand command = ingredientCommandMapper.toCreateIngredientCommand(restaurantId, name);
-        return ingredientCreateUsecase.create(command);
+        return createIngredientUsecase.create(command);
     }
 
     public List<Ingredient> getAll(UUID restaurantId) {
         GetAllIngredientsCommand command = ingredientCommandMapper.toGetAllIngredientsCommand(restaurantId);
-        return ingredientGetAllUsecase.getAll(command);
+        return getAllIngredientsUsecase.getAll(command);
     }
 
     public Ingredient getById(UUID id, UUID restaurantId) {
         GetIngredientCommand command = ingredientCommandMapper.toGetIngredientCommand(id, restaurantId);
-        return ingredientDomainExceptionHandler.handle(() -> ingredientGetUsecase.getById(command));
+        return ingredientDomainExceptionHandler.handle(() -> getIngredientUsecase.getById(command));
     }
 
     public Ingredient update(UUID id, UUID restaurantId, TranslatedString name) {
         UpdateIngredientCommand command = ingredientCommandMapper.toUpdateIngredientCommand(id, restaurantId, name);
-        return ingredientDomainExceptionHandler.handle(() -> ingredientUpdateUsecase.update(command));
+        return ingredientDomainExceptionHandler.handle(() -> updateIngredientUsecase.update(command));
     }
 }

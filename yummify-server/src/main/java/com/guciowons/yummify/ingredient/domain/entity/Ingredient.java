@@ -35,7 +35,7 @@ public class Ingredient {
         return new Ingredient(IngredientId.random(), restaurantId, name);
     }
 
-    public void update(TranslatedString name) {
+    public void updateDetails(TranslatedString name) {
         this.name = name;
     }
 }

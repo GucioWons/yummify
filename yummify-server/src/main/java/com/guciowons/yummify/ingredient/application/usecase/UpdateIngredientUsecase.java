@@ -11,14 +11,14 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class IngredientUpdateUsecase {
+public class UpdateIngredientUsecase {
     private final IngredientLookupService ingredientLookupService;
     private final IngredientRepository ingredientRepository;
 
     @Transactional
     public Ingredient update(UpdateIngredientCommand command) throws IngredientNotFoundException {
         Ingredient ingredient = ingredientLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
-        ingredient.update(command.name());
+        ingredient.updateDetails(command.name());
         return ingredientRepository.save(ingredient);
     }
 }
