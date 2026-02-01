@@ -10,7 +10,7 @@ import java.util.List;
 
 @Usecase
 @RequiredArgsConstructor
-public class DishGetAllUsecase {
+public class GetAllDishesUsecase {
     private final DishRepository dishRepository;
 
     public List<Dish> getAll(GetAllDishesCommand command) {

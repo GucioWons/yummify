@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class DishGetUsecase {
+public class GetDishUsecase {
     private final DishLookupService dishLookupService;
 
     public Dish getById(GetDishCommand command) throws DishNotFoundException {

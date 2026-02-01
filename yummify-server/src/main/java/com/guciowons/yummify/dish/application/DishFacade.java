@@ -17,36 +17,35 @@ import java.util.UUID;
 @Facade
 @RequiredArgsConstructor
 public class DishFacade {
-    private final DishCreateUsecase dishCreateUsecase;
-    private final DishGetAllUsecase dishGetAllUsecase;
-    private final DishGetUsecase dishGetUsecase;
-    private final DishUpdateUsecase dishUpdateUsecase;
-    private final DishUpdateImageUsecase dishUpdateImageUsecase;
+    private final CreateDishUsecase createDishUsecase;
+    private final GetAllDishesUsecase getAllDishesUsecase;
+    private final GetDishUsecase getDishUsecase;
+    private final UpdateDishUsecase updateDishUsecase;
+    private final UpdateDishImageUsecase updateDishImageUsecase;
     private final DomainExceptionHandler dishDomainExceptionHandler;
     private final DishCommandMapper dishCommandMapper;
 
     public Dish create(UUID restaurantId, TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
         CreateDishCommand command = dishCommandMapper.toCreateDishCommand(restaurantId, name, description, ingredientIds);
-        return dishDomainExceptionHandler.handle(() -> dishCreateUsecase.create(command));
+        return dishDomainExceptionHandler.handle(() -> createDishUsecase.create(command));
     }
 
     public List<Dish> getAll(UUID restaurantId) {
-        GetAllDishesCommand command = dishCommandMapper.toGetAllDishesCommand(restaurantId);
-        return dishDomainExceptionHandler.handle(() -> dishGetAllUsecase.getAll(command));
+        return getAllDishesUsecase.getAll(dishCommandMapper.toGetAllDishesCommand(restaurantId));
     }
 
     public Dish getById(UUID id, UUID restaurantId) {
         GetDishCommand command = dishCommandMapper.toGetDishCommand(id, restaurantId);
-        return dishDomainExceptionHandler.handle(() -> dishGetUsecase.getById(command));
+        return dishDomainExceptionHandler.handle(() -> getDishUsecase.getById(command));
     }
 
     public Dish update(UUID id, UUID restaurantId, TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
         UpdateDishCommand command = dishCommandMapper.toUpdateDishCommand(id, restaurantId, name, description, ingredientIds);
-        return dishDomainExceptionHandler.handle(() -> dishUpdateUsecase.update(command));
+        return dishDomainExceptionHandler.handle(() -> updateDishUsecase.update(command));
     }
 
     public DishImageId updateImage(UUID id, UUID restaurantId, MultipartFile image) {
         UpdateDishImageCommand command = dishCommandMapper.toUpdateDishImageCommand(id, image, restaurantId);
-        return dishDomainExceptionHandler.handle(() -> dishUpdateImageUsecase.updateImage(command));
+        return dishDomainExceptionHandler.handle(() -> updateDishImageUsecase.updateImage(command));
     }
 }

@@ -1,15 +1,15 @@
-package com.guciowons.yummify.dish.domain.validator;
+package com.guciowons.yummify.dish.application.service;
 
+import com.guciowons.yummify.common.core.application.annotation.ApplicationService;
 import com.guciowons.yummify.dish.domain.exception.DishIngredientsNotFoundException;
 import com.guciowons.yummify.ingredient.IngredientExistencePort;
 import com.guciowons.yummify.restaurant.RestaurantId;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@ApplicationService
 @RequiredArgsConstructor
 public class DishValidator {
     private final IngredientExistencePort ingredientExistencePort;

@@ -62,7 +62,7 @@ public class Dish {
         return new Dish(DishId.random(), restaurantId, name, description, ingredientIds, null);
     }
 
-    public void update(TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
+    public void updateDetails(TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
         this.name = name;
         this.description = description;
         this.ingredientIds = ingredientIds;

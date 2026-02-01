@@ -5,12 +5,12 @@ import com.guciowons.yummify.dish.application.model.CreateDishCommand;
 import com.guciowons.yummify.dish.domain.entity.Dish;
 import com.guciowons.yummify.dish.domain.exception.DishIngredientsNotFoundException;
 import com.guciowons.yummify.dish.domain.repository.DishRepository;
-import com.guciowons.yummify.dish.domain.validator.DishValidator;
+import com.guciowons.yummify.dish.application.service.DishValidator;
 import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class DishCreateUsecase {
+public class CreateDishUsecase {
     private final DishRepository dishRepository;
     private final DishValidator dishValidator;
 

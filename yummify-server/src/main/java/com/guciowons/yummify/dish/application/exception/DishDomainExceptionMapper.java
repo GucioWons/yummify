@@ -6,7 +6,6 @@ import com.guciowons.yummify.common.exception.application.mapper.DomainException
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.dish.domain.exception.DishIngredientsNotFoundException;
 import com.guciowons.yummify.dish.domain.exception.DishNotFoundException;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class DishDomainExceptionMapper implements DomainExceptionMapper {
         return ApiException.notFound(
                 exception,
                 DishErrorMessage.DISH_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
     }
 

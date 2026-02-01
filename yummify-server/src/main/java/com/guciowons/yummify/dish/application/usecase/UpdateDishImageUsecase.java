@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class DishUpdateImageUsecase {
+public class UpdateDishImageUsecase {
     private final DishLookupService dishLookupService;
     private final DishRepository dishRepository;
     private final DishUpdateImageService dishUpdateImageService;
