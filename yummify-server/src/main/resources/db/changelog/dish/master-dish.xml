@@ -8,5 +8,6 @@
     <include file="db/changelog/dish/2025-09-10-create-ingredient-table.sql"/>
     <include file="/db/changelog/dish/2025-09-12-create-dish-table.sql"/>
     <include file="/db/changelog/dish/2025-11-16-add-image-id-colum-to-dish.sql"/>
+    <include file="/db/changelog/dish/2026-18-01-backend-refactor.sql"/>
 
 </databaseChangeLog>

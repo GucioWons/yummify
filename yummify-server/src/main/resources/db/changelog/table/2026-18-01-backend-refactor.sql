@@ -1,0 +1,1 @@
+ALTER TABLE my_table.my_table ALTER COLUMN id DROP DEFAULT;
