@@ -1,49 +1,47 @@
 package com.guciowons.yummify.menu.domain.entity;
 
-import com.guciowons.yummify.menu.domain.entity.update.MenuEntryData;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
+import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
+import com.guciowons.yummify.common.core.domain.entity.ValueObject;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
-@Table(name = "menu_entry", schema = "menu")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class MenuEntry {
-    @Id
-    private UUID id;
+    private final Id id;
+    private final DishId dishId;
+    private Price price;
 
-    @ManyToOne
-    @JoinColumn(name = "section_id", nullable = false)
-    private MenuSection section;
-
-    @Column(nullable = false)
-    private UUID dishId;
-
-    @Column(nullable = false)
-    private Integer position;
-
-    @Column(nullable = false)
-    private BigDecimal price;
-
-    private MenuEntry(UUID id, MenuSection section) {
-        this.id = id;
-        this.section = section;
+    public static MenuEntry create(DishId dishId, Price price) {
+        return new MenuEntry(Id.random(), dishId, price);
     }
 
-    public static MenuEntry from(MenuEntryData data, MenuSection section) {
-        MenuEntry entry = new MenuEntry(UUID.randomUUID(), section);
-        entry.syncWith(data);
-        return entry;
+    public void update(Price price) {
+        this.price = price;
     }
 
-    public void syncWith(MenuEntryData updateData) {
-        this.dishId = updateData.dishId();
-        this.position = updateData.position();
-        this.price = updateData.price();
+    public record Id(UUID value) implements IdValueObject {
+        public static Id of(UUID value) {
+            return new Id(value);
+        }
+
+        public static Id random() {
+            return new Id(UUID.randomUUID());
+        }
+    }
+
+    public record DishId(UUID value) implements IdValueObject {
+        public static DishId of(UUID value) {
+            return new DishId(value);
+        }
+    }
+
+    public record Price(BigDecimal value) implements ValueObject<BigDecimal> {
+        public static Price of(BigDecimal value) {
+            return new Price(value);
+        }
     }
 }

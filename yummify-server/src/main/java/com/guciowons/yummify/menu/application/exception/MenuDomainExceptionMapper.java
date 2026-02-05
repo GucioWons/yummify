@@ -3,36 +3,38 @@ package com.guciowons.yummify.menu.application.exception;
 import com.guciowons.yummify.common.exception.application.ApiException;
 import com.guciowons.yummify.common.exception.application.mapper.DomainExceptionMapper;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.menu.domain.exception.*;
+import com.guciowons.yummify.menu.domain.exception.DraftMenuVersionNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundException;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class MenuDomainExceptionMapper implements DomainExceptionMapper {
     @Override
     public ApiException mapToApiException(DomainException exception) {
         return switch(exception) {
-            case MenuNotFoundException ex -> mapMenuNotFoundException(ex);
-            case MenuDishesNotFoundException ex -> mapMenuDishesNotFoundException(ex);
+            case DraftMenuVersionNotFoundException ex -> mapDraftMenuVersionNotFoundException(ex);
+            case PublishedMenuVersionNotFoundException ex -> mapPublishedMenuVersionNotFoundException(ex);
             case MenuSectionNotFoundException ex -> mapMenuSectionNotFoundException(ex);
             case MenuEntryNotFoundException ex -> mapMenuEntryNotFoundException(ex);
             default -> ApiException.notImplemented(exception);
         };
     }
 
-    private ApiException mapMenuNotFoundException(MenuNotFoundException exception) {
+    private ApiException mapDraftMenuVersionNotFoundException(DraftMenuVersionNotFoundException exception) {
         return ApiException.notFound(
                 exception,
-                MenuErrorMessage.MENU_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                MenuErrorMessage.DRAFT_MENU_VERSION_NOT_FOUND,
+                Map.of()
         );
     }
 
-    private ApiException mapMenuDishesNotFoundException(MenuDishesNotFoundException exception) {
+    private ApiException mapPublishedMenuVersionNotFoundException(PublishedMenuVersionNotFoundException exception) {
         return ApiException.notFound(
                 exception,
-                MenuErrorMessage.MENU_DISHES_NOT_FOUND_BY_ID,
-                Map.of("ids", String.join(", ", exception.getIds().stream().map(UUID::toString).toList()))
+                MenuErrorMessage.PUBLISHED_MENU_VERSION_NOT_FOUND,
+                Map.of()
         );
     }
 
