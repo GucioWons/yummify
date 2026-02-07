@@ -14,13 +14,13 @@ public class CreateMenuSectionUsecase {
     private final MenuVersionLookupService menuVersionLookupService;
     private final MenuVersionRepository menuVersionRepository;
 
-    public MenuSection.Id createMenuSection(CreateMenuSectionCommand command) {
+    public MenuSection create(CreateMenuSectionCommand command) {
         MenuVersion draft = menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
 
-        MenuSection.Id sectionId = draft.addSection(command.name(), command.position());
+        MenuSection section = draft.addSection(command.name(), command.position());
 
         menuVersionRepository.save(draft);
 
-        return sectionId;
+        return section;
     }
 }

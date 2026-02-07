@@ -25,16 +25,16 @@ public class MenuVersion {
         return new MenuVersion(Id.random(), restaurantId, 1, Status.DRAFT);
     }
 
-    public MenuSection.Id addSection(TranslatedString name, Integer position) {
+    public MenuSection addSection(TranslatedString name, Integer position) {
         ensureDraft();
 
         MenuSection newSection = MenuSection.create(name, position);
         sections.add(newSection);
 
-        return newSection.getId();
+        return newSection;
     }
 
-    public void updateSection(
+    public MenuSection updateSection(
             MenuSection.Id sectionId,
             TranslatedString name,
             Integer position,
@@ -44,6 +44,7 @@ public class MenuVersion {
 
         MenuSection section = findSection(sectionId);
         section.update(name, position, entrySnapshots);
+        return section;
     }
 
     private MenuSection findSection(MenuSection.Id sectionId) {
