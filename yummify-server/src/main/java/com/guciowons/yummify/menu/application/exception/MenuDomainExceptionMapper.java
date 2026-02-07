@@ -1,5 +1,6 @@
 package com.guciowons.yummify.menu.application.exception;
 
+import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.exception.application.ApiException;
 import com.guciowons.yummify.common.exception.application.mapper.DomainExceptionMapper;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
@@ -10,6 +11,7 @@ import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundE
 
 import java.util.Map;
 
+@ExceptionMapper
 public class MenuDomainExceptionMapper implements DomainExceptionMapper {
     @Override
     public ApiException mapToApiException(DomainException exception) {
