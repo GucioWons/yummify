@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class CreateMenuUsecase {
+public class CreateMenuVersionUsecase {
     private final MenuVersionRepository menuVersionRepository;
 
     public MenuVersion create(CreateMenuVersionCommand command) {

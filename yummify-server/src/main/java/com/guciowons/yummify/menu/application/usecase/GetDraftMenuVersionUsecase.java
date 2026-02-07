@@ -2,17 +2,16 @@ package com.guciowons.yummify.menu.application.usecase;
 
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.menu.application.model.GetDraftMenuVersionCommand;
+import com.guciowons.yummify.menu.application.service.MenuVersionLookupService;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
-import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
 public class GetDraftMenuVersionUsecase {
-    private final MenuVersionRepository menuVersionRepository;
+    private final MenuVersionLookupService menuVersionLookupService;
 
     public MenuVersion get(GetDraftMenuVersionCommand command) {
-        return menuVersionRepository.findDraftByRestaurantId(command.restaurantId())
-                .orElseThrow();
+        return menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
     }
 }
