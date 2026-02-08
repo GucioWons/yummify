@@ -4,7 +4,6 @@ import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
-import com.guciowons.yummify.restaurant.RestaurantId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,26 +24,47 @@ public class MenuVersion {
         return new MenuVersion(Id.random(), restaurantId, 1, Status.DRAFT);
     }
 
-    public MenuSection addSection(TranslatedString name, Integer position) {
+    public MenuSection addSection(TranslatedString name) {
         ensureDraft();
 
-        MenuSection newSection = MenuSection.create(name, position);
+        MenuSection newSection = MenuSection.create(name, sections.size());
         sections.add(newSection);
 
         return newSection;
     }
 
-    public MenuSection updateSection(
-            MenuSection.Id sectionId,
-            TranslatedString name,
-            Integer position,
-            List<MenuEntrySnapshot> entrySnapshots
-    ) {
+    public MenuSection updateSectionEntries(MenuSection.Id sectionId, List<MenuEntrySnapshot> entrySnapshots) {
         ensureDraft();
 
         MenuSection section = findSection(sectionId);
-        section.update(name, position, entrySnapshots);
+        section.updateEntries(entrySnapshots);
         return section;
+    }
+
+    public MenuSection updateSectionName(MenuSection.Id sectionId, TranslatedString name) {
+        ensureDraft();
+
+        MenuSection section = findSection(sectionId);
+        section.updateName(name);
+        return section;
+    }
+
+    public void updateSectionPosition(MenuSection.Id sectionId, Integer position) {
+        ensureDraft();
+
+        if (position < 1 || position > sections.size()) {
+            throw new RuntimeException();
+        }
+
+        MenuSection section = findSection(sectionId);
+
+        if (position > section.getPosition()) {
+            shiftSectionsDown(section.getPosition(), position);
+        } else if (position < section.getPosition()) {
+            shiftSectionsUp(section.getPosition(), position);
+        }
+
+        section.updatePosition(position);
     }
 
     private MenuSection findSection(MenuSection.Id sectionId) {
@@ -52,6 +72,18 @@ public class MenuVersion {
                 .filter(section -> section.getId().equals(sectionId))
                 .findFirst()
                 .orElseThrow(() -> new MenuSectionNotFoundException(sectionId));
+    }
+
+    private void shiftSectionsDown(Integer oldPosition, Integer newPosition) {
+        sections.stream()
+                .filter(s -> s.getPosition() > oldPosition && s.getPosition() <= newPosition)
+                .forEach(MenuSection::decrementPosition);
+    }
+
+    private void shiftSectionsUp(Integer oldPosition, Integer newPosition) {
+        sections.stream()
+                .filter(s -> s.getPosition() >= newPosition && s.getPosition() < oldPosition)
+                .forEach(MenuSection::incrementPosition);
     }
 
     private void ensureDraft() {
@@ -67,6 +99,12 @@ public class MenuVersion {
 
         public static Id random() {
             return of(UUID.randomUUID());
+        }
+    }
+
+    public record RestaurantId(UUID value) implements IdValueObject {
+        public static RestaurantId of(UUID value) {
+            return new RestaurantId(value);
         }
     }
 

@@ -1,8 +1,8 @@
-package com.guciowons.yummify.menu.infrastructure.in.rest.dto.mapper;
+package com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.mapper;
 
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
-import com.guciowons.yummify.menu.infrastructure.in.rest.dto.MenuEntryDto;
+import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuEntryDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

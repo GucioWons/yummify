@@ -3,7 +3,6 @@ package com.guciowons.yummify.menu.infrastructure.out.jpa.repository;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import com.guciowons.yummify.menu.infrastructure.out.jpa.entity.mapper.JpaMenuVersionMapper;
-import com.guciowons.yummify.restaurant.RestaurantId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,26 +21,26 @@ public class JpaMenuVersionRepositoryAdapter implements MenuVersionRepository {
     }
 
     @Override
-    public Optional<MenuVersion> findDraftByRestaurantId(RestaurantId restaurantId) {
+    public Optional<MenuVersion> findDraftByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return jpaMenuVersionRepository.findByRestaurantIdAndStatus(restaurantId.value(), "DRAFT")
                 .map(jpaMenuVersionMapper::toDomain);
     }
 
     @Override
-    public Optional<MenuVersion> findPublishedByRestaurantId(RestaurantId restaurantId) {
+    public Optional<MenuVersion> findPublishedByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return jpaMenuVersionRepository.findByRestaurantIdAndStatus(restaurantId.value(), "PUBLISHED")
                 .map(jpaMenuVersionMapper::toDomain);
     }
 
     @Override
-    public List<MenuVersion> findAllByRestaurantId(RestaurantId restaurantId) {
+    public List<MenuVersion> findAllByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return jpaMenuVersionRepository.findAllByRestaurantId(restaurantId.value()).stream()
                 .map(jpaMenuVersionMapper::toDomain)
                 .toList();
     }
 
     @Override
-    public boolean existsByRestaurantId(RestaurantId restaurantId) {
+    public boolean existsByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return jpaMenuVersionRepository.existsByRestaurantId(restaurantId.value());
     }
 }

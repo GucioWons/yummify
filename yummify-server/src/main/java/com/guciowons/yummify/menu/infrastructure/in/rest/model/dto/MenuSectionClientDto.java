@@ -1,4 +1,4 @@
-package com.guciowons.yummify.menu.infrastructure.in.rest.dto;
+package com.guciowons.yummify.menu.infrastructure.in.rest.model.dto;
 
 import com.guciowons.yummify.common.core.application.dto.PositionedDTO;
 

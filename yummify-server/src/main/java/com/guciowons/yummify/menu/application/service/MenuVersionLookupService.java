@@ -5,7 +5,6 @@ import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.exception.DraftMenuVersionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundException;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
-import com.guciowons.yummify.restaurant.RestaurantId;
 import lombok.RequiredArgsConstructor;
 
 @ApplicationService
@@ -13,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 public class MenuVersionLookupService {
     private final MenuVersionRepository menuVersionRepository;
 
-    public MenuVersion getDraftByRestaurantId(RestaurantId restaurantId) {
+    public MenuVersion getDraftByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return menuVersionRepository.findDraftByRestaurantId(restaurantId)
                 .orElseThrow(DraftMenuVersionNotFoundException::new);
     }
 
-    public MenuVersion getPublishedByRestaurantId(RestaurantId restaurantId) {
+    public MenuVersion getPublishedByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return menuVersionRepository.findPublishedByRestaurantId(restaurantId)
                 .orElseThrow(PublishedMenuVersionNotFoundException::new);
     }

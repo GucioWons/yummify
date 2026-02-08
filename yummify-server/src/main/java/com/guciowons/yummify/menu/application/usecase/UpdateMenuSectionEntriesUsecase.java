@@ -1,7 +1,7 @@
 package com.guciowons.yummify.menu.application.usecase;
 
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.menu.application.model.CreateMenuSectionCommand;
+import com.guciowons.yummify.menu.application.model.UpdateMenuSectionEntriesCommand;
 import com.guciowons.yummify.menu.application.service.MenuVersionLookupService;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
@@ -10,17 +10,17 @@ import lombok.RequiredArgsConstructor;
 
 @Usecase
 @RequiredArgsConstructor
-public class CreateMenuSectionUsecase {
+public class UpdateMenuSectionEntriesUsecase {
     private final MenuVersionLookupService menuVersionLookupService;
     private final MenuVersionRepository menuVersionRepository;
 
-    public MenuSection create(CreateMenuSectionCommand command) {
+    public MenuSection update(UpdateMenuSectionEntriesCommand command) {
         MenuVersion draft = menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
 
-        MenuSection section = draft.addSection(command.name());
+        MenuSection updatedSection = draft.updateSectionEntries(command.id(), command.entrySnapshots());
 
         menuVersionRepository.save(draft);
 
-        return section;
+        return updatedSection;
     }
 }

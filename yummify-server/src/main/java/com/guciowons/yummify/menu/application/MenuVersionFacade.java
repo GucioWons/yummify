@@ -3,9 +3,7 @@ package com.guciowons.yummify.menu.application;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.CreateMenuVersionCommand;
-import com.guciowons.yummify.menu.application.model.GetAllMenuVersionsCommand;
-import com.guciowons.yummify.menu.application.model.GetDraftMenuVersionCommand;
-import com.guciowons.yummify.menu.application.model.GetPublishedMenuVersionCommand;
+import com.guciowons.yummify.menu.application.model.GetMenuVersionQuery;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
 import com.guciowons.yummify.menu.application.usecase.CreateMenuVersionUsecase;
 import com.guciowons.yummify.menu.application.usecase.GetAllMenuVersionsUsecase;
@@ -33,17 +31,17 @@ public class MenuVersionFacade {
     }
 
     public List<MenuVersion> getAll(UUID restaurantId) {
-        GetAllMenuVersionsCommand command = menuVersionCommandMapper.toGetAllMenuVersionsCommand(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getAllMenuVersionsUsecase.getAll(command));
+        GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
+        return menuDomainExceptionHandler.handle(() -> getAllMenuVersionsUsecase.getAll(query));
     }
 
     public MenuVersion getDraft(UUID restaurantId) {
-        GetDraftMenuVersionCommand command = menuVersionCommandMapper.toGetDraftMenuVersionCommand(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getDraftMenuVersionUsecase.get(command));
+        GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
+        return menuDomainExceptionHandler.handle(() -> getDraftMenuVersionUsecase.get(query));
     }
 
     public MenuVersion getPublished(UUID restaurantId) {
-        GetPublishedMenuVersionCommand command = menuVersionCommandMapper.toGetPublishedMenuVersionCommand(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getPublishedMenuVersionUsecase.get(command));
+        GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
+        return menuDomainExceptionHandler.handle(() -> getPublishedMenuVersionUsecase.get(query));
     }
 }

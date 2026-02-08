@@ -23,29 +23,42 @@ public class MenuSection {
         return new MenuSection(Id.random(), name, position);
     }
 
-    public void update(TranslatedString name, Integer position, List<MenuEntrySnapshot> entrySnapshots) {
-        this.name = name;
-        this.position = position;
-        updateEntries(entrySnapshots);
-    }
-
-    private void updateEntries(List<MenuEntrySnapshot> entrySnapshots) {
+    public void updateEntries(List<MenuEntrySnapshot> entrySnapshots) {
         Map<MenuEntry.Id, MenuEntry> entriesMap = getEntriesMap();
         entries.clear();
-        entrySnapshots.forEach(entrySnapshot -> createOrUpdateEntry(entrySnapshot, entriesMap));
+        entrySnapshots.stream()
+                .map(entrySnapshot -> createOrUpdateEntry(entrySnapshot, entriesMap))
+                .forEach(entries::add);
+    }
+
+    public void updateName(TranslatedString name) {
+        this.name = name;
+    }
+
+    public void updatePosition(Integer position) {
+        this.position = position;
+    }
+
+    public void incrementPosition() {
+        position++;
+    }
+
+    public void decrementPosition() {
+        position--;
     }
 
     private Map<MenuEntry.Id, MenuEntry> getEntriesMap() {
         return entries.stream().collect(Collectors.toMap(MenuEntry::getId, Function.identity()));
     }
 
-    private void createOrUpdateEntry(MenuEntrySnapshot snapshot, Map<MenuEntry.Id, MenuEntry> entriesMap) {
+    private MenuEntry createOrUpdateEntry(MenuEntrySnapshot snapshot, Map<MenuEntry.Id, MenuEntry> entriesMap) {
         if (snapshot.id() == null) {
-            entries.add(MenuEntry.create(snapshot.dishId(), snapshot.price()));
+            return MenuEntry.create(snapshot.dishId(), snapshot.price());
         } else {
             MenuEntry entry = Optional.ofNullable(entriesMap.get(snapshot.id()))
                     .orElseThrow(() -> new MenuEntryNotFoundException(snapshot.id()));
             entry.update(snapshot.price());
+            return entry;
         }
     }
 

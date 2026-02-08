@@ -9,18 +9,15 @@ import com.guciowons.yummify.menu.infrastructure.out.jpa.entity.JpaMenuSection;
 import com.guciowons.yummify.menu.infrastructure.out.jpa.entity.JpaMenuVersion;
 import org.mapstruct.*;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 @Mapper(componentModel = "spring", uses = JpaTranslatedStringMapper.class)
 public interface JpaMenuVersionMapper {
-    @Mapping(target = "id", expression = "java(MenuVersion.Id.of(jpaMenuVersion.getId()))")
-    @Mapping(target = "restaurantId", expression = "java(RestaurantId.of(jpaMenuVersion.getRestaurantId()))")
     MenuVersion toDomain(JpaMenuVersion jpaMenuVersion);
 
-    @Mapping(target = "id", expression = "java(MenuSection.Id.of(jpaMenuSection.getId()))")
     MenuSection toDomain(JpaMenuSection jpaMenuSection);
 
-    @Mapping(target = "id", expression = "java(MenuEntry.Id.of(jpaMenuEntry.getId()))")
-    @Mapping(target = "dishId", expression = "java(MenuEntry.DishId.of(jpaMenuEntry.getDishId()))")
-    @Mapping(target = "price", expression = "java(MenuEntry.Price.of(jpaMenuEntry.getPrice()))")
     MenuEntry toDomain(JpaMenuEntry jpaMenuEntry);
 
     @Mapping(target = "id", source = "id.value")
@@ -28,12 +25,38 @@ public interface JpaMenuVersionMapper {
     JpaMenuVersion toJpa(MenuVersion menuVersion);
 
     @Mapping(target = "id", source = "id.value")
+    @Mapping(target = "version", ignore = true)
     JpaMenuSection toJpa(MenuSection menuSection);
 
     @Mapping(target = "id", source = "id.value")
     @Mapping(target = "dishId", source = "dishId.value")
     @Mapping(target = "price", source = "price.value")
+    @Mapping(target = "section", ignore = true)
     JpaMenuEntry toJpa(MenuEntry menuEntry);
+
+    default MenuVersion.Id toMenuVersionId(UUID id) {
+        return MenuVersion.Id.of(id);
+    }
+
+    default MenuSection.Id toMenuSectionId(UUID id) {
+        return MenuSection.Id.of(id);
+    }
+
+    default MenuEntry.Id toMenuEntryId(UUID id) {
+        return MenuEntry.Id.of(id);
+    }
+
+    default MenuVersion.RestaurantId toRestaurantId(UUID id) {
+        return MenuVersion.RestaurantId.of(id);
+    }
+
+    default MenuEntry.DishId toDishId(UUID dishId) {
+        return MenuEntry.DishId.of(dishId);
+    }
+
+    default MenuEntry.Price toPrice(BigDecimal price) {
+        return MenuEntry.Price.of(price);
+    }
 
     @AfterMapping
     default void afterMapping(@MappingTarget JpaMenuVersion jpaMenuVersion) {

@@ -1,8 +1,8 @@
-package com.guciowons.yummify.menu.infrastructure.in.rest.dto.mapper;
+package com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.mapper;
 
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
-import com.guciowons.yummify.menu.infrastructure.in.rest.dto.MenuVersionClientDto;
-import com.guciowons.yummify.menu.infrastructure.in.rest.dto.MenuVersionManageDto;
+import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionClientDto;
+import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionManageDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = MenuSectionMapper.class)
