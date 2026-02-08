@@ -2,7 +2,9 @@ package com.guciowons.yummify.menu.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.menu.domain.exception.CannotUpdateMenuSectionPositionException;
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftException;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,17 +19,21 @@ public class MenuVersion {
     private final Id id;
     private final RestaurantId restaurantId;
     private final List<MenuSection> sections = new ArrayList<>();
-    private Integer version;
+    private final Integer version;
     private Status status;
 
     public static MenuVersion create(RestaurantId restaurantId) {
         return new MenuVersion(Id.random(), restaurantId, 1, Status.DRAFT);
     }
 
+    public void publish() {
+        this.status = Status.PUBLISHED;
+    }
+
     public MenuSection addSection(TranslatedString name) {
         ensureDraft();
 
-        MenuSection newSection = MenuSection.create(name, sections.size());
+        MenuSection newSection = MenuSection.create(name, sections.size() + 1);
         sections.add(newSection);
 
         return newSection;
@@ -52,15 +58,16 @@ public class MenuVersion {
     public void updateSectionPosition(MenuSection.Id sectionId, Integer position) {
         ensureDraft();
 
-        if (position < 1 || position > sections.size()) {
-            throw new RuntimeException();
+        if (position < 1 || sections.size() < 2 || position > sections.size()) {
+            throw new CannotUpdateMenuSectionPositionException();
         }
 
         MenuSection section = findSection(sectionId);
-
-        if (position > section.getPosition()) {
+        if (position.equals(section.getPosition())) {
+            throw new CannotUpdateMenuSectionPositionException();
+        }else if (position > section.getPosition()) {
             shiftSectionsDown(section.getPosition(), position);
-        } else if (position < section.getPosition()) {
+        } else {
             shiftSectionsUp(section.getPosition(), position);
         }
 
@@ -88,7 +95,7 @@ public class MenuVersion {
 
     private void ensureDraft() {
         if (status != Status.DRAFT) {
-            throw new RuntimeException();
+            throw new MenuVersionIsNotDraftException();
         }
     }
 

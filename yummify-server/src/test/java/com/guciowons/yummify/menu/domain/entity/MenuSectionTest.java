@@ -30,16 +30,12 @@ class MenuSectionTest {
     void shouldAddNewEntries_WhenSnapshotsHaveNoId() {
         // given
         var section = givenMenuSection(1);
-        var newName = givenMenuSectionName(2);
-        var newPosition = 2;
         var newEntrySnapshots = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
 
         // when
-        section.update(newName, newPosition, newEntrySnapshots);
+        section.updateEntries(newEntrySnapshots);
 
         // then
-        assertThat(section.getName()).isEqualTo(newName);
-        assertThat(section.getPosition()).isEqualTo(newPosition);
         assertThat(section.getEntries()).hasSize(2);
     }
 
@@ -47,19 +43,15 @@ class MenuSectionTest {
     void shouldUpdateExistingEntry_WhenSnapshotHasId() {
         // given
         var section = givenMenuSection(1);
-        var newName = givenMenuSectionName(2);
-        var newPosition = 2;
         var existingMenuEntry = givenMenuEntry(1);
         existingMenuEntry.update(givenMenuEntryPrice(2));
         section.getEntries().add(existingMenuEntry);
         var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
 
         // when
-        section.update(newName, newPosition, newEntrySnapshots);
+        section.updateEntries(newEntrySnapshots);
 
         // then
-        assertThat(section.getName()).isEqualTo(newName);
-        assertThat(section.getPosition()).isEqualTo(newPosition);
         assertThat(section.getEntries()).hasSize(1);
         assertThat(section.getEntries().getFirst().getPrice()).isEqualTo(newEntrySnapshots.getFirst().price());
     }
@@ -68,12 +60,60 @@ class MenuSectionTest {
     void shouldThrowException_WhenUpdatingNonExistingEntry() {
         // given
         var section = givenMenuSection(1);
-        var name = givenMenuSectionName(2);
-        var position = 2;
         var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
 
         // when + then
-        assertThatThrownBy(() -> section.update(name, position, newEntrySnapshots))
+        assertThatThrownBy(() -> section.updateEntries(newEntrySnapshots))
                 .isInstanceOf(MenuEntryNotFoundException.class);
+    }
+
+    @Test
+    void shouldUpdateName() {
+        // given
+        var section = givenMenuSection(1);
+        var newName = givenMenuSectionName(2);
+
+        // when
+        section.updateName(newName);
+
+        // then
+        assertThat(section.getName()).isEqualTo(newName);
+    }
+
+    @Test
+    void shouldUpdatePosition() {
+        // given
+        var section = givenMenuSection(1);
+        var newPosition = 2;
+
+        // when
+        section.updatePosition(newPosition);
+
+        // then
+        assertThat(section.getPosition()).isEqualTo(newPosition);
+    }
+
+    @Test
+    void shouldIncrementPosition() {
+        // given
+        var section = givenMenuSection(1);
+
+        // when
+        section.incrementPosition();
+
+        // then
+        assertThat(section.getPosition()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldDecrementPosition() {
+        // given
+        var section = givenMenuSection(2);
+
+        // when
+        section.decrementPosition();
+
+        // then
+        assertThat(section.getPosition()).isEqualTo(1);
     }
 }

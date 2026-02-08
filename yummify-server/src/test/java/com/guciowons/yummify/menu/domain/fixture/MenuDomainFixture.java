@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.i8n.domain.entity.Translation;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
+import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,22 @@ import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuDomainFixture {
+    public static MenuVersion givenMenuVersion(int seed) {
+        return new MenuVersion(
+                givenMenuVersionId(seed),
+                givenMenuVersionRestaurantId(seed),
+                seed,
+                MenuVersion.Status.DRAFT
+        );
+    }
+
+    public static MenuVersion.Id givenMenuVersionId(int seed) {
+        return MenuVersion.Id.of(UUID.nameUUIDFromBytes("menu-version-%s".formatted(seed).getBytes()));
+    }
+
+    public static MenuVersion.RestaurantId givenMenuVersionRestaurantId(int seed) {
+        return MenuVersion.RestaurantId.of(UUID.nameUUIDFromBytes("restaurant-%s".formatted(seed).getBytes()));
+    }
     public static MenuSection givenMenuSection(int seed) {
         return new MenuSection(givenMenuSectionId(seed), givenMenuSectionName(seed), seed);
     }
