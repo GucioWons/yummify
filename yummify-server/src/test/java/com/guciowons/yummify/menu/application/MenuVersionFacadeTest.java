@@ -2,10 +2,7 @@ package com.guciowons.yummify.menu.application;
 
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
-import com.guciowons.yummify.menu.application.usecase.CreateMenuVersionUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetAllMenuVersionsUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetDraftMenuVersionUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetPublishedMenuVersionUsecase;
+import com.guciowons.yummify.menu.application.usecase.*;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -25,6 +22,7 @@ class MenuVersionFacadeTest {
     private final GetAllMenuVersionsUsecase getAllMenuVersionsUsecase = mock(GetAllMenuVersionsUsecase.class);
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase = mock(GetDraftMenuVersionUsecase.class);
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase = mock(GetPublishedMenuVersionUsecase.class);
+    private final PublishMenuVersionUsecase publishMenuVersionUsecase = mock(PublishMenuVersionUsecase.class);
     private final MenuVersionCommandMapper menuVersionCommandMapper = mock(MenuVersionCommandMapper.class);
     private final DomainExceptionHandler menuDomainExceptionHandler = mock(DomainExceptionHandler.class);
 
@@ -33,6 +31,7 @@ class MenuVersionFacadeTest {
             getAllMenuVersionsUsecase,
             getDraftMenuVersionUsecase,
             getPublishedMenuVersionUsecase,
+            publishMenuVersionUsecase,
             menuVersionCommandMapper,
             menuDomainExceptionHandler
     );

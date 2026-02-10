@@ -30,6 +30,10 @@ public class MenuVersion {
         this.status = Status.PUBLISHED;
     }
 
+    public void archive() {
+        this.status = Status.ARCHIVED;
+    }
+
     public MenuSection addSection(TranslatedString name) {
         ensureDraft();
 
@@ -72,6 +76,18 @@ public class MenuVersion {
         }
 
         section.updatePosition(position);
+    }
+
+    public MenuVersion createNextDraft() {
+        if (status != Status.PUBLISHED) {
+            throw new RuntimeException();
+        }
+
+        MenuVersion nextDraft = new MenuVersion(Id.random(), restaurantId, version + 1, Status.DRAFT);
+
+        sections.forEach(section -> nextDraft.getSections().add(section.copy()));
+
+        return nextDraft;
     }
 
     private MenuSection findSection(MenuSection.Id sectionId) {

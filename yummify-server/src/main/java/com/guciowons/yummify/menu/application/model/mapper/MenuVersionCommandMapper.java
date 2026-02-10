@@ -2,6 +2,7 @@ package com.guciowons.yummify.menu.application.model.mapper;
 
 import com.guciowons.yummify.menu.application.model.CreateMenuVersionCommand;
 import com.guciowons.yummify.menu.application.model.GetMenuVersionQuery;
+import com.guciowons.yummify.menu.application.model.PublishMenuVersionCommand;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import org.mapstruct.Mapper;
 
@@ -12,6 +13,8 @@ public interface MenuVersionCommandMapper {
     CreateMenuVersionCommand toCreateMenuVersionCommand(UUID restaurantId);
 
     GetMenuVersionQuery toGetMenuVersionQuery(UUID restaurantId);
+
+    PublishMenuVersionCommand toPublishMenuVersionCommand(UUID restaurantId);
 
     default MenuVersion.RestaurantId toRestaurantId(UUID id) {
         return MenuVersion.RestaurantId.of(id);

@@ -23,6 +23,14 @@ public class MenuSection {
         return new MenuSection(Id.random(), name, position);
     }
 
+    public MenuSection copy() {
+        MenuSection copy = new MenuSection(Id.random(), name, position);
+
+        entries.forEach(entry -> copy.getEntries().add(entry.copy()));
+
+        return copy;
+    }
+
     public void updateEntries(List<MenuEntrySnapshot> entrySnapshots) {
         Map<MenuEntry.Id, MenuEntry> entriesMap = getEntriesMap();
         entries.clear();
