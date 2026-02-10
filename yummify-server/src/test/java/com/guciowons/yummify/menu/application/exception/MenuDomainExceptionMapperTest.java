@@ -121,6 +121,21 @@ class MenuDomainExceptionMapperTest {
     }
 
     @Test
+    void shouldMapMenuVersionIsNotPublishedExceptionToApiException() {
+        // given
+        var exception = new MenuVersionIsNotPublishedException();
+
+        // when
+        var result = underTest.mapToApiException(exception);
+
+        // then
+        assertThat(result.getCause()).isEqualTo(exception);
+        assertThat(result.getErrorMessage()).isEqualTo(MenuErrorMessage.MENU_VERSION_IS_NOT_PUBLISHED);
+        assertThat(result.getHttpStatus()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(result.getProperties()).isEmpty();
+    }
+
+    @Test
     void shouldMapNotImplementedExceptionToApiException() {
         // given
         var exception = new DomainException("Exception message");

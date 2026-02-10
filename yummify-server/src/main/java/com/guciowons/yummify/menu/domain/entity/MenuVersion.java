@@ -27,10 +27,12 @@ public class MenuVersion {
     }
 
     public void publish() {
+        ensureDraft();
         this.status = Status.PUBLISHED;
     }
 
     public void archive() {
+        ensurePublished();
         this.status = Status.ARCHIVED;
     }
 
@@ -79,9 +81,7 @@ public class MenuVersion {
     }
 
     public MenuVersion createNextDraft() {
-        if (status != Status.PUBLISHED) {
-            throw new RuntimeException();
-        }
+        ensurePublished();
 
         MenuVersion nextDraft = new MenuVersion(Id.random(), restaurantId, version + 1, Status.DRAFT);
 
@@ -107,6 +107,12 @@ public class MenuVersion {
         sections.stream()
                 .filter(s -> s.getPosition() >= newPosition && s.getPosition() < oldPosition)
                 .forEach(MenuSection::incrementPosition);
+    }
+
+    private void ensurePublished() {
+        if (status != Status.PUBLISHED) {
+            throw new MenuVersionIsNotDraftException();
+        }
     }
 
     private void ensureDraft() {

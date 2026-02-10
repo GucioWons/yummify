@@ -20,6 +20,7 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
             case CannotUpdateMenuSectionPositionException ex -> mapCannotUpdateMenuSectionPositionException(ex);
             case MenuVersionIsNotDraftException ex -> mapMenuVersionIsNotDraftException(ex);
             case MenuVersionAlreadyExistsException ex -> mapMenuVersionAlreadyExistsException(ex);
+            case MenuVersionIsNotPublishedException ex -> mapMenuVersionIsNotPublishedException(ex);
             default -> ApiException.notImplemented(exception);
         };
     }
@@ -66,5 +67,9 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
 
     private ApiException mapMenuVersionAlreadyExistsException(MenuVersionAlreadyExistsException ex) {
         return ApiException.conflict(ex, MenuErrorMessage.MENU_VERSION_ALREADY_EXISTS, Map.of());
+    }
+
+    private ApiException mapMenuVersionIsNotPublishedException(MenuVersionIsNotPublishedException ex) {
+        return ApiException.conflict(ex, MenuErrorMessage.MENU_VERSION_IS_NOT_PUBLISHED, Map.of());
     }
 }
