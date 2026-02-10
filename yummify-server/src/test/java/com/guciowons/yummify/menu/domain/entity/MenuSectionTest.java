@@ -116,4 +116,19 @@ class MenuSectionTest {
         // then
         assertThat(section.getPosition()).isEqualTo(1);
     }
+
+    @Test
+    void shouldCopySection() {
+        // given
+        var original = givenMenuSection(1);
+        original.updateEntries(List.of(givenNewMenuEntrySnapshot(1)));
+
+        // when
+        var result = original.copy();
+
+        // then
+        assertThat(result.getId()).isNotEqualTo(original.getId());
+        assertThat(result.getName()).isEqualTo(original.getName());
+        assertThat(result.getPosition()).isEqualTo(original.getPosition());
+    }
 }

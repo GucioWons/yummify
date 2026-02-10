@@ -3,6 +3,7 @@ package com.guciowons.yummify.menu.domain.entity;
 import com.guciowons.yummify.menu.domain.exception.CannotUpdateMenuSectionPositionException;
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftException;
+import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -38,6 +39,19 @@ class MenuVersionTest {
 
         // then
         assertThat(menuVersion.getStatus()).isEqualTo(MenuVersion.Status.PUBLISHED);
+    }
+
+    @Test
+    void shouldArchiveMenuVersion() {
+        // given
+        var menuVersion = givenMenuVersion(1);
+        menuVersion.publish();
+
+        // when
+        menuVersion.archive();
+
+        // then
+        assertThat(menuVersion.getStatus()).isEqualTo(MenuVersion.Status.ARCHIVED);
     }
 
     @Test
@@ -250,5 +264,33 @@ class MenuVersionTest {
         // when + then
         assertThatThrownBy(() -> menuVersion.updateSectionEntries(sectionId, newEntries))
                 .isInstanceOf(MenuSectionNotFoundException.class);
+    }
+
+    @Test
+    void shouldReturnDeepCopy_WhenCreateNextDraft() {
+        // given
+        var original = givenMenuVersion(1);
+        var section = original.addSection(givenMenuSectionName(1));
+        original.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        original.publish();
+
+        // when
+        var result = original.createNextDraft();
+
+        // then
+        assertThat(result.getId()).isNotEqualTo(original.getId());
+        assertThat(result.getStatus()).isEqualTo(MenuVersion.Status.DRAFT);
+        assertThat(result.getVersion()).isEqualTo(original.getVersion() + 1);
+        assertThat(result.getSections()).hasSize(original.getSections().size());
+    }
+
+    @Test
+    void shouldNotCreateNextDraftAndThrowException_WhenVersionIsNotPublished() {
+        // given
+        var original = givenMenuVersion(1);
+
+        // when
+        assertThatThrownBy(original::createNextDraft)
+                .isInstanceOf(MenuVersionIsNotPublishedException.class);
     }
 }

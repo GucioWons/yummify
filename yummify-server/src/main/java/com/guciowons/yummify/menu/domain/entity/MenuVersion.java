@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.menu.domain.exception.CannotUpdateMenuSectionPositionException;
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftException;
+import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedException;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -111,7 +112,7 @@ public class MenuVersion {
 
     private void ensurePublished() {
         if (status != Status.PUBLISHED) {
-            throw new MenuVersionIsNotDraftException();
+            throw new MenuVersionIsNotPublishedException();
         }
     }
 
