@@ -4,10 +4,7 @@ import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.exception.application.ApiException;
 import com.guciowons.yummify.common.exception.application.mapper.DomainExceptionMapper;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.menu.domain.exception.DraftMenuVersionNotFoundException;
-import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
-import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
-import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundException;
+import com.guciowons.yummify.menu.domain.exception.*;
 
 import java.util.Map;
 
@@ -20,6 +17,9 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
             case PublishedMenuVersionNotFoundException ex -> mapPublishedMenuVersionNotFoundException(ex);
             case MenuSectionNotFoundException ex -> mapMenuSectionNotFoundException(ex);
             case MenuEntryNotFoundException ex -> mapMenuEntryNotFoundException(ex);
+            case CannotUpdateMenuSectionPositionException ex -> mapCannotUpdateMenuSectionPositionException(ex);
+            case MenuVersionIsNotDraftException ex -> mapMenuVersionIsNotDraftException(ex);
+            case MenuVersionAlreadyExistsException ex -> mapMenuVersionAlreadyExistsException(ex);
             default -> ApiException.notImplemented(exception);
         };
     }
@@ -41,18 +41,30 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
     }
 
     private ApiException mapMenuSectionNotFoundException(MenuSectionNotFoundException exception) {
-        return ApiException.conflict(
+        return ApiException.notFound(
                 exception,
                 MenuErrorMessage.MENU_SECTION_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
     }
 
     private ApiException mapMenuEntryNotFoundException(MenuEntryNotFoundException exception) {
-        return ApiException.conflict(
+        return ApiException.notFound(
                 exception,
                 MenuErrorMessage.MENU_ENTRY_NOT_FOUND_BY_ID,
-                Map.of("id", exception.getId())
+                Map.of("id", exception.getId().value().toString())
         );
+    }
+
+    private ApiException mapCannotUpdateMenuSectionPositionException(CannotUpdateMenuSectionPositionException ex) {
+        return ApiException.badRequest(ex, MenuErrorMessage.CANNOT_UPDATE_MENU_SECTION_POSITION);
+    }
+
+    private ApiException mapMenuVersionIsNotDraftException(MenuVersionIsNotDraftException ex) {
+        return ApiException.conflict(ex, MenuErrorMessage.MENU_VERSION_IS_NOT_DRAFT, Map.of());
+    }
+
+    private ApiException mapMenuVersionAlreadyExistsException(MenuVersionAlreadyExistsException ex) {
+        return ApiException.conflict(ex, MenuErrorMessage.MENU_VERSION_ALREADY_EXISTS, Map.of());
     }
 }
