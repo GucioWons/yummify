@@ -2,10 +2,7 @@ package com.guciowons.yummify.menu.application;
 
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
-import com.guciowons.yummify.menu.application.usecase.CreateMenuVersionUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetAllMenuVersionsUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetDraftMenuVersionUsecase;
-import com.guciowons.yummify.menu.application.usecase.GetPublishedMenuVersionUsecase;
+import com.guciowons.yummify.menu.application.usecase.*;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -13,8 +10,7 @@ import org.mockito.ArgumentMatchers;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenCreateMenuVersionCommand;
-import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenGetMenuVersionQuery;
+import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.*;
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersion;
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersionRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,6 +21,7 @@ class MenuVersionFacadeTest {
     private final GetAllMenuVersionsUsecase getAllMenuVersionsUsecase = mock(GetAllMenuVersionsUsecase.class);
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase = mock(GetDraftMenuVersionUsecase.class);
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase = mock(GetPublishedMenuVersionUsecase.class);
+    private final PublishMenuVersionUsecase publishMenuVersionUsecase = mock(PublishMenuVersionUsecase.class);
     private final MenuVersionCommandMapper menuVersionCommandMapper = mock(MenuVersionCommandMapper.class);
     private final DomainExceptionHandler menuDomainExceptionHandler = mock(DomainExceptionHandler.class);
 
@@ -33,6 +30,7 @@ class MenuVersionFacadeTest {
             getAllMenuVersionsUsecase,
             getDraftMenuVersionUsecase,
             getPublishedMenuVersionUsecase,
+            publishMenuVersionUsecase,
             menuVersionCommandMapper,
             menuDomainExceptionHandler
     );
@@ -125,6 +123,29 @@ class MenuVersionFacadeTest {
         verify(menuVersionCommandMapper).toGetMenuVersionQuery(restaurantId);
         verify(menuDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<MenuVersion>>any());
         verify(getPublishedMenuVersionUsecase).get(query);
+
+        assertThat(result).isEqualTo(menuVersion);
+    }
+
+    @Test
+    void shouldPublishMenuVersion() {
+        // given
+        var restaurantId = givenMenuVersionRestaurantId(1).value();
+        var query = givenPublishMenuVersionCommand();
+        var menuVersion = givenMenuVersion(1);
+
+        when(menuVersionCommandMapper.toPublishMenuVersionCommand(restaurantId)).thenReturn(query);
+        when(menuDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<MenuVersion>>any()))
+                .thenAnswer(inv -> inv.<Supplier<MenuVersion>>getArgument(0).get());
+        when(publishMenuVersionUsecase.publish(query)).thenReturn(menuVersion);
+
+        // when
+        var result = underTest.publish(restaurantId);
+
+        // then
+        verify(menuVersionCommandMapper).toPublishMenuVersionCommand(restaurantId);
+        verify(menuDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<MenuVersion>>any());
+        verify(publishMenuVersionUsecase).publish(query);
 
         assertThat(result).isEqualTo(menuVersion);
     }

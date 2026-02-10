@@ -23,6 +23,10 @@ public class MenuEntry {
         this.price = price;
     }
 
+    public MenuEntry copy() {
+        return new MenuEntry(Id.random(), dishId, price);
+    }
+
     public record Id(UUID value) implements IdValueObject {
         public static Id of(UUID value) {
             return new Id(value);

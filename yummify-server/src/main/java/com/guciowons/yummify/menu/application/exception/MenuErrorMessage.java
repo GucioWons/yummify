@@ -14,7 +14,8 @@ public enum MenuErrorMessage implements ErrorMessage {
     MENU_ENTRY_NOT_FOUND_BY_ID("Could not find menu entry with ID '{{id}}'"),
     CANNOT_UPDATE_MENU_SECTION_POSITION("Could not update menu section position"),
     MENU_VERSION_IS_NOT_DRAFT("Menu version is not draft"),
-    MENU_VERSION_ALREADY_EXISTS("Menu version already exists");
+    MENU_VERSION_ALREADY_EXISTS("Menu version already exists"),
+    MENU_VERSION_IS_NOT_PUBLISHED("Menu version is not published");
 
     private final String message;
 }

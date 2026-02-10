@@ -42,4 +42,8 @@ public class MenuApplicationFixture {
     public  static UpdateMenuSectionPositionCommand givenUpdateMenuSectionPositionCommand(MenuSection.Id sectionId) {
         return new UpdateMenuSectionPositionCommand(sectionId, givenMenuVersionRestaurantId(1), 1);
     }
+
+    public static PublishMenuVersionCommand givenPublishMenuVersionCommand() {
+        return new PublishMenuVersionCommand(givenMenuVersionRestaurantId(1));
+    }
 }

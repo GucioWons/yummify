@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.menu.domain.exception.CannotUpdateMenuSectionPositionException;
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftException;
+import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedException;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,13 @@ public class MenuVersion {
     }
 
     public void publish() {
+        ensureDraft();
         this.status = Status.PUBLISHED;
+    }
+
+    public void archive() {
+        ensurePublished();
+        this.status = Status.ARCHIVED;
     }
 
     public MenuSection addSection(TranslatedString name) {
@@ -74,6 +81,16 @@ public class MenuVersion {
         section.updatePosition(position);
     }
 
+    public MenuVersion createNextDraft() {
+        ensurePublished();
+
+        MenuVersion nextDraft = new MenuVersion(Id.random(), restaurantId, version + 1, Status.DRAFT);
+
+        sections.forEach(section -> nextDraft.getSections().add(section.copy()));
+
+        return nextDraft;
+    }
+
     private MenuSection findSection(MenuSection.Id sectionId) {
         return sections.stream()
                 .filter(section -> section.getId().equals(sectionId))
@@ -91,6 +108,12 @@ public class MenuVersion {
         sections.stream()
                 .filter(s -> s.getPosition() >= newPosition && s.getPosition() < oldPosition)
                 .forEach(MenuSection::incrementPosition);
+    }
+
+    private void ensurePublished() {
+        if (status != Status.PUBLISHED) {
+            throw new MenuVersionIsNotPublishedException();
+        }
     }
 
     private void ensureDraft() {

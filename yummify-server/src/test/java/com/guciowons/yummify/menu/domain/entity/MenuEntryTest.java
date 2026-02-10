@@ -33,4 +33,18 @@ class MenuEntryTest {
         // then
         assertThat(menuEntry.getPrice()).isEqualTo(newPrice);
     }
+
+    @Test
+    void shouldCopySection() {
+        // given
+        var original = givenMenuEntry(1);
+
+        // when
+        var result = original.copy();
+
+        // then
+        assertThat(result.getId()).isNotEqualTo(original.getId());
+        assertThat(result.getDishId()).isEqualTo(original.getDishId());
+        assertThat(result.getPrice()).isEqualTo(original.getPrice());
+    }
 }
