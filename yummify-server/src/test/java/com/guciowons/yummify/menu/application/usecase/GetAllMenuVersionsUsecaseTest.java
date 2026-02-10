@@ -1,0 +1,35 @@
+package com.guciowons.yummify.menu.application.usecase;
+
+import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenGetMenuVersionQuery;
+import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersion;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
+class GetAllMenuVersionsUsecaseTest {
+    private final MenuVersionRepository menuVersionRepository = mock(MenuVersionRepository.class);
+
+    private final GetAllMenuVersionsUsecase underTest = new GetAllMenuVersionsUsecase(menuVersionRepository);
+
+    @Test
+    void shouldGetAllMenuVersions() {
+        // given
+        var query = givenGetMenuVersionQuery();
+        var menuVersions = List.of(givenMenuVersion(1), givenMenuVersion(2), givenMenuVersion(3));
+
+        when(menuVersionRepository.findAllByRestaurantId(query.restaurantId())).thenReturn(menuVersions);
+
+        // when
+        var result = underTest.getAll(query);
+
+        // then
+        verify(menuVersionRepository).findAllByRestaurantId(query.restaurantId());
+
+        assertThat(result).isEqualTo(menuVersions);
+    }
+
+}

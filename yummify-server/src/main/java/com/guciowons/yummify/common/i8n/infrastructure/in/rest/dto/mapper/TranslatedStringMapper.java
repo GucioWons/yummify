@@ -26,6 +26,16 @@ public abstract class TranslatedStringMapper {
         return new TranslatedStringDTO(translations);
     }
 
+    public TranslatedString map(Map<String, String> translations) {
+        Map<Language, Translation> translations2 = translations.entrySet().stream()
+                .collect(Collectors.toMap(
+                        e -> Language.valueOf(e.getKey()),
+                        e -> Translation.of(e.getValue()))
+                );
+
+        return TranslatedString.of(translations2);
+    }
+
     public String toString(TranslatedString translatedString) {
         LanguageContext languageContext = LanguageContext.get();
         return translatedString.translateTo(languageContext.language(), languageContext.defaultLanguage()).value();

@@ -1,16 +1,15 @@
 package com.guciowons.yummify.menu.domain.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import lombok.Getter;
-
-import java.util.UUID;
 
 @Getter
 public class MenuEntryNotFoundException extends DomainException {
-    private final UUID id;
+    private final MenuEntry.Id id;
 
-    public MenuEntryNotFoundException(UUID id) {
-        super("Menu entry not found");
+    public MenuEntryNotFoundException(MenuEntry.Id id) {
+        super("Menu entry not found by id");
         this.id = id;
     }
 }
