@@ -11,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Table(name = "menu_version", schema = "menu")
 public class JpaMenuVersion {
     @Id
     private UUID id;
@@ -18,7 +19,7 @@ public class JpaMenuVersion {
     @Column(nullable = false)
     private UUID restaurantId;
 
-    @OneToMany(mappedBy = "menuVersion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<JpaMenuSection> sections = new ArrayList<>();
 
     @Column(nullable = false)

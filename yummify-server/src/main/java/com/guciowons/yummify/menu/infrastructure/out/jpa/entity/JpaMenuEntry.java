@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name = "menu_entry", schema = "menu")
 public class JpaMenuEntry {
     @Id
     private UUID id;
@@ -21,6 +22,6 @@ public class JpaMenuEntry {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_section_id")
+    @JoinColumn(name = "section_id")
     private JpaMenuSection section;
 }

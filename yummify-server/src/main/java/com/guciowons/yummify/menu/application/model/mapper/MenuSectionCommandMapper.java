@@ -17,6 +17,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = TranslatedStringMapper.class)
 public interface MenuSectionCommandMapper {
+    @Mapping(target = "restaurantId", source = "restaurantId")
     @Mapping(target = "name", source = "name")
     CreateMenuSectionCommand toCreateMenuSectionCommand(UUID restaurantId, Map<String, String> name);
 
@@ -26,6 +27,8 @@ public interface MenuSectionCommandMapper {
             List<MenuEntrySnapshot> entrySnapshots
     );
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "restaurantId", source = "restaurantId")
     @Mapping(target = "name", source = "name")
     UpdateMenuSectionNameCommand toUpdateMenuSectionNameCommand(UUID id, UUID restaurantId, Map<String, String> name);
 

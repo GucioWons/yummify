@@ -14,6 +14,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Entity
+@Table(name = "menu_section", schema = "menu")
 public class JpaMenuSection {
     @Id
     private UUID id;
