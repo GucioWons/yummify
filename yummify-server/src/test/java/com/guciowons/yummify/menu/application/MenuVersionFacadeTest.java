@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.*;
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersion;
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersionRestaurantId;
+import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -22,6 +21,7 @@ class MenuVersionFacadeTest {
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase = mock(GetDraftMenuVersionUsecase.class);
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase = mock(GetPublishedMenuVersionUsecase.class);
     private final PublishMenuVersionUsecase publishMenuVersionUsecase = mock(PublishMenuVersionUsecase.class);
+    private final RestoreMenuVersionUsecase restoreMenuVersionUsecase = mock(RestoreMenuVersionUsecase.class);
     private final MenuVersionCommandMapper menuVersionCommandMapper = mock(MenuVersionCommandMapper.class);
     private final DomainExceptionHandler menuDomainExceptionHandler = mock(DomainExceptionHandler.class);
 
@@ -31,6 +31,7 @@ class MenuVersionFacadeTest {
             getDraftMenuVersionUsecase,
             getPublishedMenuVersionUsecase,
             publishMenuVersionUsecase,
+            restoreMenuVersionUsecase,
             menuVersionCommandMapper,
             menuDomainExceptionHandler
     );
@@ -146,6 +147,30 @@ class MenuVersionFacadeTest {
         verify(menuVersionCommandMapper).toPublishMenuVersionCommand(restaurantId);
         verify(menuDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<MenuVersion>>any());
         verify(publishMenuVersionUsecase).publish(query);
+
+        assertThat(result).isEqualTo(menuVersion);
+    }
+
+    @Test
+    void shouldRestoreMenuVersion() {
+        // given
+        var id = givenMenuVersionId(1).value();
+        var restaurantId = givenMenuVersionRestaurantId(1).value();
+        var query = givenRestoreMenuVersionCommand();
+        var menuVersion = givenMenuVersion(1);
+
+        when(menuVersionCommandMapper.toRestoreMenuVersionCommand(id, restaurantId)).thenReturn(query);
+        when(menuDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<MenuVersion>>any()))
+                .thenAnswer(inv -> inv.<Supplier<MenuVersion>>getArgument(0).get());
+        when(restoreMenuVersionUsecase.restore(query)).thenReturn(menuVersion);
+
+        // when
+        var result = underTest.restore(id, restaurantId);
+
+        // then
+        verify(menuVersionCommandMapper).toRestoreMenuVersionCommand(id, restaurantId);
+        verify(menuDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<MenuVersion>>any());
+        verify(restoreMenuVersionUsecase).restore(query);
 
         assertThat(result).isEqualTo(menuVersion);
     }

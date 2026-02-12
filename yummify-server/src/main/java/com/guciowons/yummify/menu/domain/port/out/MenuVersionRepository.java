@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface MenuVersionRepository {
     void save(MenuVersion menuVersion);
 
+    Optional<MenuVersion> findArchivedByIdAndRestaurantId(MenuVersion.Id id, MenuVersion.RestaurantId restaurantId);
+
     Optional<MenuVersion> findDraftByRestaurantId(MenuVersion.RestaurantId restaurantId);
 
     Optional<MenuVersion> findPublishedByRestaurantId(MenuVersion.RestaurantId restaurantId);

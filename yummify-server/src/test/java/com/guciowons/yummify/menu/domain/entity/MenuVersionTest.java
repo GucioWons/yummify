@@ -293,4 +293,36 @@ class MenuVersionTest {
         assertThatThrownBy(original::createNextDraft)
                 .isInstanceOf(MenuVersionIsNotPublishedException.class);
     }
+
+    @Test
+    void shouldCopySections_WhenRestoreFromArchived() {
+        // given
+        var draft = givenMenuVersion(1);
+        var archived = givenMenuVersion(2);
+        var section = archived.addSection(givenMenuSectionName(1));
+        archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        archived.publish();
+        archived.archive();
+
+        // when
+        draft.restoreFrom(archived);
+
+        // then
+        assertThat(draft.getId()).isNotEqualTo(archived.getId());
+        assertThat(draft.getStatus()).isEqualTo(MenuVersion.Status.DRAFT);
+        assertThat(draft.getVersion()).isNotEqualTo(archived.getVersion());
+        assertThat(draft.getSections()).hasSize(archived.getSections().size());
+    }
+
+    @Test
+    void shouldNotRestoreAndThrowException_WhenVersionIsNotDraft() {
+        // given
+        var draft = givenMenuVersion(1);
+        draft.publish();
+        var archived = givenMenuVersion(2);
+
+        // when
+        assertThatThrownBy(() -> draft.restoreFrom(archived))
+                .isInstanceOf(MenuVersionIsNotDraftException.class);
+    }
 }

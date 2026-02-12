@@ -46,4 +46,8 @@ public class MenuApplicationFixture {
     public static PublishMenuVersionCommand givenPublishMenuVersionCommand() {
         return new PublishMenuVersionCommand(givenMenuVersionRestaurantId(1));
     }
+
+    public static RestoreMenuVersionCommand givenRestoreMenuVersionCommand() {
+        return new RestoreMenuVersionCommand(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
+    }
 }

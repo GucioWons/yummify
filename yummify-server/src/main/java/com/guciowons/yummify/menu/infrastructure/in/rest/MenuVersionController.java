@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("menu/version")
@@ -62,6 +63,18 @@ public class MenuVersionController {
     @PostMapping("publish")
     public ResponseEntity<MenuVersionClientDto> publish(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.publish(userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuVersionMapper.toClientDto(published));
+    }
+
+    @PostMapping("{id}/restore")
+    public ResponseEntity<MenuVersionClientDto> restore(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        MenuVersion published = menuVersionFacade.restore(id, userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

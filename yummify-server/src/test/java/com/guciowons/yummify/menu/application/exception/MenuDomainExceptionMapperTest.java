@@ -6,8 +6,7 @@ import com.guciowons.yummify.menu.domain.exception.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuEntryId;
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuSectionId;
+import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MenuDomainExceptionMapperTest {
@@ -41,6 +40,22 @@ class MenuDomainExceptionMapperTest {
         assertThat(result.getErrorMessage()).isEqualTo(MenuErrorMessage.PUBLISHED_MENU_VERSION_NOT_FOUND);
         assertThat(result.getHttpStatus()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(result.getProperties()).isEmpty();
+    }
+
+    @Test
+    void shouldMapArchivedMenuVersionNotFoundExceptionToApiException() {
+        // given
+        var id = givenMenuVersionId(1);
+        var exception = new ArchivedMenuNotFoundException(id);
+
+        // when
+        var result = underTest.mapToApiException(exception);
+
+        // then
+        assertThat(result.getCause()).isEqualTo(exception);
+        assertThat(result.getErrorMessage()).isEqualTo(MenuErrorMessage.ARCHIVED_MENU_VERSION_NOT_FOUND);
+        assertThat(result.getHttpStatus()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(result.getProperties()).containsEntry("id", id.value().toString());
     }
 
     @Test
