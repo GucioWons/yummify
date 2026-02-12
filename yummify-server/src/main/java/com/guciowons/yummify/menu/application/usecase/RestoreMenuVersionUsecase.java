@@ -15,11 +15,11 @@ public class RestoreMenuVersionUsecase {
     private final MenuVersionRepository menuVersionRepository;
 
     public MenuVersion restore(RestoreMenuVersionCommand command) {
-        MenuVersion draft = menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
-
         MenuVersion archivedToRestore = menuVersionRepository
                 .findArchivedByIdAndRestaurantId(command.id(), command.restaurantId())
                 .orElseThrow(() -> new ArchivedMenuNotFoundException(command.id()));
+
+        MenuVersion draft = menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
 
         draft.restoreFrom(archivedToRestore);
 
