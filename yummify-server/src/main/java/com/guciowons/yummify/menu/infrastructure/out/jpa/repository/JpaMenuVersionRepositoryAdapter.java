@@ -21,6 +21,12 @@ public class JpaMenuVersionRepositoryAdapter implements MenuVersionRepository {
     }
 
     @Override
+    public Optional<MenuVersion> findArchivedByIdAndRestaurantId(MenuVersion.Id id, MenuVersion.RestaurantId restaurantId) {
+        return jpaMenuVersionRepository.findByIdAndRestaurantIdAndStatus(id.value(), restaurantId.value(), "ARCHIVED")
+                .map(jpaMenuVersionMapper::toDomain);
+    }
+
+    @Override
     public Optional<MenuVersion> findDraftByRestaurantId(MenuVersion.RestaurantId restaurantId) {
         return jpaMenuVersionRepository.findByRestaurantIdAndStatus(restaurantId.value(), "DRAFT")
                 .map(jpaMenuVersionMapper::toDomain);

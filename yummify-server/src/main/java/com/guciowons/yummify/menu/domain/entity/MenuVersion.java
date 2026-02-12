@@ -91,6 +91,13 @@ public class MenuVersion {
         return nextDraft;
     }
 
+    public void restoreFrom(MenuVersion source) {
+        ensureDraft();
+
+        sections.clear();
+        source.getSections().forEach(section -> sections.add(section.copy()));
+    }
+
     private MenuSection findSection(MenuSection.Id sectionId) {
         return sections.stream()
                 .filter(section -> section.getId().equals(sectionId))

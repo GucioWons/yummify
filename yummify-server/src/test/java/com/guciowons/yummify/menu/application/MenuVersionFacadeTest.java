@@ -22,6 +22,7 @@ class MenuVersionFacadeTest {
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase = mock(GetDraftMenuVersionUsecase.class);
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase = mock(GetPublishedMenuVersionUsecase.class);
     private final PublishMenuVersionUsecase publishMenuVersionUsecase = mock(PublishMenuVersionUsecase.class);
+    private final RestoreMenuVersionUsecase restoreMenuVersionUsecase = mock(RestoreMenuVersionUsecase.class);
     private final MenuVersionCommandMapper menuVersionCommandMapper = mock(MenuVersionCommandMapper.class);
     private final DomainExceptionHandler menuDomainExceptionHandler = mock(DomainExceptionHandler.class);
 
@@ -31,6 +32,7 @@ class MenuVersionFacadeTest {
             getDraftMenuVersionUsecase,
             getPublishedMenuVersionUsecase,
             publishMenuVersionUsecase,
+            restoreMenuVersionUsecase,
             menuVersionCommandMapper,
             menuDomainExceptionHandler
     );

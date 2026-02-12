@@ -15,6 +15,7 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
         return switch(exception) {
             case DraftMenuVersionNotFoundException ex -> mapDraftMenuVersionNotFoundException(ex);
             case PublishedMenuVersionNotFoundException ex -> mapPublishedMenuVersionNotFoundException(ex);
+            case ArchivedMenuNotFoundException ex -> mapArchivedMenuNotFoundException(ex);
             case MenuSectionNotFoundException ex -> mapMenuSectionNotFoundException(ex);
             case MenuEntryNotFoundException ex -> mapMenuEntryNotFoundException(ex);
             case CannotUpdateMenuSectionPositionException ex -> mapCannotUpdateMenuSectionPositionException(ex);
@@ -38,6 +39,14 @@ public class MenuDomainExceptionMapper implements DomainExceptionMapper {
                 exception,
                 MenuErrorMessage.PUBLISHED_MENU_VERSION_NOT_FOUND,
                 Map.of()
+        );
+    }
+
+    private ApiException mapArchivedMenuNotFoundException(ArchivedMenuNotFoundException exception) {
+        return ApiException.notFound(
+                exception,
+                MenuErrorMessage.ARCHIVED_MENU_VERSION_NOT_FOUND,
+                Map.of("id", exception.getId().value().toString())
         );
     }
 
