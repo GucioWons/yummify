@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 class MenuVersionFacadeTest {
     private final CreateMenuVersionUsecase createMenuVersionUsecase = mock(CreateMenuVersionUsecase.class);
-    private final GetAllMenuVersionsUsecase getAllMenuVersionsUsecase = mock(GetAllMenuVersionsUsecase.class);
+    private final GetAllArchivedMenuVersionsUsecase getAllArchivedMenuVersionsUsecase = mock(GetAllArchivedMenuVersionsUsecase.class);
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase = mock(GetDraftMenuVersionUsecase.class);
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase = mock(GetPublishedMenuVersionUsecase.class);
     private final PublishMenuVersionUsecase publishMenuVersionUsecase = mock(PublishMenuVersionUsecase.class);
@@ -27,7 +27,7 @@ class MenuVersionFacadeTest {
 
     private final MenuVersionFacade underTest = new MenuVersionFacade(
             createMenuVersionUsecase,
-            getAllMenuVersionsUsecase,
+            getAllArchivedMenuVersionsUsecase,
             getDraftMenuVersionUsecase,
             getPublishedMenuVersionUsecase,
             publishMenuVersionUsecase,
@@ -60,7 +60,7 @@ class MenuVersionFacadeTest {
     }
 
     @Test
-    void shouldGetAllMenuVersions() {
+    void shouldGetAllArchivedMenuVersions() {
         // given
         var restaurantId = givenMenuVersionRestaurantId(1).value();
         var query = givenGetMenuVersionQuery();
@@ -69,15 +69,15 @@ class MenuVersionFacadeTest {
         when(menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId)).thenReturn(query);
         when(menuDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<List<MenuVersion>>>any()))
                 .thenAnswer(inv -> inv.<Supplier<List<MenuVersion>>>getArgument(0).get());
-        when(getAllMenuVersionsUsecase.getAll(query)).thenReturn(menuVersions);
+        when(getAllArchivedMenuVersionsUsecase.getAll(query)).thenReturn(menuVersions);
 
         // when
-        var result = underTest.getAll(restaurantId);
+        var result = underTest.getAllArchived(restaurantId);
 
         // then
         verify(menuVersionCommandMapper).toGetMenuVersionQuery(restaurantId);
         verify(menuDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<List<MenuVersion>>>any());
-        verify(getAllMenuVersionsUsecase).getAll(query);
+        verify(getAllArchivedMenuVersionsUsecase).getAll(query);
 
         assertThat(result).isEqualTo(menuVersions);
     }

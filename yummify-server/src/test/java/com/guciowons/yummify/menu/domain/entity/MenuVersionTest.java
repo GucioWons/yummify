@@ -6,6 +6,7 @@ import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftExceptio
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedException;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.List;
 
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
@@ -44,14 +45,16 @@ class MenuVersionTest {
     @Test
     void shouldArchiveMenuVersion() {
         // given
+        var now = Instant.now();
         var menuVersion = givenMenuVersion(1);
         menuVersion.publish();
 
         // when
-        menuVersion.archive();
+        menuVersion.archive(now);
 
         // then
         assertThat(menuVersion.getStatus()).isEqualTo(MenuVersion.Status.ARCHIVED);
+        assertThat(menuVersion.getArchivedAt()).isEqualTo(now);
     }
 
     @Test
@@ -302,7 +305,7 @@ class MenuVersionTest {
         var section = archived.addSection(givenMenuSectionName(1));
         archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
         archived.publish();
-        archived.archive();
+        archived.archive(Instant.now());
 
         // when
         draft.restoreFrom(archived);

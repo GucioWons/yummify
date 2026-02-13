@@ -6,6 +6,9 @@ import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenPublishMenuVersionCommand;
@@ -16,10 +19,12 @@ import static org.mockito.Mockito.*;
 class PublishMenuVersionUsecaseTest {
     private final MenuVersionLookupService menuVersionLookupService = mock(MenuVersionLookupService.class);
     private final MenuVersionRepository menuVersionRepository = mock(MenuVersionRepository.class);
+    private final Clock clock = Clock.fixed(Instant.parse("2026-01-01T00:00:00Z"), ZoneOffset.UTC);
 
     private final PublishMenuVersionUsecase underTest = new PublishMenuVersionUsecase(
             menuVersionLookupService,
-            menuVersionRepository
+            menuVersionRepository,
+            clock
     );
 
     @Test
@@ -51,6 +56,7 @@ class PublishMenuVersionUsecaseTest {
         assertThat(nextDraft.getVersion()).isEqualTo(draft.getVersion() + 1);
         assertThat(nextDraft.getStatus()).isEqualTo(MenuVersion.Status.DRAFT);
         assertThat(published.getStatus()).isEqualTo(MenuVersion.Status.ARCHIVED);
+        assertThat(published.getArchivedAt()).isEqualTo(Instant.parse("2026-01-01T00:00:00Z"));
         assertThat(result.getStatus()).isEqualTo(MenuVersion.Status.PUBLISHED);
     }
 

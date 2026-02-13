@@ -3,6 +3,7 @@ package com.guciowons.yummify.menu.infrastructure.in.rest;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.menu.application.MenuVersionFacade;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
+import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionArchivedListDto;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionClientDto;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionManageDto;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.mapper.MenuVersionMapper;
@@ -31,10 +32,12 @@ public class MenuVersionController {
                 .body(menuVersionMapper.toManageDto(menuVersion));
     }
 
-    @GetMapping
-    public ResponseEntity<List<MenuVersionManageDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<MenuVersionManageDto> menuVersions = menuVersionFacade.getAll(userPrincipal.restaurantId()).stream()
-                .map(menuVersionMapper::toManageDto)
+    @GetMapping("archived")
+    public ResponseEntity<List<MenuVersionArchivedListDto>> getAllArchived(
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        List<MenuVersionArchivedListDto> menuVersions = menuVersionFacade.getAllArchived(userPrincipal.restaurantId()).stream()
+                .map(menuVersionMapper::toArchivedListDto)
                 .toList();
 
         return ResponseEntity

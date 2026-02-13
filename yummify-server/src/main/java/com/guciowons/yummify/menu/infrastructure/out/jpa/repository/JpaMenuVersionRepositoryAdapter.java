@@ -39,8 +39,8 @@ public class JpaMenuVersionRepositoryAdapter implements MenuVersionRepository {
     }
 
     @Override
-    public List<MenuVersion> findAllByRestaurantId(MenuVersion.RestaurantId restaurantId) {
-        return jpaMenuVersionRepository.findAllByRestaurantId(restaurantId.value()).stream()
+    public List<MenuVersion> findAllArchivedByRestaurantId(MenuVersion.RestaurantId restaurantId) {
+        return jpaMenuVersionRepository.findAllByRestaurantIdAndStatus(restaurantId.value(), "ARCHIVED").stream()
                 .map(jpaMenuVersionMapper::toDomain)
                 .toList();
     }
