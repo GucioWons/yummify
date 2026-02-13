@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("menu/version")
+@RequestMapping("menu/versions")
 @RequiredArgsConstructor
 public class MenuVersionController {
     private final MenuVersionFacade menuVersionFacade;
@@ -63,6 +63,18 @@ public class MenuVersionController {
                 .body(menuVersionMapper.toClientDto(published));
     }
 
+    @GetMapping("archived/{id}")
+    public ResponseEntity<MenuVersionManageDto> getArchived(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        MenuVersion published = menuVersionFacade.getArchived(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuVersionMapper.toManageDto(published));
+    }
+
     @PostMapping("publish")
     public ResponseEntity<MenuVersionClientDto> publish(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.publish(userPrincipal.restaurantId());
@@ -72,7 +84,7 @@ public class MenuVersionController {
                 .body(menuVersionMapper.toClientDto(published));
     }
 
-    @PostMapping("{id}/restore")
+    @PostMapping("archived/{id}/restore")
     public ResponseEntity<MenuVersionClientDto> restore(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id

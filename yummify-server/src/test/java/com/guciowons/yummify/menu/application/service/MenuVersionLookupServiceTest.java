@@ -1,5 +1,6 @@
 package com.guciowons.yummify.menu.application.service;
 
+import com.guciowons.yummify.menu.domain.exception.ArchivedMenuNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.DraftMenuVersionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundException;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
@@ -7,8 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersion;
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersionRestaurantId;
+import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -80,5 +80,40 @@ class MenuVersionLookupServiceTest {
 
         // then
         verify(menuVersionRepository).findPublishedByRestaurantId(restaurantId);
+    }
+
+    @Test
+    void shouldGetArchivedMenuVersion_WhenArchivedExists() {
+        // given
+        var id = givenMenuVersionId(1);
+        var restaurantId = givenMenuVersionRestaurantId(1);
+        var menuVersion = givenMenuVersion(1);
+
+        when(menuVersionRepository.findArchivedByIdAndRestaurantId(id, restaurantId))
+                .thenReturn(Optional.of(menuVersion));
+
+        // when
+        var result = underTest.getArchivedByIdAndRestaurantId(id, restaurantId);
+
+        // then
+        verify(menuVersionRepository).findArchivedByIdAndRestaurantId(id, restaurantId);
+
+        assertThat(result).isEqualTo(menuVersion);
+    }
+
+    @Test
+    void shouldThrowException_WhenArchivedNotExists() {
+        // given
+        var id = givenMenuVersionId(1);
+        var restaurantId = givenMenuVersionRestaurantId(1);
+
+        when(menuVersionRepository.findArchivedByIdAndRestaurantId(id, restaurantId)).thenReturn(Optional.empty());
+
+        // when
+        assertThatThrownBy(() -> underTest.getArchivedByIdAndRestaurantId(id, restaurantId))
+                .isInstanceOf(ArchivedMenuNotFoundException.class);
+
+        // then
+        verify(menuVersionRepository).findArchivedByIdAndRestaurantId(id, restaurantId);
     }
 }
