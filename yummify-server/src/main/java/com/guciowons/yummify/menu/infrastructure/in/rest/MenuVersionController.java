@@ -63,6 +63,18 @@ public class MenuVersionController {
                 .body(menuVersionMapper.toClientDto(published));
     }
 
+    @GetMapping("archived/{id}")
+    public ResponseEntity<MenuVersionManageDto> getArchived(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        MenuVersion published = menuVersionFacade.getArchived(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuVersionMapper.toManageDto(published));
+    }
+
     @PostMapping("publish")
     public ResponseEntity<MenuVersionClientDto> publish(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.publish(userPrincipal.restaurantId());
