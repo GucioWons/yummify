@@ -21,7 +21,8 @@ public class MenuDomainFixture {
                 givenMenuVersionId(seed),
                 givenMenuVersionRestaurantId(seed),
                 seed,
-                MenuVersion.Status.DRAFT
+                MenuVersion.Status.DRAFT,
+                null
         );
     }
 

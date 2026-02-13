@@ -7,11 +7,15 @@ import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Clock;
+import java.time.Instant;
+
 @Usecase
 @RequiredArgsConstructor
 public class PublishMenuVersionUsecase {
     private final MenuVersionLookupService menuVersionLookupService;
     private final MenuVersionRepository menuVersionRepository;
+    private final Clock clock;
 
     public MenuVersion publish(PublishMenuVersionCommand command) {
         MenuVersion draftToPublish = menuVersionLookupService.getDraftByRestaurantId(command.restaurantId());
@@ -28,7 +32,7 @@ public class PublishMenuVersionUsecase {
     }
 
     private void archiveMenuVersion(MenuVersion menuVersion) {
-        menuVersion.archive();
+        menuVersion.archive(Instant.now(clock));
         menuVersionRepository.save(menuVersion);
     }
 }

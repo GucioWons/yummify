@@ -10,6 +10,7 @@ import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,9 +23,10 @@ public class MenuVersion {
     private final List<MenuSection> sections = new ArrayList<>();
     private final Integer version;
     private Status status;
+    private Instant archivedAt;
 
     public static MenuVersion create(RestaurantId restaurantId) {
-        return new MenuVersion(Id.random(), restaurantId, 1, Status.DRAFT);
+        return new MenuVersion(Id.random(), restaurantId, 1, Status.DRAFT, null);
     }
 
     public void publish() {
@@ -32,9 +34,10 @@ public class MenuVersion {
         this.status = Status.PUBLISHED;
     }
 
-    public void archive() {
+    public void archive(Instant archivedAt) {
         ensurePublished();
         this.status = Status.ARCHIVED;
+        this.archivedAt = archivedAt;
     }
 
     public MenuSection addSection(TranslatedString name) {
@@ -84,7 +87,7 @@ public class MenuVersion {
     public MenuVersion createNextDraft() {
         ensurePublished();
 
-        MenuVersion nextDraft = new MenuVersion(Id.random(), restaurantId, version + 1, Status.DRAFT);
+        MenuVersion nextDraft = new MenuVersion(Id.random(), restaurantId, version + 1, Status.DRAFT, null);
 
         sections.forEach(section -> nextDraft.getSections().add(section.copy()));
 

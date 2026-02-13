@@ -11,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
+import java.time.Clock;
+
 @ComponentScan(
         basePackages = "com.guciowons.yummify.menu",
         includeFilters = {
@@ -28,5 +30,10 @@ public class MenuBeansConfig {
             MenuDomainExceptionMapper menuDomainExceptionMapper
     ) {
         return new DomainExceptionHandler(menuDomainExceptionMapper);
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
     }
 }
