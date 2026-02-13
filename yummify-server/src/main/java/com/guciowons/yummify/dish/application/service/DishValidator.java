@@ -19,7 +19,7 @@ public class DishValidator {
             return;
         }
 
-        List<UUID> missing = ingredientExistencePort.findMissing(ingredientIds, restaurantId);
+        List<UUID> missing = ingredientExistencePort.findMissing(ingredientIds, restaurantId.value());
 
         if (!missing.isEmpty()) {
             throw new DishIngredientsNotFoundException(missing);

@@ -14,6 +14,10 @@ public class CreateIngredientUsecase {
 
     @Transactional
     public Ingredient create(CreateIngredientCommand command) {
-        return ingredientRepository.save(Ingredient.of(command.restaurantId(), command.name()));
+        Ingredient ingredient = Ingredient.create(command.restaurantId(), command.name());
+
+        ingredientRepository.save(ingredient);
+
+        return ingredient;
     }
 }

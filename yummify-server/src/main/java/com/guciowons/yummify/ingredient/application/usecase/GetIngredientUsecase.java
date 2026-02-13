@@ -4,7 +4,6 @@ import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
 import com.guciowons.yummify.ingredient.application.service.IngredientLookupService;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
-import com.guciowons.yummify.ingredient.domain.exception.IngredientNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Usecase
@@ -12,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class GetIngredientUsecase {
     private final IngredientLookupService ingredientLookupService;
 
-    public Ingredient getById(GetIngredientCommand command) throws IngredientNotFoundException {
+    public Ingredient getById(GetIngredientCommand command) {
         return ingredientLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
     }
 }

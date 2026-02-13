@@ -2,7 +2,6 @@ package com.guciowons.yummify.ingredient.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
-import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.ingredient.application.model.CreateIngredientCommand;
 import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsCommand;
 import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
@@ -16,6 +15,7 @@ import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Facade
@@ -28,7 +28,7 @@ public class IngredientFacade {
     private final DomainExceptionHandler ingredientDomainExceptionHandler;
     private final IngredientCommandMapper ingredientCommandMapper;
 
-    public Ingredient create(UUID restaurantId, TranslatedString name) {
+    public Ingredient create(UUID restaurantId, Map<String, String> name) {
         CreateIngredientCommand command = ingredientCommandMapper.toCreateIngredientCommand(restaurantId, name);
         return createIngredientUsecase.create(command);
     }
@@ -43,7 +43,7 @@ public class IngredientFacade {
         return ingredientDomainExceptionHandler.handle(() -> getIngredientUsecase.getById(command));
     }
 
-    public Ingredient update(UUID id, UUID restaurantId, TranslatedString name) {
+    public Ingredient update(UUID id, UUID restaurantId, Map<String, String> name) {
         UpdateIngredientCommand command = ingredientCommandMapper.toUpdateIngredientCommand(id, restaurantId, name);
         return ingredientDomainExceptionHandler.handle(() -> updateIngredientUsecase.update(command));
     }

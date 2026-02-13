@@ -1,6 +1,7 @@
 package com.guciowons.yummify.ingredient.infrastructure.adapter;
 
 import com.guciowons.yummify.ingredient.domain.repository.IngredientRepository;
+import com.guciowons.yummify.ingredient.infrastructure.out.jpa.adapter.JpaIngredientExistenceAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,10 +13,10 @@ import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFi
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class IngredientExistenceAdapterTest {
+class JpaIngredientExistenceAdapterTest {
     private final IngredientRepository ingredientRepository = mock(IngredientRepository.class);
 
-    private final IngredientExistenceAdapter underTest = new IngredientExistenceAdapter(ingredientRepository);
+    private final JpaIngredientExistenceAdapter underTest = new JpaIngredientExistenceAdapter(ingredientRepository);
 
     @Test
     void shouldReturnEmptyList_WhenIdsIsNull() {

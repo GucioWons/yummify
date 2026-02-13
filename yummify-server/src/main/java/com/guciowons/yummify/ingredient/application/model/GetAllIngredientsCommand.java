@@ -1,6 +1,6 @@
 package com.guciowons.yummify.ingredient.application.model;
 
-import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 
-public record GetAllIngredientsCommand(RestaurantId restaurantId) {
+public record GetAllIngredientsCommand(Ingredient.RestaurantId restaurantId) {
 }
