@@ -2,10 +2,7 @@ package com.guciowons.yummify.menu.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
-import com.guciowons.yummify.menu.application.model.CreateMenuVersionCommand;
-import com.guciowons.yummify.menu.application.model.GetMenuVersionQuery;
-import com.guciowons.yummify.menu.application.model.PublishMenuVersionCommand;
-import com.guciowons.yummify.menu.application.model.RestoreMenuVersionCommand;
+import com.guciowons.yummify.menu.application.model.*;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
 import com.guciowons.yummify.menu.application.usecase.*;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
@@ -21,6 +18,7 @@ public class MenuVersionFacade {
     private final GetAllArchivedMenuVersionsUsecase getAllArchivedMenuVersionsUsecase;
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase;
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase;
+    private final GetArchivedMenuVersionUsecase getArchivedMenuVersionUsecase;
     private final PublishMenuVersionUsecase publishMenuVersionUsecase;
     private final RestoreMenuVersionUsecase restoreMenuVersionUsecase;
     private final MenuVersionCommandMapper menuVersionCommandMapper;
@@ -44,6 +42,11 @@ public class MenuVersionFacade {
     public MenuVersion getPublished(UUID restaurantId) {
         GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
         return menuDomainExceptionHandler.handle(() -> getPublishedMenuVersionUsecase.get(query));
+    }
+
+    public MenuVersion getArchived(UUID id, UUID restaurantId) {
+        GetArchivedMenuVersionQuery query = menuVersionCommandMapper.toGetArchivedMenuVersionQuery(id, restaurantId);
+        return menuDomainExceptionHandler.handle(() -> getArchivedMenuVersionUsecase.get(query));
     }
 
     public MenuVersion publish(UUID restaurantId) {
