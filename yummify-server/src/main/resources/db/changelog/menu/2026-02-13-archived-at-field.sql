@@ -1,0 +1,1 @@
+ALTER TABLE menu.menu_version ADD COLUMN archived_at TIMESTAMP;

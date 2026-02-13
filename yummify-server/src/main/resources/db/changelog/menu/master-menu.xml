@@ -8,5 +8,6 @@
     <include file="db/changelog/menu/2025-10-10-create-menu-table.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/menu/2026-01-18-backend-refactor.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/menu/2026-02-10-menu-backend-refactor.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/menu/2026-02-13-archived-at-field.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
