@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MenuVersionFacade {
     private final CreateMenuVersionUsecase createMenuVersionUsecase;
-    private final GetAllMenuVersionsUsecase getAllMenuVersionsUsecase;
+    private final GetAllArchivedMenuVersionsUsecase getAllArchivedMenuVersionsUsecase;
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase;
     private final GetPublishedMenuVersionUsecase getPublishedMenuVersionUsecase;
     private final PublishMenuVersionUsecase publishMenuVersionUsecase;
@@ -31,9 +31,9 @@ public class MenuVersionFacade {
         return menuDomainExceptionHandler.handle(() -> createMenuVersionUsecase.create(command));
     }
 
-    public List<MenuVersion> getAll(UUID restaurantId) {
+    public List<MenuVersion> getAllArchived(UUID restaurantId) {
         GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getAllMenuVersionsUsecase.getAll(query));
+        return menuDomainExceptionHandler.handle(() -> getAllArchivedMenuVersionsUsecase.getAll(query));
     }
 
     public MenuVersion getDraft(UUID restaurantId) {

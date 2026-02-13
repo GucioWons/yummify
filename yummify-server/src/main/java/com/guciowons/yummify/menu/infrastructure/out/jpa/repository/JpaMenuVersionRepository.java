@@ -14,7 +14,7 @@ public interface JpaMenuVersionRepository extends JpaRepository<JpaMenuVersion, 
 
     Optional<JpaMenuVersion> findByIdAndRestaurantIdAndStatus(UUID id, UUID restaurantId, String status);
 
-    List<JpaMenuVersion> findAllByRestaurantId(UUID restaurantId);
+    List<JpaMenuVersion> findAllByRestaurantIdAndStatus(UUID restaurantId, String status);
 
     boolean existsByRestaurantId(UUID restaurantId);
 }

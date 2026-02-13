@@ -14,7 +14,7 @@ public interface MenuVersionRepository {
 
     Optional<MenuVersion> findPublishedByRestaurantId(MenuVersion.RestaurantId restaurantId);
 
-    List<MenuVersion> findAllByRestaurantId(MenuVersion.RestaurantId restaurantId);
+    List<MenuVersion> findAllArchivedByRestaurantId(MenuVersion.RestaurantId restaurantId);
 
     boolean existsByRestaurantId(MenuVersion.RestaurantId restaurantId);
 }

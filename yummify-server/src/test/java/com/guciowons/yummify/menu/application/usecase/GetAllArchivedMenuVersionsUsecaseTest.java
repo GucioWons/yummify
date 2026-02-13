@@ -10,10 +10,12 @@ import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenM
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class GetAllMenuVersionsUsecaseTest {
+class GetAllArchivedMenuVersionsUsecaseTest {
     private final MenuVersionRepository menuVersionRepository = mock(MenuVersionRepository.class);
 
-    private final GetAllMenuVersionsUsecase underTest = new GetAllMenuVersionsUsecase(menuVersionRepository);
+    private final GetAllArchivedMenuVersionsUsecase underTest = new GetAllArchivedMenuVersionsUsecase(
+            menuVersionRepository
+    );
 
     @Test
     void shouldGetAllMenuVersions() {
@@ -21,13 +23,13 @@ class GetAllMenuVersionsUsecaseTest {
         var query = givenGetMenuVersionQuery();
         var menuVersions = List.of(givenMenuVersion(1), givenMenuVersion(2), givenMenuVersion(3));
 
-        when(menuVersionRepository.findAllByRestaurantId(query.restaurantId())).thenReturn(menuVersions);
+        when(menuVersionRepository.findAllArchivedByRestaurantId(query.restaurantId())).thenReturn(menuVersions);
 
         // when
         var result = underTest.getAll(query);
 
         // then
-        verify(menuVersionRepository).findAllByRestaurantId(query.restaurantId());
+        verify(menuVersionRepository).findAllArchivedByRestaurantId(query.restaurantId());
 
         assertThat(result).isEqualTo(menuVersions);
     }

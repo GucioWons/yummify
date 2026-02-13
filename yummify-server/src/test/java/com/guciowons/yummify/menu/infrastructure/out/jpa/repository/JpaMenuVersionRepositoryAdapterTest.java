@@ -89,16 +89,17 @@ class JpaMenuVersionRepositoryAdapterTest {
         var jpaMenuVersions = List.of(new JpaMenuVersion(), new JpaMenuVersion(), new JpaMenuVersion());
         var menuVersions = List.of(givenMenuVersion(1), givenMenuVersion(2), givenMenuVersion(3));
 
-        when(jpaMenuVersionRepository.findAllByRestaurantId(restaurantId.value())).thenReturn(jpaMenuVersions);
+        when(jpaMenuVersionRepository.findAllByRestaurantIdAndStatus(restaurantId.value(), "ARCHIVED"))
+                .thenReturn(jpaMenuVersions);
         when(jpaMenuVersionMapper.toDomain(jpaMenuVersions.getFirst())).thenReturn(menuVersions.getFirst());
         when(jpaMenuVersionMapper.toDomain(jpaMenuVersions.get(1))).thenReturn(menuVersions.get(1));
         when(jpaMenuVersionMapper.toDomain(jpaMenuVersions.get(2))).thenReturn(menuVersions.get(2));
 
         // when
-        var result = underTest.findAllByRestaurantId(restaurantId);
+        var result = underTest.findAllArchivedByRestaurantId(restaurantId);
 
         // then
-        verify(jpaMenuVersionRepository).findAllByRestaurantId(restaurantId.value());
+        verify(jpaMenuVersionRepository).findAllByRestaurantIdAndStatus(restaurantId.value(), "ARCHIVED");
         verify(jpaMenuVersionMapper).toDomain(jpaMenuVersions.getFirst());
         verify(jpaMenuVersionMapper).toDomain(jpaMenuVersions.get(1));
         verify(jpaMenuVersionMapper).toDomain(jpaMenuVersions.get(2));

@@ -10,10 +10,10 @@ import java.util.List;
 
 @Usecase
 @RequiredArgsConstructor
-public class GetAllMenuVersionsUsecase {
+public class GetAllArchivedMenuVersionsUsecase {
     private final MenuVersionRepository menuVersionRepository;
 
     public List<MenuVersion> getAll(GetMenuVersionQuery query) {
-        return menuVersionRepository.findAllByRestaurantId(query.restaurantId());
+        return menuVersionRepository.findAllArchivedByRestaurantId(query.restaurantId());
     }
 }
