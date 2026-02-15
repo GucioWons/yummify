@@ -34,13 +34,13 @@ class DishValidatorTest {
         var ingredientIds = givenDishIngredientIds(1);
         var restaurantId = givenRestaurantId(1);
 
-        when(ingredientExistencePort.findMissing(ingredientIds, restaurantId)).thenReturn(List.of());
+        when(ingredientExistencePort.findMissing(ingredientIds, restaurantId.value())).thenReturn(List.of());
 
         // when
         underTest.validate(ingredientIds, restaurantId);
 
         // then
-        verify(ingredientExistencePort).findMissing(ingredientIds, restaurantId);
+        verify(ingredientExistencePort).findMissing(ingredientIds, restaurantId.value());
     }
 
     @Test
@@ -49,13 +49,13 @@ class DishValidatorTest {
         var ingredientIds = givenDishIngredientIds(1);
         var restaurantId = givenRestaurantId(1);
 
-        when(ingredientExistencePort.findMissing(ingredientIds, restaurantId)).thenReturn(ingredientIds);
+        when(ingredientExistencePort.findMissing(ingredientIds, restaurantId.value())).thenReturn(ingredientIds);
 
         // when
         assertThatThrownBy(() -> underTest.validate(ingredientIds, restaurantId))
                 .isInstanceOf(DishIngredientsNotFoundException.class);
 
         // then
-        verify(ingredientExistencePort).findMissing(ingredientIds, restaurantId);
+        verify(ingredientExistencePort).findMissing(ingredientIds, restaurantId.value());
     }
 }

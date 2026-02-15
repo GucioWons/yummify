@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -31,13 +30,6 @@ public class JpaIngredientRepositoryAdapter implements IngredientRepository {
     @Override
     public List<Ingredient> findAllByRestaurantId(Ingredient.RestaurantId restaurantId) {
         return jpaIngredientRepository.findAllByRestaurantId(restaurantId.value()).stream()
-                .map(jpaIngredientMapper::toDomain)
-                .toList();
-    }
-
-    @Override
-    public List<Ingredient> findByIdInAndRestaurantId(List<UUID> ids, UUID restaurantId) {
-        return jpaIngredientRepository.findByIdInAndRestaurantId(ids, restaurantId).stream()
                 .map(jpaIngredientMapper::toDomain)
                 .toList();
     }

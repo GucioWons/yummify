@@ -23,6 +23,10 @@ public class MenuApplicationFixture {
         return new GetMenuVersionQuery(givenMenuVersionRestaurantId(1));
     }
 
+    public static GetArchivedMenuVersionQuery givenGetArchivedMenuVersionQuery() {
+        return new GetArchivedMenuVersionQuery(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
+    }
+
     public static UpdateMenuSectionEntriesCommand givenUpdateMenuSectionEntriesCommand(MenuSection.Id sectionId) {
         return new UpdateMenuSectionEntriesCommand(
                 sectionId,

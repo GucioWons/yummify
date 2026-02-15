@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.guciowons.yummify.ingredient.application.fixture.IngredientApplicationFixture.*;
 import static com.guciowons.yummify.ingredient.domain.fixture.IngredientDomainFixture.*;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -39,8 +39,8 @@ class IngredientFacadeTest {
     @Test
     void shouldCreateIngredient() {
         // given
-        var restaurantId = givenRestaurantId(1).value();
-        var name = givenIngredientName(1);
+        var restaurantId = givenIngredientRestaurantId(1).value();
+        var name = Map.of("EN", "Onion");
         var command = givenCreateIngredientCommand();
         var ingredient = givenIngredient(1);
 
@@ -60,18 +60,18 @@ class IngredientFacadeTest {
     @Test
     void shouldGetAllIngredients() {
         // given
-        var restaurantId = givenRestaurantId(1).value();
-        var command = givenGetAllIngredientsCommand();
+        var restaurantId = givenIngredientRestaurantId(1).value();
+        var command = givenGetAllIngredientsQuery();
         var ingredients = List.of(givenIngredient(1), givenIngredient(2), givenIngredient(3));
 
-        when(ingredientCommandMapper.toGetAllIngredientsCommand(restaurantId)).thenReturn(command);
+        when(ingredientCommandMapper.toGetAllIngredientsQuery(restaurantId)).thenReturn(command);
         when(getAllIngredientsUsecase.getAll(command)).thenReturn(ingredients);
 
         // when
         var result = underTest.getAll(restaurantId);
 
         // then
-        verify(ingredientCommandMapper).toGetAllIngredientsCommand(restaurantId);
+        verify(ingredientCommandMapper).toGetAllIngredientsQuery(restaurantId);
         verify(getAllIngredientsUsecase).getAll(command);
 
         assertThat(result).isEqualTo(ingredients);
@@ -81,11 +81,11 @@ class IngredientFacadeTest {
     void shouldGetIngredient() {
         // given
         var ingredientId = givenIngredientId(1).value();
-        var restaurantId = givenRestaurantId(1).value();
-        var command = givenGetIngredientCommand();
+        var restaurantId = givenIngredientRestaurantId(1).value();
+        var command = givenGetIngredientQuery();
         var ingredient = givenIngredient(1);
 
-        when(ingredientCommandMapper.toGetIngredientCommand(ingredientId, restaurantId)).thenReturn(command);
+        when(ingredientCommandMapper.toGetIngredientQuery(ingredientId, restaurantId)).thenReturn(command);
         when(ingredientDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Ingredient>>any()))
                 .thenAnswer(inv -> inv.<Supplier<Ingredient>>getArgument(0).get());
         when(getIngredientUsecase.getById(command)).thenReturn(ingredient);
@@ -94,7 +94,7 @@ class IngredientFacadeTest {
         var result = underTest.getById(ingredientId, restaurantId);
 
         // then
-        verify(ingredientCommandMapper).toGetIngredientCommand(ingredientId, restaurantId);
+        verify(ingredientCommandMapper).toGetIngredientQuery(ingredientId, restaurantId);
         verify(ingredientDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Ingredient>>any());
         verify(getIngredientUsecase).getById(command);
 
@@ -105,8 +105,8 @@ class IngredientFacadeTest {
     void shouldUpdateIngredient() {
         // given
         var ingredientId = givenIngredientId(1).value();
-        var restaurantId = givenRestaurantId(1).value();
-        var name = givenIngredientName(1);
+        var restaurantId = givenIngredientRestaurantId(1).value();
+        var name = Map.of("EN", "Onion");
         var command = givenUpdateIngredientCommand();
         var ingredient = givenIngredient(1);
 

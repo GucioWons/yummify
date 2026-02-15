@@ -22,7 +22,6 @@ class UpdateIngredientUsecaseTest {
         var ingredient = givenIngredient(2);
 
         when(ingredientLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId())).thenReturn(ingredient);
-        when(ingredientRepository.save(ingredient)).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.update(command);

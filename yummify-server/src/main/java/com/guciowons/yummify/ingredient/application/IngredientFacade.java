@@ -3,8 +3,8 @@ package com.guciowons.yummify.ingredient.application;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.ingredient.application.model.CreateIngredientCommand;
-import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsCommand;
-import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
+import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsQuery;
+import com.guciowons.yummify.ingredient.application.model.GetIngredientQuery;
 import com.guciowons.yummify.ingredient.application.model.UpdateIngredientCommand;
 import com.guciowons.yummify.ingredient.application.model.mapper.IngredientCommandMapper;
 import com.guciowons.yummify.ingredient.application.usecase.CreateIngredientUsecase;
@@ -34,13 +34,13 @@ public class IngredientFacade {
     }
 
     public List<Ingredient> getAll(UUID restaurantId) {
-        GetAllIngredientsCommand command = ingredientCommandMapper.toGetAllIngredientsCommand(restaurantId);
-        return getAllIngredientsUsecase.getAll(command);
+        GetAllIngredientsQuery query = ingredientCommandMapper.toGetAllIngredientsQuery(restaurantId);
+        return getAllIngredientsUsecase.getAll(query);
     }
 
     public Ingredient getById(UUID id, UUID restaurantId) {
-        GetIngredientCommand command = ingredientCommandMapper.toGetIngredientCommand(id, restaurantId);
-        return ingredientDomainExceptionHandler.handle(() -> getIngredientUsecase.getById(command));
+        GetIngredientQuery query = ingredientCommandMapper.toGetIngredientQuery(id, restaurantId);
+        return ingredientDomainExceptionHandler.handle(() -> getIngredientUsecase.getById(query));
     }
 
     public Ingredient update(UUID id, UUID restaurantId, Map<String, String> name) {

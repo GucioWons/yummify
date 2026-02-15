@@ -2,8 +2,8 @@ package com.guciowons.yummify.ingredient.application.model.mapper;
 
 import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
 import com.guciowons.yummify.ingredient.application.model.CreateIngredientCommand;
-import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsCommand;
-import com.guciowons.yummify.ingredient.application.model.GetIngredientCommand;
+import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsQuery;
+import com.guciowons.yummify.ingredient.application.model.GetIngredientQuery;
 import com.guciowons.yummify.ingredient.application.model.UpdateIngredientCommand;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import org.mapstruct.Mapper;
@@ -23,9 +23,9 @@ public interface IngredientCommandMapper {
     @Mapping(target = "name", source = "name")
     UpdateIngredientCommand toUpdateIngredientCommand(UUID id, UUID restaurantId, Map<String, String> name);
 
-    GetIngredientCommand toGetIngredientCommand(UUID id, UUID restaurantId);
+    GetIngredientQuery toGetIngredientQuery(UUID id, UUID restaurantId);
 
-    GetAllIngredientsCommand toGetAllIngredientsCommand(UUID restaurantId);
+    GetAllIngredientsQuery toGetAllIngredientsQuery(UUID restaurantId);
 
     default Ingredient.Id toId(UUID id) {
         return new Ingredient.Id(id);

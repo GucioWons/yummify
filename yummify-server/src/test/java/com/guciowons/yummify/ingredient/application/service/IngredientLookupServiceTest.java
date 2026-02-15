@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.guciowons.yummify.ingredient.domain.fixture.IngredientDomainFixture.givenIngredient;
-import static com.guciowons.yummify.ingredient.domain.fixture.IngredientDomainFixture.givenIngredientId;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
+import static com.guciowons.yummify.ingredient.domain.fixture.IngredientDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -40,7 +38,7 @@ class IngredientLookupServiceTest {
     void shouldThrowException_WhenNotExists() {
         // given
         var ingredientId = givenIngredientId(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenIngredientRestaurantId(1);
 
         when(ingredientRepository.findByIdAndRestaurantId(ingredientId, restaurantId)).thenReturn(Optional.empty());
 
