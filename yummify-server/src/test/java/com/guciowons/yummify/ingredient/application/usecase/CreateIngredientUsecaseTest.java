@@ -18,8 +18,6 @@ class CreateIngredientUsecaseTest {
         // given
         var command = givenCreateIngredientCommand();
 
-        when(ingredientRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-
         // when
         var result = createIngredientUsecase.create(command);
 
