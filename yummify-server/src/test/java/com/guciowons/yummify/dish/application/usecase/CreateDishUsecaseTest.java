@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.dish.application.fixture.DishApplicationFixture.givenCreateDishCommand;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class CreateDishUsecaseTest {
     private final DishRepository dishRepository = mock(DishRepository.class);
@@ -19,8 +19,6 @@ class CreateDishUsecaseTest {
     void shouldCreateDish() {
         // given
         var command = givenCreateDishCommand();
-
-        when(dishRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.create(command);

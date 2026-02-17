@@ -4,17 +4,16 @@ import com.guciowons.yummify.common.exception.application.handler.DomainExceptio
 import com.guciowons.yummify.dish.application.model.mapper.DishCommandMapper;
 import com.guciowons.yummify.dish.application.usecase.*;
 import com.guciowons.yummify.dish.domain.entity.Dish;
-import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.guciowons.yummify.dish.application.fixture.DishApplicationFixture.*;
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -40,9 +39,9 @@ class DishFacadeTest {
     @Test
     void shouldCreateDish() {
         // given
-        var restaurantId = givenRestaurantId(1).value();
-        var name = givenDishName(1);
-        var description = givenDishDescription(1);
+        var restaurantId = givenDishRestaurantId(1).value();
+        var name = Map.of("EN", "Spaghetti");
+        var description = Map.of("EN", "Pasta with sauce");
         var ingredientIds = givenDishIngredientIds(1);
         var command = givenCreateDishCommand();
         var dish = givenDish(1);
@@ -66,7 +65,7 @@ class DishFacadeTest {
     @Test
     void shouldGetAllIngredients() {
         // given
-        var restaurantId = givenRestaurantId(1).value();
+        var restaurantId = givenDishRestaurantId(1).value();
         var command = givenGetAllDishesCommand();
         var dishes = List.of(givenDish(1), givenDish(2), givenDish(3));
 
@@ -87,7 +86,7 @@ class DishFacadeTest {
     void shouldGetIngredient() {
         // given
         var dishId = givenDishId(1).value();
-        var restaurantId = givenRestaurantId(1).value();
+        var restaurantId = givenDishRestaurantId(1).value();
         var command = givenGetDishCommand();
         var dish = givenDish(1);
 
@@ -111,9 +110,9 @@ class DishFacadeTest {
     void shouldUpdateIngredient() {
         // given
         var dishId = givenDishId(1).value();
-        var restaurantId = givenRestaurantId(1).value();
-        var name = givenDishName(1);
-        var description = givenDishDescription(1);
+        var restaurantId = givenDishRestaurantId(1).value();
+        var name = Map.of("EN", "Spaghetti");
+        var description = Map.of("EN", "Pasta with sauce");
         var ingredientIds = givenDishIngredientIds(1);
         var command = givenUpdateDishCommand();
         var dish = givenDish(1);
@@ -139,14 +138,14 @@ class DishFacadeTest {
     void shouldUpdateDishImage() {
         // given
         var dishId = givenDishId(1).value();
-        var restaurantId = givenRestaurantId(1).value();
+        var restaurantId = givenDishRestaurantId(1).value();
         var image = mock(MultipartFile.class);
         var command = givenUpdateDishImageCommand();
         var imageId = givenDishImageId(1);
 
         when(dishCommandMapper.toUpdateDishImageCommand(dishId, image, restaurantId)).thenReturn(command);
-        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<DishImageId>>any()))
-                .thenAnswer(inv -> inv.<Supplier<DishImageId>>getArgument(0).get());
+        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Dish.ImageId>>any()))
+                .thenAnswer(inv -> inv.<Supplier<Dish.ImageId>>getArgument(0).get());
         when(updateDishImageUsecase.updateImage(command)).thenReturn(imageId);
 
         // when
@@ -154,7 +153,7 @@ class DishFacadeTest {
 
         // then
         verify(dishCommandMapper).toUpdateDishImageCommand(dishId, image, restaurantId);
-        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<DishImageId>>any());
+        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Dish.ImageId>>any());
         verify(updateDishImageUsecase).updateImage(command);
 
         assertThat(result).isEqualTo(imageId);

@@ -49,7 +49,7 @@ class FileFacadeTest {
         // given
         var directory = givenDirectory(1).value();
         var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
         var command = givenCreateFileCommand();
         var file = givenFile(1);
 
@@ -75,7 +75,7 @@ class FileFacadeTest {
         var id = givenFileId(1).value();
         var directory = givenDirectory(1).value();
         var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
         var command = givenUpdateFileCommand();
 
         when(fileCommandMapper.toUpdateFileCommand(eq(id), eq(directory), any(), eq(restaurantId))).thenReturn(command);
@@ -97,7 +97,7 @@ class FileFacadeTest {
     void shouldDeleteFile() {
         // given
         var id = givenFileId(1).value();
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
         var command = givenDeleteFileCommand();
 
         when(fileCommandMapper.toDeleteFileCommand(id, restaurantId)).thenReturn(command);
@@ -119,7 +119,7 @@ class FileFacadeTest {
     void shouldGetFileUrl() throws MalformedURLException {
         // given
         var id = givenFileId(1).value();
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
         var command = givenGetFileUrlCommand();
         var fileUrl = givenFileUrl(1);
 
@@ -144,7 +144,7 @@ class FileFacadeTest {
         // given
         var directory = givenDirectory(1).value();
         var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
 
         when(multipartFile.getInputStream()).thenThrow(IOException.class);
         when(fileDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<File>>any()))
@@ -166,7 +166,7 @@ class FileFacadeTest {
         var id = givenFileId(1).value();
         var directory = givenDirectory(1).value();
         var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenRestaurantId(1).value();
 
         when(multipartFile.getInputStream()).thenThrow(IOException.class);
         doAnswer(inv -> {

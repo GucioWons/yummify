@@ -3,20 +3,19 @@ package com.guciowons.yummify.dish.domain.entity;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DishTest {
     @Test
     void shouldCreateDishWithRandomId() {
         // given
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
         var name = givenDishName(1);
         var description = givenDishDescription(1);
         var ingredientIds = givenDishIngredientIds(1);
 
         // when
-        var result = Dish.of(restaurantId, name, description, ingredientIds);
+        var result = Dish.create(restaurantId, name, description, ingredientIds);
 
         // then
         assertThat(result.getId()).isNotNull();

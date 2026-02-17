@@ -30,7 +30,7 @@ class DishUpdateImageServiceTest {
         // then
         verify(fileFacadePort, never()).create(any(), any(), any());
         verify(fileFacadePort, never()).update(any(), any(), any(), any());
-        verify(fileFacadePort).delete(imageId.value(), dish.getRestaurantId());
+        verify(fileFacadePort).delete(imageId.value(), dish.getRestaurantId().value());
 
         assertThat(dish.getImageId()).isNull();
     }
@@ -62,13 +62,13 @@ class DishUpdateImageServiceTest {
         var imageId = givenDishImageId(1).value();
 
         when(image.isEmpty()).thenReturn(false);
-        when(fileFacadePort.create("dish", image, dish.getRestaurantId())).thenReturn(imageId);
+        when(fileFacadePort.create("dish", image, dish.getRestaurantId().value())).thenReturn(imageId);
 
         // when
         underTest.updateImage(dish, image);
 
         // then
-        verify(fileFacadePort).create("dish", image, dish.getRestaurantId());
+        verify(fileFacadePort).create("dish", image, dish.getRestaurantId().value());
         verify(fileFacadePort, never()).update(any(), any(), any(), any());
         verify(fileFacadePort, never()).delete(any(), any());
 
@@ -90,7 +90,7 @@ class DishUpdateImageServiceTest {
 
         // then
         verify(fileFacadePort, never()).create(any(), any(), any());
-        verify(fileFacadePort).update(imageId.value(), "dish", image, dish.getRestaurantId());
+        verify(fileFacadePort).update(imageId.value(), "dish", image, dish.getRestaurantId().value());
         verify(fileFacadePort, never()).delete(any(), any());
 
         assertThat(dish.getImageId()).isEqualTo(imageId);

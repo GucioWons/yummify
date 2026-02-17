@@ -4,8 +4,6 @@ import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.common.i8n.domain.entity.Translation;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.dish.domain.entity.Dish;
-import com.guciowons.yummify.dish.domain.entity.value.DishId;
-import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,21 +11,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DishDomainFixture {
     public static Dish givenDish(int seed) {
-        return Dish.of(
-                givenRestaurantId(seed),
+        return new Dish(
+                givenDishId(seed),
+                givenDishRestaurantId(seed),
                 givenDishName(seed),
                 givenDishDescription(seed),
-                givenDishIngredientIds(seed)
+                givenDishIngredientIds(seed),
+                null
         );
     }
 
-    public static DishId givenDishId(int seed) {
-        return DishId.of(UUID.nameUUIDFromBytes(("dish-%s".formatted(seed)).getBytes()));
+    public static Dish.Id givenDishId(int seed) {
+        return Dish.Id.of(UUID.nameUUIDFromBytes(("dish-%s".formatted(seed)).getBytes()));
+    }
+
+    public static Dish.RestaurantId givenDishRestaurantId(int seed) {
+        return Dish.RestaurantId.of(UUID.nameUUIDFromBytes(("restaurant-%s".formatted(seed)).getBytes()));
     }
 
     public static TranslatedString givenDishName(int seed) {
@@ -46,7 +48,7 @@ public class DishDomainFixture {
         );
     }
 
-    public static DishImageId givenDishImageId(int seed) {
-        return DishImageId.of(UUID.nameUUIDFromBytes("image-%s".formatted(seed).getBytes()));
+    public static Dish.ImageId givenDishImageId(int seed) {
+        return Dish.ImageId.of(UUID.nameUUIDFromBytes("image-%s".formatted(seed).getBytes()));
     }
 }
