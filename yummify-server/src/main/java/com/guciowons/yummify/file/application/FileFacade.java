@@ -11,7 +11,6 @@ import com.guciowons.yummify.file.application.usecase.GetFileUrlUsecase;
 import com.guciowons.yummify.file.application.usecase.UpdateFileUsecase;
 import com.guciowons.yummify.file.domain.entity.value.Filename;
 import com.guciowons.yummify.file.domain.exception.CannotGetFileException;
-import com.guciowons.yummify.restaurant.RestaurantId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +29,7 @@ public class FileFacade implements FileFacadePort {
     private final FileCommandMapper fileCommandMapper;
 
     @Override
-    public UUID create(String directory, MultipartFile file, RestaurantId restaurantId) {
+    public UUID create(String directory, MultipartFile file, UUID restaurantId) {
         return fileDomainExceptionHandler.handle(() -> {
             CreateFileCommand command = fileCommandMapper.toCreateFileCommand(directory, getFileContent(file), restaurantId);
             return createFileUsecase.create(command).getId().value();
@@ -38,7 +37,7 @@ public class FileFacade implements FileFacadePort {
     }
 
     @Override
-    public void update(UUID id, String directory, MultipartFile file, RestaurantId restaurantId) {
+    public void update(UUID id, String directory, MultipartFile file, UUID restaurantId) {
         fileDomainExceptionHandler.handle(() -> {
             UpdateFileCommand command = fileCommandMapper.toUpdateFileCommand(id, directory, getFileContent(file), restaurantId);
             updateFileUsecase.update(command);
@@ -46,14 +45,14 @@ public class FileFacade implements FileFacadePort {
     }
 
     @Override
-    public void delete(UUID id, RestaurantId restaurantId) {
+    public void delete(UUID id, UUID restaurantId) {
         DeleteFileCommand command = fileCommandMapper.toDeleteFileCommand(id, restaurantId);
 
         fileDomainExceptionHandler.handle(() -> deleteFileUsecase.delete(command));
     }
 
     @Override
-    public URL getUrl(UUID id, RestaurantId restaurantId) {
+    public URL getUrl(UUID id, UUID restaurantId) {
         GetFileUrlCommand command = fileCommandMapper.toGetFileUrlCommand(id, restaurantId);
 
         return fileDomainExceptionHandler.handle(() -> getFileUrlUsecase.getPresignedUrl(command).value());

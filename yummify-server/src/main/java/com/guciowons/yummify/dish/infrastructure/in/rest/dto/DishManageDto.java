@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Null;
 import java.util.List;
 import java.util.UUID;
 
-public record DishManageDTO(
+public record DishManageDto(
         UUID id,
         @NotNull TranslatedStringDTO name,
         TranslatedStringDTO description,

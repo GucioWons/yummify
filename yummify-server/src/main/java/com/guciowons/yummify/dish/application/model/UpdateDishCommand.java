@@ -1,15 +1,14 @@
 package com.guciowons.yummify.dish.application.model;
 
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
-import com.guciowons.yummify.dish.domain.entity.value.DishId;
-import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.dish.domain.entity.Dish;
 
 import java.util.List;
 import java.util.UUID;
 
 public record UpdateDishCommand(
-        DishId id,
-        RestaurantId restaurantId,
+        Dish.Id id,
+        Dish.RestaurantId restaurantId,
         TranslatedString name,
         TranslatedString description,
         List<UUID> ingredientIds
