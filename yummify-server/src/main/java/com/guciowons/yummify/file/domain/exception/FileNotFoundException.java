@@ -1,14 +1,14 @@
 package com.guciowons.yummify.file.domain.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.file.domain.entity.value.FileId;
+import com.guciowons.yummify.file.domain.entity.File;
 import lombok.Getter;
 
 @Getter
 public class FileNotFoundException extends DomainException {
-    private final FileId id;
+    private final File.Id id;
 
-    public FileNotFoundException(FileId id) {
+    public FileNotFoundException(File.Id id) {
         super("File not found");
         this.id = id;
     }

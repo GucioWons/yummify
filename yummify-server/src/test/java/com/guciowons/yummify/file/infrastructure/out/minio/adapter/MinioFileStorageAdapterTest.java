@@ -1,6 +1,7 @@
-package com.guciowons.yummify.file.infrastructure.adapter;
+package com.guciowons.yummify.file.infrastructure.out.minio.adapter;
 
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
+import com.guciowons.yummify.file.infrastructure.out.minio.MinioFileStorageAdapter;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -11,22 +12,22 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 
 import static com.guciowons.yummify.file.application.fixture.FileApplicationFixture.givenFileContent;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenStorageKey;
+import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileStorageKey;
 import static com.guciowons.yummify.file.infrastructure.fixture.FileInfrastructureFixture.givenBucketName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-class FileStorageAdapterTest {
+class MinioFileStorageAdapterTest {
     private final S3Client s3Client = mock(S3Client.class);
     private final MinioProperties minioProperties = mock(MinioProperties.class);
 
-    private final FileStorageAdapter underTest = new FileStorageAdapter(s3Client, minioProperties);
+    private final MinioFileStorageAdapter underTest = new MinioFileStorageAdapter(s3Client, minioProperties);
 
     @Test
     void shouldStoreFile() throws IOException {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
         var fileContent = givenFileContent(1);
 
@@ -51,7 +52,7 @@ class FileStorageAdapterTest {
     @Test
     void shouldRemoveFile() {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
 
         when(minioProperties.bucketName()).thenReturn(bucketName);
@@ -72,7 +73,7 @@ class FileStorageAdapterTest {
     @Test
     void shouldThrowException_WhenClosingInputStreamFails() throws IOException {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
         var fileContent = givenFileContent(1);
 

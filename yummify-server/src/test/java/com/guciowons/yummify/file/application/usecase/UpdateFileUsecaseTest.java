@@ -2,7 +2,7 @@ package com.guciowons.yummify.file.application.usecase;
 
 import com.guciowons.yummify.file.application.port.out.FileStoragePort;
 import com.guciowons.yummify.file.application.service.FileLookupService;
-import com.guciowons.yummify.file.domain.entity.value.StorageKey;
+import com.guciowons.yummify.file.domain.entity.File;
 import com.guciowons.yummify.file.domain.port.out.FileRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,13 +34,13 @@ class UpdateFileUsecaseTest {
         // then
         verify(fileLookupService).getByIdAndRestaurantId(command.id(), command.restaurantId());
 
-        var storeStorageKeyCaptor = ArgumentCaptor.forClass(StorageKey.class);
+        var storeStorageKeyCaptor = ArgumentCaptor.forClass(File.StorageKey.class);
         verify(fileStoragePort).store(storeStorageKeyCaptor.capture(), eq(command.fileContent()));
         var storeStorageKey = storeStorageKeyCaptor.getValue();
 
         verify(fileRepository).save(file);
 
-        var removeStorageKeyCaptor = ArgumentCaptor.forClass(StorageKey.class);
+        var removeStorageKeyCaptor = ArgumentCaptor.forClass(File.StorageKey.class);
         verify(fileStoragePort).remove(removeStorageKeyCaptor.capture());
         var removeStorageKey = removeStorageKeyCaptor.getValue();
 
@@ -54,7 +54,7 @@ class UpdateFileUsecaseTest {
         var file = givenFile(2);
 
         when(fileLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId())).thenReturn(file);
-        when(fileRepository.save(file)).thenThrow(RuntimeException.class);
+        doThrow(RuntimeException.class).when(fileRepository).save(file);
 
         // when
         assertThatThrownBy(() -> underTest.update(command)).isInstanceOf(RuntimeException.class);
@@ -62,13 +62,13 @@ class UpdateFileUsecaseTest {
         // then
         verify(fileLookupService).getByIdAndRestaurantId(command.id(), command.restaurantId());
 
-        var storeStorageKeyCaptor = ArgumentCaptor.forClass(StorageKey.class);
+        var storeStorageKeyCaptor = ArgumentCaptor.forClass(File.StorageKey.class);
         verify(fileStoragePort).store(storeStorageKeyCaptor.capture(), eq(command.fileContent()));
         var storeStorageKey = storeStorageKeyCaptor.getValue();
 
         verify(fileRepository).save(file);
 
-        var removeStorageKeyCaptor = ArgumentCaptor.forClass(StorageKey.class);
+        var removeStorageKeyCaptor = ArgumentCaptor.forClass(File.StorageKey.class);
         verify(fileStoragePort).remove(removeStorageKeyCaptor.capture());
         var removeStorageKey = removeStorageKeyCaptor.getValue();
 

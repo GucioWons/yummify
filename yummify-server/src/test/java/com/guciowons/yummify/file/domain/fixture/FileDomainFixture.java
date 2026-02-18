@@ -1,7 +1,9 @@
 package com.guciowons.yummify.file.domain.fixture;
 
 import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.entity.value.*;
+import com.guciowons.yummify.file.domain.model.Directory;
+import com.guciowons.yummify.file.domain.model.FileUrl;
+import com.guciowons.yummify.file.domain.model.Filename;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -9,16 +11,22 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.UUID;
 
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileDomainFixture {
     public static File givenFile(int seed) {
-        return File.of(givenRestaurantId(1), givenStorageKey(seed));
+        return new File(givenFileId(1), givenFileRestaurantId(1), givenFileStorageKey(seed));
     }
 
-    public static FileId givenFileId(int seed) {
-        return FileId.of(UUID.nameUUIDFromBytes("file-%s".formatted(seed).getBytes()));
+    public static File.Id givenFileId(int seed) {
+        return File.Id.of(UUID.nameUUIDFromBytes("file-%s".formatted(seed).getBytes()));
+    }
+
+    public static File.RestaurantId givenFileRestaurantId(int seed) {
+        return File.RestaurantId.of(UUID.nameUUIDFromBytes("restaurant-%s".formatted(seed).getBytes()));
+    }
+
+    public static File.StorageKey givenFileStorageKey(int seed) {
+        return new File.StorageKey("storage-key-%s".formatted(seed));
     }
 
     public static Filename givenFilename(int seed) {
@@ -27,10 +35,6 @@ public class FileDomainFixture {
 
     public static Directory givenDirectory(int seed) {
         return Directory.of("directory-%s".formatted(seed));
-    }
-
-    public static StorageKey givenStorageKey(int seed) {
-        return new StorageKey("storage-key-%s".formatted(seed));
     }
 
     public static FileUrl givenFileUrl(int seed) throws MalformedURLException {

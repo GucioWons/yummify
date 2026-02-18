@@ -5,7 +5,6 @@ import com.guciowons.yummify.file.domain.port.out.FileRepository;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.file.application.fixture.FileApplicationFixture.givenCreateFileCommand;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFile;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,9 +19,6 @@ class CreateFileUsecaseTest {
     void shouldCreateFile() {
         // given
         var command = givenCreateFileCommand();
-        var file = givenFile(1);
-
-        when(fileRepository.save(any())).thenReturn(file);
 
         // when
         var result = underTest.create(command);
@@ -31,6 +27,8 @@ class CreateFileUsecaseTest {
         verify(fileStoragePort).store(any(), eq(command.fileContent()));
         verify(fileRepository).save(any());
 
-        assertThat(result).isEqualTo(file);
+        assertThat(result.getId()).isNotNull();
+        assertThat(result.getRestaurantId()).isEqualTo(command.restaurantId());
+        assertThat(result.getStorageKey()).isNotNull();
     }
 }

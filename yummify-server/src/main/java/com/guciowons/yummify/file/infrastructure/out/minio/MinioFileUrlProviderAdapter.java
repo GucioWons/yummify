@@ -1,8 +1,8 @@
-package com.guciowons.yummify.file.infrastructure.adapter;
+package com.guciowons.yummify.file.infrastructure.out.minio;
 
-import com.guciowons.yummify.file.domain.entity.value.FileUrl;
-import com.guciowons.yummify.file.domain.entity.value.StorageKey;
-import com.guciowons.yummify.file.domain.port.out.FileUrlProviderPort;
+import com.guciowons.yummify.file.application.port.out.FileUrlProviderPort;
+import com.guciowons.yummify.file.domain.entity.File;
+import com.guciowons.yummify.file.domain.model.FileUrl;
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,12 +14,12 @@ import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
-public class FileUrlProviderAdapter implements FileUrlProviderPort {
+public class MinioFileUrlProviderAdapter implements FileUrlProviderPort {
     private final S3Presigner s3Presigner;
     private final MinioProperties minioProperties;
 
     @Override
-    public FileUrl getUrl(StorageKey storageKey) {
+    public FileUrl getUrl(File.StorageKey storageKey) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(minioProperties.bucketName())
                 .key(storageKey.value())
