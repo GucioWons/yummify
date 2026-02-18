@@ -1,4 +1,4 @@
-package com.guciowons.yummify.file.infrastructure.adapter;
+package com.guciowons.yummify.file.infrastructure.out.minio.adapter;
 
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
 import com.guciowons.yummify.file.infrastructure.out.minio.MinioFileStorageAdapter;
@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 
 import static com.guciowons.yummify.file.application.fixture.FileApplicationFixture.givenFileContent;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenStorageKey;
+import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileStorageKey;
 import static com.guciowons.yummify.file.infrastructure.fixture.FileInfrastructureFixture.givenBucketName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,7 +27,7 @@ class MinioFileStorageAdapterTest {
     @Test
     void shouldStoreFile() throws IOException {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
         var fileContent = givenFileContent(1);
 
@@ -52,7 +52,7 @@ class MinioFileStorageAdapterTest {
     @Test
     void shouldRemoveFile() {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
 
         when(minioProperties.bucketName()).thenReturn(bucketName);
@@ -73,7 +73,7 @@ class MinioFileStorageAdapterTest {
     @Test
     void shouldThrowException_WhenClosingInputStreamFails() throws IOException {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
         var fileContent = givenFileContent(1);
 

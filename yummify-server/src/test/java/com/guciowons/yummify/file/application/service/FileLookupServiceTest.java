@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFile;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileId;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
+import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -40,7 +38,7 @@ class FileLookupServiceTest {
     void shouldThrowException_WhenNotExists() {
         // given
         var fileId = givenFileId(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenFileRestaurantId(1);
 
         when(fileRepository.findByIdAndRestaurantId(fileId, restaurantId)).thenReturn(Optional.empty());
 

@@ -1,4 +1,4 @@
-package com.guciowons.yummify.file.infrastructure.adapter;
+package com.guciowons.yummify.file.infrastructure.out.minio.adapter;
 
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
 import com.guciowons.yummify.file.infrastructure.out.minio.MinioFileUrlProviderAdapter;
@@ -11,8 +11,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequ
 import java.net.MalformedURLException;
 import java.time.Duration;
 
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileUrl;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenStorageKey;
+import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.*;
 import static com.guciowons.yummify.file.infrastructure.fixture.FileInfrastructureFixture.givenBucketName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,7 +26,7 @@ class MinioFileUrlProviderAdapterTest {
     @Test
     void shouldGetPresignedFileUrl() throws MalformedURLException {
         // given
-        var storageKey = givenStorageKey(1);
+        var storageKey = givenFileStorageKey(1);
         var bucketName = givenBucketName();
         var presignedRequest = mock(PresignedGetObjectRequest.class);
         var expectedUrl = givenFileUrl(1).value();

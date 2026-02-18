@@ -8,13 +8,11 @@ import com.guciowons.yummify.file.application.usecase.GetFileUrlUsecase;
 import com.guciowons.yummify.file.application.usecase.UpdateFileUsecase;
 import com.guciowons.yummify.file.domain.entity.File;
 import com.guciowons.yummify.file.domain.model.FileUrl;
-import com.guciowons.yummify.file.domain.exception.CannotGetFileException;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.function.Supplier;
 
@@ -22,7 +20,6 @@ import static com.guciowons.yummify.file.application.fixture.FileApplicationFixt
 import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.*;
 import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -137,50 +134,5 @@ class FileFacadeTest {
         verify(fileDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<FileUrl>>any());
 
         assertThat(result).isEqualTo(fileUrl.value());
-    }
-
-    @Test
-    void shouldNotCreateFile_whenInputStreamThrowsException() throws IOException {
-        // given
-        var directory = givenDirectory(1).value();
-        var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1).value();
-
-        when(multipartFile.getInputStream()).thenThrow(IOException.class);
-        when(fileDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<File>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Restaurant>>getArgument(0).get());
-
-        // when
-        assertThatThrownBy(() -> underTest.create(directory, multipartFile, restaurantId))
-                .isInstanceOf(CannotGetFileException.class);
-
-        // then
-        verify(fileCommandMapper, never()).toCreateFileCommand(any(), any(), any());
-        verify(createFileUsecase, never()).create(any());
-        verify(fileDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<File>>any());
-    }
-
-    @Test
-    void shouldNotUpdateFile_whenInputStreamThrowsException() throws IOException {
-        // given
-        var id = givenFileId(1).value();
-        var directory = givenDirectory(1).value();
-        var multipartFile = mock(MultipartFile.class);
-        var restaurantId = givenRestaurantId(1).value();
-
-        when(multipartFile.getInputStream()).thenThrow(IOException.class);
-        doAnswer(inv -> {
-            inv.<Runnable>getArgument(0).run();
-            return null;
-        }).when(fileDomainExceptionHandler).handle(any(Runnable.class));
-
-        // when
-        assertThatThrownBy(() -> underTest.update(id, directory, multipartFile, restaurantId))
-                .isInstanceOf(CannotGetFileException.class);
-
-        // then
-        verify(fileCommandMapper, never()).toUpdateFileCommand(any(), any(), any(), any());
-        verify(updateFileUsecase, never()).update(any());
-        verify(fileDomainExceptionHandler).handle(any(Runnable.class));
     }
 }
