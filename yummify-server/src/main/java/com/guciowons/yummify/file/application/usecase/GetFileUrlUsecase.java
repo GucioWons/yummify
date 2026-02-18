@@ -4,9 +4,9 @@ import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.file.application.service.FileLookupService;
 import com.guciowons.yummify.file.application.model.GetFileUrlCommand;
 import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.entity.value.FileUrl;
+import com.guciowons.yummify.file.domain.model.FileUrl;
 import com.guciowons.yummify.file.domain.exception.FileNotFoundException;
-import com.guciowons.yummify.file.domain.port.out.FileUrlProviderPort;
+import com.guciowons.yummify.file.application.port.out.FileUrlProviderPort;
 import lombok.RequiredArgsConstructor;
 
 @Usecase

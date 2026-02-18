@@ -1,8 +1,8 @@
 package com.guciowons.yummify.file.application.usecase;
 
 import com.guciowons.yummify.file.application.service.FileLookupService;
-import com.guciowons.yummify.file.domain.entity.value.FileUrl;
-import com.guciowons.yummify.file.domain.port.out.FileUrlProviderPort;
+import com.guciowons.yummify.file.domain.model.FileUrl;
+import com.guciowons.yummify.file.application.port.out.FileUrlProviderPort;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;

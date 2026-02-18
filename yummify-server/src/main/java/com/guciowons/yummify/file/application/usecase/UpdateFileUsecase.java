@@ -2,12 +2,11 @@ package com.guciowons.yummify.file.application.usecase;
 
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.file.application.model.UpdateFileCommand;
+import com.guciowons.yummify.file.application.port.out.FileStoragePort;
 import com.guciowons.yummify.file.application.service.FileLookupService;
 import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.entity.value.StorageKey;
 import com.guciowons.yummify.file.domain.exception.FileNotFoundException;
 import com.guciowons.yummify.file.domain.port.out.FileRepository;
-import com.guciowons.yummify.file.application.port.out.FileStoragePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -22,8 +21,8 @@ public class UpdateFileUsecase {
     public void update(UpdateFileCommand command) throws FileNotFoundException {
         File file = fileLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
 
-        StorageKey oldStorageKey = file.getStorageKey();
-        StorageKey newStorageKey = StorageKey.of(
+        File.StorageKey oldStorageKey = file.getStorageKey();
+        File.StorageKey newStorageKey = File.StorageKey.of(
                 command.fileContent().filename(),
                 command.restaurantId(),
                 command.directory()

@@ -1,6 +1,6 @@
 package com.guciowons.yummify.file.application.model;
 
-import com.guciowons.yummify.file.domain.entity.value.Filename;
+import com.guciowons.yummify.file.domain.model.Filename;
 
 import java.io.InputStream;
 

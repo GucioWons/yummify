@@ -1,9 +1,9 @@
-package com.guciowons.yummify.file.infrastructure.adapter;
+package com.guciowons.yummify.file.infrastructure.out.minio;
 
-import com.guciowons.yummify.file.domain.entity.value.StorageKey;
-import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
 import com.guciowons.yummify.file.application.model.FileContent;
 import com.guciowons.yummify.file.application.port.out.FileStoragePort;
+import com.guciowons.yummify.file.domain.entity.File;
+import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -16,12 +16,12 @@ import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
-public class FileStorageAdapter implements FileStoragePort {
+public class MinioFileStorageAdapter implements FileStoragePort {
     private final S3Client s3Client;
     private final MinioProperties minioProperties;
 
     @Override
-    public void store(StorageKey storageKey, FileContent fileContent) {
+    public void store(File.StorageKey storageKey, FileContent fileContent) {
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket(minioProperties.bucketName())
                 .key(storageKey.value())
@@ -33,7 +33,7 @@ public class FileStorageAdapter implements FileStoragePort {
     }
 
     @Override
-    public void remove(StorageKey storageKey) {
+    public void remove(File.StorageKey storageKey) {
         DeleteObjectRequest request = DeleteObjectRequest.builder()
                 .bucket(minioProperties.bucketName())
                 .key(storageKey.value())

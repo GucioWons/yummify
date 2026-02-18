@@ -1,6 +1,7 @@
 package com.guciowons.yummify.file.infrastructure.adapter;
 
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
+import com.guciowons.yummify.file.infrastructure.out.minio.MinioFileStorageAdapter;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -17,11 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-class FileStorageAdapterTest {
+class MinioFileStorageAdapterTest {
     private final S3Client s3Client = mock(S3Client.class);
     private final MinioProperties minioProperties = mock(MinioProperties.class);
 
-    private final FileStorageAdapter underTest = new FileStorageAdapter(s3Client, minioProperties);
+    private final MinioFileStorageAdapter underTest = new MinioFileStorageAdapter(s3Client, minioProperties);
 
     @Test
     void shouldStoreFile() throws IOException {

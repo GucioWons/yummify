@@ -1,6 +1,7 @@
 package com.guciowons.yummify.file.infrastructure.adapter;
 
 import com.guciowons.yummify.file.infrastructure.framework.MinioProperties;
+import com.guciowons.yummify.file.infrastructure.out.minio.MinioFileUrlProviderAdapter;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -17,11 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class FileUrlProviderAdapterTest {
+class MinioFileUrlProviderAdapterTest {
     private final S3Presigner s3Presigner = mock(S3Presigner.class);
     private final MinioProperties minioProperties = mock(MinioProperties.class);
 
-    private final FileUrlProviderAdapter underTest = new FileUrlProviderAdapter(s3Presigner, minioProperties);
+    private final MinioFileUrlProviderAdapter underTest = new MinioFileUrlProviderAdapter(s3Presigner, minioProperties);
 
     @Test
     void shouldGetPresignedFileUrl() throws MalformedURLException {

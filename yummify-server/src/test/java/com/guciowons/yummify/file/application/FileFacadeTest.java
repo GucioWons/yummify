@@ -7,7 +7,7 @@ import com.guciowons.yummify.file.application.usecase.DeleteFileUsecase;
 import com.guciowons.yummify.file.application.usecase.GetFileUrlUsecase;
 import com.guciowons.yummify.file.application.usecase.UpdateFileUsecase;
 import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.entity.value.FileUrl;
+import com.guciowons.yummify.file.domain.model.FileUrl;
 import com.guciowons.yummify.file.domain.exception.CannotGetFileException;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.junit.jupiter.api.Test;

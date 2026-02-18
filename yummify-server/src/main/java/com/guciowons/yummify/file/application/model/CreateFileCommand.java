@@ -1,7 +1,7 @@
 package com.guciowons.yummify.file.application.model;
 
-import com.guciowons.yummify.file.domain.entity.value.Directory;
-import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.file.domain.entity.File;
+import com.guciowons.yummify.file.domain.model.Directory;
 
-public record CreateFileCommand(Directory directory, FileContent fileContent, RestaurantId restaurantId) {
+public record CreateFileCommand(Directory directory, FileContent fileContent, File.RestaurantId restaurantId) {
 }

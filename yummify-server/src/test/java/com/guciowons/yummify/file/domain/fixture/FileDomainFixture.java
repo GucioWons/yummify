@@ -1,7 +1,9 @@
 package com.guciowons.yummify.file.domain.fixture;
 
+import com.guciowons.yummify.file.domain.model.Directory;
 import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.entity.value.*;
+import com.guciowons.yummify.file.domain.model.FileUrl;
+import com.guciowons.yummify.file.domain.model.Filename;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.guciowons.yummify.file.domain.entity.value;
+package com.guciowons.yummify.file.domain.entity;
 
 import com.guciowons.yummify.file.domain.exception.InvalidStorageKeyException;
 import org.junit.jupiter.api.Test;
