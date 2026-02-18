@@ -32,7 +32,6 @@ class UpdateDishImageUsecaseTest {
         dish.changeImage(imageId);
 
         when(dishLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId())).thenReturn(dish);
-        when(dishRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.updateImage(command);

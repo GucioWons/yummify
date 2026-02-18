@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDish;
-import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishId;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
+import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -40,7 +38,7 @@ class DishLookupServiceTest {
     void shouldThrowException_WhenNotExists() {
         // given
         var dishId = givenDishId(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
 
         when(dishRepository.findByIdAndRestaurantId(dishId, restaurantId)).thenReturn(Optional.empty());
 

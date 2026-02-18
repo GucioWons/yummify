@@ -1,16 +1,13 @@
 package com.guciowons.yummify.dish.infrastructure.in.rest;
 
-import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.dish.application.DishFacade;
-import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
-import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishClientDTO;
-import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishImageUrlDTO;
-import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishManageDTO;
-import com.guciowons.yummify.dish.infrastructure.in.rest.dto.mapper.DishMapper;
 import com.guciowons.yummify.dish.application.service.DishImageUrlProvider;
 import com.guciowons.yummify.dish.domain.entity.Dish;
-import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishImageUrlDto;
+import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishListDto;
+import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishManageDto;
+import com.guciowons.yummify.dish.infrastructure.in.rest.dto.mapper.DishMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,30 +24,29 @@ import java.util.UUID;
 public class DishController {
     private final DishFacade dishFacade;
     private final DishMapper dishMapper;
-    private final TranslatedStringMapper translatedStringMapper;
     private final DishImageUrlProvider dishImageUrlProvider;
 
     @PostMapping
-    public ResponseEntity<DishManageDTO> create(
-            @RequestBody DishManageDTO dto,
+    public ResponseEntity<DishManageDto> create(
+            @RequestBody DishManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Dish dishCreated = dishFacade.create(
                 userPrincipal.restaurantId(),
-                translatedStringMapper.toEntity(dto.name()),
-                translatedStringMapper.toEntity(dto.description()),
+                dto.name().translations(),
+                dto.description().translations(),
                 dto.ingredientIds()
         );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(mapToManageDTO(dishCreated));
+                .body(mapToManageDto(dishCreated));
     }
 
     @GetMapping
-    public ResponseEntity<List<DishClientDTO>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<DishClientDTO> dishes = dishFacade.getAll(userPrincipal.restaurantId()).stream()
-                .map(this::mapToClientDTO)
+    public ResponseEntity<List<DishListDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<DishListDto> dishes = dishFacade.getAll(userPrincipal.restaurantId()).stream()
+                .map(dishMapper::toListDto)
                 .toList();
 
         return ResponseEntity
@@ -59,7 +55,7 @@ public class DishController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DishManageDTO> getById(
+    public ResponseEntity<DishManageDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
@@ -67,48 +63,43 @@ public class DishController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(mapToManageDTO(dish));
+                .body(mapToManageDto(dish));
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity<DishManageDTO> update(
+    public ResponseEntity<DishManageDto> update(
             @PathVariable UUID id,
-            @RequestBody DishManageDTO dto,
+            @RequestBody DishManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Dish dishUpdated = dishFacade.update(
                 id,
                 userPrincipal.restaurantId(),
-                translatedStringMapper.toEntity(dto.name()),
-                translatedStringMapper.toEntity(dto.description()),
+                dto.name().translations(),
+                dto.description().translations(),
                 dto.ingredientIds()
         );
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(mapToManageDTO(dishUpdated));
+                .body(mapToManageDto(dishUpdated));
     }
 
     @PutMapping(value = "{id}/image", consumes = "multipart/form-data")
-    public ResponseEntity<DishImageUrlDTO> updateImage(
+    public ResponseEntity<DishImageUrlDto> updateImage(
             @PathVariable UUID id,
             @RequestParam MultipartFile image,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        DishImageId updatedImageId = dishFacade.updateImage(id, userPrincipal.restaurantId(), image);
+        Dish.ImageId updatedImageId = dishFacade.updateImage(id, userPrincipal.restaurantId(), image);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new DishImageUrlDTO(dishImageUrlProvider.get(updatedImageId, RestaurantId.of(userPrincipal.restaurantId()))));
+                .body(new DishImageUrlDto(dishImageUrlProvider.get(updatedImageId, Dish.RestaurantId.of(userPrincipal.restaurantId()))));
     }
 
-    private DishClientDTO mapToClientDTO(Dish dish) {
+    private DishManageDto mapToManageDto(Dish dish) {
         String imageUrl = dishImageUrlProvider.get(dish.getImageId(), dish.getRestaurantId());
-        return dishMapper.toClientDTO(dish, imageUrl);
-    }
-
-    private DishManageDTO mapToManageDTO(Dish dish) {
-        String imageUrl = dishImageUrlProvider.get(dish.getImageId(), dish.getRestaurantId());
-        return dishMapper.toManageDTO(dish, imageUrl);
+        return dishMapper.toManageDto(dish, imageUrl);
     }
 }

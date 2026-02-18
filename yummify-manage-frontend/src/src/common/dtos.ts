@@ -15,26 +15,6 @@ export namespace DTOs {
         path: string;
     }
 
-    export interface DishClientDTO {
-        description: string;
-        id: string;
-        imageUrl: string;
-        ingredientIds: string[];
-        name: string;
-    }
-
-    export interface DishImageUrlDTO {
-        imageUrl: string;
-    }
-
-    export interface DishManageDTO {
-        description: TranslatedStringDTO;
-        id: string;
-        imageUrl: string;
-        ingredientIds: string[];
-        name: TranslatedStringDTO;
-    }
-
     export interface ErrorMessage {
         message: string;
     }

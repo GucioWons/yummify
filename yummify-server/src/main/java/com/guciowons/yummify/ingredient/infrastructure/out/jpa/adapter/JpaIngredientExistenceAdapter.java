@@ -18,7 +18,7 @@ public class JpaIngredientExistenceAdapter implements IngredientExistencePort {
             return Collections.emptyList();
         }
 
-        List<UUID> found = jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId);
+        Set<UUID> found = jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId);
 
         return ids.stream()
                 .filter(id -> !found.contains(id))

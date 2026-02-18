@@ -1,65 +1,30 @@
 package com.guciowons.yummify.dish.domain.entity;
 
+import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
-import com.guciowons.yummify.common.i8n.infrastructure.jpa.TranslatedStringConverter;
-import com.guciowons.yummify.dish.domain.entity.value.DishId;
-import com.guciowons.yummify.dish.domain.entity.value.DishImageId;
-import com.guciowons.yummify.restaurant.RestaurantId;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
 
-@Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "dish", schema = "dish")
+@AllArgsConstructor
 public class Dish {
-    @EmbeddedId
-    @AttributeOverride(name = "value", column = @Column(name = "id", nullable = false))
-    private DishId id;
-
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "restaurant_id", nullable = false))
-    private RestaurantId restaurantId;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    @Convert(converter = TranslatedStringConverter.class)
+    private final Id id;
+    private final RestaurantId restaurantId;
     private TranslatedString name;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    @Convert(converter = TranslatedStringConverter.class)
     private TranslatedString description;
-
-    @ElementCollection
-    @CollectionTable(
-            name = "dish_ingredient_id",
-            joinColumns = @JoinColumn(name = "dish_id"),
-            schema = "dish"
-    )
-    @Column(name = "ingredient_id")
     private List<UUID> ingredientIds;
+    private Dish.ImageId imageId;
 
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "image_id", nullable = false))
-    private DishImageId imageId;
-
-    public static Dish of(
+    public static Dish create(
             RestaurantId restaurantId,
             TranslatedString name,
             TranslatedString description,
             List<UUID> ingredientIds
     ) {
-        return new Dish(DishId.random(), restaurantId, name, description, ingredientIds, null);
+        return new Dish(Id.random(), restaurantId, name, description, ingredientIds, null);
     }
 
     public void updateDetails(TranslatedString name, TranslatedString description, List<UUID> ingredientIds) {
@@ -68,7 +33,29 @@ public class Dish {
         this.ingredientIds = ingredientIds;
     }
 
-    public void changeImage(DishImageId imageId) {
+    public void changeImage(ImageId imageId) {
         this.imageId = imageId;
+    }
+
+    public record Id(UUID value) implements IdValueObject {
+        public static Id random() {
+            return new Id(UUID.randomUUID());
+        }
+
+        public static Id of(UUID value) {
+            return new Id(value);
+        }
+    }
+
+    public record RestaurantId(UUID value) implements IdValueObject {
+        public static RestaurantId of(UUID value) {
+            return new RestaurantId(value);
+        }
+    }
+
+    public record ImageId(UUID value) implements IdValueObject {
+        public static ImageId of(UUID value) {
+            return new ImageId(value);
+        }
     }
 }

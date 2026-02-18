@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.net.MalformedURLException;
 
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishImageId;
+import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishRestaurantId;
 import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileUrl;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -20,16 +20,16 @@ class DishImageUrlProviderTest {
     void shouldGetDishImageUrl() throws MalformedURLException {
         // given
         var imageId = givenDishImageId(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
         var imageUrl = givenFileUrl(1).value();
 
-        when(fileFacadePort.getUrl(imageId.value(), restaurantId)).thenReturn(imageUrl);
+        when(fileFacadePort.getUrl(imageId.value(), restaurantId.value())).thenReturn(imageUrl);
 
         // when
         var result = underTest.get(imageId, restaurantId);
 
         // then
-        verify(fileFacadePort).getUrl(imageId.value(), restaurantId);
+        verify(fileFacadePort).getUrl(imageId.value(), restaurantId.value());
 
         assertThat(result).isEqualTo(imageUrl.toString());
     }
@@ -37,7 +37,7 @@ class DishImageUrlProviderTest {
     @Test
     void shouldNotGetDishImageUrl_WhenImageIdIsNull() {
         // given
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
 
         // when
         var result = underTest.get(null, restaurantId);

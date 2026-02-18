@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -21,5 +22,5 @@ public interface JpaIngredientRepository extends JpaRepository<JpaIngredient, UU
        where i.id in :ids
        and i.restaurantId = :restaurantId
        """)
-    List<UUID> findExistingIdsByRestaurantId(List<UUID> ids, UUID restaurantId);
+    Set<UUID> findExistingIdsByRestaurantId(List<UUID> ids, UUID restaurantId);
 }

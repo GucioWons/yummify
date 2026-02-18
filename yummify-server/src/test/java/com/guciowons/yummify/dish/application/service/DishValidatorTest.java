@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishIngredientIds;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
+import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishRestaurantId;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -19,7 +19,7 @@ class DishValidatorTest {
     @Test
     void shouldNotThrowException_WhenIngredientIdsAreEmpty() {
         // given
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
 
         // when
         underTest.validate(List.of(), restaurantId);
@@ -32,7 +32,7 @@ class DishValidatorTest {
     void shouldNotThrowException_WhenNoMissingIngredientIds() {
         // given
         var ingredientIds = givenDishIngredientIds(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
 
         when(ingredientExistencePort.findMissing(ingredientIds, restaurantId.value())).thenReturn(List.of());
 
@@ -47,7 +47,7 @@ class DishValidatorTest {
     void shouldThrowException_WhenMissingIngredientIds() {
         // given
         var ingredientIds = givenDishIngredientIds(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenDishRestaurantId(1);
 
         when(ingredientExistencePort.findMissing(ingredientIds, restaurantId.value())).thenReturn(ingredientIds);
 

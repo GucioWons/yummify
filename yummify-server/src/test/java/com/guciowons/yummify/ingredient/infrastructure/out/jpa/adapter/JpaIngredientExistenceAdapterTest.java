@@ -4,6 +4,7 @@ import com.guciowons.yummify.ingredient.infrastructure.out.jpa.repository.JpaIng
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.guciowons.yummify.ingredient.domain.fixture.IngredientDomainFixture.givenIngredientId;
@@ -50,7 +51,7 @@ class JpaIngredientExistenceAdapterTest {
         var ids = List.of(givenIngredientId(1).value(), givenIngredientId(2).value());
         var restaurantId = givenIngredientRestaurantId(1).value();
 
-        when(jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId)).thenReturn(List.of());
+        when(jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId)).thenReturn(Set.of());
 
         // when
         var result = underTest.findMissing(ids, restaurantId);
@@ -69,7 +70,7 @@ class JpaIngredientExistenceAdapterTest {
         var ids = List.of(existingId, missingId);
         var restaurantId = givenIngredientRestaurantId(1).value();
 
-        when(jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId)).thenReturn(List.of(existingId));
+        when(jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId)).thenReturn(Set.of(existingId));
 
         // when
         List<UUID> result = underTest.findMissing(ids, restaurantId);
@@ -89,7 +90,7 @@ class JpaIngredientExistenceAdapterTest {
         var restaurantId = givenIngredientRestaurantId(1).value();
 
         when(jpaIngredientRepository.findExistingIdsByRestaurantId(ids, restaurantId))
-                .thenReturn(List.of(firstExistingId, secondExistingId));
+                .thenReturn(Set.of(firstExistingId, secondExistingId));
 
         // when
         List<UUID> result = underTest.findMissing(ids, restaurantId);
