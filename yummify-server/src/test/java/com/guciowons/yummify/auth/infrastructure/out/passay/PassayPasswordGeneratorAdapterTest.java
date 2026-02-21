@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.out.passay;
 
+import com.guciowons.yummify.auth.domain.model.Password;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,16 +17,16 @@ class PassayPasswordGeneratorAdapterTest {
         int digitMin = 2;
 
         // when
-        String password = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
+        Password password = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
 
         // then
-        long upperCount = password.chars()
+        long upperCount = password.value().chars()
                 .filter(Character::isUpperCase)
                 .count();
-        long lowerCount = password.chars()
+        long lowerCount = password.value().chars()
                 .filter(Character::isLowerCase)
                 .count();
-        long digitCount = password.chars()
+        long digitCount = password.value().chars()
                 .filter(Character::isDigit)
                 .count();
 
@@ -43,8 +44,8 @@ class PassayPasswordGeneratorAdapterTest {
         int digitMin = 2;
 
         // when
-        String password1 = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
-        String password2 = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
+        Password password1 = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
+        Password password2 = underTest.generate(length, upperCaseMin, lowerCaseMin, digitMin);
 
         // then
         assertThat(password1).isNotEqualTo(password2);

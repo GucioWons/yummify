@@ -1,4 +1,4 @@
-package com.guciowons.yummify.auth.domain.model.value;
+package com.guciowons.yummify.auth.domain.model;
 
 import com.guciowons.yummify.common.core.domain.entity.ValueObject;
 

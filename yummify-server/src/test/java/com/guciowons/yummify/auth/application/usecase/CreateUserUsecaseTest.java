@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenCreateUserCommand;
-import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.givenPassword;
-import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.givenUserId;
+import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,11 +26,13 @@ class CreateUserUsecaseTest {
     void shouldCreateUserWithPassword_WhenCommandWithPasswordIsTrue() throws DomainException {
         // given
         var command = givenCreateUserCommand(true);
-        var userId = givenUserId();
+        var user = givenUser(true);
+        var userId = givenUserExternalId(1);
+        user.assignId(userId);
         var password = givenPassword();
 
-        when(passwordGenerator.generate(12, 2, 2, 2)).thenReturn(password.value());
-        when(userRepository.createUser(any())).thenReturn(userId);
+        when(passwordGenerator.generate(12, 2, 2, 2)).thenReturn(password);
+        when(userRepository.createUser(any())).thenReturn(user);
 
         // when
         var result = underTest.create(command);
@@ -54,9 +55,11 @@ class CreateUserUsecaseTest {
     void shouldCreateUserWithoutPassword_WhenCommandWithPasswordIsFalse() throws DomainException {
         // given
         var command = givenCreateUserCommand(false);
-        var userId = givenUserId();
+        var user = givenUser(true);
+        var userId = givenUserExternalId(1);
+        user.assignId(userId);
 
-        when(userRepository.createUser(any())).thenReturn(userId);
+        when(userRepository.createUser(any())).thenReturn(user);
 
         // when
         var result = underTest.create(command);

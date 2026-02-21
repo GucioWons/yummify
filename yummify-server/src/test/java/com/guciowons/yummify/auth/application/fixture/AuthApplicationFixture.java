@@ -4,20 +4,19 @@ import com.guciowons.yummify.auth.application.model.CreateUserCommand;
 import com.guciowons.yummify.auth.application.model.GenerateOtpCommand;
 
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 
 public class AuthApplicationFixture {
     public static CreateUserCommand givenCreateUserCommand(boolean withPassword) {
         return new CreateUserCommand(
-                givenEmail(),
-                givenUsername(),
-                givenPersonalData(),
-                givenRestaurantId(1),
+                givenUserEmail(),
+                givenUserUsername(),
+                givenUserPersonalData(),
+                givenUserRestaurantId(),
                 withPassword
         );
     }
 
     public static GenerateOtpCommand givenGenerateOtpCommand() {
-        return new GenerateOtpCommand(givenUserId());
+        return new GenerateOtpCommand(givenUserExternalId(1));
     }
 }

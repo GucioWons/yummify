@@ -1,6 +1,6 @@
 package com.guciowons.yummify.auth.application.model;
 
-import com.guciowons.yummify.auth.domain.model.value.UserId;
+import com.guciowons.yummify.auth.domain.model.User;
 
-public record GenerateOtpCommand(UserId userId) {
+public record GenerateOtpCommand(User.ExternalId userId) {
 }

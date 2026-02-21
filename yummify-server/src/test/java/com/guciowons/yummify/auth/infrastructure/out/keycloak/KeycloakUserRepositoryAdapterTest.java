@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak;
 
+import com.guciowons.yummify.auth.infrastructure.out.keycloak.adapter.KeycloakUserRepositoryAdapter;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.feign.KeycloakAdminClient;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.UserRepresentationMapper;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,12 @@ import static com.guciowons.yummify.auth.infrastructure.fixture.AuthInfrastructu
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class KeycloakUserRepositoryTest {
+class KeycloakUserRepositoryAdapterTest {
     private final KeycloakAuthenticator keycloakAuthenticator = mock(KeycloakAuthenticator.class);
     private final KeycloakAdminClient keycloakAdminClient = mock(KeycloakAdminClient.class);
     private final UserRepresentationMapper userRepresentationMapper = mock(UserRepresentationMapper.class);
 
-    private final KeycloakUserRepository underTest = new KeycloakUserRepository(
+    private final KeycloakUserRepositoryAdapter underTest = new KeycloakUserRepositoryAdapter(
             keycloakAuthenticator,
             keycloakAdminClient,
             userRepresentationMapper
@@ -27,7 +28,7 @@ class KeycloakUserRepositoryTest {
     @Test
     void shouldReturnTrue_WhenEmailExists() {
         // given
-        var email = givenEmail();
+        var email = givenUserEmail();
         var token = givenAdminToken();
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
@@ -46,7 +47,7 @@ class KeycloakUserRepositoryTest {
     @Test
     void shouldReturnFalse_WhenEmailDoesNotExist() {
         // given
-        var email = givenEmail();
+        var email = givenUserEmail();
         var token = givenAdminToken();
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
@@ -65,7 +66,7 @@ class KeycloakUserRepositoryTest {
     @Test
     void shouldReturnTrue_WhenUsernameExists() {
         // given
-        var username = givenUsername();
+        var username = givenUserUsername();
         var token = givenAdminToken();
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
@@ -84,7 +85,7 @@ class KeycloakUserRepositoryTest {
     @Test
     void shouldReturnFalse_WhenUsernameDoesNotExist() {
         // given
-        var username = givenUsername();
+        var username = givenUserUsername();
         var token = givenAdminToken();
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
@@ -106,7 +107,7 @@ class KeycloakUserRepositoryTest {
         var token = givenAdminToken();
         var user = givenUser(true);
         var representation = mock(UserRepresentation.class);
-        var expectedUserId = givenUserId();
+        var expectedUserId = givenUserExternalId(1);
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
         when(userRepresentationMapper.toUserRepresentation(user)).thenReturn(representation);
@@ -122,13 +123,14 @@ class KeycloakUserRepositoryTest {
         verify(keycloakAdminClient).createUser(token, representation);
         verify(keycloakAdminClient).getUserByEmail(token, user.getEmail().value());
 
-        assertThat(result).isEqualTo(expectedUserId);
+        assertThat(result).isEqualTo(user);
+        assertThat(result.getId()).isEqualTo(expectedUserId);
     }
 
     @Test
     void shouldUpdateOtp() {
         // given
-        var userId = givenUserId();
+        var userId = givenUserExternalId(1);
         var otp = givenOtp();
         var representation = new UserRepresentation();
         representation.setAttributes(new HashMap<>());
@@ -145,7 +147,7 @@ class KeycloakUserRepositoryTest {
         verify(keycloakAdminClient).updateUser(userId.value().toString(), token, representation);
         verify(keycloakAdminClient).getUser(userId.value().toString(), token);
 
-        assertThat(representation.getAttributes().get("otp")).contains(otp.value());
+        assertThat(representation.getAttributes().get("otp")).contains(otp.password().value());
         assertThat(representation.getAttributes().get("otpExpirationDate")).contains(otp.expiresAt().toString());
     }
 }
