@@ -3,11 +3,11 @@ package com.guciowons.yummify.table.infrastructure.in.rest;
 import com.guciowons.yummify.common.security.application.SecuredByRole;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.UserRole;
-import com.guciowons.yummify.table.application.TableFacade;
+import com.guciowons.yummify.table.application.port.TableFacadePort;
+import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableDTO;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.mapper.TableMapper;
-import com.guciowons.yummify.table.domain.entity.Table;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequestMapping("tables")
 @RequiredArgsConstructor
 public class TableController {
-    private final TableFacade tableFacade;
+    private final TableFacadePort tableFacade;
     private final TableMapper tableMapper;
 
     @PostMapping

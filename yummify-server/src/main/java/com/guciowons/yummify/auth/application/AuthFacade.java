@@ -7,7 +7,6 @@ import com.guciowons.yummify.auth.application.model.mapper.AuthCommandMapper;
 import com.guciowons.yummify.auth.application.usecase.CreateUserUsecase;
 import com.guciowons.yummify.auth.application.usecase.GenerateOtpUsecase;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
@@ -17,7 +16,6 @@ import java.util.UUID;
 public class AuthFacade implements AuthFacadePort {
     private final CreateUserUsecase createUserUsecase;
     private final GenerateOtpUsecase generateOtpUsecase;
-    private final DomainExceptionHandler authDomainExceptionHandler;
     private final AuthCommandMapper authCommandMapper;
 
     @Override
@@ -33,7 +31,7 @@ public class AuthFacade implements AuthFacadePort {
                 email, username, firstName, lastName, restaurantId, withPassword
         );
 
-        return authDomainExceptionHandler.handle(() -> createUserUsecase.create(command).value());
+        return createUserUsecase.create(command).value();
     }
 
     @Override

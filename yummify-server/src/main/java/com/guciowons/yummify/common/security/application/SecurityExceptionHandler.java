@@ -1,7 +1,7 @@
 package com.guciowons.yummify.common.security.application;
 
-import com.guciowons.yummify.common.exception.application.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.application.dto.ApiErrorResponseDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDTO;
 import com.guciowons.yummify.common.security.domain.AccessDeniedException;
 import com.guciowons.yummify.common.security.domain.SecurityErrorMessage;
 import com.guciowons.yummify.common.security.domain.UnauthorizedException;

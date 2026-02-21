@@ -1,9 +1,9 @@
 package com.guciowons.yummify.menu.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.*;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
+import com.guciowons.yummify.menu.application.port.MenuVersionFacadePort;
 import com.guciowons.yummify.menu.application.usecase.*;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Facade
 @RequiredArgsConstructor
-public class MenuVersionFacade {
+public class MenuVersionFacade implements MenuVersionFacadePort {
     private final CreateMenuVersionUsecase createMenuVersionUsecase;
     private final GetAllArchivedMenuVersionsUsecase getAllArchivedMenuVersionsUsecase;
     private final GetDraftMenuVersionUsecase getDraftMenuVersionUsecase;
@@ -22,40 +22,46 @@ public class MenuVersionFacade {
     private final PublishMenuVersionUsecase publishMenuVersionUsecase;
     private final RestoreMenuVersionUsecase restoreMenuVersionUsecase;
     private final MenuVersionCommandMapper menuVersionCommandMapper;
-    private final DomainExceptionHandler menuDomainExceptionHandler;
 
+    @Override
     public MenuVersion create(UUID restaurantId) {
         CreateMenuVersionCommand command = menuVersionCommandMapper.toCreateMenuVersionCommand(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> createMenuVersionUsecase.create(command));
+        return createMenuVersionUsecase.create(command);
     }
 
+    @Override
     public List<MenuVersion> getAllArchived(UUID restaurantId) {
         GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getAllArchivedMenuVersionsUsecase.getAll(query));
+        return getAllArchivedMenuVersionsUsecase.getAll(query);
     }
 
+    @Override
     public MenuVersion getDraft(UUID restaurantId) {
         GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getDraftMenuVersionUsecase.get(query));
+        return getDraftMenuVersionUsecase.get(query);
     }
 
+    @Override
     public MenuVersion getPublished(UUID restaurantId) {
         GetMenuVersionQuery query = menuVersionCommandMapper.toGetMenuVersionQuery(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getPublishedMenuVersionUsecase.get(query));
+        return getPublishedMenuVersionUsecase.get(query);
     }
 
+    @Override
     public MenuVersion getArchived(UUID id, UUID restaurantId) {
         GetArchivedMenuVersionQuery query = menuVersionCommandMapper.toGetArchivedMenuVersionQuery(id, restaurantId);
-        return menuDomainExceptionHandler.handle(() -> getArchivedMenuVersionUsecase.get(query));
+        return getArchivedMenuVersionUsecase.get(query);
     }
 
+    @Override
     public MenuVersion publish(UUID restaurantId) {
         PublishMenuVersionCommand command = menuVersionCommandMapper.toPublishMenuVersionCommand(restaurantId);
-        return menuDomainExceptionHandler.handle(() -> publishMenuVersionUsecase.publish(command));
+        return publishMenuVersionUsecase.publish(command);
     }
 
+    @Override
     public MenuVersion restore(UUID id, UUID restaurantId) {
         RestoreMenuVersionCommand command = menuVersionCommandMapper.toRestoreMenuVersionCommand(id, restaurantId);
-        return menuDomainExceptionHandler.handle(() -> restoreMenuVersionUsecase.restore(command));
+        return restoreMenuVersionUsecase.restore(command);
     }
 }

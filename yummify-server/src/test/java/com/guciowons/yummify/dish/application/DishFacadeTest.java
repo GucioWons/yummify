@@ -1,16 +1,12 @@
 package com.guciowons.yummify.dish.application;
 
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.dish.application.model.mapper.DishCommandMapper;
 import com.guciowons.yummify.dish.application.usecase.*;
-import com.guciowons.yummify.dish.domain.entity.Dish;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import static com.guciowons.yummify.dish.application.fixture.DishApplicationFixture.*;
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
@@ -23,7 +19,6 @@ class DishFacadeTest {
     private final GetDishUsecase getDishUsecase = mock(GetDishUsecase.class);
     private final UpdateDishUsecase updateDishUsecase = mock(UpdateDishUsecase.class);
     private final UpdateDishImageUsecase updateDishImageUsecase = mock(UpdateDishImageUsecase.class);
-    private final DomainExceptionHandler dishDomainExceptionHandler = mock(DomainExceptionHandler.class);
     private final DishCommandMapper dishCommandMapper = mock(DishCommandMapper.class);
 
     private final DishFacade underTest = new DishFacade(
@@ -32,7 +27,6 @@ class DishFacadeTest {
             getDishUsecase,
             updateDishUsecase,
             updateDishImageUsecase,
-            dishDomainExceptionHandler,
             dishCommandMapper
     );
 
@@ -47,8 +41,6 @@ class DishFacadeTest {
         var dish = givenDish(1);
 
         when(dishCommandMapper.toCreateDishCommand(restaurantId, name, description, ingredientIds)).thenReturn(command);
-        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Dish>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Dish>>getArgument(0).get());
         when(createDishUsecase.create(command)).thenReturn(dish);
 
         // when
@@ -56,7 +48,6 @@ class DishFacadeTest {
 
         // then
         verify(dishCommandMapper).toCreateDishCommand(restaurantId, name, description, ingredientIds);
-        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Dish>>any());
         verify(createDishUsecase).create(command);
 
         assertThat(result).isEqualTo(dish);
@@ -91,8 +82,6 @@ class DishFacadeTest {
         var dish = givenDish(1);
 
         when(dishCommandMapper.toGetDishCommand(dishId, restaurantId)).thenReturn(command);
-        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Dish>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Dish>>getArgument(0).get());
         when(getDishUsecase.getById(command)).thenReturn(dish);
 
         // when
@@ -100,7 +89,6 @@ class DishFacadeTest {
 
         // then
         verify(dishCommandMapper).toGetDishCommand(dishId, restaurantId);
-        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Dish>>any());
         verify(getDishUsecase).getById(command);
 
         assertThat(result).isEqualTo(dish);
@@ -119,8 +107,6 @@ class DishFacadeTest {
 
         when(dishCommandMapper.toUpdateDishCommand(dishId, restaurantId, name, description, ingredientIds))
                 .thenReturn(command);
-        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Dish>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Dish>>getArgument(0).get());
         when(updateDishUsecase.update(command)).thenReturn(dish);
 
         // when
@@ -128,7 +114,6 @@ class DishFacadeTest {
 
         // then
         verify(dishCommandMapper).toUpdateDishCommand(dishId, restaurantId, name, description, ingredientIds);
-        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Dish>>any());
         verify(updateDishUsecase).update(command);
 
         assertThat(result).isEqualTo(dish);
@@ -144,8 +129,6 @@ class DishFacadeTest {
         var imageId = givenDishImageId(1);
 
         when(dishCommandMapper.toUpdateDishImageCommand(dishId, image, restaurantId)).thenReturn(command);
-        when(dishDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Dish.ImageId>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Dish.ImageId>>getArgument(0).get());
         when(updateDishImageUsecase.updateImage(command)).thenReturn(imageId);
 
         // when
@@ -153,7 +136,6 @@ class DishFacadeTest {
 
         // then
         verify(dishCommandMapper).toUpdateDishImageCommand(dishId, image, restaurantId);
-        verify(dishDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Dish.ImageId>>any());
         verify(updateDishImageUsecase).updateImage(command);
 
         assertThat(result).isEqualTo(imageId);

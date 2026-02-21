@@ -1,14 +1,10 @@
 package com.guciowons.yummify.table.application;
 
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.table.application.model.mapper.TableCommandMapper;
 import com.guciowons.yummify.table.application.usecase.*;
-import com.guciowons.yummify.table.domain.entity.Table;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
 import static com.guciowons.yummify.table.application.fixture.TableApplicationFixture.*;
@@ -17,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class TableFacadeTest {
-    private final DomainExceptionHandler tableDomainExceptionHandler = mock(DomainExceptionHandler.class);
     private final CreateTableUsecase createTableUsecase = mock(CreateTableUsecase.class);
     private final GetAllTablesUsecase getAllTablesUsecase = mock(GetAllTablesUsecase.class);
     private final GetTableUsecase getTableUsecase = mock(GetTableUsecase.class);
@@ -26,7 +21,6 @@ class TableFacadeTest {
     private final TableCommandMapper tableCommandMapper = mock(TableCommandMapper.class);
 
     private final TableFacade underTest = new TableFacade(
-            tableDomainExceptionHandler,
             createTableUsecase,
             getAllTablesUsecase,
             getTableUsecase,
@@ -44,8 +38,6 @@ class TableFacadeTest {
         var table = givenTable(1);
 
         when(tableCommandMapper.toCreateTableCommand(restaurantId, name)).thenReturn(command);
-        when(tableDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Table>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Table>>getArgument(0).get());
         when(createTableUsecase.create(command)).thenReturn(table);
 
         // when
@@ -53,7 +45,6 @@ class TableFacadeTest {
 
         // then
         verify(tableCommandMapper).toCreateTableCommand(restaurantId, name);
-        verify(tableDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Table>>any());
         verify(createTableUsecase).create(command);
 
         assertThat(result).isEqualTo(table);
@@ -88,8 +79,6 @@ class TableFacadeTest {
         var command = givenGetTableCommand();
 
         when(tableCommandMapper.toGetTableCommand(tableId, restaurantId)).thenReturn(command);
-        when(tableDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Table>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Table>>getArgument(0).get());
         when(getTableUsecase.get(command)).thenReturn(table);
 
         // when
@@ -97,7 +86,6 @@ class TableFacadeTest {
 
         // then
         verify(tableCommandMapper).toGetTableCommand(tableId, restaurantId);
-        verify(tableDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Table>>any());
         verify(getTableUsecase).get(command);
 
         assertThat(result).isEqualTo(table);
@@ -113,8 +101,6 @@ class TableFacadeTest {
         var command = givenUpdateTableCommand();
 
         when(tableCommandMapper.toUpdateTableCommand(tableId, restaurantId, name)).thenReturn(command);
-        when(tableDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Table>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Table>>getArgument(0).get());
         when(updateTableUsecase.update(command)).thenReturn(table);
 
         // when
@@ -122,7 +108,6 @@ class TableFacadeTest {
 
         // then
         verify(tableCommandMapper).toUpdateTableCommand(tableId, restaurantId, name);
-        verify(tableDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Table>>any());
         verify(updateTableUsecase).update(command);
 
         assertThat(result).isEqualTo(table);
@@ -137,8 +122,6 @@ class TableFacadeTest {
         var otp = "otp";
 
         when(tableCommandMapper.toGenerateTableOtpCommand(tableId, restaurantId)).thenReturn(command);
-        when(tableDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<String>>any()))
-                .thenAnswer(inv -> inv.<Supplier<String>>getArgument(0).get());
         when(generateTableOtpUsecase.generate(command)).thenReturn(otp);
 
         // when
@@ -146,7 +129,6 @@ class TableFacadeTest {
 
         // then
         verify(tableCommandMapper).toGenerateTableOtpCommand(tableId, restaurantId);
-        verify(tableDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<String>>any());
         verify(generateTableOtpUsecase).generate(command);
 
         assertThat(result.otp()).isEqualTo(otp);

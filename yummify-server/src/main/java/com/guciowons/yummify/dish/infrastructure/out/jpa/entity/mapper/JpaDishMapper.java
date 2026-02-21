@@ -3,12 +3,17 @@ package com.guciowons.yummify.dish.infrastructure.out.jpa.entity.mapper;
 import com.guciowons.yummify.common.i8n.infrastructure.jpa.JpaTranslatedStringMapper;
 import com.guciowons.yummify.dish.domain.entity.Dish;
 import com.guciowons.yummify.dish.infrastructure.out.jpa.entity.JpaDish;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = JpaTranslatedStringMapper.class)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = JpaTranslatedStringMapper.class
+)
 public interface JpaDishMapper {
     Dish toDomain(JpaDish jpaDish);
 

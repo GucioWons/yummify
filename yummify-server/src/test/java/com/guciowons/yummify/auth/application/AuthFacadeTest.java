@@ -3,13 +3,8 @@ package com.guciowons.yummify.auth.application;
 import com.guciowons.yummify.auth.application.model.mapper.AuthCommandMapper;
 import com.guciowons.yummify.auth.application.usecase.CreateUserUsecase;
 import com.guciowons.yummify.auth.application.usecase.GenerateOtpUsecase;
-import com.guciowons.yummify.auth.domain.model.User;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-
-import java.util.function.Supplier;
 
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenCreateUserCommand;
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenGenerateOtpCommand;
@@ -20,13 +15,11 @@ import static org.mockito.Mockito.*;
 class AuthFacadeTest {
     private final CreateUserUsecase createUserUsecase = mock(CreateUserUsecase.class);
     private final GenerateOtpUsecase generateOtpUsecase = mock(GenerateOtpUsecase.class);
-    private final DomainExceptionHandler authDomainExceptionHandler = mock(DomainExceptionHandler.class);
     private final AuthCommandMapper authCommandMapper = mock(AuthCommandMapper.class);
 
     private final AuthFacade underTest = new AuthFacade(
             createUserUsecase,
             generateOtpUsecase,
-            authDomainExceptionHandler,
             authCommandMapper
     );
 
@@ -44,8 +37,6 @@ class AuthFacadeTest {
 
         when(authCommandMapper.toCreateUserCommand(email, username, firstName, lastName, restaurantId, withPassword))
                 .thenReturn(command);
-        when(authDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<User.ExternalId>>any()))
-                .thenAnswer(inv -> inv.<Supplier<User.ExternalId>>getArgument(0).get());
         when(createUserUsecase.create(command)).thenReturn(expectedUserId);
 
         // when
@@ -54,7 +45,6 @@ class AuthFacadeTest {
         // then
         verify(authCommandMapper).toCreateUserCommand(email, username, firstName, lastName, restaurantId, withPassword);
         verify(createUserUsecase).create(command);
-        verify(authDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<User.ExternalId>>any());
 
         assertThat(result).isEqualTo(expectedUserId.value());
     }

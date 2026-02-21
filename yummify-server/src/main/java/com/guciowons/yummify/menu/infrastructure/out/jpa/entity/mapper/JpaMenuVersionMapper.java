@@ -12,7 +12,11 @@ import org.mapstruct.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = JpaTranslatedStringMapper.class)
+@Mapper(
+        componentModel = "spring",
+        uses = JpaTranslatedStringMapper.class,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR
+)
 public interface JpaMenuVersionMapper {
     MenuVersion toDomain(JpaMenuVersion jpaMenuVersion);
 

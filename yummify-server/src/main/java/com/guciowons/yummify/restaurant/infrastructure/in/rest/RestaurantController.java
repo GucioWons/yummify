@@ -4,7 +4,7 @@ import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.Transl
 import com.guciowons.yummify.common.security.application.SecuredByRole;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.UserRole;
-import com.guciowons.yummify.restaurant.application.RestaurantFacade;
+import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDTO;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantCreateDTO;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
-    private final RestaurantFacade restaurantFacade;
+    private final RestaurantFacadePort restaurantFacade;
     private final RestaurantMapper restaurantMapper;
     private final TranslatedStringMapper translatedStringMapper;
 

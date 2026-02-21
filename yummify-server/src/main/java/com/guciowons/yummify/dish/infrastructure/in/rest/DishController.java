@@ -1,7 +1,7 @@
 package com.guciowons.yummify.dish.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.dish.application.DishFacade;
+import com.guciowons.yummify.dish.application.port.DishFacadePort;
 import com.guciowons.yummify.dish.application.service.DishImageUrlProvider;
 import com.guciowons.yummify.dish.domain.entity.Dish;
 import com.guciowons.yummify.dish.infrastructure.in.rest.dto.DishImageUrlDto;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequestMapping("dishes")
 @RequiredArgsConstructor
 public class DishController {
-    private final DishFacade dishFacade;
+    private final DishFacadePort dishFacade;
     private final DishMapper dishMapper;
     private final DishImageUrlProvider dishImageUrlProvider;
 
