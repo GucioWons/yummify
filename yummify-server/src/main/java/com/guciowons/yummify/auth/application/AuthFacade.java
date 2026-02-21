@@ -40,6 +40,6 @@ public class AuthFacade implements AuthFacadePort {
     public String generateOtp(UUID userId) {
         GenerateOtpCommand command = authCommandMapper.toGenerateOtpCommand(userId);
 
-        return generateOtpUsecase.generate(command).value();
+        return generateOtpUsecase.generate(command).password().value();
     }
 }

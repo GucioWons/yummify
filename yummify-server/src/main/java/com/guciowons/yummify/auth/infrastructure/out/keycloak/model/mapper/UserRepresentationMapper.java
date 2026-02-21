@@ -1,7 +1,7 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper;
 
 import com.guciowons.yummify.auth.domain.model.User;
-import com.guciowons.yummify.auth.domain.model.value.Password;
+import com.guciowons.yummify.auth.domain.model.Password;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.mapstruct.*;
@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface UserRepresentationMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", source = "email.value")
     @Mapping(target = "username", source = "username.value")
     @Mapping(target = "firstName", source = "personalData.firstName")
