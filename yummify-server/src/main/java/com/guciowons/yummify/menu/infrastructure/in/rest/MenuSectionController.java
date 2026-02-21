@@ -1,7 +1,7 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.menu.application.MenuSectionFacade;
+import com.guciowons.yummify.menu.application.port.MenuSectionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuSectionManageDto;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("menu/versions/sections")
 @RequiredArgsConstructor
 public class MenuSectionController {
-    private final MenuSectionFacade menuSectionFacade;
+    private final MenuSectionFacadePort menuSectionFacade;
     private final MenuSectionMapper menuSectionMapper;
     private final MenuEntryMapper menuEntryMapper;
 

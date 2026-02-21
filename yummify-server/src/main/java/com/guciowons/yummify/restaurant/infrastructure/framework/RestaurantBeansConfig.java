@@ -4,12 +4,10 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
-import com.guciowons.yummify.restaurant.application.exception.RestaurantDomainExceptionMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import com.guciowons.yummify.restaurant.application.RestaurantFacade;
+import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
+import com.guciowons.yummify.restaurant.infrastructure.decorator.rest.RestaurantFacadeApiExceptionDecorator;
+import org.springframework.context.annotation.*;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.restaurant",
@@ -23,9 +21,8 @@ import org.springframework.context.annotation.FilterType;
 @Configuration
 public class RestaurantBeansConfig {
     @Bean
-    public DomainExceptionHandler restaurantDomainExceptionHandler(
-            RestaurantDomainExceptionMapper restaurantDomainExceptionMapper
-    ) {
-        return new DomainExceptionHandler(restaurantDomainExceptionMapper);
+    @Primary
+    RestaurantFacadePort restaurantFacadePort(RestaurantFacade restaurantFacade) {
+        return new RestaurantFacadeApiExceptionDecorator(restaurantFacade);
     }
 }

@@ -4,12 +4,13 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
-import com.guciowons.yummify.menu.application.exception.MenuDomainExceptionMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import com.guciowons.yummify.menu.application.MenuSectionFacade;
+import com.guciowons.yummify.menu.application.MenuVersionFacade;
+import com.guciowons.yummify.menu.application.port.MenuSectionFacadePort;
+import com.guciowons.yummify.menu.application.port.MenuVersionFacadePort;
+import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuSectionFacadeApiExceptionDecorator;
+import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuVersionFacadeApiExceptionDecorator;
+import org.springframework.context.annotation.*;
 
 import java.time.Clock;
 
@@ -24,16 +25,20 @@ import java.time.Clock;
 )
 @Configuration
 public class MenuBeansConfig {
-
     @Bean
-    public DomainExceptionHandler menuDomainExceptionHandler(
-            MenuDomainExceptionMapper menuDomainExceptionMapper
-    ) {
-        return new DomainExceptionHandler(menuDomainExceptionMapper);
+    Clock clock() {
+        return Clock.systemUTC();
     }
 
     @Bean
-    public Clock clock() {
-        return Clock.systemUTC();
+    @Primary
+    MenuVersionFacadePort menuVersionFacadePort(MenuVersionFacade menuVersionFacade) {
+        return new MenuVersionFacadeApiExceptionDecorator(menuVersionFacade);
+    }
+
+    @Bean
+    @Primary
+    MenuSectionFacadePort menuSectionFacadePort(MenuSectionFacade menuSectionFacade) {
+        return new MenuSectionFacadeApiExceptionDecorator(menuSectionFacade);
     }
 }

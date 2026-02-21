@@ -4,12 +4,10 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
-import com.guciowons.yummify.ingredient.application.exception.IngredientDomainExceptionMapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import com.guciowons.yummify.ingredient.application.IngredientFacade;
+import com.guciowons.yummify.ingredient.application.port.IngredientFacadePort;
+import com.guciowons.yummify.ingredient.infrastructure.decorator.rest.IngredientFacadeApiExceptionDecorator;
+import org.springframework.context.annotation.*;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.ingredient",
@@ -23,9 +21,8 @@ import org.springframework.context.annotation.FilterType;
 @Configuration
 public class IngredientBeansConfig {
     @Bean
-    public DomainExceptionHandler ingredientDomainExceptionHandler(
-            IngredientDomainExceptionMapper ingredientDomainExceptionMapper
-    ) {
-        return new DomainExceptionHandler(ingredientDomainExceptionMapper);
+    @Primary
+    IngredientFacadePort ingredientFacadePort(IngredientFacade ingredientFacade) {
+        return new IngredientFacadeApiExceptionDecorator(ingredientFacade);
     }
 }

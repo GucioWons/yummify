@@ -5,6 +5,8 @@ import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.file.domain.exception.CannotGetFileException;
 import com.guciowons.yummify.file.domain.exception.FileNotFoundException;
 import com.guciowons.yummify.file.domain.exception.InvalidStorageKeyException;
+import com.guciowons.yummify.file.domain.exception.message.FileErrorMessage;
+import com.guciowons.yummify.file.infrastructure.in.rest.exception.FileDomainExceptionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 

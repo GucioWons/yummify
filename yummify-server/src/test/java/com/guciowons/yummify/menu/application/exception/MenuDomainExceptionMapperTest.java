@@ -3,6 +3,8 @@ package com.guciowons.yummify.menu.application.exception;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.menu.domain.exception.*;
+import com.guciowons.yummify.menu.infrastructure.in.rest.exception.MenuDomainExceptionMapper;
+import com.guciowons.yummify.menu.domain.exception.message.MenuErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 

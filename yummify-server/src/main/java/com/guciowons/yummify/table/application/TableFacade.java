@@ -1,9 +1,9 @@
 package com.guciowons.yummify.table.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.table.application.model.*;
 import com.guciowons.yummify.table.application.model.mapper.TableCommandMapper;
+import com.guciowons.yummify.table.application.port.TableFacadePort;
 import com.guciowons.yummify.table.application.usecase.*;
 import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
@@ -14,8 +14,7 @@ import java.util.UUID;
 
 @Facade
 @RequiredArgsConstructor
-public class TableFacade {
-    private final DomainExceptionHandler tableDomainExceptionHandler;
+public class TableFacade implements TableFacadePort {
     private final CreateTableUsecase createTableUsecase;
     private final GetAllTablesUsecase getAllTablesUsecase;
     private final GetTableUsecase getTableUsecase;
@@ -23,28 +22,33 @@ public class TableFacade {
     private final GenerateTableOtpUsecase generateTableOtpUsecase;
     private final TableCommandMapper tableCommandMapper;
 
+    @Override
     public Table create(UUID restaurantId, String name) {
         CreateTableCommand command = tableCommandMapper.toCreateTableCommand(restaurantId, name);
-        return tableDomainExceptionHandler.handle(() -> createTableUsecase.create(command));
+        return createTableUsecase.create(command);
     }
 
+    @Override
     public List<Table> getAll(UUID restaurantId) {
         GetAllTablesCommand command = tableCommandMapper.toGetAllTablesCommand(restaurantId);
         return getAllTablesUsecase.getAll(command);
     }
 
+    @Override
     public Table getById(UUID id, UUID restaurantId) {
         GetTableCommand command = tableCommandMapper.toGetTableCommand(id, restaurantId);
-        return tableDomainExceptionHandler.handle(() -> getTableUsecase.get(command));
+        return getTableUsecase.get(command);
     }
 
+    @Override
     public Table update(UUID id, UUID restaurantId, String name) {
         UpdateTableCommand command = tableCommandMapper.toUpdateTableCommand(id, restaurantId, name);
-        return tableDomainExceptionHandler.handle(() -> updateTableUsecase.update(command));
+        return updateTableUsecase.update(command);
     }
 
+    @Override
     public TableOtpDTO generateOtp(UUID id, UUID restaurantId) {
         GenerateTableOtpCommand command = tableCommandMapper.toGenerateTableOtpCommand(id, restaurantId);
-        return tableDomainExceptionHandler.handle(() -> new TableOtpDTO(generateTableOtpUsecase.generate(command), id));
+        return new TableOtpDTO(generateTableOtpUsecase.generate(command), id);
     }
 }

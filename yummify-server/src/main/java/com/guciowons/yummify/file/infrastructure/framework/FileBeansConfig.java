@@ -4,13 +4,11 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
-import com.guciowons.yummify.file.application.exception.FileDomainExceptionMapper;
+import com.guciowons.yummify.file.FileFacadePort;
+import com.guciowons.yummify.file.application.FileFacade;
+import com.guciowons.yummify.file.infrastructure.decorator.rest.FileFacadeApiExceptionDecorator;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
 
 @Configuration
 @ComponentScan(
@@ -25,9 +23,8 @@ import org.springframework.context.annotation.FilterType;
 @EnableConfigurationProperties(MinioProperties.class)
 public class FileBeansConfig {
     @Bean
-    public DomainExceptionHandler fileDomainExceptionHandler(
-            FileDomainExceptionMapper tableDomainExceptionMapper
-    ) {
-        return new DomainExceptionHandler(tableDomainExceptionMapper);
+    @Primary
+    FileFacadePort fileFacadePort(FileFacade fileFacade) {
+        return new FileFacadeApiExceptionDecorator(fileFacade);
     }
 }

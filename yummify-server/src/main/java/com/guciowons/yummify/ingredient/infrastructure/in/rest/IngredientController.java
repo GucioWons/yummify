@@ -1,7 +1,7 @@
 package com.guciowons.yummify.ingredient.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.ingredient.application.IngredientFacade;
+import com.guciowons.yummify.ingredient.application.port.IngredientFacadePort;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientClientDTO;
 import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientManageDTO;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("ingredients")
 @RequiredArgsConstructor
 public class IngredientController {
-    private final IngredientFacade ingredientFacade;
+    private final IngredientFacadePort ingredientFacade;
     private final IngredientMapper ingredientMapper;
 
     @PostMapping

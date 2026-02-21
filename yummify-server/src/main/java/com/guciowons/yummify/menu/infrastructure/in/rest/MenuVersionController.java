@@ -1,7 +1,7 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.menu.application.MenuVersionFacade;
+import com.guciowons.yummify.menu.application.port.MenuVersionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionArchivedListDto;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionClientDto;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequestMapping("menu/versions")
 @RequiredArgsConstructor
 public class MenuVersionController {
-    private final MenuVersionFacade menuVersionFacade;
+    private final MenuVersionFacadePort menuVersionFacade;
     private final MenuVersionMapper menuVersionMapper;
 
     @PostMapping

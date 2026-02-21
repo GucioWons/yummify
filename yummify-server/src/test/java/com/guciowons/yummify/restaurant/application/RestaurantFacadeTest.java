@@ -1,16 +1,11 @@
 package com.guciowons.yummify.restaurant.application;
 
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.restaurant.application.model.mapper.RestaurantCommandMapper;
 import com.guciowons.yummify.restaurant.application.usecase.CreateRestaurantUsecase;
 import com.guciowons.yummify.restaurant.application.usecase.GetRestaurantUsecase;
 import com.guciowons.yummify.restaurant.application.usecase.UpdateRestaurantUsecase;
-import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-
-import java.util.function.Supplier;
 
 import static com.guciowons.yummify.restaurant.application.fixture.RestaurantApplicationFixture.*;
 import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.*;
@@ -21,14 +16,12 @@ class RestaurantFacadeTest {
     private final CreateRestaurantUsecase createRestaurantUsecase = mock(CreateRestaurantUsecase.class);
     private final GetRestaurantUsecase getRestaurantUsecase = mock(GetRestaurantUsecase.class);
     private final UpdateRestaurantUsecase updateRestaurantUsecase = mock(UpdateRestaurantUsecase.class);
-    private final DomainExceptionHandler restaurantDomainExceptionHandler = mock(DomainExceptionHandler.class);
     private final RestaurantCommandMapper restaurantCommandMapper = mock(RestaurantCommandMapper.class);
 
     private final RestaurantFacade underTest = new RestaurantFacade(
             createRestaurantUsecase,
             getRestaurantUsecase,
             updateRestaurantUsecase,
-            restaurantDomainExceptionHandler,
             restaurantCommandMapper
     );
 
@@ -64,8 +57,6 @@ class RestaurantFacadeTest {
         var restaurant = givenRestaurant(1);
 
         when(restaurantCommandMapper.toGetRestaurantCommand(restaurantId)).thenReturn(command);
-        when(restaurantDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Restaurant>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Restaurant>>getArgument(0).get());
         when(getRestaurantUsecase.get(command)).thenReturn(restaurant);
 
         // when
@@ -73,7 +64,6 @@ class RestaurantFacadeTest {
 
         // then
         verify(restaurantCommandMapper).toGetRestaurantCommand(restaurantId);
-        verify(restaurantDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Restaurant>>any());
         verify(getRestaurantUsecase).get(command);
 
         assertThat(result).isEqualTo(restaurant);
@@ -91,8 +81,6 @@ class RestaurantFacadeTest {
 
         when(restaurantCommandMapper.toUpdateRestaurantCommand(restaurantId, name, description, defaultLanguage))
                 .thenReturn(command);
-        when(restaurantDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<Restaurant>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Restaurant>>getArgument(0).get());
         when(updateRestaurantUsecase.update(command)).thenReturn(restaurant);
 
         // when
@@ -100,7 +88,6 @@ class RestaurantFacadeTest {
 
         // then
         verify(restaurantCommandMapper).toUpdateRestaurantCommand(restaurantId, name, description, defaultLanguage);
-        verify(restaurantDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<Restaurant>>any());
         verify(updateRestaurantUsecase).update(command);
 
         assertThat(result).isEqualTo(restaurant);

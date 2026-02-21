@@ -1,20 +1,14 @@
 package com.guciowons.yummify.file.application;
 
-import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.file.application.model.mapper.FileCommandMapper;
 import com.guciowons.yummify.file.application.usecase.CreateFileUsecase;
 import com.guciowons.yummify.file.application.usecase.DeleteFileUsecase;
 import com.guciowons.yummify.file.application.usecase.GetFileUrlUsecase;
 import com.guciowons.yummify.file.application.usecase.UpdateFileUsecase;
-import com.guciowons.yummify.file.domain.entity.File;
-import com.guciowons.yummify.file.domain.model.FileUrl;
-import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
-import java.util.function.Supplier;
 
 import static com.guciowons.yummify.file.application.fixture.FileApplicationFixture.*;
 import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.*;
@@ -29,7 +23,6 @@ class FileFacadeTest {
     private final UpdateFileUsecase updateFileUsecase = mock(UpdateFileUsecase.class);
     private final DeleteFileUsecase deleteFileUsecase = mock(DeleteFileUsecase.class);
     private final GetFileUrlUsecase getFileUrlUsecase = mock(GetFileUrlUsecase.class);
-    private final DomainExceptionHandler fileDomainExceptionHandler = mock(DomainExceptionHandler.class);
     private final FileCommandMapper fileCommandMapper = mock(FileCommandMapper.class);
 
     private final FileFacade underTest = new FileFacade(
@@ -37,7 +30,6 @@ class FileFacadeTest {
             updateFileUsecase,
             deleteFileUsecase,
             getFileUrlUsecase,
-            fileDomainExceptionHandler,
             fileCommandMapper
     );
 
@@ -52,8 +44,6 @@ class FileFacadeTest {
 
         when(fileCommandMapper.toCreateFileCommand(eq(directory), any(), eq(restaurantId))).thenReturn(command);
         when(createFileUsecase.create(command)).thenReturn(file);
-        when(fileDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<File>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Restaurant>>getArgument(0).get());
 
         // when
         var result = underTest.create(directory, multipartFile, restaurantId);
@@ -61,7 +51,6 @@ class FileFacadeTest {
         // then
         verify(fileCommandMapper).toCreateFileCommand(eq(directory), any(), eq(restaurantId));
         verify(createFileUsecase).create(command);
-        verify(fileDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<File>>any());
 
         assertThat(result).isEqualTo(file.getId().value());
     }
@@ -76,10 +65,6 @@ class FileFacadeTest {
         var command = givenUpdateFileCommand();
 
         when(fileCommandMapper.toUpdateFileCommand(eq(id), eq(directory), any(), eq(restaurantId))).thenReturn(command);
-        doAnswer(inv -> {
-            inv.<Runnable>getArgument(0).run();
-            return null;
-        }).when(fileDomainExceptionHandler).handle(any(Runnable.class));
 
         // when
         underTest.update(id, directory, multipartFile, restaurantId);
@@ -87,7 +72,6 @@ class FileFacadeTest {
         // then
         verify(fileCommandMapper).toUpdateFileCommand(eq(id), eq(directory), any(), eq(restaurantId));
         verify(updateFileUsecase).update(command);
-        verify(fileDomainExceptionHandler).handle(any(Runnable.class));
     }
 
     @Test
@@ -98,10 +82,6 @@ class FileFacadeTest {
         var command = givenDeleteFileCommand();
 
         when(fileCommandMapper.toDeleteFileCommand(id, restaurantId)).thenReturn(command);
-        doAnswer(inv -> {
-            inv.<Runnable>getArgument(0).run();
-            return null;
-        }).when(fileDomainExceptionHandler).handle(any(Runnable.class));
 
         // when
         underTest.delete(id, restaurantId);
@@ -109,7 +89,6 @@ class FileFacadeTest {
         // then
         verify(fileCommandMapper).toDeleteFileCommand(id, restaurantId);
         verify(deleteFileUsecase).delete(command);
-        verify(fileDomainExceptionHandler).handle(any(Runnable.class));
     }
 
     @Test
@@ -122,8 +101,6 @@ class FileFacadeTest {
 
         when(fileCommandMapper.toGetFileUrlCommand(id, restaurantId)).thenReturn(command);
         when(getFileUrlUsecase.getPresignedUrl(command)).thenReturn(fileUrl);
-        when(fileDomainExceptionHandler.handle(ArgumentMatchers.<Supplier<FileUrl>>any()))
-                .thenAnswer(inv -> inv.<Supplier<Restaurant>>getArgument(0).get());
 
         // when
         var result = underTest.getUrl(id, restaurantId);
@@ -131,7 +108,6 @@ class FileFacadeTest {
         // then
         verify(fileCommandMapper).toGetFileUrlCommand(id, restaurantId);
         verify(getFileUrlUsecase).getPresignedUrl(command);
-        verify(fileDomainExceptionHandler).handle(ArgumentMatchers.<Supplier<FileUrl>>any());
 
         assertThat(result).isEqualTo(fileUrl.value());
     }
