@@ -1,8 +1,8 @@
 package com.guciowons.yummify.dish.application.exception;
 
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
-import com.guciowons.yummify.common.exception.application.ApiException;
-import com.guciowons.yummify.common.exception.application.mapper.DomainExceptionMapper;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.exception.ApiException;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.exception.mapper.DomainExceptionMapper;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.dish.domain.exception.DishIngredientsNotFoundException;
 import com.guciowons.yummify.dish.domain.exception.DishNotFoundException;

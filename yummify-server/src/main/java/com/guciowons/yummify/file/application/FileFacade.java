@@ -1,7 +1,7 @@
 package com.guciowons.yummify.file.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.file.FileFacadePort;
 import com.guciowons.yummify.file.application.model.CreateFileCommand;
 import com.guciowons.yummify.file.application.model.DeleteFileCommand;

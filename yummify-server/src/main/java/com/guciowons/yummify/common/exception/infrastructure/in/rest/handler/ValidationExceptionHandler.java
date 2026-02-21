@@ -1,8 +1,8 @@
-package com.guciowons.yummify.common.exception.application.handler;
+package com.guciowons.yummify.common.exception.infrastructure.in.rest.handler;
 
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
-import com.guciowons.yummify.common.exception.application.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.application.dto.ApiErrorResponseDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

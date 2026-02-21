@@ -1,7 +1,7 @@
 package com.guciowons.yummify.menu.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.CreateMenuSectionCommand;
 import com.guciowons.yummify.menu.application.model.UpdateMenuSectionEntriesCommand;
 import com.guciowons.yummify.menu.application.model.UpdateMenuSectionNameCommand;

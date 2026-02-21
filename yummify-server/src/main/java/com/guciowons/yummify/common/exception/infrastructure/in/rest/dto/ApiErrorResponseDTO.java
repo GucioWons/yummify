@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.exception.application.dto;
+package com.guciowons.yummify.common.exception.infrastructure.in.rest.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -3,8 +3,8 @@ package com.guciowons.yummify.auth.application.exception;
 import com.guciowons.yummify.auth.domain.exception.AccountExistsByEmailException;
 import com.guciowons.yummify.auth.domain.exception.AccountExistsByUsernameException;
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
-import com.guciowons.yummify.common.exception.application.ApiException;
-import com.guciowons.yummify.common.exception.application.mapper.DomainExceptionMapper;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.exception.ApiException;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.exception.mapper.DomainExceptionMapper;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 
 @ExceptionMapper

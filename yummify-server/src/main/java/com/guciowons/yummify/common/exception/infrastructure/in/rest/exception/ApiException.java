@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.exception.application;
+package com.guciowons.yummify.common.exception.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.common.exception.domain.model.ErrorMessage;

@@ -1,7 +1,7 @@
 package com.guciowons.yummify.restaurant.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.restaurant.application.model.CreateRestaurantCommand;

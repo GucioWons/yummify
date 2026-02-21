@@ -8,6 +8,7 @@ import com.guciowons.yummify.menu.application.model.UpdateMenuSectionPositionCom
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,7 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", uses = TranslatedStringMapper.class)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = TranslatedStringMapper.class
+)
 public interface MenuSectionCommandMapper {
     @Mapping(target = "restaurantId", source = "restaurantId")
     @Mapping(target = "name", source = "name")

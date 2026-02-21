@@ -5,7 +5,7 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

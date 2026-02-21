@@ -1,6 +1,6 @@
 package com.guciowons.yummify.file.application;
 
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.file.application.model.mapper.FileCommandMapper;
 import com.guciowons.yummify.file.application.usecase.CreateFileUsecase;
 import com.guciowons.yummify.file.application.usecase.DeleteFileUsecase;

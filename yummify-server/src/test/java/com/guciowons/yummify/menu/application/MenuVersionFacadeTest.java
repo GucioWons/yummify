@@ -1,6 +1,6 @@
 package com.guciowons.yummify.menu.application;
 
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
 import com.guciowons.yummify.menu.application.usecase.*;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;

@@ -1,7 +1,7 @@
 package com.guciowons.yummify.table.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.table.application.model.*;
 import com.guciowons.yummify.table.application.model.mapper.TableCommandMapper;
 import com.guciowons.yummify.table.application.usecase.*;

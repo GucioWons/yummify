@@ -1,7 +1,7 @@
 package com.guciowons.yummify.ingredient.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.ingredient.application.model.CreateIngredientCommand;
 import com.guciowons.yummify.ingredient.application.model.GetAllIngredientsQuery;
 import com.guciowons.yummify.ingredient.application.model.GetIngredientQuery;

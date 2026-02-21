@@ -7,7 +7,7 @@ import com.guciowons.yummify.auth.application.model.mapper.AuthCommandMapper;
 import com.guciowons.yummify.auth.application.usecase.CreateUserUsecase;
 import com.guciowons.yummify.auth.application.usecase.GenerateOtpUsecase;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.guciowons.yummify.ingredient.application;
 
-import com.guciowons.yummify.common.exception.application.handler.DomainExceptionHandler;
+import com.guciowons.yummify.common.exception.infrastructure.DomainExceptionHandler;
 import com.guciowons.yummify.ingredient.application.model.mapper.IngredientCommandMapper;
 import com.guciowons.yummify.ingredient.application.usecase.CreateIngredientUsecase;
 import com.guciowons.yummify.ingredient.application.usecase.GetAllIngredientsUsecase;
