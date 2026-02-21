@@ -1,14 +1,13 @@
 package com.guciowons.yummify.restaurant.infrastructure.decorator.rest;
 
 import com.guciowons.yummify.common.exception.infrastructure.in.rest.annotation.HandleDomainExceptions;
-import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
-import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.restaurant.application.model.RestaurantOwner;
 import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.exception.RestaurantDomainExceptionMapper;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class RestaurantFacadeApiExceptionDecorator implements RestaurantFacadePo
 
     @Override
     @HandleDomainExceptions(handler = RestaurantDomainExceptionMapper.class)
-    public Restaurant create(String name, TranslatedString description, Language language, RestaurantOwner owner) {
+    public Restaurant create(String name, Map<String, String> description, String language, RestaurantOwner owner) {
         return delegate.create(name, description, language, owner);
     }
 
@@ -29,7 +28,7 @@ public class RestaurantFacadeApiExceptionDecorator implements RestaurantFacadePo
 
     @Override
     @HandleDomainExceptions(handler = RestaurantDomainExceptionMapper.class)
-    public Restaurant update(UUID id, String name, TranslatedString description, Language language) {
+    public Restaurant update(UUID id, String name, Map<String, String> description, String language) {
         return delegate.update(id, name, description, language);
     }
 }
