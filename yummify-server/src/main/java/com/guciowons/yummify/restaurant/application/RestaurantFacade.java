@@ -1,8 +1,6 @@
 package com.guciowons.yummify.restaurant.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
-import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.restaurant.application.model.CreateRestaurantCommand;
 import com.guciowons.yummify.restaurant.application.model.GetRestaurantCommand;
 import com.guciowons.yummify.restaurant.application.model.RestaurantOwner;
@@ -15,6 +13,7 @@ import com.guciowons.yummify.restaurant.application.usecase.UpdateRestaurantUsec
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Facade
@@ -26,7 +25,7 @@ public class RestaurantFacade implements RestaurantFacadePort {
     private final RestaurantCommandMapper restaurantCommandMapper;
 
     @Override
-    public Restaurant create(String name, TranslatedString description, Language language, RestaurantOwner owner) {
+    public Restaurant create(String name, Map<String, String> description, String language, RestaurantOwner owner) {
         CreateRestaurantCommand command = restaurantCommandMapper.toCreateRestaurantCommand(name, description, language, owner);
         return createRestaurantUsecase.create(command);
     }
@@ -38,7 +37,7 @@ public class RestaurantFacade implements RestaurantFacadePort {
     }
 
     @Override
-    public Restaurant update(UUID id, String name, TranslatedString description, Language language) {
+    public Restaurant update(UUID id, String name, Map<String, String> description, String language) {
         UpdateRestaurantCommand command = restaurantCommandMapper.toUpdateRestaurantCommand(id, name, description, language);
         return updateRestaurantUsecase.update(command);
     }

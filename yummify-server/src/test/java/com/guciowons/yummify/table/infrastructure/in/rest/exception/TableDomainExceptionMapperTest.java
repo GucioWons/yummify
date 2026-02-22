@@ -1,10 +1,9 @@
-package com.guciowons.yummify.table.application.exception;
+package com.guciowons.yummify.table.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
 import com.guciowons.yummify.table.domain.exception.TableNotFoundException;
-import com.guciowons.yummify.table.infrastructure.in.rest.exception.TableDomainExceptionMapper;
 import com.guciowons.yummify.table.domain.exception.message.TableErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

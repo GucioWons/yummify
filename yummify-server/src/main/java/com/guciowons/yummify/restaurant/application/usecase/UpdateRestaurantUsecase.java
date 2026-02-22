@@ -19,6 +19,8 @@ public class UpdateRestaurantUsecase {
 
         restaurant.updateDetails(command.name(), command.description(), command.defaultLanguage());
 
-        return restaurantRepository.save(restaurant);
+        restaurantRepository.save(restaurant);
+
+        return restaurant;
     }
 }

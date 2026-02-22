@@ -2,7 +2,6 @@ package com.guciowons.yummify.restaurant.application.usecase;
 
 import com.guciowons.yummify.auth.AuthFacadePort;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
-import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantOwnerId;
 import com.guciowons.yummify.restaurant.domain.port.out.RestaurantRepository;
 import org.junit.jupiter.api.Test;
 
@@ -35,9 +34,6 @@ class CreateRestaurantUsecaseTest {
                 eq(true))
         ).thenReturn(ownerId);
 
-        when(restaurantRepository.save(any(Restaurant.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
         // when
         var result = underTest.create(command);
 
@@ -53,7 +49,7 @@ class CreateRestaurantUsecaseTest {
         verify(restaurantRepository).save(result);
 
         assertThat(result.getId()).isNotNull();
-        assertThat(result.getOwnerId()).isEqualTo(RestaurantOwnerId.of(ownerId));
+        assertThat(result.getOwnerId()).isEqualTo(Restaurant.OwnerId.of(ownerId));
         assertThat(result.getName()).isEqualTo(command.name());
         assertThat(result.getDescription()).isEqualTo(command.description());
         assertThat(result.getDefaultLanguage()).isEqualTo(command.defaultLanguage());

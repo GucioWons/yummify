@@ -4,7 +4,6 @@ import com.guciowons.yummify.auth.AuthFacadePort;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.restaurant.application.model.CreateRestaurantCommand;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
-import com.guciowons.yummify.restaurant.domain.entity.value.RestaurantOwnerId;
 import com.guciowons.yummify.restaurant.domain.port.out.RestaurantRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class CreateRestaurantUsecase {
 
     @Transactional
     public Restaurant create(CreateRestaurantCommand command) {
-        Restaurant restaurant = Restaurant.of(command.name(), command.description(), command.defaultLanguage());
+        Restaurant restaurant = Restaurant.create(command.name(), command.description(), command.defaultLanguage());
 
         UUID ownerId = authFacadePort.createUser(
                 command.owner().email(),
@@ -30,7 +29,10 @@ public class CreateRestaurantUsecase {
                 true
         );
 
-        restaurant.changeOwner(RestaurantOwnerId.of(ownerId));
-        return restaurantRepository.save(restaurant);
+        restaurant.changeOwner(Restaurant.OwnerId.of(ownerId));
+
+        restaurantRepository.save(restaurant);
+
+        return restaurant;
     }
 }

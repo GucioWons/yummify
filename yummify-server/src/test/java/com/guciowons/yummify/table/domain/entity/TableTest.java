@@ -2,7 +2,6 @@ package com.guciowons.yummify.table.domain.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.*;
 import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
