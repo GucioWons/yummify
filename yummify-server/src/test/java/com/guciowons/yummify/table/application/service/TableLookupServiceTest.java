@@ -37,7 +37,7 @@ class TableLookupServiceTest {
     void shouldThrowException_WhenNotExists() {
         // given
         var tableId = givenTableId(1);
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenTableRestaurantId(1);
 
         when(tableRepository.findByIdAndRestaurantId(tableId, restaurantId)).thenReturn(Optional.empty());
 

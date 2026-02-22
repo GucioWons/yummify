@@ -25,7 +25,6 @@ class UpdateTableUsecaseTest {
 
         when(tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())).thenReturn(false);
         when(tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId())).thenReturn(table);
-        when(tableRepository.save(table)).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.update(command);
