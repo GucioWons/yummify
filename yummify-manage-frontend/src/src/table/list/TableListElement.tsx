@@ -1,8 +1,8 @@
-import {DTOs} from "../../common/dtos.ts";
-import TableDTO = DTOs.TableDTO;
+import {Dtos} from "../../common/dtos.ts";
+import TableDto = Dtos.TableDto;
 
 export interface TableListElementProps {
-    table: TableDTO;
+    table: TableDto;
 }
 
 function TableListElement(props: TableListElementProps) {

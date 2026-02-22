@@ -1,8 +1,8 @@
 package com.guciowons.yummify.common.exception.infrastructure.in.rest.handler;
 
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDto;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -26,25 +26,25 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, @NonNull HttpHeaders headers, @NonNull HttpStatusCode statusCode, @NonNull WebRequest request) {
-        ApiErrorResponseDTO response = buildApiErrorResponse(e.getBindingResult().getFieldErrors(), request);
+        ApiErrorResponseDto response = buildApiErrorResponse(e.getBindingResult().getFieldErrors(), request);
         return handleExceptionInternal(e, response, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
-    private ApiErrorResponseDTO buildApiErrorResponse(List<FieldError> fieldErrors, WebRequest request) {
-        List<ApiErrorDTO> apiErrors = fieldErrors.stream()
+    private ApiErrorResponseDto buildApiErrorResponse(List<FieldError> fieldErrors, WebRequest request) {
+        List<ApiErrorDto> apiErrors = fieldErrors.stream()
                 .map(this::buildFieldApiError)
                 .toList();
 
-        return new ApiErrorResponseDTO(request.getDescription(false), apiErrors);
+        return new ApiErrorResponseDto(request.getDescription(false), apiErrors);
     }
 
-    private ApiErrorDTO buildFieldApiError(FieldError apiError) {
+    private ApiErrorDto buildFieldApiError(FieldError apiError) {
         CommonErrorMessage errorMessage = errorMessageMap.getOrDefault(
                 getValidationName(apiError.getCodes()),
                 CommonErrorMessage.UNEXPECTED_SERVER_ERROR
         );
 
-        return new ApiErrorDTO(errorMessage);
+        return new ApiErrorDto(errorMessage);
     }
 
     private String getValidationName(String[] codes) {

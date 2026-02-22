@@ -6,7 +6,7 @@ import com.guciowons.yummify.table.application.model.mapper.TableCommandMapper;
 import com.guciowons.yummify.table.application.port.TableFacadePort;
 import com.guciowons.yummify.table.application.usecase.*;
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
+import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -47,8 +47,8 @@ public class TableFacade implements TableFacadePort {
     }
 
     @Override
-    public TableOtpDTO generateOtp(UUID id, UUID restaurantId) {
+    public TableOtpDto generateOtp(UUID id, UUID restaurantId) {
         GenerateTableOtpCommand command = tableCommandMapper.toGenerateTableOtpCommand(id, restaurantId);
-        return new TableOtpDTO(generateTableOtpUsecase.generate(command), id);
+        return new TableOtpDto(generateTableOtpUsecase.generate(command), id);
     }
 }

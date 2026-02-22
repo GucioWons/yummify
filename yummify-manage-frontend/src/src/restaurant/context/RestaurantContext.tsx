@@ -1,9 +1,9 @@
 import {createContext} from "react";
-import {DTOs} from "../../common/dtos.ts";
-import RestaurantClientDTO = DTOs.RestaurantClientDTO;
+import {Dtos} from "../../common/dtos.ts";
+import RestaurantClientDto = Dtos.RestaurantClientDto;
 
 export interface RestaurantContextType {
-    restaurant: RestaurantClientDTO | null;
+    restaurant: RestaurantClientDto | null;
     isLoading: boolean;
     refetch: () => void;
 }

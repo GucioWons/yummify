@@ -1,10 +1,10 @@
-import {DTOs} from "../../common/dtos.ts";
-import TableDTO = DTOs.TableDTO;
+import {Dtos} from "../../common/dtos.ts";
+import TableDto = Dtos.TableDto;
 import TableForm from "./TableForm.tsx";
 import Modal from "../../common/modal/Modal.tsx";
 
 export interface TableFormModalProps {
-    table?: TableDTO
+    table?: TableDto
     onClose: () => void;
 }
 

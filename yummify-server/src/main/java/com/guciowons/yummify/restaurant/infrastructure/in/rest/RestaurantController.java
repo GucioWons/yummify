@@ -5,9 +5,9 @@ import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.UserRole;
 import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDTO;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantCreateDTO;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantManageDTO;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDto;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantCreateDto;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantManageDto;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.mapper.RestaurantMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class RestaurantController {
 
     @PostMapping
     @SecuredByRole(UserRole.ADMIN)
-    public ResponseEntity<RestaurantManageDTO> create(@RequestBody @Valid RestaurantCreateDTO dto) {
+    public ResponseEntity<RestaurantManageDto> create(@RequestBody @Valid RestaurantCreateDto dto) {
         Restaurant restaurant = restaurantFacade.create(
                 dto.restaurant().name(),
                 dto.restaurant().description().translations(),
@@ -35,32 +35,32 @@ public class RestaurantController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(restaurantMapper.toManageDTO(restaurant));
+                .body(restaurantMapper.toManageDto(restaurant));
     }
 
     @GetMapping
-    public ResponseEntity<RestaurantClientDTO> getForClient(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<RestaurantClientDto> getForClient(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Restaurant restaurant = restaurantFacade.getById(userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantMapper.toClientDTO(restaurant));
+                .body(restaurantMapper.toClientDto(restaurant));
     }
 
     @GetMapping("/manage")
     @SecuredByRole(UserRole.ADMIN)
-    public ResponseEntity<RestaurantManageDTO> getForAdmin(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<RestaurantManageDto> getForAdmin(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Restaurant restaurant = restaurantFacade.getById(userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantMapper.toManageDTO(restaurant));
+                .body(restaurantMapper.toManageDto(restaurant));
     }
 
     @PutMapping
     @SecuredByRole(UserRole.OWNER)
-    public ResponseEntity<RestaurantManageDTO> update(
-            @RequestBody @Valid RestaurantManageDTO dto,
+    public ResponseEntity<RestaurantManageDto> update(
+            @RequestBody @Valid RestaurantManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Restaurant updatedRestaurant = restaurantFacade.update(
@@ -72,6 +72,6 @@ public class RestaurantController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantMapper.toManageDTO(updatedRestaurant));
+                .body(restaurantMapper.toManageDto(updatedRestaurant));
     }
 }

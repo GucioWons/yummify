@@ -1,8 +1,8 @@
-import {DTOs} from "../../common/dtos.ts";
-import IngredientClientDTO = DTOs.IngredientClientDTO;
+import {Dtos} from "../../common/dtos.ts";
+import IngredientClientDto = Dtos.IngredientClientDto;
 
 export interface IngredientListElementProps {
-    ingredient: IngredientClientDTO;
+    ingredient: IngredientClientDto;
 }
 
 function IngredientListElement(props: IngredientListElementProps) {

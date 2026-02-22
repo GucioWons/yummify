@@ -1,6 +1,6 @@
 import {FieldPath, FieldValues, useFormContext} from "react-hook-form";
-import {DTOs} from "../../dtos.ts";
-import Language = DTOs.Language;
+import {Dtos} from "../../dtos.ts";
+import Language = Dtos.Language;
 import TextInput from "../../input/TextInput.tsx";
 import Expandable from "../../expandable/Expandable.tsx";
 

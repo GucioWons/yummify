@@ -1,7 +1,7 @@
 package com.guciowons.yummify.table.application.port;
 
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
+import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,5 +15,5 @@ public interface TableFacadePort {
 
     Table update(UUID id, UUID restaurantId, String name);
 
-    TableOtpDTO generateOtp(UUID id, UUID restaurantId);
+    TableOtpDto generateOtp(UUID id, UUID restaurantId);
 }

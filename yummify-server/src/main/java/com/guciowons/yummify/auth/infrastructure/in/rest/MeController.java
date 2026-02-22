@@ -1,6 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.in.rest;
 
-import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserDTO;
+import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserDto;
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.UserMapper;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,9 @@ public class MeController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<UserDTO> me(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<UserDto> me(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userMapper.mapToDTO(userPrincipal));
+                .body(userMapper.mapToDto(userPrincipal));
     }
 }

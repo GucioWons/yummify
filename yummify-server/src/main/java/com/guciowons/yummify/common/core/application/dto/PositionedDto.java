@@ -1,5 +1,5 @@
 package com.guciowons.yummify.common.core.application.dto;
 
-public interface PositionedDTO {
+public interface PositionedDto {
     Integer position();
 }

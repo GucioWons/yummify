@@ -1,20 +1,21 @@
 import {Controller, FieldPath, FieldValues, useFormContext} from "react-hook-form";
 import Multiselect from "../../input/Multiselect.tsx";
 
-export interface AppFormMultiselectFieldProps<T extends FieldValues, U> {
-    name: FieldPath<T>;
+export interface AppFormMultiselectFieldProps<Object extends FieldValues, Option, Value> {
+    name: FieldPath<Object>;
     label: string;
     labelPosition?: "top" | "left";
     placeholder?: string;
-    options: U[]
-    getOptionLabel: (option: U) => string
-    getOptionKey: (option: U) => string
+    options: Option[]
+    getOptionLabel: (option: Option) => string
+    getOptionKey: (option: Option) => string
+    getOptionValue: (option: Option) => Value
 }
 
-function AppFormMultiselectField<T extends FieldValues, U>(props: AppFormMultiselectFieldProps<T, U>) {
-    const {name, label, labelPosition, placeholder, options, getOptionLabel, getOptionKey} = props;
+function AppFormMultiselectField<Object extends FieldValues, Option, Value>(props: AppFormMultiselectFieldProps<Object, Option, Value>) {
+    const {name, label, labelPosition, placeholder, options, getOptionLabel, getOptionKey, getOptionValue} = props;
 
-    const { control } = useFormContext<T>();
+    const { control } = useFormContext<Object>();
 
     return (
         <Controller
@@ -25,11 +26,12 @@ function AppFormMultiselectField<T extends FieldValues, U>(props: AppFormMultise
                     label={label}
                     labelPosition={labelPosition}
                     placeholder={placeholder}
-                    value={field.value}
+                    value={field.value ?? []}
                     onChange={(values) => field.onChange(values)}
                     options={options}
                     getOptionLabel={getOptionLabel}
-                    getOptionValue={getOptionKey}
+                    getOptionKey={getOptionKey}
+                    getOptionValue={getOptionValue}
                 />
             )}
         />

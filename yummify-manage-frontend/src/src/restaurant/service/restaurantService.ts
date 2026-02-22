@@ -1,14 +1,14 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
-import {DTOs} from "../../common/dtos.ts";
-import RestaurantClientDTO = DTOs.RestaurantClientDTO;
-import RestaurantManageDTO = DTOs.RestaurantManageDTO;
+import {Dtos} from "../../common/dtos.ts";
+import RestaurantClientDto = Dtos.RestaurantClientDto;
+import RestaurantManageDto = Dtos.RestaurantManageDto;
 
 export const restaurantService = {
     async getRestaurantClient() {
-        return axiosInstance.get<RestaurantClientDTO>('restaurants');
+        return axiosInstance.get<RestaurantClientDto>('restaurants');
     },
 
     async getRestaurantManage() {
-        return axiosInstance.get<RestaurantManageDTO>('restaurants/manage');
+        return axiosInstance.get<RestaurantManageDto>('restaurants/manage');
     }
 }

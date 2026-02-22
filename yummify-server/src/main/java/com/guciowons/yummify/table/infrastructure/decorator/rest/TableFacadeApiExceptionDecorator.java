@@ -3,7 +3,7 @@ package com.guciowons.yummify.table.infrastructure.decorator.rest;
 import com.guciowons.yummify.common.exception.infrastructure.in.rest.annotation.HandleDomainExceptions;
 import com.guciowons.yummify.table.application.port.TableFacadePort;
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
+import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDto;
 import com.guciowons.yummify.table.infrastructure.in.rest.exception.TableDomainExceptionMapper;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +40,7 @@ public class TableFacadeApiExceptionDecorator implements TableFacadePort {
 
     @Override
     @HandleDomainExceptions(handler = TableDomainExceptionMapper.class)
-    public TableOtpDTO generateOtp(UUID id, UUID restaurantId) {
+    public TableOtpDto generateOtp(UUID id, UUID restaurantId) {
         return delegate.generateOtp(id, restaurantId);
     }
 }

@@ -3,8 +3,8 @@ import {AuthContext} from "../../auth/context/AuthContext.tsx";
 import {useQuery} from "@tanstack/react-query";
 import {restaurantService} from "../service/restaurantService.ts";
 import {RestaurantContext} from "./RestaurantContext.tsx";
-import {DTOs} from "../../common/dtos.ts";
-import RestaurantClientDTO = DTOs.RestaurantClientDTO;
+import {Dtos} from "../../common/dtos.ts";
+import RestaurantClientDto = Dtos.RestaurantClientDto;
 
 export interface RestaurantProviderProps {
     children: React.ReactNode;
@@ -19,7 +19,7 @@ function RestaurantProvider(props: RestaurantProviderProps) {
         data,
         isLoading,
         refetch,
-    } = useQuery<RestaurantClientDTO>({
+    } = useQuery<RestaurantClientDto>({
         queryKey: ["restaurants"],
         queryFn: () => restaurantService.getRestaurantClient().then(res => res.data),
         enabled: !!user,

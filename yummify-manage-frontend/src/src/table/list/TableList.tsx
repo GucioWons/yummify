@@ -1,12 +1,12 @@
 import {useQuery} from "@tanstack/react-query";
 import {tableService} from "../service/tableService.ts";
-import {DTOs} from "../../common/dtos.ts";
-import TableDTO = DTOs.TableDTO;
+import {Dtos} from "../../common/dtos.ts";
 import TableListElement from "./TableListElement.tsx";
 import List from "../../common/list/List.tsx";
+import TableDto = Dtos.TableDto;
 
 function TableList() {
-    const {data, isLoading, isError} = useQuery<TableDTO[]>({
+    const {data, isLoading, isError} = useQuery<TableDto[]>({
         queryKey: ["tables"],
         queryFn: () => tableService.getTables().then(res => res.data),
         staleTime: 1000 * 60 * 5,

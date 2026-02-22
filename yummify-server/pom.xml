@@ -189,7 +189,7 @@
 				<configuration>
 					<jsonLibrary>jackson2</jsonLibrary>
 					<classPatterns>
-						<classPattern>com.guciowons.yummify.**.*DTO</classPattern>
+						<classPattern>com.guciowons.yummify.**.*Dto</classPattern>
 					</classPatterns>
 					<outputKind>module</outputKind>
 					<outputFile>../yummify-manage-frontend/src/src/common/dtos.ts</outputFile>
@@ -201,7 +201,7 @@
 <!--					<nullableAnnotations>org.checkerframework.checker.nullness.qual.Nullable</nullableAnnotations>-->
 					<nullabilityDefinition>nullAndUndefinedUnion</nullabilityDefinition>
 					<classesFromAutomaticJaxrsApplication>true</classesFromAutomaticJaxrsApplication>
-					<namespace>DTOs</namespace>
+					<namespace>Dtos</namespace>
 					<sortDeclarations>true</sortDeclarations>
 				</configuration>
 			</plugin>

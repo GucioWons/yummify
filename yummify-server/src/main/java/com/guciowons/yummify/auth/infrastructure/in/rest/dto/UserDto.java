@@ -2,7 +2,7 @@ package com.guciowons.yummify.auth.infrastructure.in.rest.dto;
 
 import java.util.UUID;
 
-public record UserDTO(
+public record UserDto(
         UUID id,
         UUID restaurantId,
         String email,
