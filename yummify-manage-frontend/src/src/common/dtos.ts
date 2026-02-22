@@ -45,7 +45,7 @@ export namespace DTOs {
     }
 
     export interface RestaurantManageDTO {
-        defaultLanguage: Language;
+        defaultLanguage: string;
         description: TranslatedStringDTO;
         id: string;
         name: string;

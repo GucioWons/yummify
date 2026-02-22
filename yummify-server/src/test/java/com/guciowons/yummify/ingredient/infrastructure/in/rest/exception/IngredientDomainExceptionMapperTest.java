@@ -1,9 +1,8 @@
-package com.guciowons.yummify.ingredient.application.exception;
+package com.guciowons.yummify.ingredient.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.ingredient.domain.exception.IngredientNotFoundException;
-import com.guciowons.yummify.ingredient.infrastructure.in.rest.exception.IngredientDomainExceptionMapper;
 import com.guciowons.yummify.ingredient.domain.exception.message.IngredientErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

@@ -4,9 +4,7 @@ import com.guciowons.yummify.table.application.model.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
-import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.givenTableId;
-import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.givenTableName;
+import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TableApplicationFixture {

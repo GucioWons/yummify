@@ -7,6 +7,8 @@ import com.guciowons.yummify.restaurant.application.usecase.GetRestaurantUsecase
 import com.guciowons.yummify.restaurant.application.usecase.UpdateRestaurantUsecase;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static com.guciowons.yummify.restaurant.application.fixture.RestaurantApplicationFixture.*;
 import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,8 +31,8 @@ class RestaurantFacadeTest {
     void shouldCreateRestaurant() {
         // given
         var name = givenRestaurantName(1).value();
-        var description = givenRestaurantDescription(1);
-        var defaultLanguage = Language.EN;
+        var description = Map.of("EN", "Italian restaurant");
+        var defaultLanguage = Language.EN.name();
         var restaurantOwner = givenRestaurantOwner();
         var command = givenCreateRestaurantCommand();
         var restaurant = givenRestaurant(1);
@@ -74,8 +76,8 @@ class RestaurantFacadeTest {
         // given
         var restaurantId = givenRestaurantId(1).value();
         var name = givenRestaurantName(1).value();
-        var description = givenRestaurantDescription(1);
-        var defaultLanguage = Language.EN;
+        var description = Map.of("EN", "Italian restaurant");
+        var defaultLanguage = Language.EN.name();
         var command = givenUpdateRestaurantCommand();
         var restaurant = givenRestaurant(1);
 

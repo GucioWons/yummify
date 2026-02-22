@@ -25,8 +25,6 @@ class UpdateRestaurantUsecaseTest {
         var restaurant = givenRestaurant(2);
 
         when(restaurantLookupService.getById(command.id())).thenReturn(restaurant);
-        when(restaurantRepository.save(restaurant))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.update(command);

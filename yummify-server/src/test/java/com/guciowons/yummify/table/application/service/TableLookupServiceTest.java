@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static com.guciowons.yummify.restaurant.domain.fixture.RestaurantDomainFixture.givenRestaurantId;
-import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.givenTable;
-import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.givenTableId;
+import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;

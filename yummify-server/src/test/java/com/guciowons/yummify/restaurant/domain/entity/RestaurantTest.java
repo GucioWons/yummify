@@ -15,7 +15,7 @@ class RestaurantTest {
         var defaultLanguage = Language.EN;
 
         // when
-        var result = Restaurant.of(name, description, defaultLanguage);
+        var result = Restaurant.create(name, description, defaultLanguage);
 
         // then
         assertThat(result.getId()).isNotNull();

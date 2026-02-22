@@ -1,9 +1,8 @@
-package com.guciowons.yummify.restaurant.application.exception;
+package com.guciowons.yummify.restaurant.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
 import com.guciowons.yummify.restaurant.domain.exception.RestaurantNotFoundException;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.exception.RestaurantDomainExceptionMapper;
 import com.guciowons.yummify.restaurant.domain.exception.message.RestaurantErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
