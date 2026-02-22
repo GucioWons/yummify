@@ -1,7 +1,6 @@
 package com.guciowons.yummify.table.application.model;
 
-import com.guciowons.yummify.restaurant.RestaurantId;
-import com.guciowons.yummify.table.domain.entity.value.TableId;
+import com.guciowons.yummify.table.domain.entity.Table;
 
-public record GenerateTableOtpCommand(TableId id, RestaurantId restaurantId) {
+public record GenerateTableOtpCommand(Table.Id id, Table.RestaurantId restaurantId) {
 }

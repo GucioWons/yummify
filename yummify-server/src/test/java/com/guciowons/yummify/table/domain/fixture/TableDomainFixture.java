@@ -18,10 +18,6 @@ public class TableDomainFixture {
         return table;
     }
 
-    public static RestaurantId givenRestaurantId(int seed) {
-        return RestaurantId.of(UUID.nameUUIDFromBytes("restaurant-%s".formatted(seed).getBytes()));
-    }
-
     public static TableId givenTableId(int seed) {
         return TableId.of(UUID.nameUUIDFromBytes("table-%s".formatted(seed).getBytes()));
     }

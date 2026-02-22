@@ -1,19 +1,16 @@
 package com.guciowons.yummify.table.domain.repository;
 
-import com.guciowons.yummify.restaurant.RestaurantId;
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.domain.entity.value.TableId;
-import com.guciowons.yummify.table.domain.entity.value.TableName;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TableRepository {
-    Table save(Table table);
+    void save(Table table);
 
-    Optional<Table> findByIdAndRestaurantId(TableId id, RestaurantId restaurantId);
+    Optional<Table> findByIdAndRestaurantId(Table.Id id, Table.RestaurantId restaurantId);
 
-    List<Table> findAllByRestaurantId(RestaurantId restaurantId);
+    List<Table> findAllByRestaurantId(Table.RestaurantId restaurantId);
 
-    boolean existsByNameAndRestaurantId(TableName name, RestaurantId restaurantId);
+    boolean existsByNameAndRestaurantId(Table.Name name, Table.RestaurantId restaurantId);
 }

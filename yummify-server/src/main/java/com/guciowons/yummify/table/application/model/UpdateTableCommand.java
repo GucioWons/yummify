@@ -1,8 +1,6 @@
 package com.guciowons.yummify.table.application.model;
 
-import com.guciowons.yummify.restaurant.RestaurantId;
-import com.guciowons.yummify.table.domain.entity.value.TableId;
-import com.guciowons.yummify.table.domain.entity.value.TableName;
+import com.guciowons.yummify.table.domain.entity.Table;
 
-public record UpdateTableCommand(TableId id, RestaurantId restaurantId, TableName name) {
+public record UpdateTableCommand(Table.Id id, Table.RestaurantId restaurantId, Table.Name name) {
 }
