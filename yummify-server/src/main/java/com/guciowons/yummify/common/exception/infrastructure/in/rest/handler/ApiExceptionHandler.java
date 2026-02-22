@@ -1,8 +1,8 @@
 package com.guciowons.yummify.common.exception.infrastructure.in.rest.handler;
 
 import com.guciowons.yummify.common.exception.domain.model.ErrorMessage;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDto;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDto;
 import com.guciowons.yummify.common.exception.infrastructure.in.rest.exception.ApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,14 +20,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { ApiException.class })
     protected ResponseEntity<Object> handleUnexpectedException(ApiException e, WebRequest request) {
         log.error(e.getMessage(), e);
-        ApiErrorResponseDTO response = buildUnexpectedApiErrorResponseDTO(e, request);
+        ApiErrorResponseDto response = buildApiErrorResponseDto(e, request);
         return handleExceptionInternal(e, response, new HttpHeaders(), e.getHttpStatus(), request);
     }
 
-    private ApiErrorResponseDTO buildUnexpectedApiErrorResponseDTO(ApiException exception, WebRequest request) {
+    private ApiErrorResponseDto buildApiErrorResponseDto(ApiException exception, WebRequest request) {
         String filledErrorMessage = fillErrorMessage(exception.getErrorMessage(), exception.getProperties());
-        ApiErrorDTO apiError = new ApiErrorDTO(filledErrorMessage, exception.getErrorMessage(), exception.getProperties());
-        return new ApiErrorResponseDTO(request.getDescription(false), apiError);
+        ApiErrorDto apiError = new ApiErrorDto(filledErrorMessage, exception.getErrorMessage(), exception.getProperties());
+        return new ApiErrorResponseDto(request.getDescription(false), apiError);
     }
 
     private String fillErrorMessage(ErrorMessage errorMessage, Map<String, Object> properties) {

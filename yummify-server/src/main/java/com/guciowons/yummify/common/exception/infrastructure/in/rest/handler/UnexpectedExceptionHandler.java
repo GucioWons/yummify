@@ -1,8 +1,8 @@
 package com.guciowons.yummify.common.exception.infrastructure.in.rest.handler;
 
 import com.guciowons.yummify.common.exception.domain.model.CommonErrorMessage;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDTO;
-import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDTO;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorDto;
+import com.guciowons.yummify.common.exception.infrastructure.in.rest.dto.ApiErrorResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,12 @@ public class UnexpectedExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { Exception.class })
     protected ResponseEntity<Object> handleUnexpectedException(Exception e, WebRequest request) {
         log.error(e.getMessage(), e);
-        ApiErrorResponseDTO response = buildUnexpectedApiErrorResponseDTO(request);
+        ApiErrorResponseDto response = buildUnexpectedApiErrorResponseDto(request);
         return handleExceptionInternal(e, response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
-    private ApiErrorResponseDTO buildUnexpectedApiErrorResponseDTO(WebRequest request) {
-        ApiErrorDTO apiError = new ApiErrorDTO(CommonErrorMessage.UNEXPECTED_SERVER_ERROR);
-        return new ApiErrorResponseDTO(request.getDescription(false), apiError);
+    private ApiErrorResponseDto buildUnexpectedApiErrorResponseDto(WebRequest request) {
+        ApiErrorDto apiError = new ApiErrorDto(CommonErrorMessage.UNEXPECTED_SERVER_ERROR);
+        return new ApiErrorResponseDto(request.getDescription(false), apiError);
     }
 }

@@ -189,7 +189,7 @@
 				<configuration>
 					<jsonLibrary>jackson2</jsonLibrary>
 					<classPatterns>
-						<classPattern>com.guciowons.yummify.**.*DTO</classPattern>
+						<classPattern>com.guciowons.yummify.**.*Dto</classPattern>
 					</classPatterns>
 					<outputKind>module</outputKind>
 					<outputFile>../yummify-manage-frontend/src/src/common/dtos.ts</outputFile>

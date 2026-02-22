@@ -1,20 +1,20 @@
 package com.guciowons.yummify.common.core.application.validation;
 
-import com.guciowons.yummify.common.core.application.dto.PositionedDTO;
+import com.guciowons.yummify.common.core.application.dto.PositionedDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.*;
 
-public class PositionedListValidator implements ConstraintValidator<CheckPositionedList, List<PositionedDTO>> {
+public class PositionedListValidator implements ConstraintValidator<CheckPositionedList, List<PositionedDto>> {
     @Override
-    public boolean isValid(List<PositionedDTO> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<PositionedDto> value, ConstraintValidatorContext context) {
         if (value == null || value.isEmpty()) {
             return true;
         }
 
         List<Integer> positions = value.stream()
-                .map(PositionedDTO::position)
+                .map(PositionedDto::position)
                 .sorted()
                 .toList();
 

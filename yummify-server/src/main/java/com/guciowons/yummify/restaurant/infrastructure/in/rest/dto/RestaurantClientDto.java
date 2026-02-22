@@ -4,7 +4,7 @@ import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 
 import java.util.UUID;
 
-public record RestaurantClientDTO(
+public record RestaurantClientDto(
         UUID id,
         String name,
         Language defaultLanguage,

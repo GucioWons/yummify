@@ -5,8 +5,8 @@ import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.UserRole;
 import com.guciowons.yummify.table.application.port.TableFacadePort;
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableDTO;
-import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDTO;
+import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableDto;
+import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableOtpDto;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.mapper.TableMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,21 +26,21 @@ public class TableController {
 
     @PostMapping
     @SecuredByRole(UserRole.OWNER)
-    public ResponseEntity<TableDTO> create(
-            @RequestBody TableDTO dto,
+    public ResponseEntity<TableDto> create(
+            @RequestBody TableDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Table tableCreated = tableFacade.create(userPrincipal.restaurantId(), dto.name());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(tableMapper.mapToDTO(tableCreated));
+                .body(tableMapper.mapToDto(tableCreated));
     }
 
     @GetMapping
-    public ResponseEntity<List<TableDTO>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<TableDTO> tables = tableFacade.getAll(userPrincipal.restaurantId()).stream()
-                .map(tableMapper::mapToDTO)
+    public ResponseEntity<List<TableDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<TableDto> tables = tableFacade.getAll(userPrincipal.restaurantId()).stream()
+                .map(tableMapper::mapToDto)
                 .toList();
 
         return ResponseEntity
@@ -49,7 +49,7 @@ public class TableController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<TableDTO> getById(
+    public ResponseEntity<TableDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
@@ -57,24 +57,24 @@ public class TableController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(tableMapper.mapToDTO(table));
+                .body(tableMapper.mapToDto(table));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<TableDTO> update(
+    public ResponseEntity<TableDto> update(
             @PathVariable UUID id,
-            @RequestBody TableDTO dto,
+            @RequestBody TableDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Table updatedTable = tableFacade.update(id, userPrincipal.restaurantId(), dto.name());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(tableMapper.mapToDTO(updatedTable));
+                .body(tableMapper.mapToDto(updatedTable));
     }
 
     @PostMapping("{id}/generate-otp")
-    public ResponseEntity<TableOtpDTO> generateOtp(
+    public ResponseEntity<TableOtpDto> generateOtp(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {

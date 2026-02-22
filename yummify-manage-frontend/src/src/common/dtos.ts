@@ -3,76 +3,135 @@
 
 export namespace DTOs {
 
-    export interface ApiErrorDTO {
+    export interface ApiErrorDto {
         errorMessage: ErrorMessage;
         errorMessageString: string;
         properties: { [index: string]: any };
     }
 
-    export interface ApiErrorResponseDTO {
-        apiErrors: ApiErrorDTO[];
+    export interface ApiErrorResponseDto {
+        apiErrors: ApiErrorDto[];
         errorOccurredAt: DateAsString;
         path: string;
+    }
+
+    export interface DishClientDto {
+        description: string;
+        id: string;
+        imageUrl: string;
+        ingredientIds: string[];
+        name: string;
+    }
+
+    export interface DishImageUrlDto {
+        imageUrl: string;
+    }
+
+    export interface DishListDto {
+        id: string;
+        name: string;
+    }
+
+    export interface DishManageDto {
+        description: TranslatedStringDto;
+        id: string;
+        imageUrl: string;
+        ingredientIds: string[];
+        name: TranslatedStringDto;
     }
 
     export interface ErrorMessage {
         message: string;
     }
 
-    export interface IngredientClientDTO {
+    export interface IngredientClientDto {
         id: string;
         name: string;
     }
 
-    export interface IngredientManageDTO {
+    export interface IngredientManageDto {
         id: string;
-        name: TranslatedStringDTO;
+        name: TranslatedStringDto;
     }
 
-    export interface PositionedDTO {
+    export interface MenuEntryDto {
+        dishId: string;
+        id: string;
+        price: number;
     }
 
-    export interface RestaurantClientDTO {
+    export interface MenuSectionClientDto extends PositionedDto {
+        entries: MenuEntryDto[];
+        id: string;
+        name: string;
+        position: number;
+    }
+
+    export interface MenuSectionManageDto extends PositionedDto {
+        entries: MenuEntryDto[];
+        id: string;
+        name: TranslatedStringDto;
+        position: number;
+    }
+
+    export interface MenuVersionArchivedListDto {
+        archivedAt: DateAsString;
+        id: string;
+        version: number;
+    }
+
+    export interface MenuVersionClientDto {
+        sections: MenuSectionClientDto[];
+    }
+
+    export interface MenuVersionManageDto {
+        sections: MenuSectionManageDto[];
+    }
+
+    export interface PositionedDto {
+    }
+
+    export interface RestaurantClientDto {
         defaultLanguage: Language;
         description: string;
         id: string;
         name: string;
     }
 
-    export interface RestaurantCreateDTO {
-        owner: RestaurantOwnerDTO;
-        restaurant: RestaurantManageDTO;
+    export interface RestaurantCreateDto {
+        owner: RestaurantOwnerDto;
+        restaurant: RestaurantManageDto;
     }
 
-    export interface RestaurantManageDTO {
+    export interface RestaurantManageDto {
         defaultLanguage: string;
-        description: TranslatedStringDTO;
+        description: TranslatedStringDto;
         id: string;
         name: string;
     }
 
-    export interface RestaurantOwnerDTO {
+    export interface RestaurantOwnerDto {
         email: string;
         firstName: string;
         lastName: string;
         username: string;
     }
 
-    export interface TableDTO {
+    export interface TableDto {
         id: string;
         name: string;
     }
 
-    export interface TableOtpDTO {
+    export interface TableOtpDto {
         otp: string;
         tableId: string;
     }
 
-    export interface TranslatedStringDTO {
+    export interface TranslatedStringDto {
         translations: { [index: string]: string };
     }
 
-    export interface UserDTO {
+    export interface UserDto {
         email: string;
         firstName: string;
         id: string;

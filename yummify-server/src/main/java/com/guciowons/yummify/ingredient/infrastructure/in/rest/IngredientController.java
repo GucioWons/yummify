@@ -3,8 +3,8 @@ package com.guciowons.yummify.ingredient.infrastructure.in.rest;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.ingredient.application.port.IngredientFacadePort;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
-import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientClientDTO;
-import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientManageDTO;
+import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientClientDto;
+import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientManageDto;
 import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.mapper.IngredientMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,21 +23,21 @@ public class IngredientController {
     private final IngredientMapper ingredientMapper;
 
     @PostMapping
-    public ResponseEntity<IngredientManageDTO> create(
-            @RequestBody IngredientManageDTO dto,
+    public ResponseEntity<IngredientManageDto> create(
+            @RequestBody IngredientManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Ingredient ingredientCreated = ingredientFacade.create(userPrincipal.restaurantId(), dto.name().translations());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ingredientMapper.mapToManageDTO(ingredientCreated));
+                .body(ingredientMapper.mapToManageDto(ingredientCreated));
     }
 
     @GetMapping
-    public ResponseEntity<List<IngredientClientDTO>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<IngredientClientDTO> ingredients = ingredientFacade.getAll(userPrincipal.restaurantId()).stream()
-                .map(ingredientMapper::mapToClientDTO)
+    public ResponseEntity<List<IngredientClientDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<IngredientClientDto> ingredients = ingredientFacade.getAll(userPrincipal.restaurantId()).stream()
+                .map(ingredientMapper::mapToClientDto)
                 .toList();
 
         return ResponseEntity
@@ -46,7 +46,7 @@ public class IngredientController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<IngredientManageDTO> getById(
+    public ResponseEntity<IngredientManageDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
@@ -54,13 +54,13 @@ public class IngredientController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ingredientMapper.mapToManageDTO(ingredient));
+                .body(ingredientMapper.mapToManageDto(ingredient));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<IngredientManageDTO> updateById(
+    public ResponseEntity<IngredientManageDto> updateById(
             @PathVariable UUID id,
-            @RequestBody IngredientManageDTO dto,
+            @RequestBody IngredientManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Ingredient updatedIngredient = ingredientFacade.update(
@@ -71,6 +71,6 @@ public class IngredientController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ingredientMapper.mapToManageDTO(updatedIngredient));
+                .body(ingredientMapper.mapToManageDto(updatedIngredient));
     }
 }

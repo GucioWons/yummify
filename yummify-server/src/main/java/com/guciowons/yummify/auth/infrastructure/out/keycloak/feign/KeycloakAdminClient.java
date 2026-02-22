@@ -43,6 +43,6 @@ public interface KeycloakAdminClient {
     void updateUser(
             @PathVariable("id") String userId,
             @RequestHeader("Authorization") String authorization,
-            @RequestBody UserRepresentation userResponseDTO
+            @RequestBody UserRepresentation userResponseDto
     );
 }

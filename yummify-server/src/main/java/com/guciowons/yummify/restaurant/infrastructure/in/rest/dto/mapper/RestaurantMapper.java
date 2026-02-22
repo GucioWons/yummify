@@ -1,9 +1,9 @@
 package com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.mapper;
 
 import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDTO;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantManageDTO;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantOwnerDTO;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDto;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantManageDto;
+import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantOwnerDto;
 import com.guciowons.yummify.restaurant.application.model.RestaurantOwner;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import org.mapstruct.InjectionStrategy;
@@ -18,11 +18,11 @@ import org.mapstruct.Mapping;
 public interface RestaurantMapper {
     @Mapping(target = "id", source = "id.value")
     @Mapping(target = "name", source = "name.value")
-    RestaurantManageDTO toManageDTO(Restaurant entity);
+    RestaurantManageDto toManageDto(Restaurant entity);
 
     @Mapping(target = "id", source = "id.value")
     @Mapping(target = "name", source = "name.value")
-    RestaurantClientDTO toClientDTO(Restaurant entity);
+    RestaurantClientDto toClientDto(Restaurant entity);
 
-    RestaurantOwner toOwner(RestaurantOwnerDTO dto);
+    RestaurantOwner toOwner(RestaurantOwnerDto dto);
 }
