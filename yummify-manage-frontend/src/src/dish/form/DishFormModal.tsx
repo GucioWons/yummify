@@ -1,10 +1,10 @@
-import {DTOs} from "../../common/dtos.ts";
-import DishManageDTO = DTOs.DishManageDTO;
+import {Dtos} from "../../common/dtos.ts";
+import DishManageDto = Dtos.DishManageDto;
 import Modal from "../../common/modal/Modal.tsx";
 import DishForm from "./DishForm.tsx";
 
 export interface DishFormModalProps {
-    dish?: DishManageDTO
+    dish?: DishManageDto
     onClose: () => void;
 }
 

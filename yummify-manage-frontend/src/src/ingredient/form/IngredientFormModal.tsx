@@ -1,10 +1,10 @@
 import Modal from "../../common/modal/Modal.tsx";
-import {DTOs} from "../../common/dtos.ts";
-import IngredientManageDTO = DTOs.IngredientManageDTO;
+import {Dtos} from "../../common/dtos.ts";
 import IngredientForm from "./IngredientForm.tsx";
+import IngredientManageDto = Dtos.IngredientManageDto;
 
 export interface IngredientFormModalProps {
-    ingredient?: IngredientManageDTO;
+    ingredient?: IngredientManageDto;
     onClose: () => void;
 }
 

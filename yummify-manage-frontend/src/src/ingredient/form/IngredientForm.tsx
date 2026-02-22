@@ -1,13 +1,13 @@
-import {DTOs} from "../../common/dtos.ts";
+import {Dtos} from "../../common/dtos.ts";
 import AppForm from "../../common/form/AppForm.tsx";
 import AppFormTranslatedTextField from "../../common/form/fields/AppFormTranslatedTextField.tsx";
-import IngredientManageDTO = DTOs.IngredientManageDTO;
-import Language = DTOs.Language;
+import Language = Dtos.Language;
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ingredientService} from "../service/ingredientService.ts";
+import IngredientManageDto = Dtos.IngredientManageDto;
 
 export interface IngredientFormProps {
-    ingredient?: IngredientManageDTO;
+    ingredient?: IngredientManageDto;
     onCancel: () => void;
 }
 
@@ -17,7 +17,7 @@ function IngredientForm(props: IngredientFormProps) {
     const queryClient = useQueryClient();
 
     const handleSubmit = useMutation({
-        mutationFn: (data: IngredientManageDTO) => {
+        mutationFn: (data: IngredientManageDto) => {
             return ingredientService.createIngredient(data);
         },
         onSuccess: () => {
@@ -31,7 +31,7 @@ function IngredientForm(props: IngredientFormProps) {
 
     return (
         <AppForm
-            <IngredientManageDTO>
+            <IngredientManageDto>
             initialData={ingredient ?? {}}
             onSubmit={(data) => handleSubmit.mutate(data)}
             onCancel={onCancel}

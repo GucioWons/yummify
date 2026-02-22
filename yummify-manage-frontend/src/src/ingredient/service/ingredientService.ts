@@ -1,14 +1,14 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
-import {DTOs} from "../../common/dtos.ts";
-import IngredientListDTO = DTOs.IngredientListDTO;
-import IngredientManageDTO = DTOs.IngredientManageDTO;
+import {Dtos} from "../../common/dtos.ts";
+import IngredientClientDto = Dtos.IngredientClientDto;
+import IngredientManageDto = Dtos.IngredientManageDto;
 
 export const ingredientService = {
     async getIngredients() {
-        return axiosInstance.get<IngredientListDTO[]>('ingredients');
+        return axiosInstance.get<IngredientClientDto[]>('ingredients');
     },
 
-    async createIngredient(data: IngredientManageDTO) {
-        return axiosInstance.post<IngredientManageDTO, IngredientManageDTO>('ingredients', data);
+    async createIngredient(data: IngredientManageDto) {
+        return axiosInstance.post<IngredientManageDto, IngredientManageDto>('ingredients', data);
     }
 }

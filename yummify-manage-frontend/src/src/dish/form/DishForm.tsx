@@ -1,19 +1,19 @@
-import {DTOs} from "../../common/dtos.ts";
+import {Dtos} from "../../common/dtos.ts";
 import AppForm from "../../common/form/AppForm.tsx";
 import AppFormTranslatedTextField from "../../common/form/fields/AppFormTranslatedTextField.tsx";
-import DishManageDTO = DTOs.DishManageDTO;
-import Language = DTOs.Language;
+import DishManageDto = Dtos.DishManageDto;
+import Language = Dtos.Language;
 import ImagePicker from "../../common/image/ImagePicker.tsx";
 import {useCallback, useState} from "react";
-import IngredientListDTO = DTOs.IngredientListDTO;
 import AppFormMultiselectField from "../../common/form/fields/AppFormMultiselectField.tsx";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ingredientService} from "../../ingredient/service/ingredientService.ts";
 import {dishService} from "../service/dishService.ts";
 import {AxiosResponse} from "axios";
+import IngredientClientDto = Dtos.IngredientClientDto;
 
 export interface DishFormProps {
-    dish?: DishManageDTO;
+    dish?: DishManageDto;
     onCancel: () => void;
 }
 
@@ -24,7 +24,7 @@ function DishForm(props: DishFormProps) {
         data: ingredients,
         isLoading: isIngredientsLoading,
         isError: isIngredientsError
-    } = useQuery<IngredientListDTO[]>({
+    } = useQuery<IngredientClientDto[]>({
         queryKey: ["ingredients"],
         queryFn: () => ingredientService.getIngredients().then(res => res.data),
         staleTime: 1000 * 60 * 5,
@@ -35,12 +35,12 @@ function DishForm(props: DishFormProps) {
     const queryClient = useQueryClient();
 
     const handleSubmit = useMutation({
-        mutationFn: (data: DishManageDTO) => dishService.createDish(data),
-        onSuccess: (data: AxiosResponse<DishManageDTO>) => handleSubmitSuccess(data.data),
+        mutationFn: (data: DishManageDto) => dishService.createDish(data),
+        onSuccess: (data: AxiosResponse<DishManageDto>) => handleSubmitSuccess(data.data),
         onError: (error) => console.error("Unexpected error:", error),
     });
 
-    const handleSubmitSuccess = useCallback((data: DishManageDTO) => {
+    const handleSubmitSuccess = useCallback((data: DishManageDto) => {
         if (imageFile) {
             dishService.updateImage(data.id, imageFile)
                 .catch((error) => console.error("Unexpected error:", error))
@@ -53,7 +53,7 @@ function DishForm(props: DishFormProps) {
 
     return (
         <AppForm
-            <DishManageDTO>
+            <DishManageDto>
             initialData={dish ?? {}}
             onSubmit={(data) => handleSubmit.mutate(data)}
             onCancel={onCancel}
@@ -81,12 +81,13 @@ function DishForm(props: DishFormProps) {
 
             {!isIngredientsError &&
                 <AppFormMultiselectField
-                    name={"ingredients"}
+                    name={"ingredientIds"}
                     label={"Ingredients"}
                     placeholder={"Select ingredients..."}
                     options={ingredients ?? []}
                     getOptionLabel={(option) => option.name}
                     getOptionKey={(option) => option.id}
+                    getOptionValue={(option) => option.id}
                 />
             }
         </AppForm>

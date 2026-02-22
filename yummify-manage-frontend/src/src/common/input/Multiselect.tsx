@@ -2,16 +2,33 @@ import {InputProps} from "./Input.tsx";
 import Select, {CSSObjectWithLabel} from "react-select";
 import "./Multiselect.css"
 
-export interface MultiselectProps<T> {
-    value: T[];
-    onChange: (values: T[]) => void;
-    options: T[]
-    getOptionLabel: (option: T) => string
-    getOptionValue: (option: T) => string
+export interface MultiselectProps<Option, Value> {
+    value: Value[];
+    onChange: (values: Value[]) => void;
+    options: Option[]
+    getOptionLabel: (option: Option) => string
+    getOptionKey: (option: Option) => string
+    getOptionValue: (option: Option) => Value
 }
 
-function Multiselect<T>(props: MultiselectProps<T> & InputProps) {
-    const {label, labelPosition = "top", placeholder, value, onChange, options, getOptionLabel, getOptionValue} = props;
+function Multiselect<Option, Value>(
+    props: MultiselectProps<Option, Value> & InputProps
+) {
+    const {
+        label,
+        labelPosition = "top",
+        placeholder,
+        value,
+        onChange,
+        options,
+        getOptionLabel,
+        getOptionKey,
+        getOptionValue
+    } = props;
+
+    const selectedOptions = value
+        ? options.filter(o => value.includes(getOptionValue(o)))
+        : [];
 
     function getControlStyle(base: CSSObjectWithLabel): CSSObjectWithLabel {
         return {
@@ -94,12 +111,12 @@ function Multiselect<T>(props: MultiselectProps<T> & InputProps) {
                 isMulti
                 className={"multiselect input"}
                 classNamePrefix={"multiselect"}
-                value={value}
-                onChange={(selected) => onChange(selected as [T])}
+                value={selectedOptions}
+                onChange={(selected) => onChange(selected ? selected.map(getOptionValue) : [])}
                 options={options}
                 placeholder={placeholder}
                 getOptionLabel={getOptionLabel}
-                getOptionValue={getOptionValue}
+                getOptionValue={getOptionKey}
                 styles={{
                     control: (base) => getControlStyle(base),
                     valueContainer: (base) => getValueContainerStyle(base),

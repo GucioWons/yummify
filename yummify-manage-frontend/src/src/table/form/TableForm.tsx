@@ -1,13 +1,13 @@
-import {DTOs} from "../../common/dtos.ts";
-import TableDTO = DTOs.TableDTO;
+import {Dtos} from "../../common/dtos.ts";
 import AppForm from "../../common/form/AppForm.tsx";
 import AppFormTextField from "../../common/form/fields/AppFormTextField.tsx";
 import AppFormNumberField from "../../common/form/fields/AppFormNumberField.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {tableService} from "../service/tableService.ts";
+import TableDto = Dtos.TableDto;
 
 export interface TableFormProps {
-    table?: TableDTO;
+    table?: TableDto;
     onCancel: () => void;
 }
 
@@ -17,7 +17,7 @@ function TableForm(props: TableFormProps) {
     const queryClient = useQueryClient();
 
     const handleSubmit = useMutation({
-        mutationFn: (data: TableDTO) => {
+        mutationFn: (data: TableDto) => {
             return tableService.createTable(data);
         },
         onSuccess: () => {
@@ -31,7 +31,7 @@ function TableForm(props: TableFormProps) {
 
     return (
         <AppForm
-            <TableDTO>
+            <TableDto>
             initialData={table ?? {}}
             onSubmit={(data) => handleSubmit.mutate(data)}
             onCancel={onCancel}

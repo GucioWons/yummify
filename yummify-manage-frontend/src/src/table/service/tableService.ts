@@ -1,13 +1,13 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
-import {DTOs} from "../../common/dtos.ts";
-import TableDTO = DTOs.TableDTO;
+import {Dtos} from "../../common/dtos.ts";
+import TableDto = Dtos.TableDto;
 
 export const tableService = {
     async getTables() {
-        return axiosInstance.get<TableDTO[]>('tables');
+        return axiosInstance.get<TableDto[]>('tables');
     },
 
-    async createTable(data: TableDTO) {
-        return axiosInstance.post<TableDTO, TableDTO>('tables', data);
+    async createTable(data: TableDto) {
+        return axiosInstance.post<TableDto, TableDto>('tables', data);
     },
 }

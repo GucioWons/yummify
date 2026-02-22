@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export namespace DTOs {
+export namespace Dtos {
 
     export interface ApiErrorDto {
         errorMessage: ErrorMessage;

@@ -1,11 +1,11 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
-import {DTOs} from "../../common/dtos.ts";
-import DishManageDTO = DTOs.DishManageDTO;
-import DishImageUrlDTO = DTOs.DishImageUrlDTO;
+import {Dtos} from "../../common/dtos.ts";
+import DishManageDto = Dtos.DishManageDto;
+import DishImageUrlDto = Dtos.DishImageUrlDto;
 
 export const dishService = {
-    async createDish(data: DishManageDTO) {
-        return axiosInstance.post<DishManageDTO>('dishes', data);
+    async createDish(data: DishManageDto) {
+        return axiosInstance.post<DishManageDto>('dishes', data);
     },
 
     async updateImage(id: string, image: File) {
@@ -18,6 +18,6 @@ export const dishService = {
             }
         };
 
-        return axiosInstance.put<DishImageUrlDTO>(`dishes/${id}/image`, formData, headers);
+        return axiosInstance.put<DishImageUrlDto>(`dishes/${id}/image`, formData, headers);
     }
 }

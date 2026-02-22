@@ -201,7 +201,7 @@
 <!--					<nullableAnnotations>org.checkerframework.checker.nullness.qual.Nullable</nullableAnnotations>-->
 					<nullabilityDefinition>nullAndUndefinedUnion</nullabilityDefinition>
 					<classesFromAutomaticJaxrsApplication>true</classesFromAutomaticJaxrsApplication>
-					<namespace>DTOs</namespace>
+					<namespace>Dtos</namespace>
 					<sortDeclarations>true</sortDeclarations>
 				</configuration>
 			</plugin>
