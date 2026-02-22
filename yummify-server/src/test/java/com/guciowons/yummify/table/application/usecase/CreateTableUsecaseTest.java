@@ -2,7 +2,6 @@ package com.guciowons.yummify.table.application.usecase;
 
 import com.guciowons.yummify.auth.AuthFacadePort;
 import com.guciowons.yummify.table.domain.entity.Table;
-import com.guciowons.yummify.table.domain.entity.value.TableUserId;
 import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
 import com.guciowons.yummify.table.domain.repository.TableRepository;
 import org.junit.jupiter.api.Test;
@@ -29,8 +28,6 @@ class CreateTableUsecaseTest {
 
         when(tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())).thenReturn(false);
         when(authFacadePort.createUser(any(), any(), any(), any(), any(), eq(false))).thenReturn(userId);
-        when(tableRepository.save(any(Table.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
         var result = underTest.create(command);
@@ -41,7 +38,7 @@ class CreateTableUsecaseTest {
         verify(tableRepository).save(any(Table.class));
 
         assertThat(result.getId()).isNotNull();
-        assertThat(result.getUserId()).isEqualTo(TableUserId.of(userId));
+        assertThat(result.getUserId()).isEqualTo(Table.UserId.of(userId));
         assertThat(result.getName()).isEqualTo(command.name());
     }
 

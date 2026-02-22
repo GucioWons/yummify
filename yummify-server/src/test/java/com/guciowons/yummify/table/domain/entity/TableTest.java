@@ -9,11 +9,11 @@ class TableTest {
     @Test
     void shouldCreateTableWithRandomIdAndNoUser() {
         // given
-        var restaurantId = givenRestaurantId(1);
+        var restaurantId = givenTableRestaurantId(1);
         var name = givenTableName(1);
 
         // when
-        var result = Table.of(restaurantId, name);
+        var result = Table.create(restaurantId, name);
 
         // then
         assertThat(result.getId()).isNotNull();

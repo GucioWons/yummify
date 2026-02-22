@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.model;
 
-import com.guciowons.yummify.restaurant.RestaurantId;
+import com.guciowons.yummify.table.domain.entity.Table;
 
-public record GetAllTablesCommand(RestaurantId restaurantId) {
+public record GetAllTablesCommand(Table.RestaurantId restaurantId) {
 }
