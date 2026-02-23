@@ -3,7 +3,6 @@ import ListElement from "./ListElement.tsx";
 
 export interface ListProps<T> {
     items: T[];
-    columns: number;
     onItemClick?: (item: T) => void;
     renderItem: (item: T) => React.ReactNode;
 }
@@ -11,7 +10,6 @@ export interface ListProps<T> {
 function List<T>(props: ListProps<T>) {
     const {
         items,
-        columns,
         onItemClick,
         renderItem
     } = props;
@@ -20,7 +18,6 @@ function List<T>(props: ListProps<T>) {
         <div
             style={{
                 display: "grid",
-                gridTemplateColumns: `repeat(${columns}, 1fr)`,
             }}
         >
             {items.map((item, i) =>
