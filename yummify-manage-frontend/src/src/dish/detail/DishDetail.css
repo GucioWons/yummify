@@ -1,0 +1,14 @@
+.dish-ingredients-display {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.dish-ingredient-display {
+    color: #059669;
+    background-color: #a7f3d0;
+    border: 1px solid #059669;
+    border-radius: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+}

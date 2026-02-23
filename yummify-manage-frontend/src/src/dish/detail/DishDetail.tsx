@@ -3,6 +3,8 @@ import {Dtos} from "../../common/dtos.ts";
 import DishManageDto = Dtos.DishManageDto;
 import {dishService} from "../service/dishService.ts";
 import TranslatedTextFieldDisplay from "../../common/display/TranslatedTextFieldDisplay.tsx";
+import "./DishDetail.css"
+import DishIngredientsDisplay from "./DishIngredientsDisplay.tsx";
 
 export interface DishDetailProps {
     id: string;
@@ -32,15 +34,7 @@ function DishDetail(props: DishDetailProps) {
             </label>
             <TranslatedTextFieldDisplay label='Name' value={data?.name}/>
             <TranslatedTextFieldDisplay label='Description' value={data?.description}/>
-            <label style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start'
-            }}>
-                <span>Ingredient</span>
-                <span>{data?.ingredientIds.map((id) => id).join(',')}</span>
-            </label>
-
+            <DishIngredientsDisplay ids={data?.ingredientIds} />
         </div>
     );
 }
