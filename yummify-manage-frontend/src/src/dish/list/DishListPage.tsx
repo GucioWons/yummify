@@ -3,7 +3,7 @@ import {Plus} from "lucide-react";
 import Button from "../../common/button/Button.tsx";
 import {useState} from "react";
 import DishFormModal from "../form/DishFormModal.tsx";
-import DishesList from "./DishesList.tsx";
+import DishList from "./DishList.tsx";
 
 function DishListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -21,7 +21,7 @@ function DishListPage() {
                     />
                 }
             />
-            <DishesList/>
+            <DishList/>
             {isFormModalOpen && (
                 <DishFormModal onClose={() => setIsFormModalOpen(false)}/>
             )}

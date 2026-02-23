@@ -6,7 +6,7 @@ import DishListDto = Dtos.DishListDto;
 import DishListElement from "./DishListElement.tsx";
 import "./DishList.css";
 
-function DishesList() {
+function DishList() {
     const {data, isLoading, isError} = useQuery<DishListDto[]>({
         queryKey: ["dishes"],
         queryFn: () => dishService.getDishes().then(res => res.data),
@@ -25,4 +25,4 @@ function DishesList() {
     );
 }
 
-export default DishesList;
+export default DishList;
