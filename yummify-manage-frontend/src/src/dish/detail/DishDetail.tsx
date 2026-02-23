@@ -2,6 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {Dtos} from "../../common/dtos.ts";
 import DishManageDto = Dtos.DishManageDto;
 import {dishService} from "../service/dishService.ts";
+import TranslatedTextFieldDisplay from "../../common/display/TranslatedTextFieldDisplay.tsx";
 
 export interface DishDetailProps {
     id: string;
@@ -21,18 +22,25 @@ function DishDetail(props: DishDetailProps) {
 
     return (
         <div>
-            {data?.imageUrl}
-            {data && Object.entries(data.name.translations).map(([lang, text]) => (
-            <div key={lang}>
-                {lang}: {text}
-            </div>
-            ))}
-            {data && Object.entries(data.description.translations).map(([lang, text]) => (
-                <div key={lang}>
-                    {lang}: {text}
-                </div>
-            ))}
-            {data?.ingredientIds.map((id) => id).join(',')}
+            <label style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start'
+            }}>
+                <span>Image Url</span>
+                <span>{data?.imageUrl}</span>
+            </label>
+            <TranslatedTextFieldDisplay label='Name' value={data?.name}/>
+            <TranslatedTextFieldDisplay label='Description' value={data?.description}/>
+            <label style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start'
+            }}>
+                <span>Ingredient</span>
+                <span>{data?.ingredientIds.map((id) => id).join(',')}</span>
+            </label>
+
         </div>
     );
 }
