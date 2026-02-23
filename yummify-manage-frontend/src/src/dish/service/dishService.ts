@@ -13,6 +13,10 @@ export const dishService = {
         return axiosInstance.get<DishListDto[]>('dishes');
     },
 
+    async getDish(id: string) {
+        return axiosInstance.get<DishManageDto>(`dishes/${id}`);
+    },
+
     async updateImage(id: string, image: File) {
         const formData = new FormData();
         formData.append("image", image);
