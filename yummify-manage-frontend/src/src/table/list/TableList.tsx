@@ -4,6 +4,7 @@ import {Dtos} from "../../common/dtos.ts";
 import TableListElement from "./TableListElement.tsx";
 import List from "../../common/list/List.tsx";
 import TableDto = Dtos.TableDto;
+import "./TableList.css";
 
 function TableList() {
     const {data, isLoading, isError} = useQuery<TableDto[]>({
@@ -18,7 +19,6 @@ function TableList() {
     return (
         <List
             items={data!}
-            columns={4}
             renderItem={(table) => <TableListElement table={table}/>}
             onItemClick={() => {}}
         />

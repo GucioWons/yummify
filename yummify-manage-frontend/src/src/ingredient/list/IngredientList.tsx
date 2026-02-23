@@ -20,7 +20,6 @@ function IngredientList() {
     return (
         <List
             items={data!}
-            columns={1}
             renderItem={(ingredient) => <IngredientListElement ingredient={ingredient}/>}
         />
     );

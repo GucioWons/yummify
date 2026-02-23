@@ -19,7 +19,6 @@ function DishList() {
     return (
         <List
             items={data!}
-            columns={1}
             renderItem={(dish) => <DishListElement dish={dish}/>}
         />
     );
