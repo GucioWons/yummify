@@ -1,26 +1,17 @@
-import {useQuery} from "@tanstack/react-query";
 import {Dtos} from "../../common/dtos.ts";
 import DishManageDto = Dtos.DishManageDto;
-import {dishService} from "../service/dishService.ts";
 import TranslatedTextFieldDisplay from "../../common/display/TranslatedTextFieldDisplay.tsx";
 import "./DishDetail.css"
 import DishIngredientsDisplay from "./DishIngredientsDisplay.tsx";
+import Button from "../../common/button/Button.tsx";
 
 export interface DishDetailProps {
-    id: string;
+    dish: DishManageDto;
+    onEditClick: () => void;
 }
 
 function DishDetail(props: DishDetailProps) {
-    const {id} = props;
-
-    const {data, isLoading, isError} = useQuery<DishManageDto>({
-        queryKey: ["dishes", id],
-        queryFn: () => dishService.getDish(id).then(res => res.data),
-        staleTime: 1000 * 60 * 5,
-    });
-
-    if (isLoading) return <div>Ładowanie...</div>;
-    if (isError) return <div>Błąd podczas pobierania dania.</div>;
+    const {dish, onEditClick} = props;
 
     return (
         <div>
@@ -30,11 +21,17 @@ function DishDetail(props: DishDetailProps) {
                 alignItems: 'flex-start'
             }}>
                 <span>Image Url</span>
-                <span>{data?.imageUrl}</span>
+                <span>{dish.imageUrl}</span>
             </label>
-            <TranslatedTextFieldDisplay label='Name' value={data?.name}/>
-            <TranslatedTextFieldDisplay label='Description' value={data?.description}/>
-            <DishIngredientsDisplay ids={data?.ingredientIds} />
+            <TranslatedTextFieldDisplay label='Name' value={dish.name}/>
+            <TranslatedTextFieldDisplay label='Description' value={dish.description}/>
+            <DishIngredientsDisplay ids={dish.ingredientIds} />
+            <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+            }}>
+                <Button text="Edit" onClick={onEditClick} type="button"/>
+            </div>
         </div>
     );
 }
