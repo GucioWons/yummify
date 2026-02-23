@@ -7,7 +7,7 @@ import List from "../../common/list/List.tsx";
 import IngredientClientDto = Dtos.IngredientClientDto;
 
 
-function IngredientsList() {
+function IngredientList() {
     const {data, isLoading, isError} = useQuery<IngredientClientDto[]>({
         queryKey: ["ingredients"],
         queryFn: () => ingredientService.getIngredients().then(res => res.data),
@@ -26,4 +26,4 @@ function IngredientsList() {
     );
 }
 
-export default IngredientsList;
+export default IngredientList;

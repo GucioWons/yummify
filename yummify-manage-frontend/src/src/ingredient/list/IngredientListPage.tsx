@@ -1,9 +1,9 @@
 import PageTitle from "../../common/PageTitle.tsx";
 import {Plus} from "lucide-react";
 import Button from "../../common/button/Button.tsx";
-import IngredientsList from "./IngredientsList.tsx";
 import {useState} from "react";
 import IngredientFormModal from "../form/IngredientFormModal.tsx";
+import IngredientList from "./IngredientList.tsx";
 
 function IngredientListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -21,7 +21,7 @@ function IngredientListPage() {
                 />
             }
         />
-            <IngredientsList/>
+            <IngredientList/>
             {isFormModalOpen && (
                 <IngredientFormModal onClose={() => setIsFormModalOpen(false)}/>
             )}

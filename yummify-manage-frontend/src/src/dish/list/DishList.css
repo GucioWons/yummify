@@ -1,0 +1,9 @@
+.dish-list-element {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dish-list-element-field {
+    padding-right: 8px;
+    padding-left: 8px;
+}
