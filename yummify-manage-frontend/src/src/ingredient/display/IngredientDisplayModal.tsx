@@ -5,6 +5,7 @@ import {Dtos} from "../../common/dtos.ts";
 import {ingredientService} from "../service/ingredientService.ts";
 import IngredientDisplay from "./IngredientDisplay.tsx";
 import IngredientManageDto = Dtos.IngredientManageDto;
+import IngredientUpdateForm from "./IngredientUpdateForm.tsx";
 
 export interface IngredientDisplayModalProps {
     id: string
@@ -28,7 +29,7 @@ function IngredientDisplayModal(props: IngredientDisplayModalProps) {
     return (
         <Modal title="Ingredient Details" onClose={onClose}>
             {isInEditState
-                ? null
+                ? <IngredientUpdateForm ingredient={data!} onCancel={() => setIsInEditState(false)}/>
                 : <IngredientDisplay
                     ingredient={data!}
                     onEditClick={() => setIsInEditState(true)}

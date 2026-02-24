@@ -15,4 +15,8 @@ export const ingredientService = {
     async getIngredient(id: string) {
         return axiosInstance.get<IngredientManageDto>(`ingredients/${id}`);
     },
+
+    async updateIngredient(data: IngredientManageDto) {
+        return axiosInstance.put<IngredientManageDto, IngredientManageDto>(`ingredients/${data.id}`, data);
+    },
 }
