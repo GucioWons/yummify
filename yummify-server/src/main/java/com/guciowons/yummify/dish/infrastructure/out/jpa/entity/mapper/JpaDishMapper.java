@@ -6,6 +6,7 @@ import com.guciowons.yummify.dish.infrastructure.out.jpa.entity.JpaDish;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
         uses = JpaTranslatedStringMapper.class
 )
 public interface JpaDishMapper {
+    @Mapping(target = "imageId", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Dish toDomain(JpaDish jpaDish);
 
     @Mapping(target = "id", source = "id.value")
@@ -31,6 +33,6 @@ public interface JpaDishMapper {
     }
 
     default Dish.ImageId toImageId(UUID id) {
-        return new Dish.ImageId(id);
+        return id != null ? new Dish.ImageId(id) : null;
     }
 }

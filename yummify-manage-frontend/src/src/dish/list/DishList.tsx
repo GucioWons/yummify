@@ -6,7 +6,13 @@ import DishListDto = Dtos.DishListDto;
 import DishListElement from "./DishListElement.tsx";
 import "./DishList.css";
 
-function DishList() {
+export interface DishListProps {
+    onElementClick: (dish: DishListDto) => void;
+}
+
+function DishList(props: DishListProps) {
+    const {onElementClick} = props;
+
     const {data, isLoading, isError} = useQuery<DishListDto[]>({
         queryKey: ["dishes"],
         queryFn: () => dishService.getDishes().then(res => res.data),
@@ -20,6 +26,7 @@ function DishList() {
         <List
             items={data!}
             renderItem={(dish) => <DishListElement dish={dish}/>}
+            onItemClick={onElementClick}
         />
     );
 }

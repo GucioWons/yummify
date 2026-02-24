@@ -2,11 +2,14 @@ import PageTitle from "../../common/PageTitle.tsx";
 import {Plus} from "lucide-react";
 import Button from "../../common/button/Button.tsx";
 import {useState} from "react";
-import DishFormModal from "../form/DishFormModal.tsx";
+import DishCreateModal from "../create/DishCreateModal.tsx";
 import DishList from "./DishList.tsx";
+import DishDisplayModal from "../display/DishDisplayModal.tsx";
 
 function DishListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+
+    const [selectedDishId, setSelectedDishId] = useState<string | null>();
 
     return (
         <>
@@ -21,9 +24,12 @@ function DishListPage() {
                     />
                 }
             />
-            <DishList/>
+            <DishList onElementClick={(dish) => setSelectedDishId(dish.id)}/>
             {isFormModalOpen && (
-                <DishFormModal onClose={() => setIsFormModalOpen(false)}/>
+                <DishCreateModal onClose={() => setIsFormModalOpen(false)}/>
+            )}
+            {selectedDishId && (
+                <DishDisplayModal id={selectedDishId} onClose={() => setSelectedDishId(null)}/>
             )}
         </>
     );
