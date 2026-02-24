@@ -37,7 +37,12 @@ function DishDisplayModal(props: DishDisplayModalProps) {
         <Modal title="Dish Details" onClose={onClose}>
             {isInEditState
                 ? <DishUpdateForm dish={dish!} image={image} onCancel={() => setIsInEditState(false)} />
-                : <DishDisplay dish={dish!} image={image} onEditClick={() => setIsInEditState(true)} />
+                : <DishDisplay
+                    dish={dish!}
+                    image={image}
+                    onEditClick={() => setIsInEditState(true)}
+                    onCloseClick={onClose}
+                />
             }
         </Modal>
     )

@@ -10,5 +10,13 @@ export const ingredientService = {
 
     async createIngredient(data: IngredientManageDto) {
         return axiosInstance.post<IngredientManageDto, IngredientManageDto>('ingredients', data);
-    }
+    },
+
+    async getIngredient(id: string) {
+        return axiosInstance.get<IngredientManageDto>(`ingredients/${id}`);
+    },
+
+    async updateIngredient(data: IngredientManageDto) {
+        return axiosInstance.put<IngredientManageDto, IngredientManageDto>(`ingredients/${data.id}`, data);
+    },
 }

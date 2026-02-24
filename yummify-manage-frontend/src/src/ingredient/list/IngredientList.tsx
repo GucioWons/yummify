@@ -6,8 +6,13 @@ import IngredientListElement from "./IngredientListElement.tsx";
 import List from "../../common/list/List.tsx";
 import IngredientClientDto = Dtos.IngredientClientDto;
 
+export interface IngredientListProps {
+    onElementClick: (dish: IngredientClientDto) => void;
+}
 
-function IngredientList() {
+function IngredientList(props: IngredientListProps) {
+    const {onElementClick} = props;
+
     const {data, isLoading, isError} = useQuery<IngredientClientDto[]>({
         queryKey: ["ingredients"],
         queryFn: () => ingredientService.getIngredients().then(res => res.data),
@@ -20,6 +25,7 @@ function IngredientList() {
     return (
         <List
             items={data!}
+            onItemClick={onElementClick}
             renderItem={(ingredient) => <IngredientListElement ingredient={ingredient}/>}
         />
     );
