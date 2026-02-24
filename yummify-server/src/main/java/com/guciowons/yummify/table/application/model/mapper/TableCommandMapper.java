@@ -29,4 +29,8 @@ public interface TableCommandMapper {
     default Table.Name toName(String name) {
         return Table.Name.of(name);
     }
+
+    default Table.Capacity toCapacity(int capacity) {
+        return Table.Capacity.of(capacity);
+    }
 }

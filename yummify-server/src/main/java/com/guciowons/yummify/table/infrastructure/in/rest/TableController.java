@@ -30,7 +30,7 @@ public class TableController {
             @RequestBody TableDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        Table tableCreated = tableFacade.create(userPrincipal.restaurantId(), dto.name());
+        Table tableCreated = tableFacade.create(userPrincipal.restaurantId(), dto.name(), dto.capacity());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -66,7 +66,7 @@ public class TableController {
             @RequestBody TableDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        Table updatedTable = tableFacade.update(id, userPrincipal.restaurantId(), dto.name());
+        Table updatedTable = tableFacade.update(id, userPrincipal.restaurantId(), dto.name(), dto.capacity());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

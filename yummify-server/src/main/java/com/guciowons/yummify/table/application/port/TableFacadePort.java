@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TableFacadePort {
-    Table create(UUID restaurantId, String name);
+    Table create(UUID restaurantId, String name, int capacity);
 
     List<Table> getAll(UUID restaurantId);
 
     Table getById(UUID id, UUID restaurantId);
 
-    Table update(UUID id, UUID restaurantId, String name);
+    Table update(UUID id, UUID restaurantId, String name, int capacity);
 
     TableOtpDto generateOtp(UUID id, UUID restaurantId);
 }

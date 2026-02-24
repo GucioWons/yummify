@@ -16,8 +16,8 @@ public class TableFacadeApiExceptionDecorator implements TableFacadePort {
 
     @Override
     @HandleDomainExceptions(handler = TableDomainExceptionMapper.class)
-    public Table create(UUID restaurantId, String name) {
-        return delegate.create(restaurantId, name);
+    public Table create(UUID restaurantId, String name, int capacity) {
+        return delegate.create(restaurantId, name, capacity);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class TableFacadeApiExceptionDecorator implements TableFacadePort {
 
     @Override
     @HandleDomainExceptions(handler = TableDomainExceptionMapper.class)
-    public Table update(UUID id, UUID restaurantId, String name) {
-        return delegate.update(id, restaurantId, name);
+    public Table update(UUID id, UUID restaurantId, String name, int capacity) {
+        return delegate.update(id, restaurantId, name, capacity);
     }
 
     @Override
