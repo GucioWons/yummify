@@ -1,19 +1,16 @@
-import {Dtos} from "../../common/dtos.ts";
-import DishManageDto = Dtos.DishManageDto;
 import Modal from "../../common/modal/Modal.tsx";
-import DishForm from "./DishForm.tsx";
+import DishCreateForm from "./DishCreateForm.tsx";
 
 export interface DishFormModalProps {
-    dish?: DishManageDto
     onClose: () => void;
 }
 
 function DishFormModal(props: DishFormModalProps) {
-    const {dish, onClose} = props;
+    const {onClose} = props;
 
     return (
         <Modal title="Add New Dish" subtitle="Add a new dish to your restaurant" onClose={onClose}>
-            <DishForm dish={dish} onCancel={onClose} />
+            <DishCreateForm onCancel={onClose} />
         </Modal>
     )
 }

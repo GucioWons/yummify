@@ -4,25 +4,20 @@ import TranslatedTextFieldDisplay from "../../common/display/TranslatedTextField
 import "./DishDetail.css"
 import DishIngredientsDisplay from "./DishIngredientsDisplay.tsx";
 import Button from "../../common/button/Button.tsx";
+import ImageDisplay from "../../common/image/ImageDisplay.tsx";
 
 export interface DishDetailProps {
     dish: DishManageDto;
+    image?: File;
     onEditClick: () => void;
 }
 
 function DishDetail(props: DishDetailProps) {
-    const {dish, onEditClick} = props;
+    const {dish, image, onEditClick} = props;
 
     return (
         <div>
-            <label style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start'
-            }}>
-                <span>Image Url</span>
-                <span>{dish.imageUrl}</span>
-            </label>
+            {image && <ImageDisplay image={image}/>}
             <TranslatedTextFieldDisplay label='Name' value={dish.name}/>
             <TranslatedTextFieldDisplay label='Description' value={dish.description}/>
             <DishIngredientsDisplay ids={dish.ingredientIds} />
