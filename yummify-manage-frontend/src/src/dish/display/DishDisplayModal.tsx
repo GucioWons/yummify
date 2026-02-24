@@ -1,19 +1,19 @@
 import Modal from "../../common/modal/Modal.tsx";
-import DishDetail from "./DishDetail.tsx";
+import DishDisplay from "./DishDisplay.tsx";
 import {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {dishService} from "../service/dishService.ts";
 import {Dtos} from "../../common/dtos.ts";
-import DishUpdateForm from "../form/DishUpdateForm.tsx";
+import DishUpdateForm from "./DishUpdateForm.tsx";
 import DishManageDto = Dtos.DishManageDto;
 import {imageService} from "../../common/image/imageService.ts";
 
-export interface DishDetailModalProps {
+export interface DishDisplayModalProps {
     id: string
     onClose: () => void;
 }
 
-function DishDetailModal(props: DishDetailModalProps) {
+function DishDisplayModal(props: DishDisplayModalProps) {
     const {id, onClose} = props;
 
     const [isInEditState, setIsInEditState] = useState(false);
@@ -37,10 +37,10 @@ function DishDetailModal(props: DishDetailModalProps) {
         <Modal title="Dish Details" onClose={onClose}>
             {isInEditState
                 ? <DishUpdateForm dish={dish!} image={image} onCancel={() => setIsInEditState(false)} />
-                : <DishDetail dish={dish!} image={image} onEditClick={() => setIsInEditState(true)} />
+                : <DishDisplay dish={dish!} image={image} onEditClick={() => setIsInEditState(true)} />
             }
         </Modal>
     )
 }
 
-export default DishDetailModal;
+export default DishDisplayModal;

@@ -1,4 +1,4 @@
-import {Dtos} from "../dtos.ts";
+import {Dtos} from "../../dtos.ts";
 import TranslatedStringDto = Dtos.TranslatedStringDto;
 import FieldDisplay from "./FieldDisplay.tsx";
 

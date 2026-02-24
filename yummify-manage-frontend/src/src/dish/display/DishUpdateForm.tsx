@@ -1,4 +1,4 @@
-import DishForm from "./DishForm.tsx";
+import DishForm from "../form/DishForm.tsx";
 import {useCallback, useState} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {dishService} from "../service/dishService.ts";

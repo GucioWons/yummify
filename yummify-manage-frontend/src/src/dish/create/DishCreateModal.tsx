@@ -1,11 +1,11 @@
 import Modal from "../../common/modal/Modal.tsx";
 import DishCreateForm from "./DishCreateForm.tsx";
 
-export interface DishFormModalProps {
+export interface DishCreateModalProps {
     onClose: () => void;
 }
 
-function DishFormModal(props: DishFormModalProps) {
+function DishCreateModal(props: DishCreateModalProps) {
     const {onClose} = props;
 
     return (
@@ -15,4 +15,4 @@ function DishFormModal(props: DishFormModalProps) {
     )
 }
 
-export default DishFormModal;
+export default DishCreateModal;

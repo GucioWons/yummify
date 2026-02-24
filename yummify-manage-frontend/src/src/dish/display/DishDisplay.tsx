@@ -1,34 +1,28 @@
 import {Dtos} from "../../common/dtos.ts";
-import DishManageDto = Dtos.DishManageDto;
-import TranslatedTextFieldDisplay from "../../common/display/TranslatedTextFieldDisplay.tsx";
-import "./DishDetail.css"
+import TranslatedTextFieldDisplay from "../../common/display/fields/TranslatedTextFieldDisplay.tsx";
+import "./DishDisplay.css"
 import DishIngredientsDisplay from "./DishIngredientsDisplay.tsx";
-import Button from "../../common/button/Button.tsx";
 import ImageDisplay from "../../common/image/ImageDisplay.tsx";
+import Display from "../../common/display/Display.tsx";
+import DishManageDto = Dtos.DishManageDto;
 
-export interface DishDetailProps {
+export interface DishDisplayProps {
     dish: DishManageDto;
     image?: File;
     onEditClick: () => void;
 }
 
-function DishDetail(props: DishDetailProps) {
+function DishDisplay(props: DishDisplayProps) {
     const {dish, image, onEditClick} = props;
 
     return (
-        <div>
+        <Display onEditClick={onEditClick} onCloseClick={() => {}}>
             {image && <ImageDisplay image={image}/>}
             <TranslatedTextFieldDisplay label='Name' value={dish.name}/>
             <TranslatedTextFieldDisplay label='Description' value={dish.description}/>
             <DishIngredientsDisplay ids={dish.ingredientIds} />
-            <div style={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-            }}>
-                <Button text="Edit" onClick={onEditClick} type="button"/>
-            </div>
-        </div>
+        </Display>
     );
 }
 
-export default DishDetail;
+export default DishDisplay;

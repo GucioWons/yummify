@@ -4,7 +4,7 @@ import {AxiosResponse} from "axios";
 import {useCallback, useState} from "react";
 import {Dtos} from "../../common/dtos.ts";
 import DishManageDto = Dtos.DishManageDto;
-import DishForm from "./DishForm.tsx";
+import DishForm from "../form/DishForm.tsx";
 
 export interface DishCreateFormProps {
     onCancel: () => void;

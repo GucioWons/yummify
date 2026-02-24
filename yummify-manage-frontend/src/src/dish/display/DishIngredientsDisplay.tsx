@@ -1,4 +1,4 @@
-import FieldDisplay from "../../common/display/FieldDisplay.tsx";
+import FieldDisplay from "../../common/display/fields/FieldDisplay.tsx";
 
 export interface DishIngredientsDisplayProps {
     ids?: string[];
