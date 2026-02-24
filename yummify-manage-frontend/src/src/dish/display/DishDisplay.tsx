@@ -10,13 +10,14 @@ export interface DishDisplayProps {
     dish: DishManageDto;
     image?: File;
     onEditClick: () => void;
+    onCloseClick: () => void;
 }
 
 function DishDisplay(props: DishDisplayProps) {
-    const {dish, image, onEditClick} = props;
+    const {dish, image, onEditClick, onCloseClick} = props;
 
     return (
-        <Display onEditClick={onEditClick} onCloseClick={() => {}}>
+        <Display onEditClick={onEditClick} onCloseClick={onCloseClick}>
             {image && <ImageDisplay image={image}/>}
             <TranslatedTextFieldDisplay label='Name' value={dish.name}/>
             <TranslatedTextFieldDisplay label='Description' value={dish.description}/>

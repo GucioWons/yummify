@@ -10,5 +10,9 @@ export const ingredientService = {
 
     async createIngredient(data: IngredientManageDto) {
         return axiosInstance.post<IngredientManageDto, IngredientManageDto>('ingredients', data);
-    }
+    },
+
+    async getIngredient(id: string) {
+        return axiosInstance.get<IngredientManageDto>(`ingredients/${id}`);
+    },
 }
