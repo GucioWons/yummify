@@ -13,7 +13,8 @@ public class TableDomainFixture {
                 givenTableId(seed),
                 givenTableRestaurantId(seed),
                 givenTableUserId(seed),
-                givenTableName(seed)
+                givenTableName(seed),
+                givenTableCapacity(seed)
         );
     }
 
@@ -31,5 +32,9 @@ public class TableDomainFixture {
 
     public static Table.UserId givenTableUserId(int seed) {
         return Table.UserId.of(UUID.nameUUIDFromBytes("table-user-%s".formatted(seed).getBytes()));
+    }
+
+    public static Table.Capacity givenTableCapacity(int seed) {
+        return Table.Capacity.of(seed);
     }
 }

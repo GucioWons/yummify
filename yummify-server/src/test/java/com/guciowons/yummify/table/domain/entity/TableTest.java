@@ -11,9 +11,10 @@ class TableTest {
         // given
         var restaurantId = givenTableRestaurantId(1);
         var name = givenTableName(1);
+        var capacity = givenTableCapacity(1);
 
         // when
-        var result = Table.create(restaurantId, name);
+        var result = Table.create(restaurantId, name, capacity);
 
         // then
         assertThat(result.getId()).isNotNull();
@@ -40,11 +41,13 @@ class TableTest {
         // given
         var table = givenTable(1);
         var newName = givenTableName(2);
+        var newCapacity = givenTableCapacity(2);
 
         // when
-        table.updateDetails(newName);
+        table.updateDetails(newName, newCapacity);
 
         // then
         assertThat(table.getName()).isEqualTo(newName);
+        assertThat(table.getCapacity()).isEqualTo(newCapacity);
     }
 }

@@ -34,17 +34,18 @@ class TableFacadeTest {
         // given
         var restaurantId = givenRestaurantId(1).value();
         var name = givenTableName(1).value();
+        var capacity = givenTableCapacity(1).value();
         var command = givenCreateTableCommand();
         var table = givenTable(1);
 
-        when(tableCommandMapper.toCreateTableCommand(restaurantId, name)).thenReturn(command);
+        when(tableCommandMapper.toCreateTableCommand(restaurantId, name, capacity)).thenReturn(command);
         when(createTableUsecase.create(command)).thenReturn(table);
 
         // when
-        var result = underTest.create(restaurantId, name);
+        var result = underTest.create(restaurantId, name, capacity);
 
         // then
-        verify(tableCommandMapper).toCreateTableCommand(restaurantId, name);
+        verify(tableCommandMapper).toCreateTableCommand(restaurantId, name, capacity);
         verify(createTableUsecase).create(command);
 
         assertThat(result).isEqualTo(table);
@@ -98,16 +99,17 @@ class TableFacadeTest {
         var tableId = table.getId().value();
         var restaurantId = table.getRestaurantId().value();
         var name = givenTableName(1).value();
+        var capacity = givenTableCapacity(1).value();
         var command = givenUpdateTableCommand();
 
-        when(tableCommandMapper.toUpdateTableCommand(tableId, restaurantId, name)).thenReturn(command);
+        when(tableCommandMapper.toUpdateTableCommand(tableId, restaurantId, name, capacity)).thenReturn(command);
         when(updateTableUsecase.update(command)).thenReturn(table);
 
         // when
-        var result = underTest.update(tableId, restaurantId, name);
+        var result = underTest.update(tableId, restaurantId, name, capacity);
 
         // then
-        verify(tableCommandMapper).toUpdateTableCommand(tableId, restaurantId, name);
+        verify(tableCommandMapper).toUpdateTableCommand(tableId, restaurantId, name, capacity);
         verify(updateTableUsecase).update(command);
 
         assertThat(result).isEqualTo(table);

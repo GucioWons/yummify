@@ -20,7 +20,7 @@ public class UpdateTableUsecase {
         }
 
         Table table = tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
-        table.updateDetails(command.name());
+        table.updateDetails(command.name(), command.capacity());
 
         tableRepository.save(table);
 

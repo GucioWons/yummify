@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface TableCommandMapper {
-    CreateTableCommand toCreateTableCommand(UUID restaurantId, String name);
+    CreateTableCommand toCreateTableCommand(UUID restaurantId, String name, int capacity);
 
     GenerateTableOtpCommand toGenerateTableOtpCommand(UUID id, UUID restaurantId);
 
@@ -16,7 +16,7 @@ public interface TableCommandMapper {
 
     GetTableCommand toGetTableCommand(UUID id, UUID restaurantId);
 
-    UpdateTableCommand toUpdateTableCommand(UUID id, UUID restaurantId, String name);
+    UpdateTableCommand toUpdateTableCommand(UUID id, UUID restaurantId, String name, int capacity);
 
     default Table.Id toId(UUID id) {
         return Table.Id.of(id);

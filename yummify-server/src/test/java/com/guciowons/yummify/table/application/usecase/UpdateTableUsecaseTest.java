@@ -37,6 +37,7 @@ class UpdateTableUsecaseTest {
         assertThat(result.getId()).isEqualTo(table.getId());
         assertThat(result.getUserId()).isEqualTo(table.getUserId());
         assertThat(result.getName()).isEqualTo(command.name());
+        assertThat(result.getCapacity()).isEqualTo(command.capacity());
     }
 
     @Test
