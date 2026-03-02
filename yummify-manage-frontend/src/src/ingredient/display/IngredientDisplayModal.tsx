@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import Modal from "../../common/modal/Modal.tsx";
 import {Dtos} from "../../common/dtos.ts";
@@ -17,6 +17,10 @@ function IngredientDisplayModal(props: IngredientDisplayModalProps) {
 
     const [isInEditState, setIsInEditState] = useState(false);
 
+    const getTitle = useCallback(() => {
+        return isInEditState ? "Edit Ingredient" : "Ingredient Details";
+    }, [isInEditState]);
+
     const {data, isLoading, isError} = useQuery<IngredientManageDto>({
         queryKey: ["ingredients", id],
         queryFn: () => ingredientService.getIngredient(id).then(res => res.data),
@@ -27,7 +31,7 @@ function IngredientDisplayModal(props: IngredientDisplayModalProps) {
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
 
     return (
-        <Modal title="Ingredient Details" onClose={onClose}>
+        <Modal title={getTitle()} onClose={onClose}>
             {isInEditState
                 ? <IngredientUpdateForm ingredient={data!} onCancel={() => setIsInEditState(false)}/>
                 : <IngredientDisplay

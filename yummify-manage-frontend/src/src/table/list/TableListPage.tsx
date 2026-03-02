@@ -3,10 +3,15 @@ import Button from "../../common/button/Button.tsx";
 import {Plus} from "lucide-react";
 import TableList from "./TableList.tsx";
 import {useState} from "react";
-import TableFormModal from "../form/TableFormModal.tsx";
+import TableCreateModal from "../create/TableCreateModal.tsx";
+import {Dtos} from "../../common/dtos.ts";
+import TableDto = Dtos.TableDto;
+import TableDisplayModal from "../display/TableDisplayModal.tsx";
 
 function TableListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+
+    const [selectedTable, setSelectedTable] = useState<TableDto | null>();
 
     return (
         <>
@@ -21,10 +26,14 @@ function TableListPage() {
                     />
                 }
             />
-            <TableList/>
-            {isFormModalOpen && (
-                <TableFormModal onClose={() => setIsFormModalOpen(false)}/>
-            )}
+            <TableList onElementClick={(table) => setSelectedTable(table)}/>
+
+            {isFormModalOpen &&
+                <TableCreateModal onClose={() => setIsFormModalOpen(false)}/>
+            }
+            {selectedTable &&
+                <TableDisplayModal table={selectedTable} onClose={() => setSelectedTable(null)} />
+            }
         </>
     )
 }

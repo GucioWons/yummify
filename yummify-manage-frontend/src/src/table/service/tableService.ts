@@ -10,4 +10,8 @@ export const tableService = {
     async createTable(data: TableDto) {
         return axiosInstance.post<TableDto, TableDto>('tables', data);
     },
+
+    async updateTable(data: TableDto) {
+        return axiosInstance.put<TableDto, TableDto>(`tables/${data.id}`, data);
+    },
 }

@@ -14,13 +14,7 @@ function TableListElement(props: TableListElementProps) {
                 {table.name}
             </div>
             <div className="table-list-element-field">
-                occupied
-            </div>
-            <div className="table-list-element-field">
-                capacity
-            </div>
-            <div className="table-list-element-field">
-                info
+                Capacity: {table.capacity}
             </div>
         </div>
     );

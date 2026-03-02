@@ -2,38 +2,22 @@ import {Dtos} from "../../common/dtos.ts";
 import AppForm from "../../common/form/AppForm.tsx";
 import AppFormTextField from "../../common/form/fields/AppFormTextField.tsx";
 import AppFormNumberField from "../../common/form/fields/AppFormNumberField.tsx";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {tableService} from "../service/tableService.ts";
 import TableDto = Dtos.TableDto;
 
 export interface TableFormProps {
     table?: TableDto;
     onCancel: () => void;
+    handleSubmit: (data: TableDto) => void;
 }
 
 function TableForm(props: TableFormProps) {
-    const {table, onCancel} = props;
-
-    const queryClient = useQueryClient();
-
-    const handleSubmit = useMutation({
-        mutationFn: (data: TableDto) => {
-            return tableService.createTable(data);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["tables"]})
-                .then(() => onCancel());
-        },
-        onError: (error) => {
-            console.error("Unexpected error:", error);
-        },
-    });
+    const {table, onCancel, handleSubmit} = props;
 
     return (
         <AppForm
             <TableDto>
             initialData={table ?? {}}
-            onSubmit={(data) => handleSubmit.mutate(data)}
+            onSubmit={handleSubmit}
             onCancel={onCancel}
         >
             <AppFormTextField

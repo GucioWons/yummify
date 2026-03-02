@@ -1,6 +1,6 @@
 import Modal from "../../common/modal/Modal.tsx";
 import DishDisplay from "./DishDisplay.tsx";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {dishService} from "../service/dishService.ts";
 import {Dtos} from "../../common/dtos.ts";
@@ -18,6 +18,10 @@ function DishDisplayModal(props: DishDisplayModalProps) {
 
     const [isInEditState, setIsInEditState] = useState(false);
 
+    const getTitle = useCallback(() => {
+        return isInEditState ? "Edit Dish" : "Dish Details";
+    }, [isInEditState]);
+
     const {data: dish, isLoading: isDishLoading, isError: isDishError} = useQuery<DishManageDto>({
         queryKey: ["dishes", id],
         queryFn: () => dishService.getDish(id).then(res => res.data),
@@ -34,7 +38,7 @@ function DishDisplayModal(props: DishDisplayModalProps) {
     if (isDishError || isImageError) return <div>Błąd podczas pobierania dania.</div>;
 
     return (
-        <Modal title="Dish Details" onClose={onClose}>
+        <Modal title={getTitle()} onClose={onClose}>
             {isInEditState
                 ? <DishUpdateForm dish={dish!} image={image} onCancel={() => setIsInEditState(false)} />
                 : <DishDisplay
