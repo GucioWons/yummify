@@ -3,7 +3,7 @@ import Button from "../../common/button/Button.tsx";
 import {Plus} from "lucide-react";
 import TableList from "./TableList.tsx";
 import {useState} from "react";
-import TableFormModal from "../form/TableFormModal.tsx";
+import TableCreateModal from "../create/TableCreateModal.tsx";
 
 function TableListPage() {
     const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -23,7 +23,7 @@ function TableListPage() {
             />
             <TableList/>
             {isFormModalOpen && (
-                <TableFormModal onClose={() => setIsFormModalOpen(false)}/>
+                <TableCreateModal onClose={() => setIsFormModalOpen(false)}/>
             )}
         </>
     )
