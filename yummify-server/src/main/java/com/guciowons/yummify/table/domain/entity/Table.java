@@ -14,13 +14,15 @@ public class Table {
     private RestaurantId restaurantId;
     private UserId userId;
     private Name name;
+    private Capacity capacity;
 
-    public static Table create(RestaurantId restaurantId, Name name) {
-        return new Table(Id.random(), restaurantId, null, name);
+    public static Table create(RestaurantId restaurantId, Name name, Capacity capacity) {
+        return new Table(Id.random(), restaurantId, null, name, capacity);
     }
 
-    public void updateDetails(Name name) {
+    public void updateDetails(Name name, Capacity capacity) {
         this.name = name;
+        this.capacity = capacity;
     }
 
     public void changeUser(UserId userId) {
@@ -52,6 +54,12 @@ public class Table {
     public record Name(String value) implements ValueObject<String> {
         public static Name of(String value) {
             return new Name(value);
+        }
+    }
+
+    public record Capacity(Integer value) implements ValueObject<Integer> {
+        public static Capacity of(Integer value) {
+            return new Capacity(value);
         }
     }
 }

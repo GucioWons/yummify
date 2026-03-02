@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 public interface TableMapper {
     @Mapping(target = "id", source = "id.value")
     @Mapping(target = "name", source = "name.value")
+    @Mapping(target = "capacity", source = "capacity.value")
     TableDto mapToDto(Table entity);
 }
 

@@ -9,7 +9,7 @@ import static com.guciowons.yummify.table.domain.fixture.TableDomainFixture.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TableApplicationFixture {
     public static CreateTableCommand givenCreateTableCommand() {
-        return new CreateTableCommand(givenTableRestaurantId(1), givenTableName(1));
+        return new CreateTableCommand(givenTableRestaurantId(1), givenTableName(1), givenTableCapacity(1));
     }
 
     public static GenerateTableOtpCommand givenGenerateTableOtpCommand() {
@@ -25,6 +25,6 @@ public class TableApplicationFixture {
     }
 
     public static UpdateTableCommand givenUpdateTableCommand() {
-        return new UpdateTableCommand(givenTableId(1), givenTableRestaurantId(1), givenTableName(1));
+        return new UpdateTableCommand(givenTableId(1), givenTableRestaurantId(1), givenTableName(1), givenTableCapacity(1));
     }
 }

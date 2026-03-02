@@ -7,5 +7,6 @@
 
     <include file="db/changelog/table/2025-09-10-create-table-table.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/table/2026-01-18-backend-refactor.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/table/2026-02-24-table-capacity.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

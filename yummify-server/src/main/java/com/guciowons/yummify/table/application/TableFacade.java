@@ -23,8 +23,8 @@ public class TableFacade implements TableFacadePort {
     private final TableCommandMapper tableCommandMapper;
 
     @Override
-    public Table create(UUID restaurantId, String name) {
-        CreateTableCommand command = tableCommandMapper.toCreateTableCommand(restaurantId, name);
+    public Table create(UUID restaurantId, String name, int capacity) {
+        CreateTableCommand command = tableCommandMapper.toCreateTableCommand(restaurantId, name, capacity);
         return createTableUsecase.create(command);
     }
 
@@ -41,8 +41,8 @@ public class TableFacade implements TableFacadePort {
     }
 
     @Override
-    public Table update(UUID id, UUID restaurantId, String name) {
-        UpdateTableCommand command = tableCommandMapper.toUpdateTableCommand(id, restaurantId, name);
+    public Table update(UUID id, UUID restaurantId, String name, int capacity) {
+        UpdateTableCommand command = tableCommandMapper.toUpdateTableCommand(id, restaurantId, name, capacity);
         return updateTableUsecase.update(command);
     }
 

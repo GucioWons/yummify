@@ -118,6 +118,7 @@ export namespace Dtos {
     }
 
     export interface TableDto {
+        capacity: number;
         id: string;
         name: string;
     }

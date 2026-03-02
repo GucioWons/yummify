@@ -21,7 +21,7 @@ public class CreateTableUsecase {
             throw new TableExistsByNameException(command.name());
         }
 
-        Table table = Table.create(command.restaurantId(), command.name());
+        Table table = Table.create(command.restaurantId(), command.name(), command.capacity());
         table.changeUser(createTableUser(table.getId(), table.getRestaurantId()));
 
         tableRepository.save(table);

@@ -1,0 +1,1 @@
+ALTER TABLE my_table.my_table ADD COLUMN capacity INT NOT NULL DEFAULT 0;

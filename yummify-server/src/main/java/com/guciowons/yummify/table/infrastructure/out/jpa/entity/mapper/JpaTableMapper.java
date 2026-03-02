@@ -21,6 +21,7 @@ public interface JpaTableMapper {
     @Mapping(target = "restaurantId", source = "restaurantId.value")
     @Mapping(target = "userId", source = "userId.value")
     @Mapping(target = "name", source = "name.value")
+    @Mapping(target = "capacity", source = "capacity.value")
     JpaTable toJpa(Table table);
 
     default Table.Id toId(UUID id) {
@@ -37,5 +38,9 @@ public interface JpaTableMapper {
 
     default Table.Name toName(String name) {
         return Table.Name.of(name);
+    }
+
+    default Table.Capacity toCapacity(int capacity) {
+        return Table.Capacity.of(capacity);
     }
 }

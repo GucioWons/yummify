@@ -40,6 +40,7 @@ class CreateTableUsecaseTest {
         assertThat(result.getId()).isNotNull();
         assertThat(result.getUserId()).isEqualTo(Table.UserId.of(userId));
         assertThat(result.getName()).isEqualTo(command.name());
+        assertThat(result.getCapacity()).isEqualTo(command.capacity());
     }
 
     @Test
