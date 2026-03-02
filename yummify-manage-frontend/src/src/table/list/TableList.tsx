@@ -6,7 +6,13 @@ import List from "../../common/list/List.tsx";
 import TableDto = Dtos.TableDto;
 import "./TableList.css";
 
-function TableList() {
+export interface TableListProps {
+    onElementClick: (dish: TableDto) => void;
+}
+
+function TableList(props: TableListProps) {
+    const {onElementClick} = props;
+
     const {data, isLoading, isError} = useQuery<TableDto[]>({
         queryKey: ["tables"],
         queryFn: () => tableService.getTables().then(res => res.data),
@@ -20,7 +26,7 @@ function TableList() {
         <List
             items={data!}
             renderItem={(table) => <TableListElement table={table}/>}
-            onItemClick={() => {}}
+            onItemClick={onElementClick}
         />
     );
 }
