@@ -1,0 +1,14 @@
+.menu-entry-list-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-entry-list-element-dish-name {
+    text-align: left;
+}
+
+.menu-entry-list-element-dish-description {
+    text-align: left;
+    font-size: 12px;
+}
