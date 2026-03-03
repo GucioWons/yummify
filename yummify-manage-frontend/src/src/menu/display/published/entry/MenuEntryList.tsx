@@ -1,5 +1,5 @@
-import {Dtos} from "../../../common/dtos.ts";
-import List from "../../../common/list/List.tsx";
+import {Dtos} from "../../../../common/dtos.ts";
+import List from "../../../../common/list/List.tsx";
 import MenuEntryListElement from "./MenuEntryListElement.tsx";
 import MenuEntryDto = Dtos.MenuEntryDto;
 

@@ -1,4 +1,4 @@
-import {Dtos} from "../../../common/dtos.ts";
+import {Dtos} from "../../../../common/dtos.ts";
 import MenuSectionClientDto = Dtos.MenuSectionClientDto;
 import "./MenuSectionBar.css"
 
