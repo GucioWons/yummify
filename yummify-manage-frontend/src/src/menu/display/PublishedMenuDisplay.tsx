@@ -6,6 +6,7 @@ import {useState} from "react";
 import MenuSectionsBar from "./section/MenuSectionsBar.tsx";
 import MenuEntryList from "./entry/MenuEntryList.tsx";
 import "./PublishedMenuDisplay.css";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 function PublishedMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionClientDto>({
@@ -16,7 +17,7 @@ function PublishedMenuDisplay() {
 
     const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
 
-    if (isLoading) return <div>Ładowanie...</div>;
+    if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
 
     const sections = [...data!.sections].sort(

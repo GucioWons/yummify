@@ -5,6 +5,7 @@ import "./IngredientList.css";
 import IngredientListElement from "./IngredientListElement.tsx";
 import List from "../../common/list/List.tsx";
 import IngredientClientDto = Dtos.IngredientClientDto;
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 export interface IngredientListProps {
     onElementClick: (dish: IngredientClientDto) => void;
@@ -13,18 +14,18 @@ export interface IngredientListProps {
 function IngredientList(props: IngredientListProps) {
     const {onElementClick} = props;
 
-    const {data, isLoading, isError} = useQuery<IngredientClientDto[]>({
+    const {data: ingredients, isLoading, isError} = useQuery<IngredientClientDto[]>({
         queryKey: ["ingredients"],
         queryFn: () => ingredientService.getIngredients().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isLoading) return <div>Ładowanie...</div>;
+    if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składników.</div>;
 
     return (
         <List
-            items={data!}
+            items={ingredients!}
             onItemClick={onElementClick}
             renderItem={(ingredient) => <IngredientListElement ingredient={ingredient}/>}
         />

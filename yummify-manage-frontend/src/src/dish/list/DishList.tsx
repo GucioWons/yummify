@@ -5,6 +5,7 @@ import {dishService} from "../service/dishService.ts";
 import DishListDto = Dtos.DishListDto;
 import DishListElement from "./DishListElement.tsx";
 import "./DishList.css";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 export interface DishListProps {
     onElementClick: (dish: DishListDto) => void;
@@ -13,18 +14,18 @@ export interface DishListProps {
 function DishList(props: DishListProps) {
     const {onElementClick} = props;
 
-    const {data, isLoading, isError} = useQuery<DishListDto[]>({
+    const {data: dishes, isLoading, isError} = useQuery<DishListDto[]>({
         queryKey: ["dishes"],
         queryFn: () => dishService.getDishes().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isLoading) return <div>Ładowanie...</div>;
+    if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania dań.</div>;
 
     return (
         <List
-            items={data!}
+            items={dishes!}
             renderItem={(dish) => <DishListElement dish={dish}/>}
             onItemClick={onElementClick}
         />
