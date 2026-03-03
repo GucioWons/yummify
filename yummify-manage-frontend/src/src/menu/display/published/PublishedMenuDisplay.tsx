@@ -1,12 +1,11 @@
 import {useQuery} from "@tanstack/react-query";
-import {Dtos} from "../../common/dtos.ts";
-import {menuService} from "../service/menuService.ts";
+import {Dtos} from "../../../common/dtos.ts";
+import {menuService} from "../../service/menuService.ts";
 import MenuVersionClientDto = Dtos.MenuVersionClientDto;
 import {useState} from "react";
 import MenuSectionsBar from "./section/MenuSectionsBar.tsx";
 import MenuEntryList from "./entry/MenuEntryList.tsx";
-import "./PublishedMenuDisplay.css";
-import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
 
 function PublishedMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionClientDto>({
@@ -27,7 +26,7 @@ function PublishedMenuDisplay() {
     const activeSection = sections.find(s => s.id === activeSectionId) ?? sections[0];
 
     return (
-        <div className="published-menu-display">
+        <div className="menu-display">
             <MenuSectionsBar
                 sections={sections}
                 activeSectionId={activeSection.id}

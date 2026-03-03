@@ -1,9 +1,14 @@
 import PageTitle from "../common/PageTitle.tsx";
 import Button from "../common/button/Button.tsx";
 import {ClipboardClock} from "lucide-react";
-import PublishedMenuDisplay from "./display/PublishedMenuDisplay.tsx";
+import PublishedMenuDisplay from "./display/published/PublishedMenuDisplay.tsx";
+import {useState} from "react";
+import DraftMenuDisplay from "./display/draft/DraftMenuDisplay.tsx";
+import "./MenuPage.css"
 
 function MenuPage() {
+    const [selectedMenu, setSelectedMenu] = useState<"published" | "draft">("published")
+
     return (
         <>
             <PageTitle
@@ -17,7 +22,13 @@ function MenuPage() {
                     />
                 }
             />
-            <PublishedMenuDisplay />
+            <div style={{display: 'flex', gap: 8, paddingBottom: 16}}>
+                <Button text="Published Menu" outlined={selectedMenu === "published"} onClick={() => setSelectedMenu("published")} />
+                <Button text="Draft Menu" outlined={selectedMenu === "draft"} onClick={() => setSelectedMenu("draft")} />
+            </div>
+
+            {selectedMenu === "published" && <PublishedMenuDisplay />}
+            {selectedMenu === "draft" && <DraftMenuDisplay />}
         </>
     );
 }

@@ -14,9 +14,11 @@ function ListElement<T>(props: ListElementProps<T>) {
         <div
             className="list-element"
             onClick={onClick ? () => onClick(item) : undefined}
-            // style={{cursor: onItemClick ? "pointer" : "default"}}
+            style={{cursor: onClick ? "pointer" : "default"}}
         >
-            {render(item)}
+            <div className="list-element-container">
+                {render(item)}
+            </div>
         </div>
     );
 }

@@ -1,0 +1,18 @@
+.draft-menu-info-tile {
+    background-color: #FFFBEB;
+    border-radius: 8px;
+    border-color: #FDE68A;
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.draft-menu-info-tile-title {
+    color: #78350F;
+    font-weight: bold;
+}
+
+.draft-menu-info-tile-description {
+    color: #B45309;
+}
