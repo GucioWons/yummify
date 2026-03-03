@@ -8,6 +8,7 @@ import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuEntryList from "../published/entry/MenuEntryList.tsx";
 import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 import "./DraftMenuDisplay.css";
+import MenuSectionNamesModal from "./MenuSectionNamesModal.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
@@ -17,6 +18,7 @@ function DraftMenuDisplay() {
     });
 
     const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+    const [isNamesModalOpen, setIsNamesModalOpen] = useState<boolean>(false);
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
@@ -30,8 +32,14 @@ function DraftMenuDisplay() {
     return (
         <div className="menu-display">
             <DraftMenuInfoTile />
-            <DraftMenuSectionBar sections={sections} activeSectionId={activeSection.id} setActiveSectionId={setActiveSectionId} />
+            <DraftMenuSectionBar
+                sections={sections}
+                activeSectionId={activeSection.id}
+                setActiveSectionId={setActiveSectionId}
+                onSectionNamesButtonClick={() => setIsNamesModalOpen(true)}
+            />
             <MenuEntryList entries={activeSection.entries} />
+            {isNamesModalOpen && <MenuSectionNamesModal sections={sections} onClose={() => setIsNamesModalOpen(false)} />}
         </div>
     )
 }
