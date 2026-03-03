@@ -7,6 +7,7 @@ import {Dtos} from "../../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuEntryList from "../published/entry/MenuEntryList.tsx";
 import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
+import "./DraftMenuDisplay.css";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
@@ -27,7 +28,7 @@ function DraftMenuDisplay() {
     const activeSection = sections.find(s => s.id === activeSectionId) ?? sections[0];
 
     return (
-        <div>
+        <div className="menu-display">
             <DraftMenuInfoTile />
             <DraftMenuSectionBar sections={sections} activeSectionId={activeSection.id} setActiveSectionId={setActiveSectionId} />
             <MenuEntryList entries={activeSection.entries} />

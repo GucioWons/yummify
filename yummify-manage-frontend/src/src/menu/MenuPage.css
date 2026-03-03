@@ -1,3 +1,8 @@
+.menu-display {
+    display: flex;
+    flex-direction: column;
+}
+
 .menu-section-bar {
     display: inline-flex;
     background: #a7f3d0;
@@ -20,4 +25,19 @@
 .menu-section-bar-item.active {
     background: #059669;
     color: white;
+}
+
+.menu-entry-list-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-entry-list-element-dish-name {
+    text-align: left;
+}
+
+.menu-entry-list-element-dish-description {
+    text-align: left;
+    font-size: 12px;
 }

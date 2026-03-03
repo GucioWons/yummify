@@ -4,6 +4,7 @@ import {ClipboardClock} from "lucide-react";
 import PublishedMenuDisplay from "./display/published/PublishedMenuDisplay.tsx";
 import {useState} from "react";
 import DraftMenuDisplay from "./display/draft/DraftMenuDisplay.tsx";
+import "./MenuPage.css"
 
 function MenuPage() {
     const [selectedMenu, setSelectedMenu] = useState<"published" | "draft">("published")

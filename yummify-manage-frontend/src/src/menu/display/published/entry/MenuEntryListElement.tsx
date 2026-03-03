@@ -4,7 +4,6 @@ import {useQuery} from "@tanstack/react-query";
 import {dishService} from "../../../../dish/service/dishService.ts";
 import DishManageDto = Dtos.DishManageDto;
 import {formatCurrency} from "../../../../common/useCurrencyFormatter.ts";
-import "./MenuEntryList.css"
 import LoadingSpinner from "../../../../common/loading/LoadingSpinner.tsx";
 
 export interface MenuEntryListElementProps {
