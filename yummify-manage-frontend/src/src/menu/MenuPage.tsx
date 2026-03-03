@@ -21,7 +21,7 @@ function MenuPage() {
                     />
                 }
             />
-            <div style={{display: 'flex', gap: 8, paddingBottom: 12}}>
+            <div style={{display: 'flex', gap: 8, paddingBottom: 16}}>
                 <Button text="Published Menu" outlined={selectedMenu === "published"} onClick={() => setSelectedMenu("published")} />
                 <Button text="Draft Menu" outlined={selectedMenu === "draft"} onClick={() => setSelectedMenu("draft")} />
             </div>

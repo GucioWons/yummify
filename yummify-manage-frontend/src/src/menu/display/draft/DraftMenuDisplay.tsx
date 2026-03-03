@@ -6,6 +6,7 @@ import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
 import {Dtos} from "../../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuEntryList from "../published/entry/MenuEntryList.tsx";
+import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
@@ -27,14 +28,7 @@ function DraftMenuDisplay() {
 
     return (
         <div>
-            <div>
-                <div>
-                    Editing Draft Menu
-                </div>
-                <div>
-                    Changes will not be visible to customers until you publish this menu
-                </div>
-            </div>
+            <DraftMenuInfoTile />
             <DraftMenuSectionBar sections={sections} activeSectionId={activeSection.id} setActiveSectionId={setActiveSectionId} />
             <MenuEntryList entries={activeSection.entries} />
         </div>
