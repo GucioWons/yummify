@@ -6,6 +6,7 @@ import {ingredientService} from "../service/ingredientService.ts";
 import IngredientDisplay from "./IngredientDisplay.tsx";
 import IngredientManageDto = Dtos.IngredientManageDto;
 import IngredientUpdateForm from "./IngredientUpdateForm.tsx";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 export interface IngredientDisplayModalProps {
     id: string
@@ -21,21 +22,21 @@ function IngredientDisplayModal(props: IngredientDisplayModalProps) {
         return isInEditState ? "Edit Ingredient" : "Ingredient Details";
     }, [isInEditState]);
 
-    const {data, isLoading, isError} = useQuery<IngredientManageDto>({
+    const {data: ingredient, isLoading, isError} = useQuery<IngredientManageDto>({
         queryKey: ["ingredients", id],
         queryFn: () => ingredientService.getIngredient(id).then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isLoading) return <div>Ładowanie...</div>;
+    if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
 
     return (
         <Modal title={getTitle()} onClose={onClose}>
             {isInEditState
-                ? <IngredientUpdateForm ingredient={data!} onCancel={() => setIsInEditState(false)}/>
+                ? <IngredientUpdateForm ingredient={ingredient!} onCancel={() => setIsInEditState(false)}/>
                 : <IngredientDisplay
-                    ingredient={data!}
+                    ingredient={ingredient!}
                     onEditClick={() => setIsInEditState(true)}
                     onCloseClick={onClose}
                 />

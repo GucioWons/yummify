@@ -5,6 +5,7 @@ import {dishService} from "../../../dish/service/dishService.ts";
 import DishManageDto = Dtos.DishManageDto;
 import {formatCurrency} from "../../../common/useCurrencyFormatter.ts";
 import "./MenuEntryList.css"
+import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
 
 export interface MenuEntryListElementProps {
     entry: MenuEntryDto;
@@ -19,7 +20,7 @@ function MenuEntryListElement(props: MenuEntryListElementProps) {
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isDishLoading) return <div>Ładowanie...</div>;
+    if (isDishLoading) return <LoadingSpinner height={40} width={40}/>;
     if (isDishError) return <div>Błąd podczas pobierania dania.</div>;
 
     return (

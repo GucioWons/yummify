@@ -7,6 +7,7 @@ import {Dtos} from "../../common/dtos.ts";
 import DishUpdateForm from "./DishUpdateForm.tsx";
 import DishManageDto = Dtos.DishManageDto;
 import {imageService} from "../../common/image/imageService.ts";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 export interface DishDisplayModalProps {
     id: string
@@ -34,7 +35,7 @@ function DishDisplayModal(props: DishDisplayModalProps) {
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isDishLoading || isImageLoading) return <div>Ładowanie...</div>;
+    if (isDishLoading || isImageLoading) return <LoadingSpinner />;
     if (isDishError || isImageError) return <div>Błąd podczas pobierania dania.</div>;
 
     return (

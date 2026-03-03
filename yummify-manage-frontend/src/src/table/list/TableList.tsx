@@ -5,6 +5,7 @@ import TableListElement from "./TableListElement.tsx";
 import List from "../../common/list/List.tsx";
 import TableDto = Dtos.TableDto;
 import "./TableList.css";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 
 export interface TableListProps {
     onElementClick: (dish: TableDto) => void;
@@ -13,18 +14,18 @@ export interface TableListProps {
 function TableList(props: TableListProps) {
     const {onElementClick} = props;
 
-    const {data, isLoading, isError} = useQuery<TableDto[]>({
+    const {data: tables, isLoading, isError} = useQuery<TableDto[]>({
         queryKey: ["tables"],
         queryFn: () => tableService.getTables().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
 
-    if (isLoading) return <div>Ładowanie...</div>;
+    if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składników.</div>;
 
     return (
         <List
-            items={data!}
+            items={tables!}
             renderItem={(table) => <TableListElement table={table}/>}
             onItemClick={onElementClick}
         />
