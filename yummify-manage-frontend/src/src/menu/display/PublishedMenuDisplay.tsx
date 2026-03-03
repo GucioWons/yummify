@@ -19,18 +19,21 @@ function PublishedMenuDisplay() {
     if (isLoading) return <div>Ładowanie...</div>;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
 
-    const sections = data!.sections
-        .sort((a, b) => a.position - b.position);
+    const sections = [...data!.sections].sort(
+        (a, b) => a.position - b.position
+    );
+
+    const activeSection = sections.find(s => s.id === activeSectionId) ?? sections[0];
 
     return (
         <div className="published-menu-display">
             <MenuSectionsBar
                 sections={sections}
-                activeSectionId={activeSectionId}
+                activeSectionId={activeSection.id}
                 setActiveSectionId={setActiveSectionId}
             />
 
-            <MenuEntryList entries={sections.find(s => s.id === activeSectionId)?.entries ?? []} />
+            <MenuEntryList entries={activeSection.entries} />
         </div>
     );
 }
