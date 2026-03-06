@@ -1,16 +1,18 @@
 import {Dtos} from "../../../../common/dtos.ts";
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;
 import Button from "../../../../common/button/Button.tsx";
+import {Plus, Settings} from "lucide-react";
 
 export interface DraftMenuSectionBarProps {
     sections: MenuSectionManageDto[];
     activeSectionId: string | null;
     setActiveSectionId: (sectionId: string) => void;
     onSectionNamesButtonClick: () => void;
+    onAddSectionButtonClick: () => void;
 }
 
 function DraftMenuSectionBar(props: DraftMenuSectionBarProps) {
-    const {sections, activeSectionId, setActiveSectionId, onSectionNamesButtonClick} = props;
+    const {sections, activeSectionId, setActiveSectionId, onSectionNamesButtonClick, onAddSectionButtonClick} = props;
 
     return (
         <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 12}}>
@@ -29,7 +31,8 @@ function DraftMenuSectionBar(props: DraftMenuSectionBarProps) {
                     );
                 })}
             </div>
-            <Button text="Section Names" outlined onClick={onSectionNamesButtonClick} />
+            <Button text="Add Section" icon={Plus} onClick={onAddSectionButtonClick} />
+            <Button text="Section Names" icon={Settings} outlined onClick={onSectionNamesButtonClick} />
         </div>
     )
 }
