@@ -15,6 +15,10 @@ export namespace Dtos {
         path: string;
     }
 
+    export interface CreateMenuSectionRequest {
+        name: TranslatedStringDto;
+    }
+
     export interface DishClientDto {
         description: string;
         id: string;
@@ -130,6 +134,18 @@ export namespace Dtos {
 
     export interface TranslatedStringDto {
         translations: { [index: string]: string };
+    }
+
+    export interface UpdateMenuSectionEntriesRequest {
+        entries: MenuEntryDto[];
+    }
+
+    export interface UpdateMenuSectionNameRequest {
+        name: TranslatedStringDto;
+    }
+
+    export interface UpdateMenuSectionPositionRequest {
+        position: number;
     }
 
     export interface UserDto {
