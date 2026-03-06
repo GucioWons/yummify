@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("menu/versions/sections")
+@RequestMapping("menu-versions/sections")
 @RequiredArgsConstructor
 public class MenuSectionController {
     private final MenuSectionFacadePort menuSectionFacade;
