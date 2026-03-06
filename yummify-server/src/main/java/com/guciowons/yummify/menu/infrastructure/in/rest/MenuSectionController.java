@@ -1,14 +1,11 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.menu.application.port.MenuSectionFacadePort;
+import com.guciowons.yummify.menu.application.section.port.MenuSectionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
-import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuSectionManageDto;
-import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.mapper.MenuEntryMapper;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.mapper.MenuSectionMapper;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.request.CreateMenuSectionRequest;
-import com.guciowons.yummify.menu.infrastructure.in.rest.model.request.UpdateMenuSectionEntriesRequest;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.request.UpdateMenuSectionNameRequest;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.request.UpdateMenuSectionPositionRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +23,6 @@ import java.util.UUID;
 public class MenuSectionController {
     private final MenuSectionFacadePort menuSectionFacade;
     private final MenuSectionMapper menuSectionMapper;
-    private final MenuEntryMapper menuEntryMapper;
 
     @PostMapping
     public ResponseEntity<MenuSectionManageDto> create(
@@ -79,20 +75,5 @@ public class MenuSectionController {
                 .body(sectionsResponse);
     }
 
-    @PatchMapping("{id}/entries")
-    public ResponseEntity<MenuSectionManageDto> updateEntries(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable UUID id,
-            @RequestBody UpdateMenuSectionEntriesRequest request
-    ) {
-        List<MenuEntrySnapshot> entrySnapshots = request.entries().stream()
-                .map(menuEntryMapper::toSnapshot)
-                .toList();
 
-        MenuSection updatedSection = menuSectionFacade.updateEntries(id, userPrincipal.restaurantId(), entrySnapshots);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(menuSectionMapper.toManageDto(updatedSection));
-    }
 }

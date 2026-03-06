@@ -1,6 +1,9 @@
 package com.guciowons.yummify.menu.application.fixture;
 
-import com.guciowons.yummify.menu.application.model.*;
+import com.guciowons.yummify.menu.application.section.model.CreateMenuSectionCommand;
+import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionNameCommand;
+import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionPositionCommand;
+import com.guciowons.yummify.menu.application.version.model.*;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

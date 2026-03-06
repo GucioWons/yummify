@@ -4,10 +4,10 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.menu.application.MenuSectionFacade;
-import com.guciowons.yummify.menu.application.MenuVersionFacade;
-import com.guciowons.yummify.menu.application.port.MenuSectionFacadePort;
-import com.guciowons.yummify.menu.application.port.MenuVersionFacadePort;
+import com.guciowons.yummify.menu.application.section.MenuSectionFacade;
+import com.guciowons.yummify.menu.application.version.MenuVersionFacade;
+import com.guciowons.yummify.menu.application.section.port.MenuSectionFacadePort;
+import com.guciowons.yummify.menu.application.version.port.MenuVersionFacadePort;
 import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuSectionFacadeApiExceptionDecorator;
 import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuVersionFacadeApiExceptionDecorator;
 import org.springframework.context.annotation.*;

@@ -1,7 +1,8 @@
 package com.guciowons.yummify.menu.application;
 
-import com.guciowons.yummify.menu.application.model.mapper.MenuVersionCommandMapper;
-import com.guciowons.yummify.menu.application.usecase.*;
+import com.guciowons.yummify.menu.application.version.model.mapper.MenuVersionCommandMapper;
+import com.guciowons.yummify.menu.application.version.MenuVersionFacade;
+import com.guciowons.yummify.menu.application.version.usecase.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

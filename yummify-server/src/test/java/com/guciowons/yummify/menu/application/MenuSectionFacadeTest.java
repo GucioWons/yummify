@@ -1,10 +1,11 @@
 package com.guciowons.yummify.menu.application;
 
-import com.guciowons.yummify.menu.application.model.mapper.MenuSectionCommandMapper;
-import com.guciowons.yummify.menu.application.usecase.CreateMenuSectionUsecase;
+import com.guciowons.yummify.menu.application.section.model.mapper.MenuSectionCommandMapper;
+import com.guciowons.yummify.menu.application.section.MenuSectionFacade;
+import com.guciowons.yummify.menu.application.section.usecase.CreateMenuSectionUsecase;
 import com.guciowons.yummify.menu.application.usecase.UpdateMenuSectionEntriesUsecase;
-import com.guciowons.yummify.menu.application.usecase.UpdateMenuSectionNameUsecase;
-import com.guciowons.yummify.menu.application.usecase.UpdateMenuSectionPositionUsecase;
+import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionNameUsecase;
+import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionPositionUsecase;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
