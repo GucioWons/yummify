@@ -2,6 +2,9 @@ import axiosInstance from "../../common/api/axiosInstance.ts";
 import {Dtos} from "../../common/dtos.ts";
 import MenuVersionClientDto = Dtos.MenuVersionClientDto;
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
+import MenuSectionManageDto = Dtos.MenuSectionManageDto;
+import CreateMenuSectionRequest = Dtos.CreateMenuSectionRequest;
+import UpdateMenuSectionNameRequest = Dtos.UpdateMenuSectionNameRequest;
 
 export const menuService = {
     async getPublishedMenuVersion() {
@@ -11,4 +14,15 @@ export const menuService = {
     async getDraftMenuVersion() {
         return axiosInstance.get<MenuVersionManageDto>('menu/versions/draft');
     },
+
+    async createMenuSection(data: CreateMenuSectionRequest) {
+        return axiosInstance.post<CreateMenuSectionRequest, MenuSectionManageDto>('menu/versions/sections', data);
+    },
+
+    async updateMenuSectionName(sectionId: string, data: UpdateMenuSectionNameRequest) {
+        return axiosInstance.patch<UpdateMenuSectionNameRequest, MenuSectionManageDto>(
+            `menu/versions/sections/${sectionId}/name`,
+            data
+        );
+    }
 }

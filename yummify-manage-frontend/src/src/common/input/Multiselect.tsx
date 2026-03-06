@@ -75,7 +75,11 @@ function Multiselect<Option, Value>(
     function getOptionStyle(base: CSSObjectWithLabel, isFocused: boolean): CSSObjectWithLabel {
         return {
             ...base,
-            backgroundColor: isFocused ? "#d1fae5" : base.backgroundColor,
+            borderRadius: "8px",
+            padding: 4,
+            color: "black",
+            textAlign: "left",
+            backgroundColor: isFocused ? "#d1fae5" : "#ffffff",
         };
     }
 
@@ -117,7 +121,19 @@ function Multiselect<Option, Value>(
                 placeholder={placeholder}
                 getOptionLabel={getOptionLabel}
                 getOptionValue={getOptionKey}
+                menuPortalTarget={document.body}
                 styles={{
+                    menuPortal: (base) => ({
+                        ...base,
+                        zIndex: 9999
+                    }),
+                    menu: (base) => ({
+                        ...base,
+                        borderRadius: 8,             // zaokrąglone rogi
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.2)", // naturalny cień
+                        overflow: "visible",         // żeby padding/margin opcji nie był uciety
+                        padding: 4
+                    }),
                     control: (base) => getControlStyle(base),
                     valueContainer: (base) => getValueContainerStyle(base),
                     input: (base) => getInputStyle(base),
