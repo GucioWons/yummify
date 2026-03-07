@@ -3,7 +3,6 @@ package com.guciowons.yummify.menu.domain.entity;
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
-import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,12 +30,16 @@ public class MenuSection {
         return copy;
     }
 
-    public void updateEntries(List<MenuEntrySnapshot> entrySnapshots) {
-        Map<MenuEntry.Id, MenuEntry> entriesMap = getEntriesMap();
-        entries.clear();
-        entrySnapshots.stream()
-                .map(entrySnapshot -> createOrUpdateEntry(entrySnapshot, entriesMap))
-                .forEach(entries::add);
+    public void addEntry(MenuEntry entry) {
+        entries.add(entry);
+    }
+
+    public MenuEntry updateEntry(MenuEntry.Id id, MenuEntry.DishId dishId, MenuEntry.Price price) {
+        MenuEntry existingEntry = Optional.ofNullable(getEntriesMap().get(id))
+                .orElseThrow(() -> new MenuEntryNotFoundException(id));
+
+        existingEntry.update(dishId, price);
+        return existingEntry;
     }
 
     public void updateName(TranslatedString name) {
@@ -57,17 +60,6 @@ public class MenuSection {
 
     private Map<MenuEntry.Id, MenuEntry> getEntriesMap() {
         return entries.stream().collect(Collectors.toMap(MenuEntry::getId, Function.identity()));
-    }
-
-    private MenuEntry createOrUpdateEntry(MenuEntrySnapshot snapshot, Map<MenuEntry.Id, MenuEntry> entriesMap) {
-        if (snapshot.id() == null) {
-            return MenuEntry.create(snapshot.dishId(), snapshot.price());
-        } else {
-            MenuEntry entry = Optional.ofNullable(entriesMap.get(snapshot.id()))
-                    .orElseThrow(() -> new MenuEntryNotFoundException(snapshot.id()));
-            entry.update(snapshot.price());
-            return entry;
-        }
     }
 
     public record Id(UUID value) implements IdValueObject {

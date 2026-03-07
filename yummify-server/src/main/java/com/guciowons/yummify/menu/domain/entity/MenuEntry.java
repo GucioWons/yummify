@@ -12,14 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class MenuEntry {
     private final Id id;
-    private final DishId dishId;
+    private DishId dishId;
     private Price price;
 
     public static MenuEntry create(DishId dishId, Price price) {
         return new MenuEntry(Id.random(), dishId, price);
     }
 
-    public void update(Price price) {
+    public void update(DishId dishId, Price price) {
+        this.dishId = dishId;
         this.price = price;
     }
 

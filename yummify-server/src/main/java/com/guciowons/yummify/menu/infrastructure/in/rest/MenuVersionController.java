@@ -1,7 +1,7 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.menu.application.port.MenuVersionFacadePort;
+import com.guciowons.yummify.menu.application.version.port.MenuVersionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionArchivedListDto;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionClientDto;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("menu/versions")
+@RequestMapping("menu-versions")
 @RequiredArgsConstructor
 public class MenuVersionController {
     private final MenuVersionFacadePort menuVersionFacade;
@@ -55,12 +55,12 @@ public class MenuVersionController {
     }
 
     @GetMapping("published")
-    public ResponseEntity<MenuVersionClientDto> getPublished(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<MenuVersionManageDto> getPublished(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.getPublished(userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(menuVersionMapper.toClientDto(published));
+                .body(menuVersionMapper.toManageDto(published));
     }
 
     @GetMapping("archived/{id}")
@@ -85,7 +85,7 @@ public class MenuVersionController {
     }
 
     @PostMapping("archived/{id}/restore")
-    public ResponseEntity<MenuVersionClientDto> restore(
+    public ResponseEntity<MenuVersionManageDto> restore(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id
     ) {
@@ -93,6 +93,6 @@ public class MenuVersionController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(menuVersionMapper.toClientDto(published));
+                .body(menuVersionMapper.toManageDto(published));
     }
 }

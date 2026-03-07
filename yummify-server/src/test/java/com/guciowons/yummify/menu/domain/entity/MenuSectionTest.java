@@ -3,8 +3,6 @@ package com.guciowons.yummify.menu.domain.entity;
 import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,43 +25,47 @@ class MenuSectionTest {
     }
 
     @Test
-    void shouldAddNewEntries_WhenSnapshotsHaveNoId() {
+    void shouldAddMenuEntry() {
         // given
         var section = givenMenuSection(1);
-        var newEntrySnapshots = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
+        var entry = givenMenuEntry(1);
 
         // when
-        section.updateEntries(newEntrySnapshots);
+        section.addEntry(entry);
 
         // then
-        assertThat(section.getEntries()).hasSize(2);
+        assertThat(section.getEntries()).containsExactly(entry);
     }
 
     @Test
-    void shouldUpdateExistingEntry_WhenSnapshotHasId() {
+    void shouldUpdateMenuEntry() {
         // given
         var section = givenMenuSection(1);
-        var existingMenuEntry = givenMenuEntry(1);
-        existingMenuEntry.update(givenMenuEntryPrice(2));
-        section.getEntries().add(existingMenuEntry);
-        var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
+        var existingEntry = givenMenuEntry(1);
+        section.addEntry(existingEntry);
+
+        var newDishId = givenMenuEntryDishId(2);
+        var newPrice = givenMenuEntryPrice(2);
 
         // when
-        section.updateEntries(newEntrySnapshots);
+        var result = section.updateEntry(existingEntry.getId(), newDishId, newPrice);
 
         // then
-        assertThat(section.getEntries()).hasSize(1);
-        assertThat(section.getEntries().getFirst().getPrice()).isEqualTo(newEntrySnapshots.getFirst().price());
+        assertThat(result.getId()).isEqualTo(existingEntry.getId());
+        assertThat(result.getDishId()).isEqualTo(newDishId);
+        assertThat(result.getPrice()).isEqualTo(newPrice);
     }
 
     @Test
-    void shouldThrowException_WhenUpdatingNonExistingEntry() {
+    void shouldNotUpdateMenuEntryAndThrowException_WhenMenuEntryDoesNotExist() {
         // given
         var section = givenMenuSection(1);
-        var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
+        var entryId = givenMenuEntryId(1);
+        var newDishId = givenMenuEntryDishId(2);
+        var newPrice = givenMenuEntryPrice(2);
 
-        // when + then
-        assertThatThrownBy(() -> section.updateEntries(newEntrySnapshots))
+        // when
+        assertThatThrownBy(() -> section.updateEntry(entryId, newDishId, newPrice))
                 .isInstanceOf(MenuEntryNotFoundException.class);
     }
 
@@ -121,7 +123,7 @@ class MenuSectionTest {
     void shouldCopySection() {
         // given
         var original = givenMenuSection(1);
-        original.updateEntries(List.of(givenNewMenuEntrySnapshot(1)));
+//        original.updateEntries(List.of(givenNewMenuEntrySnapshot(1)));
 
         // when
         var result = original.copy();

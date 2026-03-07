@@ -6,7 +6,6 @@ import com.guciowons.yummify.menu.domain.exception.CannotUpdateMenuSectionPositi
 import com.guciowons.yummify.menu.domain.exception.MenuSectionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotDraftException;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedException;
-import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -49,12 +48,18 @@ public class MenuVersion {
         return newSection;
     }
 
-    public MenuSection updateSectionEntries(MenuSection.Id sectionId, List<MenuEntrySnapshot> entrySnapshots) {
+    public void addSectionEntry(MenuSection.Id sectionId, MenuEntry entry) {
         ensureDraft();
 
         MenuSection section = findSection(sectionId);
-        section.updateEntries(entrySnapshots);
-        return section;
+        section.addEntry(entry);
+    }
+
+    public MenuEntry updateSectionEntry(MenuSection.Id sectionId, MenuEntry.Id id, MenuEntry.DishId dishId, MenuEntry.Price price) {
+        ensureDraft();
+
+        MenuSection section = findSection(sectionId);
+        return section.updateEntry(id, dishId, price);
     }
 
     public MenuSection updateSectionName(MenuSection.Id sectionId, TranslatedString name) {

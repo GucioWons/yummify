@@ -6,7 +6,6 @@ import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
-import com.guciowons.yummify.menu.domain.snapshot.MenuEntrySnapshot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -43,14 +42,6 @@ public class MenuDomainFixture {
 
     public static TranslatedString givenMenuSectionName(int seed) {
         return TranslatedString.of(Map.of(Language.EN, Translation.of("menu-section-%s".formatted(seed))));
-    }
-
-    public static MenuEntrySnapshot givenNewMenuEntrySnapshot(int seed) {
-        return new MenuEntrySnapshot(null, givenMenuEntryDishId(seed), givenMenuEntryPrice(seed));
-    }
-
-    public static MenuEntrySnapshot givenExistingMenuEntrySnapshot(int seed) {
-        return new MenuEntrySnapshot(givenMenuEntryId(seed), givenMenuEntryDishId(seed), givenMenuEntryPrice(seed));
     }
 
     public static MenuEntry givenMenuEntry(int seed) {

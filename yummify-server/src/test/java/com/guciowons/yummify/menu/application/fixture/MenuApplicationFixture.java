@@ -1,11 +1,14 @@
 package com.guciowons.yummify.menu.application.fixture;
 
-import com.guciowons.yummify.menu.application.model.*;
+import com.guciowons.yummify.menu.application.entry.model.CreateMenuEntryCommand;
+import com.guciowons.yummify.menu.application.entry.model.UpdateMenuEntryCommand;
+import com.guciowons.yummify.menu.application.section.model.CreateMenuSectionCommand;
+import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionNameCommand;
+import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionPositionCommand;
+import com.guciowons.yummify.menu.application.version.model.*;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 
@@ -27,14 +30,6 @@ public class MenuApplicationFixture {
         return new GetArchivedMenuVersionQuery(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
     }
 
-    public static UpdateMenuSectionEntriesCommand givenUpdateMenuSectionEntriesCommand(MenuSection.Id sectionId) {
-        return new UpdateMenuSectionEntriesCommand(
-                sectionId,
-                givenMenuVersionRestaurantId(1),
-                List.of(givenNewMenuEntrySnapshot(1))
-        );
-    }
-
     public static UpdateMenuSectionNameCommand givenUpdateMenuSectionNameCommand(MenuSection.Id sectionId) {
         return new UpdateMenuSectionNameCommand(
                 sectionId,
@@ -53,5 +48,24 @@ public class MenuApplicationFixture {
 
     public static RestoreMenuVersionCommand givenRestoreMenuVersionCommand() {
         return new RestoreMenuVersionCommand(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
+    }
+
+    public static CreateMenuEntryCommand givenCreateMenuEntryCommand(MenuSection.Id sectionId) {
+        return new CreateMenuEntryCommand(
+                sectionId,
+                givenMenuVersionRestaurantId(1),
+                givenMenuEntryDishId(1),
+                givenMenuEntryPrice(1)
+        );
+    }
+
+    public static UpdateMenuEntryCommand givenUpdateMenuEntryCommand(MenuSection.Id sectionId) {
+        return new UpdateMenuEntryCommand(
+                sectionId,
+                givenMenuEntryId(1),
+                givenMenuVersionRestaurantId(1),
+                givenMenuEntryDishId(1),
+                givenMenuEntryPrice(1)
+        );
     }
 }

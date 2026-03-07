@@ -7,7 +7,6 @@ import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedExce
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.List;
 
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -231,42 +230,37 @@ class MenuVersionTest {
     }
 
     @Test
-    void shouldUpdateSectionEntries() {
+    void shouldAddSectionEntry() {
         // given
         var menuVersion = givenMenuVersion(1);
         var section = menuVersion.addSection(givenMenuSectionName(1));
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
+        var entry = givenMenuEntry(1);
 
         // when
-        menuVersion.updateSectionEntries(section.getId(), newEntries);
+        menuVersion.addSectionEntry(section.getId(), entry);
 
         // then
-        assertThat(section.getEntries()).hasSize(2);
+        assertThat(menuVersion.getSections().getFirst().getEntries()).containsExactly(entry);
     }
 
     @Test
-    void shouldNotUpdateSectionEntriesAndThrowException_WhenVersionIsNotDraft() {
+    void shouldUpdateSectionEntry() {
         // given
         var menuVersion = givenMenuVersion(1);
-        menuVersion.publish();
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-        var sectionId = givenMenuSectionId(1);
+        var section = menuVersion.addSection(givenMenuSectionName(1));
+        var existingEntry = givenMenuEntry(1);
+        menuVersion.addSectionEntry(section.getId(), existingEntry);
 
-        // when + then
-        assertThatThrownBy(() -> menuVersion.updateSectionEntries(sectionId, newEntries))
-                .isInstanceOf(MenuVersionIsNotDraftException.class);
-    }
+        var newDishId = givenMenuEntryDishId(1);
+        var newPrice = givenMenuEntryPrice(1);
 
-    @Test
-    void shouldNotUpdateSectionEntriesAndThrowException_WhenSectionNotFound() {
-        // given
-        var menuVersion = givenMenuVersion(1);
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-        var sectionId = givenMenuSectionId(1);
+        // when
+        var result = menuVersion.updateSectionEntry(section.getId(), existingEntry.getId(), newDishId, newPrice);
 
-        // when + then
-        assertThatThrownBy(() -> menuVersion.updateSectionEntries(sectionId, newEntries))
-                .isInstanceOf(MenuSectionNotFoundException.class);
+        // then
+        assertThat(result.getId()).isEqualTo(existingEntry.getId());
+        assertThat(result.getDishId()).isEqualTo(newDishId);
+        assertThat(result.getPrice()).isEqualTo(newPrice);
     }
 
     @Test
@@ -274,7 +268,7 @@ class MenuVersionTest {
         // given
         var original = givenMenuVersion(1);
         var section = original.addSection(givenMenuSectionName(1));
-        original.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        original.addSectionEntry(section.getId(), givenMenuEntry(1));
         original.publish();
 
         // when
@@ -303,7 +297,7 @@ class MenuVersionTest {
         var draft = givenMenuVersion(1);
         var archived = givenMenuVersion(2);
         var section = archived.addSection(givenMenuSectionName(1));
-        archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        archived.addSectionEntry(section.getId(), givenMenuEntry(1));
         archived.publish();
         archived.archive(Instant.now());
 
