@@ -1,6 +1,5 @@
-package com.guciowons.yummify.menu.application.usecase;
+package com.guciowons.yummify.menu.application.version.usecase;
 
-import com.guciowons.yummify.menu.application.version.usecase.CreateMenuVersionUsecase;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.domain.exception.MenuVersionAlreadyExistsException;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;

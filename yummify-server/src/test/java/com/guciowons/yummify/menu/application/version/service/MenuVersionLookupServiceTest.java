@@ -1,6 +1,5 @@
-package com.guciowons.yummify.menu.application.service;
+package com.guciowons.yummify.menu.application.version.service;
 
-import com.guciowons.yummify.menu.application.version.service.MenuVersionLookupService;
 import com.guciowons.yummify.menu.domain.exception.ArchivedMenuNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.DraftMenuVersionNotFoundException;
 import com.guciowons.yummify.menu.domain.exception.PublishedMenuVersionNotFoundException;

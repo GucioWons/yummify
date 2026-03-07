@@ -25,12 +25,14 @@ class MenuEntryTest {
     void shouldUpdateMenuEntry() {
         // given
         var menuEntry = givenMenuEntry(1);
+        var newDishId = givenMenuEntryDishId(2);
         var newPrice = givenMenuEntryPrice(2);
 
         // when
-//        menuEntry.update(newPrice);
+        menuEntry.update(newDishId, newPrice);
 
         // then
+        assertThat(menuEntry.getDishId()).isEqualTo(newDishId);
         assertThat(menuEntry.getPrice()).isEqualTo(newPrice);
     }
 

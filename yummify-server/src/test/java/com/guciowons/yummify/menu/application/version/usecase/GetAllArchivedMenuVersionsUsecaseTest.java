@@ -1,6 +1,5 @@
-package com.guciowons.yummify.menu.application.usecase;
+package com.guciowons.yummify.menu.application.version.usecase;
 
-import com.guciowons.yummify.menu.application.version.usecase.GetAllArchivedMenuVersionsUsecase;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import org.junit.jupiter.api.Test;
 

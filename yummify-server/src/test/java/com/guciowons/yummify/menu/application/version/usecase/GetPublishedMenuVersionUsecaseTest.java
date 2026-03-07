@@ -1,7 +1,6 @@
-package com.guciowons.yummify.menu.application.usecase;
+package com.guciowons.yummify.menu.application.version.usecase;
 
 import com.guciowons.yummify.menu.application.version.service.MenuVersionLookupService;
-import com.guciowons.yummify.menu.application.version.usecase.GetDraftMenuVersionUsecase;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenGetMenuVersionQuery;
@@ -9,25 +8,25 @@ import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenM
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class GetDraftMenuVersionUsecaseTest {
+class GetPublishedMenuVersionUsecaseTest {
     private final MenuVersionLookupService menuVersionLookupService = mock(MenuVersionLookupService.class);
 
-    private final GetDraftMenuVersionUsecase underTest = new GetDraftMenuVersionUsecase(menuVersionLookupService);
+    private final GetPublishedMenuVersionUsecase underTest = new GetPublishedMenuVersionUsecase(menuVersionLookupService);
 
     @Test
-    void shouldGetDraftMenuVersion() {
+    void shouldGetPublishedMenuVersion() {
         // given
         var query = givenGetMenuVersionQuery();
-        var draft = givenMenuVersion(1);
+        var published = givenMenuVersion(1);
 
-        when(menuVersionLookupService.getDraftByRestaurantId(query.restaurantId())).thenReturn(draft);
+        when(menuVersionLookupService.getPublishedByRestaurantId(query.restaurantId())).thenReturn(published);
 
         // when
         var result = underTest.get(query);
 
         // then
-        verify(menuVersionLookupService).getDraftByRestaurantId(query.restaurantId());
+        verify(menuVersionLookupService).getPublishedByRestaurantId(query.restaurantId());
 
-        assertThat(result).isEqualTo(draft);
+        assertThat(result).isEqualTo(published);
     }
 }

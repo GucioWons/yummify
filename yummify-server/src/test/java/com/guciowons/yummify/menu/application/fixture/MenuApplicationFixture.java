@@ -1,5 +1,7 @@
 package com.guciowons.yummify.menu.application.fixture;
 
+import com.guciowons.yummify.menu.application.entry.model.CreateMenuEntryCommand;
+import com.guciowons.yummify.menu.application.entry.model.UpdateMenuEntryCommand;
 import com.guciowons.yummify.menu.application.section.model.CreateMenuSectionCommand;
 import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionNameCommand;
 import com.guciowons.yummify.menu.application.section.model.UpdateMenuSectionPositionCommand;
@@ -46,5 +48,24 @@ public class MenuApplicationFixture {
 
     public static RestoreMenuVersionCommand givenRestoreMenuVersionCommand() {
         return new RestoreMenuVersionCommand(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
+    }
+
+    public static CreateMenuEntryCommand givenCreateMenuEntryCommand(MenuSection.Id sectionId) {
+        return new CreateMenuEntryCommand(
+                sectionId,
+                givenMenuVersionRestaurantId(1),
+                givenMenuEntryDishId(1),
+                givenMenuEntryPrice(1)
+        );
+    }
+
+    public static UpdateMenuEntryCommand givenUpdateMenuEntryCommand(MenuSection.Id sectionId) {
+        return new UpdateMenuEntryCommand(
+                sectionId,
+                givenMenuEntryId(1),
+                givenMenuVersionRestaurantId(1),
+                givenMenuEntryDishId(1),
+                givenMenuEntryPrice(1)
+        );
     }
 }

@@ -1,40 +1,40 @@
-package com.guciowons.yummify.menu.application.usecase;
+package com.guciowons.yummify.menu.application.section.usecase;
 
 import com.guciowons.yummify.menu.application.version.service.MenuVersionLookupService;
-import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionNameUsecase;
 import com.guciowons.yummify.menu.domain.port.out.MenuVersionRepository;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenUpdateMenuSectionNameCommand;
-import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuSectionName;
+import static com.guciowons.yummify.menu.application.fixture.MenuApplicationFixture.givenCreateMenuSectionCommand;
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.givenMenuVersion;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class UpdateMenuSectionNameUsecaseTest {
+class CreateMenuSectionUsecaseTest {
     private final MenuVersionLookupService menuVersionLookupService = mock(MenuVersionLookupService.class);
     private final MenuVersionRepository menuVersionRepository = mock(MenuVersionRepository.class);
-    private final UpdateMenuSectionNameUsecase underTest = new UpdateMenuSectionNameUsecase(
+
+    private final CreateMenuSectionUsecase underTest = new CreateMenuSectionUsecase(
             menuVersionLookupService,
             menuVersionRepository
     );
 
     @Test
-    void shouldUpdateMenuSectionName() {
+    void shouldCreateMenuSection() {
         // given
+        var command = givenCreateMenuSectionCommand();
         var draft = givenMenuVersion(1);
-        var section = draft.addSection(givenMenuSectionName(1));
-        var command = givenUpdateMenuSectionNameCommand(section.getId());
 
         when(menuVersionLookupService.getDraftByRestaurantId(command.restaurantId())).thenReturn(draft);
 
         // when
-        var result = underTest.update(command);
+        var result = underTest.create(command);
 
         // then
         verify(menuVersionLookupService).getDraftByRestaurantId(command.restaurantId());
         verify(menuVersionRepository).save(draft);
 
-        assertThat(result).isEqualTo(section);
+        assertThat(result).isNotNull();
+        assertThat(draft.getSections()).hasSize(1);
+        assertThat(draft.getSections()).contains(result);
     }
 }

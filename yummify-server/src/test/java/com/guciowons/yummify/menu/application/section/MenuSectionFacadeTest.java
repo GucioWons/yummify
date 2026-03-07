@@ -1,7 +1,6 @@
-package com.guciowons.yummify.menu.application;
+package com.guciowons.yummify.menu.application.section;
 
 import com.guciowons.yummify.menu.application.section.model.mapper.MenuSectionCommandMapper;
-import com.guciowons.yummify.menu.application.section.MenuSectionFacade;
 import com.guciowons.yummify.menu.application.section.usecase.CreateMenuSectionUsecase;
 import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionNameUsecase;
 import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionPositionUsecase;

@@ -230,11 +230,45 @@ class MenuVersionTest {
     }
 
     @Test
+    void shouldAddSectionEntry() {
+        // given
+        var menuVersion = givenMenuVersion(1);
+        var section = menuVersion.addSection(givenMenuSectionName(1));
+        var entry = givenMenuEntry(1);
+
+        // when
+        menuVersion.addSectionEntry(section.getId(), entry);
+
+        // then
+        assertThat(menuVersion.getSections().getFirst().getEntries()).containsExactly(entry);
+    }
+
+    @Test
+    void shouldUpdateSectionEntry() {
+        // given
+        var menuVersion = givenMenuVersion(1);
+        var section = menuVersion.addSection(givenMenuSectionName(1));
+        var existingEntry = givenMenuEntry(1);
+        menuVersion.addSectionEntry(section.getId(), existingEntry);
+
+        var newDishId = givenMenuEntryDishId(1);
+        var newPrice = givenMenuEntryPrice(1);
+
+        // when
+        var result = menuVersion.updateSectionEntry(section.getId(), existingEntry.getId(), newDishId, newPrice);
+
+        // then
+        assertThat(result.getId()).isEqualTo(existingEntry.getId());
+        assertThat(result.getDishId()).isEqualTo(newDishId);
+        assertThat(result.getPrice()).isEqualTo(newPrice);
+    }
+
+    @Test
     void shouldReturnDeepCopy_WhenCreateNextDraft() {
         // given
         var original = givenMenuVersion(1);
         var section = original.addSection(givenMenuSectionName(1));
-//        original.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        original.addSectionEntry(section.getId(), givenMenuEntry(1));
         original.publish();
 
         // when
@@ -263,7 +297,7 @@ class MenuVersionTest {
         var draft = givenMenuVersion(1);
         var archived = givenMenuVersion(2);
         var section = archived.addSection(givenMenuSectionName(1));
-//        archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+        archived.addSectionEntry(section.getId(), givenMenuEntry(1));
         archived.publish();
         archived.archive(Instant.now());
 

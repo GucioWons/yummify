@@ -3,8 +3,6 @@ package com.guciowons.yummify.menu.domain.entity;
 import com.guciowons.yummify.menu.domain.exception.MenuEntryNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,6 +22,51 @@ class MenuSectionTest {
         assertThat(result.getName()).isEqualTo(name);
         assertThat(result.getPosition()).isEqualTo(position);
         assertThat(result.getEntries()).isEmpty();
+    }
+
+    @Test
+    void shouldAddMenuEntry() {
+        // given
+        var section = givenMenuSection(1);
+        var entry = givenMenuEntry(1);
+
+        // when
+        section.addEntry(entry);
+
+        // then
+        assertThat(section.getEntries()).containsExactly(entry);
+    }
+
+    @Test
+    void shouldUpdateMenuEntry() {
+        // given
+        var section = givenMenuSection(1);
+        var existingEntry = givenMenuEntry(1);
+        section.addEntry(existingEntry);
+
+        var newDishId = givenMenuEntryDishId(2);
+        var newPrice = givenMenuEntryPrice(2);
+
+        // when
+        var result = section.updateEntry(existingEntry.getId(), newDishId, newPrice);
+
+        // then
+        assertThat(result.getId()).isEqualTo(existingEntry.getId());
+        assertThat(result.getDishId()).isEqualTo(newDishId);
+        assertThat(result.getPrice()).isEqualTo(newPrice);
+    }
+
+    @Test
+    void shouldNotUpdateMenuEntryAndThrowException_WhenMenuEntryDoesNotExist() {
+        // given
+        var section = givenMenuSection(1);
+        var entryId = givenMenuEntryId(1);
+        var newDishId = givenMenuEntryDishId(2);
+        var newPrice = givenMenuEntryPrice(2);
+
+        // when
+        assertThatThrownBy(() -> section.updateEntry(entryId, newDishId, newPrice))
+                .isInstanceOf(MenuEntryNotFoundException.class);
     }
 
     @Test
