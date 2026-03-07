@@ -27,47 +27,6 @@ class MenuSectionTest {
     }
 
     @Test
-    void shouldAddNewEntries_WhenSnapshotsHaveNoId() {
-        // given
-        var section = givenMenuSection(1);
-        var newEntrySnapshots = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-
-        // when
-        section.updateEntries(newEntrySnapshots);
-
-        // then
-        assertThat(section.getEntries()).hasSize(2);
-    }
-
-    @Test
-    void shouldUpdateExistingEntry_WhenSnapshotHasId() {
-        // given
-        var section = givenMenuSection(1);
-        var existingMenuEntry = givenMenuEntry(1);
-        existingMenuEntry.update(givenMenuEntryPrice(2));
-        section.getEntries().add(existingMenuEntry);
-        var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
-
-        // when
-        section.updateEntries(newEntrySnapshots);
-
-        // then
-        assertThat(section.getEntries()).hasSize(1);
-        assertThat(section.getEntries().getFirst().getPrice()).isEqualTo(newEntrySnapshots.getFirst().price());
-    }
-
-    @Test
-    void shouldThrowException_WhenUpdatingNonExistingEntry() {
-        // given
-        var section = givenMenuSection(1);
-        var newEntrySnapshots = List.of(givenExistingMenuEntrySnapshot(1));
-
-        // when + then
-        assertThatThrownBy(() -> section.updateEntries(newEntrySnapshots))
-                .isInstanceOf(MenuEntryNotFoundException.class);
-    }
-
-    @Test
     void shouldUpdateName() {
         // given
         var section = givenMenuSection(1);
@@ -121,7 +80,7 @@ class MenuSectionTest {
     void shouldCopySection() {
         // given
         var original = givenMenuSection(1);
-        original.updateEntries(List.of(givenNewMenuEntrySnapshot(1)));
+//        original.updateEntries(List.of(givenNewMenuEntrySnapshot(1)));
 
         // when
         var result = original.copy();

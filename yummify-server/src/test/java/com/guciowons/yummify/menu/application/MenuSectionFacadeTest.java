@@ -3,7 +3,6 @@ package com.guciowons.yummify.menu.application;
 import com.guciowons.yummify.menu.application.section.model.mapper.MenuSectionCommandMapper;
 import com.guciowons.yummify.menu.application.section.MenuSectionFacade;
 import com.guciowons.yummify.menu.application.section.usecase.CreateMenuSectionUsecase;
-import com.guciowons.yummify.menu.application.usecase.UpdateMenuSectionEntriesUsecase;
 import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionNameUsecase;
 import com.guciowons.yummify.menu.application.section.usecase.UpdateMenuSectionPositionUsecase;
 import org.junit.jupiter.api.Test;
@@ -18,14 +17,12 @@ import static org.mockito.Mockito.*;
 
 class MenuSectionFacadeTest {
     private final CreateMenuSectionUsecase createMenuSectionUsecase = mock(CreateMenuSectionUsecase.class);
-    private final UpdateMenuSectionEntriesUsecase updateMenuSectionEntriesUsecase = mock(UpdateMenuSectionEntriesUsecase.class);
     private final UpdateMenuSectionNameUsecase updateMenuSectionNameUsecase = mock(UpdateMenuSectionNameUsecase.class);
     private final UpdateMenuSectionPositionUsecase updateMenuSectionPositionUsecase = mock(UpdateMenuSectionPositionUsecase.class);
     private final MenuSectionCommandMapper menuSectionCommandMapper = mock(MenuSectionCommandMapper.class);
 
     private final MenuSectionFacade underTest = new MenuSectionFacade(
             createMenuSectionUsecase,
-            updateMenuSectionEntriesUsecase,
             updateMenuSectionNameUsecase,
             updateMenuSectionPositionUsecase,
             menuSectionCommandMapper
@@ -48,29 +45,6 @@ class MenuSectionFacadeTest {
         // then
         verify(menuSectionCommandMapper).toCreateMenuSectionCommand(restaurantId, name);
         verify(createMenuSectionUsecase).create(command);
-
-        assertThat(result).isEqualTo(menuSection);
-    }
-
-    @Test
-    void shouldUpdateMenuSectionEntries() {
-        // given
-        var sectionId = givenMenuSectionId(1);
-        var restaurantId = givenMenuVersionRestaurantId(1).value();
-        var entrySnapshots = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-        var command = givenUpdateMenuSectionEntriesCommand(sectionId);
-        var menuSection = givenMenuSection(1);
-
-        when(menuSectionCommandMapper.toUpdateMenuSectionEntriesCommand(sectionId.value(), restaurantId, entrySnapshots))
-                .thenReturn(command);
-        when(updateMenuSectionEntriesUsecase.update(command)).thenReturn(menuSection);
-
-        // when
-        var result = underTest.updateEntries(sectionId.value(), restaurantId, entrySnapshots);
-
-        // then
-        verify(menuSectionCommandMapper).toUpdateMenuSectionEntriesCommand(sectionId.value(), restaurantId, entrySnapshots);
-        verify(updateMenuSectionEntriesUsecase).update(command);
 
         assertThat(result).isEqualTo(menuSection);
     }

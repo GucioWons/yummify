@@ -8,8 +8,6 @@ import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -28,14 +26,6 @@ public class MenuApplicationFixture {
 
     public static GetArchivedMenuVersionQuery givenGetArchivedMenuVersionQuery() {
         return new GetArchivedMenuVersionQuery(givenMenuVersionId(1), givenMenuVersionRestaurantId(1));
-    }
-
-    public static UpdateMenuSectionEntriesCommand givenUpdateMenuSectionEntriesCommand(MenuSection.Id sectionId) {
-        return new UpdateMenuSectionEntriesCommand(
-                sectionId,
-                givenMenuVersionRestaurantId(1),
-                List.of(givenNewMenuEntrySnapshot(1))
-        );
     }
 
     public static UpdateMenuSectionNameCommand givenUpdateMenuSectionNameCommand(MenuSection.Id sectionId) {

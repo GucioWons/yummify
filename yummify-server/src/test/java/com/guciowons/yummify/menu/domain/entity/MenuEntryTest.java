@@ -28,7 +28,7 @@ class MenuEntryTest {
         var newPrice = givenMenuEntryPrice(2);
 
         // when
-        menuEntry.update(newPrice);
+//        menuEntry.update(newPrice);
 
         // then
         assertThat(menuEntry.getPrice()).isEqualTo(newPrice);

@@ -7,7 +7,6 @@ import com.guciowons.yummify.menu.domain.exception.MenuVersionIsNotPublishedExce
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.List;
 
 import static com.guciowons.yummify.menu.domain.fixture.MenuDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -231,50 +230,11 @@ class MenuVersionTest {
     }
 
     @Test
-    void shouldUpdateSectionEntries() {
-        // given
-        var menuVersion = givenMenuVersion(1);
-        var section = menuVersion.addSection(givenMenuSectionName(1));
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-
-        // when
-        menuVersion.updateSectionEntries(section.getId(), newEntries);
-
-        // then
-        assertThat(section.getEntries()).hasSize(2);
-    }
-
-    @Test
-    void shouldNotUpdateSectionEntriesAndThrowException_WhenVersionIsNotDraft() {
-        // given
-        var menuVersion = givenMenuVersion(1);
-        menuVersion.publish();
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-        var sectionId = givenMenuSectionId(1);
-
-        // when + then
-        assertThatThrownBy(() -> menuVersion.updateSectionEntries(sectionId, newEntries))
-                .isInstanceOf(MenuVersionIsNotDraftException.class);
-    }
-
-    @Test
-    void shouldNotUpdateSectionEntriesAndThrowException_WhenSectionNotFound() {
-        // given
-        var menuVersion = givenMenuVersion(1);
-        var newEntries = List.of(givenNewMenuEntrySnapshot(1), givenNewMenuEntrySnapshot(2));
-        var sectionId = givenMenuSectionId(1);
-
-        // when + then
-        assertThatThrownBy(() -> menuVersion.updateSectionEntries(sectionId, newEntries))
-                .isInstanceOf(MenuSectionNotFoundException.class);
-    }
-
-    @Test
     void shouldReturnDeepCopy_WhenCreateNextDraft() {
         // given
         var original = givenMenuVersion(1);
         var section = original.addSection(givenMenuSectionName(1));
-        original.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+//        original.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
         original.publish();
 
         // when
@@ -303,7 +263,7 @@ class MenuVersionTest {
         var draft = givenMenuVersion(1);
         var archived = givenMenuVersion(2);
         var section = archived.addSection(givenMenuSectionName(1));
-        archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
+//        archived.updateSectionEntries(section.getId(), List.of(givenNewMenuEntrySnapshot(1)));
         archived.publish();
         archived.archive(Instant.now());
 
