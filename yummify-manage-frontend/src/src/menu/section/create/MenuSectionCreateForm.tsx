@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {menuService} from "../../service/menuService.ts";
-import MenuSectionForm from "../../display/MenuSectionForm.tsx";
+import MenuSectionForm from "../form/MenuSectionForm.tsx";
 import {Dtos} from "../../../common/dtos.ts";
 import CreateMenuSectionRequest = Dtos.CreateMenuSectionRequest;
 

@@ -1,5 +1,5 @@
 import {Dtos} from "../../../common/dtos.ts";
-import MenuSectionForm from "../MenuSectionForm.tsx";
+import MenuSectionForm from "../form/MenuSectionForm.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {menuService} from "../../service/menuService.ts";
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;

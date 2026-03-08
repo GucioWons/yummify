@@ -1,10 +1,10 @@
 import {useQuery} from "@tanstack/react-query";
-import {Dtos} from "../../../common/dtos.ts";
-import {menuService} from "../../service/menuService.ts";
+import {Dtos} from "../../common/dtos.ts";
+import {menuService} from "../service/menuService.ts";
 import {useState} from "react";
-import MenuSectionsBar from "./section/MenuSectionsBar.tsx";
-import MenuEntryList from "./entry/MenuEntryList.tsx";
-import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
+import MenuSectionsBar from "../section/display/MenuSectionsBar.tsx";
+import MenuEntryList from "../entry/list/MenuEntryList.tsx";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 
 function PublishedMenuDisplay() {

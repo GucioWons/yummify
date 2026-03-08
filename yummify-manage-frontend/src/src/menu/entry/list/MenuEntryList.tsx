@@ -1,11 +1,11 @@
-import {Dtos} from "../../../../common/dtos.ts";
-import List from "../../../../common/list/List.tsx";
+import {Dtos} from "../../../common/dtos.ts";
+import List from "../../../common/list/List.tsx";
 import MenuEntryListElement from "./MenuEntryListElement.tsx";
-import Button from "../../../../common/button/Button.tsx";
+import Button from "../../../common/button/Button.tsx";
 import {Plus} from "lucide-react";
-import MenuEntryCreateModal from "../../draft/MenuEntryCreateModal.tsx";
+import MenuEntryCreateModal from "../create/MenuEntryCreateModal.tsx";
 import {useState} from "react";
-import MenuEntryUpdateModal from "../../draft/MenuEntryUpdateModal.tsx";
+import MenuEntryUpdateModal from "../update/MenuEntryUpdateModal.tsx";
 import MenuEntryDto = Dtos.MenuEntryDto;
 
 export interface MenuEntryListProps {

@@ -1,15 +1,15 @@
-import DraftMenuSectionBar from "./section/DraftMenuSectionBar.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {menuService} from "../../service/menuService.ts";
+import {menuService} from "../service/menuService.ts";
 import {useState} from "react";
-import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
-import {Dtos} from "../../../common/dtos.ts";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
+import {Dtos} from "../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
-import MenuEntryList from "../published/entry/MenuEntryList.tsx";
+import MenuEntryList from "../entry/list/MenuEntryList.tsx";
 import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 import "./DraftMenuDisplay.css";
-import MenuSectionNamesModal from "./MenuSectionNamesModal.tsx";
-import MenuSectionCreateModal from "../../create/section/MenuSectionCreateModal.tsx";
+import MenuSectionNamesModal from "../section/display/MenuSectionNamesModal.tsx";
+import MenuSectionCreateModal from "../section/create/MenuSectionCreateModal.tsx";
+import MenuSectionsBar from "../section/display/MenuSectionsBar.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
@@ -35,10 +35,11 @@ function DraftMenuDisplay() {
     return (
         <div className="menu-display">
             <DraftMenuInfoTile />
-            <DraftMenuSectionBar
+            <MenuSectionsBar
                 sections={sections}
                 activeSectionId={activeSection.id}
                 setActiveSectionId={setActiveSectionId}
+                isDraft
                 onSectionNamesButtonClick={() => setIsNamesModalOpen(true)}
                 onAddSectionButtonClick={() => setIsAddSectionModalOpen(true)}
             />

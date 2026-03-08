@@ -1,18 +1,26 @@
-import {Dtos} from "../../../../common/dtos.ts";
+import {Dtos} from "../../../common/dtos.ts";
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;
-import Button from "../../../../common/button/Button.tsx";
 import {Plus, Settings} from "lucide-react";
+import Button from "../../../common/button/Button.tsx";
 
-export interface DraftMenuSectionBarProps {
+export interface MenuSectionsBarProps {
     sections: MenuSectionManageDto[];
     activeSectionId: string | null;
     setActiveSectionId: (sectionId: string) => void;
-    onSectionNamesButtonClick: () => void;
-    onAddSectionButtonClick: () => void;
+    isDraft?: boolean;
+    onSectionNamesButtonClick?: () => void;
+    onAddSectionButtonClick?: () => void;
 }
 
-function DraftMenuSectionBar(props: DraftMenuSectionBarProps) {
-    const {sections, activeSectionId, setActiveSectionId, onSectionNamesButtonClick, onAddSectionButtonClick} = props;
+function MenuSectionsBar(props: MenuSectionsBarProps) {
+    const {
+        isDraft,
+        sections,
+        activeSectionId,
+        setActiveSectionId,
+        onSectionNamesButtonClick,
+        onAddSectionButtonClick
+    } = props;
 
     return (
         <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 12}}>
@@ -31,10 +39,14 @@ function DraftMenuSectionBar(props: DraftMenuSectionBarProps) {
                     );
                 })}
             </div>
-            <Button text="Add Section" icon={Plus} onClick={onAddSectionButtonClick} />
-            <Button text="Section Names" icon={Settings} outlined onClick={onSectionNamesButtonClick} />
+            {isDraft && onAddSectionButtonClick &&
+                <Button text="Add Section" icon={Plus} onClick={onAddSectionButtonClick} />
+            }
+            {isDraft && onSectionNamesButtonClick &&
+                <Button text="Section Names" icon={Settings} outlined onClick={onSectionNamesButtonClick} />
+            }
         </div>
     )
 }
 
-export default DraftMenuSectionBar;
+export default MenuSectionsBar;
