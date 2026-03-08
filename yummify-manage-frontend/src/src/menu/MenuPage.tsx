@@ -1,34 +1,34 @@
 import PageTitle from "../common/PageTitle.tsx";
-import Button from "../common/button/Button.tsx";
-import {ClipboardClock} from "lucide-react";
 import PublishedMenuDisplay from "./published/PublishedMenuDisplay.tsx";
 import {useState} from "react";
 import DraftMenuDisplay from "./draft/DraftMenuDisplay.tsx";
 import "./MenuPage.css"
+import MenuPageTitleButtons from "./MenuPageTitleButtons.tsx";
+import MenuPageButtons from "./MenuPageButtons.tsx";
 
 function MenuPage() {
     const [selectedMenu, setSelectedMenu] = useState<"published" | "draft">("published")
+
+    const isDraft = selectedMenu === "draft"
+    const isPublished = selectedMenu === "published"
 
     return (
         <>
             <PageTitle
                 title='Menu'
                 description='View and organize your restaurant menu'
-                button={
-                    <Button
-                        text='Versions'
-                        icon={ClipboardClock}
-                        onClick={() => {}}
-                    />
-                }
+                button={<MenuPageTitleButtons isDraft={isDraft}/>}
             />
-            <div style={{display: 'flex', gap: 8, paddingBottom: 16}}>
-                <Button text="Published Menu" outlined={selectedMenu === "published"} onClick={() => setSelectedMenu("published")} />
-                <Button text="Draft Menu" outlined={selectedMenu === "draft"} onClick={() => setSelectedMenu("draft")} />
-            </div>
 
-            {selectedMenu === "published" && <PublishedMenuDisplay />}
-            {selectedMenu === "draft" && <DraftMenuDisplay />}
+            <MenuPageButtons
+                isDraft={isDraft}
+                isPublished={isPublished}
+                onDraftClick={() => setSelectedMenu("draft")}
+                onPublishedClick={() => setSelectedMenu("published")}
+            />
+
+            {isPublished && <PublishedMenuDisplay />}
+            {isDraft && <DraftMenuDisplay />}
         </>
     );
 }

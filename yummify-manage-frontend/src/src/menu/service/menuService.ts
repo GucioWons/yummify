@@ -15,6 +15,10 @@ export const menuService = {
         return axiosInstance.get<MenuVersionManageDto>('menu-versions/draft');
     },
 
+    async publishMenuVersion() {
+        return axiosInstance.post<MenuVersionManageDto>('menu-versions/publish');
+    },
+
     async createMenuSection(data: CreateMenuSectionRequest) {
         return axiosInstance.post<CreateMenuSectionRequest, MenuSectionManageDto>('menu-versions/sections', data);
     },
