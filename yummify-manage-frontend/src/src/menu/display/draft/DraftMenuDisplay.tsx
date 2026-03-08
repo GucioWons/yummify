@@ -19,8 +19,10 @@ function DraftMenuDisplay() {
     });
 
     const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
-    const [isNamesModalOpen, setIsNamesModalOpen] = useState<boolean>(false);
-    const [isAddSectionModalOpen, setIsAddSectionModalOpen] = useState<boolean>(false);
+
+    const [isNamesModalOpen, setIsNamesModalOpen] = useState(false);
+    const [isAddSectionModalOpen, setIsAddSectionModalOpen] = useState(false);
+    const [isAddEntryModalOpen, setIsAddEntryModalOpen] = useState(false);
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
@@ -41,9 +43,10 @@ function DraftMenuDisplay() {
                 onSectionNamesButtonClick={() => setIsNamesModalOpen(true)}
                 onAddSectionButtonClick={() => setIsAddSectionModalOpen(true)}
             />
-            <MenuEntryList entries={activeSection.entries} />
+            <MenuEntryList entries={activeSection.entries} isDraft onAddEntryClick={() => setIsAddEntryModalOpen(true)} />
             {isNamesModalOpen && <MenuSectionNamesModal sections={sections} onClose={() => setIsNamesModalOpen(false)} />}
             {isAddSectionModalOpen && <MenuSectionCreateModal onClose={() => setIsAddSectionModalOpen(false)} />}
+            {isAddEntryModalOpen}
         </div>
     )
 }

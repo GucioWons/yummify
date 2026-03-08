@@ -5,21 +5,25 @@ export interface ListProps<T> {
     items: T[];
     onItemClick?: (item: T) => void;
     renderItem: (item: T) => React.ReactNode;
+    firstElement?: React.ReactNode;
 }
 
 function List<T>(props: ListProps<T>) {
     const {
         items,
         onItemClick,
-        renderItem
+        renderItem,
+        firstElement
     } = props;
 
     return (
         <div
             style={{
                 display: "grid",
+                gap: "8px"
             }}
         >
+            {firstElement}
             {items.map((item, i) =>
                 <ListElement
                     key={i}
