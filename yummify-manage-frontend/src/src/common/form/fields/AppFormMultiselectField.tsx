@@ -26,12 +26,11 @@ function AppFormMultiselectField<Object extends FieldValues, Option, Value>(prop
                     label={label}
                     labelPosition={labelPosition}
                     placeholder={placeholder}
-                    value={field.value ?? []}
-                    onChange={(values) => field.onChange(values)}
+                    selectedOptions={field.value ?? []}
+                    onChange={(values) => field.onChange(values.map(getOptionValue))}
                     options={options}
                     getOptionLabel={getOptionLabel}
                     getOptionKey={getOptionKey}
-                    getOptionValue={getOptionValue}
                 />
             )}
         />
