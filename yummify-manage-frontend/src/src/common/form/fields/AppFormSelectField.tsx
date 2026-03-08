@@ -8,12 +8,11 @@ export interface AppFormSelectFieldProps<Object extends FieldValues, Option, Val
     placeholder?: string;
     options: Option[]
     getOptionLabel: (option: Option) => string
-    getOptionKey: (option: Option) => string
     getOptionValue: (option: Option) => Value
 }
 
 function AppFormSelectField<Object extends FieldValues, Option, Value>(props: AppFormSelectFieldProps<Object, Option, Value>) {
-    const {name, label, labelPosition, placeholder, options, getOptionLabel, getOptionKey, getOptionValue} = props;
+    const {name, label, labelPosition, placeholder, options, getOptionLabel, getOptionValue} = props;
 
     const { control } = useFormContext<Object>();
 
@@ -34,7 +33,6 @@ function AppFormSelectField<Object extends FieldValues, Option, Value>(props: Ap
                         onChange={(values) => field.onChange(getOptionValue(values))}
                         options={options}
                         getOptionLabel={getOptionLabel}
-                        getOptionKey={getOptionKey}
                     />
                 );
             }}

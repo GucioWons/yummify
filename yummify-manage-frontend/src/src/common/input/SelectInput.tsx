@@ -7,7 +7,6 @@ export interface SelectInputProps<Option> extends Omit<InputProps, "onChange"> {
     selectedOption?: Option;
     onChange: (option: Option) => void;
     getOptionLabel: (option: Option) => string
-    getOptionKey: (option: Option) => string
 }
 
 function SelectInput<Option>(props: SelectInputProps<Option>) {
@@ -19,7 +18,6 @@ function SelectInput<Option>(props: SelectInputProps<Option>) {
         selectedOption,
         onChange,
         getOptionLabel,
-        getOptionKey
     } = props;
 
     const handleChange = (newValue: SingleValue<Option>) => {
@@ -88,7 +86,6 @@ function SelectInput<Option>(props: SelectInputProps<Option>) {
                 }}
                 isSearchable={false}
                 getOptionLabel={(option) => getOptionLabel(option)}
-                getOptionValue={(option) => getOptionKey(option)}
             />
         </div>
     );
