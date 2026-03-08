@@ -1,5 +1,7 @@
 import Button from "../common/button/Button.tsx";
 import {ClipboardClock, Save} from "lucide-react";
+import {menuService} from "./service/menuService.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export interface MenuPageTitleButtonsProps {
     isDraft?: boolean;
@@ -7,6 +9,14 @@ export interface MenuPageTitleButtonsProps {
 
 function MenuPageTitleButtons(props: MenuPageTitleButtonsProps) {
     const {isDraft} = props;
+
+    const queryClient = useQueryClient();
+
+    const handlePublish = useMutation({
+        mutationFn: () => menuService.publishMenuVersion(),
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ["menu-versions", "draft"]}),
+        onError: (error) => console.error("Unexpected error:", error),
+    });
 
     return (
         <div style={{
@@ -22,7 +32,7 @@ function MenuPageTitleButtons(props: MenuPageTitleButtonsProps) {
                 <Button
                     text='Publish'
                     icon={Save}
-                    onClick={() => {}}
+                    onClick={handlePublish.mutate}
                 />
             }
         </div>
