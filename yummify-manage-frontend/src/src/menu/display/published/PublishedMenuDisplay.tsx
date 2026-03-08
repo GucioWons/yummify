@@ -9,7 +9,7 @@ import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 
 function PublishedMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
-        queryKey: ["menu", "versions", "published"],
+        queryKey: ["menu-versions", "published"],
         queryFn: () => menuService.getPublishedMenuVersion().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
@@ -33,7 +33,7 @@ function PublishedMenuDisplay() {
                 setActiveSectionId={setActiveSectionId}
             />
 
-            <MenuEntryList entries={activeSection.entries} />
+            <MenuEntryList sectionId={activeSection.id} entries={activeSection.entries} />
         </div>
     );
 }

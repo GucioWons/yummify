@@ -20,7 +20,7 @@ function MenuSectionUpdateForm(props: MenuSectionUpdateFormProps) {
             return menuService.updateMenuSectionName(section.id, data);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["menu", "versions", "draft"]})
+            queryClient.invalidateQueries({queryKey: ["menu-versions", "draft"]})
                 .then(() => onCancel());
         },
         onError: (error) => {

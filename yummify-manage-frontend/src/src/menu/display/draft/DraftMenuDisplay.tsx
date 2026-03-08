@@ -10,11 +10,10 @@ import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 import "./DraftMenuDisplay.css";
 import MenuSectionNamesModal from "./MenuSectionNamesModal.tsx";
 import MenuSectionCreateModal from "../../create/section/MenuSectionCreateModal.tsx";
-import MenuEntryCreateModal from "./MenuEntryCreateModal.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
-        queryKey: ["menu", "versions", "draft"],
+        queryKey: ["menu-versions", "draft"],
         queryFn: () => menuService.getDraftMenuVersion().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
@@ -23,7 +22,6 @@ function DraftMenuDisplay() {
 
     const [isNamesModalOpen, setIsNamesModalOpen] = useState(false);
     const [isAddSectionModalOpen, setIsAddSectionModalOpen] = useState(false);
-    const [isAddEntryModalOpen, setIsAddEntryModalOpen] = useState(false);
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
@@ -44,10 +42,9 @@ function DraftMenuDisplay() {
                 onSectionNamesButtonClick={() => setIsNamesModalOpen(true)}
                 onAddSectionButtonClick={() => setIsAddSectionModalOpen(true)}
             />
-            <MenuEntryList entries={activeSection.entries} isDraft onAddEntryClick={() => setIsAddEntryModalOpen(true)} />
+            <MenuEntryList entries={activeSection.entries} sectionId={activeSection.id} isDraft />
             {isNamesModalOpen && <MenuSectionNamesModal sections={sections} onClose={() => setIsNamesModalOpen(false)} />}
             {isAddSectionModalOpen && <MenuSectionCreateModal onClose={() => setIsAddSectionModalOpen(false)} />}
-            {isAddEntryModalOpen && <MenuEntryCreateModal sectionId={activeSection.id} onClose={() => setIsAddEntryModalOpen(false)} />}
         </div>
     )
 }

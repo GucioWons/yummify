@@ -18,7 +18,7 @@ function MenuSectionCreateForm(props: MenuSectionCreateFormProps) {
             return menuService.createMenuSection(data);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["menu", "versions", "draft"]})
+            queryClient.invalidateQueries({queryKey: ["menu-versions", "draft"]})
                 .then(() => onCancel());
         },
         onError: (error) => {

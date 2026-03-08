@@ -28,5 +28,9 @@ export const menuService = {
 
     async createMenuEntry(sectionId: string, data: MenuEntryDto) {
         return axiosInstance.post<MenuEntryDto, MenuEntryDto>(`menu-versions/sections/${sectionId}/entries`, data);
+    },
+
+    async updateMenuEntry(id: string, sectionId: string, data: MenuEntryDto) {
+        return axiosInstance.put<MenuEntryDto, MenuEntryDto>(`menu-versions/sections/${sectionId}/entries/${id}`, data);
     }
 }
