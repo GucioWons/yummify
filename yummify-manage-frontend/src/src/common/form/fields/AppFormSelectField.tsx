@@ -21,18 +21,23 @@ function AppFormSelectField<Object extends FieldValues, Option, Value>(props: Ap
         <Controller
             name={name}
             control={control}
-            render={({ field }) => (
-                <SelectInput
-                    label={label}
-                    labelPosition={labelPosition}
-                    placeholder={placeholder}
-                    selectedOption={field.value}
-                    onChange={(values) => field.onChange(getOptionValue(values))}
-                    options={options}
-                    getOptionLabel={getOptionLabel}
-                    getOptionKey={getOptionKey}
-                />
-            )}
+            render={({ field }) => {
+                const selectedOption = options
+                    .find((option) => getOptionValue(option) === field.value);
+
+                return (
+                    <SelectInput
+                        label={label}
+                        labelPosition={labelPosition}
+                        placeholder={placeholder}
+                        selectedOption={selectedOption}
+                        onChange={(values) => field.onChange(getOptionValue(values))}
+                        options={options}
+                        getOptionLabel={getOptionLabel}
+                        getOptionKey={getOptionKey}
+                    />
+                );
+            }}
         />
     );
 }

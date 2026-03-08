@@ -1,5 +1,6 @@
 import Select, {SingleValue} from "react-select";
 import {InputProps} from "./Input.tsx";
+import "./SelectInput.css"
 
 export interface SelectInputProps<Option> extends Omit<InputProps, "onChange"> {
     options: Option[];
@@ -28,7 +29,7 @@ function SelectInput<Option>(props: SelectInputProps<Option>) {
     };
 
     return (
-        <div className={`multiselect container-${labelPosition}`}>
+        <div className={`select container-${labelPosition}`}>
             <label>{label}</label>
             <Select
                 options={options}
@@ -37,6 +38,10 @@ function SelectInput<Option>(props: SelectInputProps<Option>) {
                 placeholder={placeholder}
                 menuPortalTarget={document.body}
                 styles={{
+                    container: (base) => ({
+                        ...base,
+                        width: "100%"
+                    }),
                     menuPortal: (base) => ({
                         ...base,
                         zIndex: 9999

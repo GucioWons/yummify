@@ -10,6 +10,7 @@ import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 import "./DraftMenuDisplay.css";
 import MenuSectionNamesModal from "./MenuSectionNamesModal.tsx";
 import MenuSectionCreateModal from "../../create/section/MenuSectionCreateModal.tsx";
+import MenuEntryCreateModal from "./MenuEntryCreateModal.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
@@ -46,7 +47,7 @@ function DraftMenuDisplay() {
             <MenuEntryList entries={activeSection.entries} isDraft onAddEntryClick={() => setIsAddEntryModalOpen(true)} />
             {isNamesModalOpen && <MenuSectionNamesModal sections={sections} onClose={() => setIsNamesModalOpen(false)} />}
             {isAddSectionModalOpen && <MenuSectionCreateModal onClose={() => setIsAddSectionModalOpen(false)} />}
-            {isAddEntryModalOpen}
+            {isAddEntryModalOpen && <MenuEntryCreateModal sectionId={activeSection.id} onClose={() => setIsAddEntryModalOpen(false)} />}
         </div>
     )
 }

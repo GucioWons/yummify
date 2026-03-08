@@ -29,7 +29,8 @@ function Multiselect<Option>(props: MultiselectProps<Option>) {
             borderRadius: "8px",
             boxShadow: "none",
             fontSize: "14px",
-            fontFamily: "Inter, sans-serif"
+            fontFamily: "Inter, sans-serif",
+            width: "100%"
         };
     }
 
@@ -115,6 +116,10 @@ function Multiselect<Option>(props: MultiselectProps<Option>) {
                 getOptionValue={getOptionKey}
                 menuPortalTarget={document.body}
                 styles={{
+                    container: (base) => ({
+                        ...base,
+                        width: "100%"
+                    }),
                     menuPortal: (base) => ({
                         ...base,
                         zIndex: 9999

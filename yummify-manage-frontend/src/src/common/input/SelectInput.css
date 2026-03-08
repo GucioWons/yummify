@@ -1,6 +1,11 @@
-.multiselect.container-top {
+.select.container-top {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+}
+
+.select.input {
+    width: 100%;
+    display: block;
 }

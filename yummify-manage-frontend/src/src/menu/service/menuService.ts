@@ -4,6 +4,7 @@ import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;
 import CreateMenuSectionRequest = Dtos.CreateMenuSectionRequest;
 import UpdateMenuSectionNameRequest = Dtos.UpdateMenuSectionNameRequest;
+import MenuEntryDto = Dtos.MenuEntryDto;
 
 export const menuService = {
     async getPublishedMenuVersion() {
@@ -23,5 +24,9 @@ export const menuService = {
             `menu-versions/sections/${sectionId}/name`,
             data
         );
+    },
+
+    async createMenuEntry(sectionId: string, data: MenuEntryDto) {
+        return axiosInstance.post<MenuEntryDto, MenuEntryDto>(`menu-versions/sections/${sectionId}/entries`, data);
     }
 }
