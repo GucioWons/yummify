@@ -15,7 +15,7 @@ public class DishValidator {
     private final IngredientExistencePort ingredientExistencePort;
 
     public void validate(List<UUID> ingredientIds, Dish.RestaurantId restaurantId) throws DishIngredientsNotFoundException {
-        if (ingredientIds.isEmpty()) {
+        if (ingredientIds == null || ingredientIds.isEmpty()) {
             return;
         }
 

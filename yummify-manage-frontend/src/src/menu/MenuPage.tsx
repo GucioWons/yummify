@@ -1,9 +1,9 @@
 import PageTitle from "../common/PageTitle.tsx";
 import Button from "../common/button/Button.tsx";
 import {ClipboardClock} from "lucide-react";
-import PublishedMenuDisplay from "./display/published/PublishedMenuDisplay.tsx";
+import PublishedMenuDisplay from "./published/PublishedMenuDisplay.tsx";
 import {useState} from "react";
-import DraftMenuDisplay from "./display/draft/DraftMenuDisplay.tsx";
+import DraftMenuDisplay from "./draft/DraftMenuDisplay.tsx";
 import "./MenuPage.css"
 
 function MenuPage() {

@@ -1,26 +1,27 @@
-import DraftMenuSectionBar from "./section/DraftMenuSectionBar.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {menuService} from "../../service/menuService.ts";
+import {menuService} from "../service/menuService.ts";
 import {useState} from "react";
-import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
-import {Dtos} from "../../../common/dtos.ts";
+import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
+import {Dtos} from "../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
-import MenuEntryList from "../published/entry/MenuEntryList.tsx";
+import MenuEntryList from "../entry/list/MenuEntryList.tsx";
 import DraftMenuInfoTile from "./DraftMenuInfoTile.tsx";
 import "./DraftMenuDisplay.css";
-import MenuSectionNamesModal from "./MenuSectionNamesModal.tsx";
-import MenuSectionCreateModal from "../../create/section/MenuSectionCreateModal.tsx";
+import MenuSectionNamesModal from "../section/display/MenuSectionNamesModal.tsx";
+import MenuSectionCreateModal from "../section/create/MenuSectionCreateModal.tsx";
+import MenuSectionsBar from "../section/display/MenuSectionsBar.tsx";
 
 function DraftMenuDisplay() {
     const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
-        queryKey: ["menu", "versions", "draft"],
+        queryKey: ["menu-versions", "draft"],
         queryFn: () => menuService.getDraftMenuVersion().then(res => res.data),
         staleTime: 1000 * 60 * 5,
     });
 
     const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
-    const [isNamesModalOpen, setIsNamesModalOpen] = useState<boolean>(false);
-    const [isAddSectionModalOpen, setIsAddSectionModalOpen] = useState<boolean>(false);
+
+    const [isNamesModalOpen, setIsNamesModalOpen] = useState(false);
+    const [isAddSectionModalOpen, setIsAddSectionModalOpen] = useState(false);
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <div>Błąd podczas pobierania składniku.</div>;
@@ -34,14 +35,15 @@ function DraftMenuDisplay() {
     return (
         <div className="menu-display">
             <DraftMenuInfoTile />
-            <DraftMenuSectionBar
+            <MenuSectionsBar
                 sections={sections}
                 activeSectionId={activeSection.id}
                 setActiveSectionId={setActiveSectionId}
+                isDraft
                 onSectionNamesButtonClick={() => setIsNamesModalOpen(true)}
                 onAddSectionButtonClick={() => setIsAddSectionModalOpen(true)}
             />
-            <MenuEntryList entries={activeSection.entries} />
+            <MenuEntryList entries={activeSection.entries} sectionId={activeSection.id} isDraft />
             {isNamesModalOpen && <MenuSectionNamesModal sections={sections} onClose={() => setIsNamesModalOpen(false)} />}
             {isAddSectionModalOpen && <MenuSectionCreateModal onClose={() => setIsAddSectionModalOpen(false)} />}
         </div>

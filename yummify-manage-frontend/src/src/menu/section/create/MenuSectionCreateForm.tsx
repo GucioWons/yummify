@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {menuService} from "../../service/menuService.ts";
-import MenuSectionForm from "../../display/MenuSectionForm.tsx";
+import MenuSectionForm from "../form/MenuSectionForm.tsx";
 import {Dtos} from "../../../common/dtos.ts";
 import CreateMenuSectionRequest = Dtos.CreateMenuSectionRequest;
 
@@ -18,7 +18,7 @@ function MenuSectionCreateForm(props: MenuSectionCreateFormProps) {
             return menuService.createMenuSection(data);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["menu", "versions", "draft"]})
+            queryClient.invalidateQueries({queryKey: ["menu-versions", "draft"]})
                 .then(() => onCancel());
         },
         onError: (error) => {

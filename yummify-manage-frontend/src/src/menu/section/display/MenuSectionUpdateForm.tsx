@@ -1,5 +1,5 @@
 import {Dtos} from "../../../common/dtos.ts";
-import MenuSectionForm from "../MenuSectionForm.tsx";
+import MenuSectionForm from "../form/MenuSectionForm.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {menuService} from "../../service/menuService.ts";
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;
@@ -20,7 +20,7 @@ function MenuSectionUpdateForm(props: MenuSectionUpdateFormProps) {
             return menuService.updateMenuSectionName(section.id, data);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["menu", "versions", "draft"]})
+            queryClient.invalidateQueries({queryKey: ["menu-versions", "draft"]})
                 .then(() => onCancel());
         },
         onError: (error) => {

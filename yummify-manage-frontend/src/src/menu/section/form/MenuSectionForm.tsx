@@ -1,7 +1,7 @@
-import {Dtos} from "../../common/dtos.ts";
+import {Dtos} from "../../../common/dtos.ts";
 import MenuSectionManageDto = Dtos.MenuSectionManageDto;
-import AppFormTranslatedTextField from "../../common/form/fields/AppFormTranslatedTextField.tsx";
-import AppForm from "../../common/form/AppForm.tsx";
+import AppFormTranslatedTextField from "../../../common/form/fields/AppFormTranslatedTextField.tsx";
+import AppForm from "../../../common/form/AppForm.tsx";
 import Language = Dtos.Language;
 import UpdateMenuSectionNameRequest = Dtos.UpdateMenuSectionNameRequest;
 

@@ -21,6 +21,8 @@ function MenuSectionNamesModal(props: MenuSectionNamesModalProps) {
 
     const [selectedSection, setSelectedSection] = useState<MenuSectionManageDto>();
 
+    console.log(sections);
+
     return (
         <Modal title={getTitle()} onClose={onClose}>
             {isInEditState && selectedSection

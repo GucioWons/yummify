@@ -2,33 +2,25 @@ import {InputProps} from "./Input.tsx";
 import Select, {CSSObjectWithLabel} from "react-select";
 import "./Multiselect.css"
 
-export interface MultiselectProps<Option, Value> {
-    value: Value[];
-    onChange: (values: Value[]) => void;
+export interface MultiselectProps<Option> extends Omit<InputProps, "onChange"> {
     options: Option[]
+    selectedOptions: Option[];
+    onChange: (values: Option[]) => void;
     getOptionLabel: (option: Option) => string
     getOptionKey: (option: Option) => string
-    getOptionValue: (option: Option) => Value
 }
 
-function Multiselect<Option, Value>(
-    props: MultiselectProps<Option, Value> & InputProps
-) {
+function Multiselect<Option>(props: MultiselectProps<Option>) {
     const {
         label,
         labelPosition = "top",
         placeholder,
-        value,
+        selectedOptions,
         onChange,
         options,
         getOptionLabel,
         getOptionKey,
-        getOptionValue
     } = props;
-
-    const selectedOptions = value
-        ? options.filter(o => value.includes(getOptionValue(o)))
-        : [];
 
     function getControlStyle(base: CSSObjectWithLabel): CSSObjectWithLabel {
         return {
@@ -37,7 +29,8 @@ function Multiselect<Option, Value>(
             borderRadius: "8px",
             boxShadow: "none",
             fontSize: "14px",
-            fontFamily: "Inter, sans-serif"
+            fontFamily: "Inter, sans-serif",
+            width: "100%"
         };
     }
 
@@ -116,22 +109,26 @@ function Multiselect<Option, Value>(
                 className={"multiselect input"}
                 classNamePrefix={"multiselect"}
                 value={selectedOptions}
-                onChange={(selected) => onChange(selected ? selected.map(getOptionValue) : [])}
+                onChange={(selected) => onChange([...selected])}
                 options={options}
                 placeholder={placeholder}
                 getOptionLabel={getOptionLabel}
                 getOptionValue={getOptionKey}
                 menuPortalTarget={document.body}
                 styles={{
+                    container: (base) => ({
+                        ...base,
+                        width: "100%"
+                    }),
                     menuPortal: (base) => ({
                         ...base,
                         zIndex: 9999
                     }),
                     menu: (base) => ({
                         ...base,
-                        borderRadius: 8,             // zaokrąglone rogi
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.2)", // naturalny cień
-                        overflow: "visible",         // żeby padding/margin opcji nie był uciety
+                        borderRadius: 8,
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+                        overflow: "visible",
                         padding: 4
                     }),
                     control: (base) => getControlStyle(base),
