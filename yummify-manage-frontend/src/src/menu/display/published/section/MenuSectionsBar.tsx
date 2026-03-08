@@ -1,8 +1,8 @@
 import {Dtos} from "../../../../common/dtos.ts";
-import MenuSectionClientDto = Dtos.MenuSectionClientDto;
+import MenuSectionManageDto = Dtos.MenuSectionManageDto;
 
 export interface MenuSectionsBarProps {
-    sections: MenuSectionClientDto[];
+    sections: MenuSectionManageDto[];
     activeSectionId: string | null;
     setActiveSectionId: (sectionId: string) => void;
 }
@@ -21,7 +21,7 @@ function MenuSectionsBar(props: MenuSectionsBarProps) {
                         onClick={() => setActiveSectionId(section.id)}
                         className={`menu-section-bar-item ${active ? "active" : ""}`}
                     >
-                        {section.name}
+                        {section.name.translations["EN"]}
                     </button>
                 );
             })}

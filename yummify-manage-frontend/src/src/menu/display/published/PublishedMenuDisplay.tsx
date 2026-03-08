@@ -1,14 +1,14 @@
 import {useQuery} from "@tanstack/react-query";
 import {Dtos} from "../../../common/dtos.ts";
 import {menuService} from "../../service/menuService.ts";
-import MenuVersionClientDto = Dtos.MenuVersionClientDto;
 import {useState} from "react";
 import MenuSectionsBar from "./section/MenuSectionsBar.tsx";
 import MenuEntryList from "./entry/MenuEntryList.tsx";
 import LoadingSpinner from "../../../common/loading/LoadingSpinner.tsx";
+import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 
 function PublishedMenuDisplay() {
-    const {data, isLoading, isError} = useQuery<MenuVersionClientDto>({
+    const {data, isLoading, isError} = useQuery<MenuVersionManageDto>({
         queryKey: ["menu", "versions", "published"],
         queryFn: () => menuService.getPublishedMenuVersion().then(res => res.data),
         staleTime: 1000 * 60 * 5,
