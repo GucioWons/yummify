@@ -28,6 +28,10 @@ export const menuService = {
         return axiosInstance.post<MenuVersionManageDto>('menu-versions/publish');
     },
 
+    async restoreMenuVersion(id: string) {
+        return axiosInstance.post<MenuVersionManageDto>(`menu-versions/archived/${id}/restore`);
+    },
+
     async createMenuSection(data: CreateMenuSectionRequest) {
         return axiosInstance.post<CreateMenuSectionRequest, MenuSectionManageDto>('menu-versions/sections', data);
     },

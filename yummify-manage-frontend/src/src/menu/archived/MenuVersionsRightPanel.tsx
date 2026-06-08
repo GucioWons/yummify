@@ -6,12 +6,12 @@ import {formatDate} from "../../common/date/dateFormatter.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
 
-export interface MenuVersionsTemp2Props {
+export interface MenuVersionsRightPanelProps {
     selectedArchivedVersion: MenuVersionArchivedListDto | null;
     publishedVersion: MenuVersionManageDto;
 }
 
-function MenuVersionsTemp2(props: MenuVersionsTemp2Props) {
+function MenuVersionsRightPanel(props: MenuVersionsRightPanelProps) {
     const {selectedArchivedVersion, publishedVersion} = props;
 
     const {data: archived, isLoading: isArchivedLoading, isError: isArchivedError} = useQuery<MenuVersionManageDto>({
@@ -32,7 +32,6 @@ function MenuVersionsTemp2(props: MenuVersionsTemp2Props) {
     if (isArchivedLoading) return "Loading...";
     if (isArchivedError) return "Error...";
 
-    console.log(archived);
     return (
         <MenuVersionsPanel
             menuVersion={archived!}
@@ -41,4 +40,4 @@ function MenuVersionsTemp2(props: MenuVersionsTemp2Props) {
     )
 }
 
-export default MenuVersionsTemp2;
+export default MenuVersionsRightPanel;

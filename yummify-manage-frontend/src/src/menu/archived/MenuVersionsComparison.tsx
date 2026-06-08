@@ -10,7 +10,13 @@ import Divider from "../../common/divider/Divider.tsx";
 import MenuVersionsComparisonPanels from "./MenuVersionsComparisonPanels.tsx";
 import MenuVersionsComparisonButtons from "./MenuVersionsComparisonButtons.tsx";
 
-function MenuVersionsComparison() {
+export interface MenuVersionsComparisonProps {
+    onClose: () => void;
+}
+
+function MenuVersionsComparison(props: MenuVersionsComparisonProps) {
+    const {onClose} = props;
+
     const {data: draft, isLoading: isDraftLoading, isError: isDraftError} = useQuery<MenuVersionManageDto>({
         queryKey: ["menu-versions", "draft"],
         queryFn: () => menuService.getDraftMenuVersion().then(res => res.data),
@@ -54,7 +60,10 @@ function MenuVersionsComparison() {
                 published={published!}
             />
 
-            <MenuVersionsComparisonButtons/>
+            <MenuVersionsComparisonButtons
+                onClose={onClose}
+                selectedVersionId={selectedArchivedVersion?.id ?? 'todo'}
+            />
         </div>
     )
 

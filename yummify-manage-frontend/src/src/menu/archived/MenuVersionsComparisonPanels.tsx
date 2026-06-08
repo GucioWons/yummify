@@ -1,7 +1,7 @@
 import {Dtos} from "../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
-import MenuVersionsTemp2 from "./MenuVersionsTemp2.tsx";
+import MenuVersionsRightPanel from "./MenuVersionsRightPanel.tsx";
 import MenuVersionsPanel from "./MenuVersionsPanel.tsx";
 
 export interface MenuVersionsComparisonPanelsProps {
@@ -16,7 +16,7 @@ function MenuVersionsComparisonPanels(props: MenuVersionsComparisonPanelsProps) 
     return (
         <div className="menu-versions-comparison-panels">
             <MenuVersionsPanel menuVersion={draft!} title="Current"/>
-            <MenuVersionsTemp2 selectedArchivedVersion={selectedArchived} publishedVersion={published!}/>
+            <MenuVersionsRightPanel selectedArchivedVersion={selectedArchived} publishedVersion={published!}/>
         </div>
     );
 

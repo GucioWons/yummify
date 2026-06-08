@@ -10,7 +10,7 @@ function MenuVersionsModal(props: MenuVersionsModalProps) {
 
     return (
         <Modal title="Menu versions" onClose={onClose} fullWidth fullHeight>
-            <MenuVersionsComparison />
+            <MenuVersionsComparison onClose={onClose} />
         </Modal>
     );
 }
