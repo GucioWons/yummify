@@ -5,10 +5,11 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export interface MenuPageTitleButtonsProps {
     isDraft?: boolean;
+    onVersionsClick: () => void;
 }
 
 function MenuPageTitleButtons(props: MenuPageTitleButtonsProps) {
-    const {isDraft} = props;
+    const {isDraft, onVersionsClick} = props;
 
     const queryClient = useQueryClient();
 
@@ -26,7 +27,7 @@ function MenuPageTitleButtons(props: MenuPageTitleButtonsProps) {
             <Button
                 text='Versions'
                 icon={ClipboardClock}
-                onClick={() => {}}
+                onClick={onVersionsClick}
             />
             {isDraft &&
                 <Button

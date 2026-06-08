@@ -8,15 +8,17 @@ export interface ModalProps {
     subtitle?: string;
     onClose: () => void;
     children: ReactNode;
+    fullWidth?: boolean;
+    fullHeight?: boolean;
 }
 
 function Modal(props: ModalProps) {
-    const {title, subtitle, onClose, children} = props;
+    const {title, subtitle, onClose, children, fullWidth, fullHeight} = props;
 
     return (
         <div className="modal-backdrop" onClick={onClose}>
             <div
-                className="modal-content"
+                className={`modal-content ${fullWidth && "full-width"} ${fullHeight && "full-height"}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <ModalHeader title={title} subtitle={subtitle} onClose={onClose}/>

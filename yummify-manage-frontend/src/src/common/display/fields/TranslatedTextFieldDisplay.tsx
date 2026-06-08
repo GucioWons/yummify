@@ -14,7 +14,9 @@ function TranslatedTextFieldDisplay(props: TranslatedTextFieldDisplayProps) {
 
     return (
         <FieldDisplay label={label}>
-            {Object.entries(value.translations).map(([lang, text]) => (
+            {Object.entries(value.translations)
+                .filter(([, value]) => !!value)
+                .map(([lang, text]) => (
                     <span key={lang}>
                         {lang}: {text}
                     </span>

@@ -17,6 +17,14 @@
     max-height: 90%;
 }
 
+.modal-content.full-width {
+    width: 50%;
+}
+
+.modal-content.full-height {
+    height: 90%;
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
