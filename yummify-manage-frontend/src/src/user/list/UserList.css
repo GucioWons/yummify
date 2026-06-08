@@ -1,0 +1,20 @@
+.user-list-element {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-list-element-field {
+    text-align: left;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.user-list-element-field-names {
+    font-weight: 600;
+}
+
+.user-list-element-field-email {
+    font-size: 0.75rem;
+}

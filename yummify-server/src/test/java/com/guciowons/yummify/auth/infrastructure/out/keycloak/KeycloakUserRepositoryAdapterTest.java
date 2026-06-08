@@ -150,4 +150,30 @@ class KeycloakUserRepositoryAdapterTest {
         assertThat(representation.getAttributes().get("otp")).contains(otp.password().value());
         assertThat(representation.getAttributes().get("otpExpirationDate")).contains(otp.expiresAt().toString());
     }
+
+    @Test
+    void shouldReturnUsersByRestaurantId() {
+        // given
+        var restaurantId = givenUserRestaurantId();
+        var queryParam = "restaurantId:%s".formatted(restaurantId.value());
+        var userRepresentation = new UserRepresentation();
+        var user = givenUser(false);
+        var token = givenAdminToken();
+
+        when(keycloakAuthenticator.getAdminToken())
+                .thenReturn(token);
+        when(keycloakAdminClient.getUsersByRestaurantId(token, queryParam))
+                .thenReturn(List.of(userRepresentation));
+        when(userRepresentationMapper.toUser(userRepresentation))
+                .thenReturn(user);
+
+        // when
+        var result = underTest.getAllUsersByRestaurantId(restaurantId);
+
+        // then
+        verify(keycloakAdminClient).getUsersByRestaurantId(token, queryParam);
+        verify(userRepresentationMapper).toUser(userRepresentation);
+
+        assertThat(result).containsExactly(user);
+    }
 }

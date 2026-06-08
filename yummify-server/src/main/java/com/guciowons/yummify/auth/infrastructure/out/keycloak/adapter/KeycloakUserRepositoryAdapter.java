@@ -11,6 +11,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -52,6 +53,15 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
         userResponse.getAttributes().put("otp", Collections.singletonList(otp.password().value()));
         userResponse.getAttributes().put("otpExpirationDate", Collections.singletonList(otp.expiresAt().toString()));
         keycloakAdminClient.updateUser(userId.value().toString(), adminToken, userResponse);
+    }
+
+    @Override
+    public List<User> getAllUsersByRestaurantId(User.RestaurantId restaurantId) {
+        String customAttributesQueryParam = "restaurantId:%s".formatted(restaurantId.value());
+
+        return keycloakAdminClient.getUsersByRestaurantId(getAdminToken(), customAttributesQueryParam).stream()
+                .map(userRepresentationMapper::toUser)
+                .toList();
     }
 
     private String getAdminToken() {
