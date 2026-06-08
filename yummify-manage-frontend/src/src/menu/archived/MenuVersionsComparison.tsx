@@ -6,11 +6,9 @@ import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
 import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
 import MenuArchivedVersionsBar from "./MenuVersionsBar.tsx";
 import {useState} from "react";
-import MenuVersionsTemp from "./MenuVersionsTemp.tsx";
-import MenuVersionsTemp2 from "./MenuVersionsTemp2.tsx";
 import Divider from "../../common/divider/Divider.tsx";
-import AppFormCancelButton from "../../common/form/buttons/AppFormCancelButton.tsx";
-import AppFormSubmitButton from "../../common/form/buttons/AppFormSubmitButton.tsx";
+import MenuVersionsComparisonPanels from "./MenuVersionsComparisonPanels.tsx";
+import MenuVersionsComparisonButtons from "./MenuVersionsComparisonButtons.tsx";
 
 function MenuVersionsComparison() {
     const {data: draft, isLoading: isDraftLoading, isError: isDraftError} = useQuery<MenuVersionManageDto>({
@@ -25,7 +23,11 @@ function MenuVersionsComparison() {
         staleTime: 1000 * 60 * 5,
     });
 
-    const {data: archived, isLoading: isArchivedLoading, isError: isArchivedError} = useQuery<MenuVersionArchivedListDto[]>({
+    const {
+        data: archived,
+        isLoading: isArchivedLoading,
+        isError: isArchivedError
+    } = useQuery<MenuVersionArchivedListDto[]>({
         queryKey: ["menu-versions", "archived"],
         queryFn: () => menuService.getArchivedMenuVersions().then(res => res.data),
         staleTime: 1000 * 60 * 5,
@@ -45,10 +47,14 @@ function MenuVersionsComparison() {
                 setSelectedArchivedVersion={setSelectedArchivedVersion}
             />
             <Divider/>
-            <div style={{display: "flex"}}>
-                <MenuVersionsTemp menuVersion={draft!} title="Current"/>
-                <MenuVersionsTemp2 selectedArchivedVersion={selectedArchivedVersion} publishedVersion={published!}/>
-            </div>
+
+            <MenuVersionsComparisonPanels
+                draft={draft!}
+                selectedArchived={selectedArchivedVersion}
+                published={published!}
+            />
+
+            <MenuVersionsComparisonButtons/>
         </div>
     )
 

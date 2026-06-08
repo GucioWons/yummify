@@ -1,10 +1,10 @@
 import {Dtos} from "../../common/dtos.ts";
-import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import {useQuery} from "@tanstack/react-query";
 import {menuService} from "../service/menuService.ts";
-import MenuVersionsTemp from "./MenuVersionsTemp.tsx";
-import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
+import MenuVersionsPanel from "./MenuVersionsPanel.tsx";
 import {formatDate} from "../../common/date/dateFormatter.ts";
+import MenuVersionManageDto = Dtos.MenuVersionManageDto;
+import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
 
 export interface MenuVersionsTemp2Props {
     selectedArchivedVersion: MenuVersionArchivedListDto | null;
@@ -25,7 +25,7 @@ function MenuVersionsTemp2(props: MenuVersionsTemp2Props) {
 
     if (!selectedArchivedVersion) {
         return (
-            <MenuVersionsTemp menuVersion={publishedVersion} title="Published" />
+            <MenuVersionsPanel menuVersion={publishedVersion} title="Published" />
         );
     }
 
@@ -34,7 +34,7 @@ function MenuVersionsTemp2(props: MenuVersionsTemp2Props) {
 
     console.log(archived);
     return (
-        <MenuVersionsTemp
+        <MenuVersionsPanel
             menuVersion={archived!}
             title={`v${selectedArchivedVersion.version} - ${formatDate(selectedArchivedVersion.archivedAt)}`}
         />
