@@ -10,6 +10,7 @@ import MenuPage from "./src/menu/MenuPage.tsx";
 import TableListPage from "./src/table/list/TableListPage.tsx";
 import IngredientListPage from "./src/ingredient/list/IngredientListPage.tsx";
 import DishListPage from "./src/dish/list/DishListPage.tsx";
+import UserListPage from "./src/user/list/UserListPage.tsx";
 
 function App() {
     const {user} = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/ingredients" element={<IngredientListPage />} />
                 <Route path="/dishes" element={<DishListPage />} />
                 <Route path="/menu" element={<MenuPage />} />
+                <Route path="/users" element={<UserListPage />} />
             </Routes>
         </MainWrapper>
     );
