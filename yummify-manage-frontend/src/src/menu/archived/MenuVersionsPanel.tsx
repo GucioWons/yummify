@@ -2,6 +2,7 @@ import {Dtos} from "../../common/dtos.ts";
 import MenuVersionManageDto = Dtos.MenuVersionManageDto;
 import TranslatedTextFieldDisplay from "../../common/display/fields/TranslatedTextFieldDisplay.tsx";
 import Divider from "../../common/divider/Divider.tsx";
+import FieldDisplay from "../../common/display/fields/FieldDisplay.tsx";
 
 export interface MenuVersionsPanelProps {
     menuVersion: MenuVersionManageDto,
@@ -23,12 +24,17 @@ function MenuVersionsPanel(props: MenuVersionsPanelProps) {
             <Divider />
 
             <div className="menu-versions-panel-sections">
-                {menuVersion.sections.map((section) =>
-                    <div>
-                        <TranslatedTextFieldDisplay label="Section" value={section.name}/>
-                        {section.entries.map((entry) => <div>{entry.dishId} - {entry.price} $</div>)}
-                    </div>
-                )}
+                {menuVersion.sections
+                    .sort((a, b) => a.position - b.position)
+                    .map((section) =>
+                        <div>
+                            <TranslatedTextFieldDisplay label="Section name:" value={section.name}/>
+                            <FieldDisplay label="Dishes:">
+                                {section.entries.map((entry) => <div>{entry.dishId} - {entry.price} $</div>)}
+                            </FieldDisplay>
+                            <Divider/>
+                        </div>
+                    )}
             </div>
         </div>
     );
