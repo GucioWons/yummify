@@ -1,7 +1,7 @@
 package com.guciowons.yummify.auth.infrastructure.in.rest;
 
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserDto;
-import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.UserMapper;
+import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.UserPrincipalMapper;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/me")
 @RequiredArgsConstructor
 public class MeController {
-    private final UserMapper userMapper;
+    private final UserPrincipalMapper userPrincipalMapper;
 
     @GetMapping
     public ResponseEntity<UserDto> me(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userMapper.mapToDto(userPrincipal));
+                .body(userPrincipalMapper.mapToDto(userPrincipal));
     }
 }

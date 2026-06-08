@@ -8,6 +8,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Mapper(componentModel = "spring")
 public interface UserRepresentationMapper {
@@ -32,5 +33,29 @@ public interface UserRepresentationMapper {
     @AfterMapping
     default void afterMapping(@MappingTarget UserRepresentation userRepresentation, User user) {
         userRepresentation.setAttributes(Map.of("restaurantId", List.of(user.getRestaurantId().value().toString())));
+    }
+
+    default User toUser(UserRepresentation userRepresentation) {
+        UUID restaurantId = userRepresentation.getAttributes()
+                .getOrDefault("restaurantId", List.of())
+                .stream()
+                .findFirst()
+                .map(UUID::fromString)
+                .orElseThrow();
+
+        User user = User.create(
+                User.RestaurantId.of(restaurantId),
+                User.Email.of(userRepresentation.getEmail()),
+                User.Username.of(userRepresentation.getUsername()),
+                User.PersonalData.of(
+                        userRepresentation.getFirstName(),
+                        userRepresentation.getLastName()
+                ),
+                null
+        );
+
+        user.assignId(User.ExternalId.of(userRepresentation.getId()));
+
+        return user;
     }
 }

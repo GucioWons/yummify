@@ -157,6 +157,14 @@ export namespace Dtos {
         username: string;
     }
 
+    export interface UserManageDto {
+        email: string;
+        firstName: string;
+        id: string;
+        lastName: string;
+        username: string;
+    }
+
     export type DateAsString = string;
 
     export enum Language {

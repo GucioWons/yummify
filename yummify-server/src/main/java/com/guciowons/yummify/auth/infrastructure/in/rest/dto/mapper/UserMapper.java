@@ -1,10 +1,16 @@
 package com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper;
 
-import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserDto;
-import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.auth.domain.model.User;
+import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserManageDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserDto mapToDto(UserPrincipal userPrincipal);
+    @Mapping(target = "id", source = "id.value")
+    @Mapping(target = "email", source = "email.value")
+    @Mapping(target = "username", source = "username.value")
+    @Mapping(target = "firstName", source = "personalData.firstName")
+    @Mapping(target = "lastName", source = "personalData.lastName")
+    UserManageDto toManageDto(User user);
 }

@@ -45,4 +45,10 @@ public interface KeycloakAdminClient {
             @RequestHeader("Authorization") String authorization,
             @RequestBody UserRepresentation userResponseDto
     );
+
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<UserRepresentation> getUsersByRestaurantId(
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam("q") String customAttributes
+    );
 }

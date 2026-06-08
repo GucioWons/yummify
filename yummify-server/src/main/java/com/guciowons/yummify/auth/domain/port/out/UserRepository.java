@@ -3,6 +3,8 @@ package com.guciowons.yummify.auth.domain.port.out;
 import com.guciowons.yummify.auth.domain.model.Otp;
 import com.guciowons.yummify.auth.domain.model.User;
 
+import java.util.List;
+
 public interface UserRepository {
     boolean existsByEmail(User.Email email);
 
@@ -11,4 +13,6 @@ public interface UserRepository {
     User createUser(User user);
 
     void updateOtp(User.ExternalId userId, Otp otp);
+
+    List<User> getAllUsersByRestaurantId(User.RestaurantId restaurantId);
 }
