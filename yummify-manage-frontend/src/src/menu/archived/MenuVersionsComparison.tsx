@@ -50,6 +50,7 @@ function MenuVersionsComparison(props: MenuVersionsComparisonProps) {
         }}>
             <MenuArchivedVersionsBar
                 archivedVersions={archived!}
+                selectedArchivedVersion={selectedArchivedVersion}
                 setSelectedArchivedVersion={setSelectedArchivedVersion}
             />
             <Divider/>
