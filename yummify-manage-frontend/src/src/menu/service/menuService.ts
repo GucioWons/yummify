@@ -5,6 +5,7 @@ import MenuSectionManageDto = Dtos.MenuSectionManageDto;
 import CreateMenuSectionRequest = Dtos.CreateMenuSectionRequest;
 import UpdateMenuSectionNameRequest = Dtos.UpdateMenuSectionNameRequest;
 import MenuEntryDto = Dtos.MenuEntryDto;
+import MenuVersionArchivedListDto = Dtos.MenuVersionArchivedListDto;
 
 export const menuService = {
     async getPublishedMenuVersion() {
@@ -13,6 +14,14 @@ export const menuService = {
 
     async getDraftMenuVersion() {
         return axiosInstance.get<MenuVersionManageDto>('menu-versions/draft');
+    },
+
+    async getArchivedMenuVersion(id: string) {
+        return axiosInstance.get<MenuVersionManageDto>(`menu-versions/archived/${id}`);
+    },
+
+    async getArchivedMenuVersions() {
+        return axiosInstance.get<MenuVersionArchivedListDto[]>('menu-versions/archived');
     },
 
     async publishMenuVersion() {

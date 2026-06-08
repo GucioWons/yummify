@@ -40,3 +40,12 @@
     text-align: left;
     font-size: 12px;
 }
+
+.menu-versions-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-versions-bar-item {
+    padding: 8px;
+}
