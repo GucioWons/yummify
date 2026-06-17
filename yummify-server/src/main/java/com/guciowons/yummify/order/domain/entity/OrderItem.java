@@ -6,7 +6,7 @@ import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record OrderItem(Id id, DishSnapshot dishSnapshot, Integer quantity) {
+public record OrderItem(Id id, DishId dishId, DishSnapshot dishSnapshot, Integer quantity) {
     public record Id(UUID value) implements IdValueObject {
         public static Id of(UUID value) {
             return new Id(value);
