@@ -17,6 +17,12 @@ public record OrderItem(Id id, DishSnapshot dishSnapshot, Integer quantity) {
         }
     }
 
-    public record DishSnapshot(TranslatedString nameSnapshot, BigDecimal priceSnapshot) {
+    public record DishId(UUID value) implements IdValueObject {
+        public static DishId of(UUID value) {
+            return new DishId(value);
+        }
+    }
+
+    public record DishSnapshot(TranslatedString name, BigDecimal price) {
     }
 }

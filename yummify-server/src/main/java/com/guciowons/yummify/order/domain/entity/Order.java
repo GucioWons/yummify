@@ -18,7 +18,7 @@ public class Order {
     private OrderStatus status;
 
     public static Order create(RestaurantId restaurantId, TableId tableId) {
-        return new Order(Id.random(), restaurantId, tableId, null);
+        return new Order(Id.random(), restaurantId, tableId, OrderStatus.NEW);
     }
 
 
