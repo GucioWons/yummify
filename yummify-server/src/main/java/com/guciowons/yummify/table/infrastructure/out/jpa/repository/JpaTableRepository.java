@@ -15,4 +15,6 @@ public interface JpaTableRepository extends JpaRepository<JpaTable, UUID> {
     List<JpaTable> findAllByRestaurantId(UUID restaurantId);
 
     boolean existsByNameAndRestaurantId(String name, UUID restaurantId);
+
+    boolean existsByIdAndRestaurantId(UUID id, UUID restaurantId);
 }

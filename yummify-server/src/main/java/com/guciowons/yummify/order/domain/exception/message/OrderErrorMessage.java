@@ -1,0 +1,13 @@
+package com.guciowons.yummify.order.domain.exception.message;
+
+import com.guciowons.yummify.common.exception.domain.model.ErrorMessage;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum OrderErrorMessage implements ErrorMessage {
+    ORDER_TABLE_NOT_FOUND_BY_ID("Could not find table with ID '{{id}}' for order");
+
+    private final String message;
+}
