@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name = "order", schema = "order")
+@Table(name = "order", schema = "orders")
 public class JpaOrder {
     @Id
     private UUID id;

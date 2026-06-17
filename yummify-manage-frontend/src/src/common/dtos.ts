@@ -19,6 +19,10 @@ export namespace Dtos {
         name: TranslatedStringDto;
     }
 
+    export interface CreateOrderDto {
+        tableId: string;
+    }
+
     export interface DishClientDto {
         description: string;
         id: string;
@@ -90,6 +94,20 @@ export namespace Dtos {
 
     export interface MenuVersionManageDto {
         sections: MenuSectionManageDto[];
+    }
+
+    export interface OrderClientDto {
+        id: string;
+        items: OrderItemClientDto[];
+        status: OrderStatus;
+        tableId: string;
+    }
+
+    export interface OrderItemClientDto {
+        dishId: string;
+        id: string;
+        name: string;
+        price: number;
     }
 
     export interface PositionedDto {
@@ -171,6 +189,15 @@ export namespace Dtos {
         PL = "PL",
         EN = "EN",
         DE = "DE",
+    }
+
+    export enum OrderStatus {
+        NEW = "NEW",
+        CONFIRMED = "CONFIRMED",
+        IN_PREPARATION = "IN_PREPARATION",
+        DELIVERED = "DELIVERED",
+        COMPLETED = "COMPLETED",
+        CANCELLED = "CANCELLED",
     }
 
 }
