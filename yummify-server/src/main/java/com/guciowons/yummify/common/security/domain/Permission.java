@@ -8,6 +8,9 @@ import lombok.Getter;
 public enum Permission {
     OWNER(null),
 
+    ROLE(OWNER),
+    ROLE_CREATE(ROLE),
+
     RESTAURANT_CREATE(OWNER),
     RESTAURANT_MODIFY(OWNER),
 

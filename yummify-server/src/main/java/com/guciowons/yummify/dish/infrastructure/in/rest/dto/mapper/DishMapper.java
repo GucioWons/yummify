@@ -12,9 +12,8 @@ import org.mapstruct.Mapping;
 @Mapper(
         componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = {
-                TranslatedStringMapper.class,
-        })
+        uses = TranslatedStringMapper.class
+)
 public interface DishMapper {
     @Mapping(target = "id", source = "entity.id.value")
     DishManageDto toManageDto(Dish entity, String imageUrl);
