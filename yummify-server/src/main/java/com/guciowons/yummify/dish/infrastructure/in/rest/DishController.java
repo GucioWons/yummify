@@ -1,6 +1,8 @@
 package com.guciowons.yummify.dish.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.dish.application.port.DishFacadePort;
 import com.guciowons.yummify.dish.application.service.DishImageUrlProvider;
 import com.guciowons.yummify.dish.domain.entity.Dish;
@@ -27,6 +29,7 @@ public class DishController {
     private final DishImageUrlProvider dishImageUrlProvider;
 
     @PostMapping
+    @SecuredByPermission(Permission.DISH_CREATE)
     public ResponseEntity<DishManageDto> create(
             @RequestBody DishManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -44,6 +47,7 @@ public class DishController {
     }
 
     @GetMapping
+    @SecuredByPermission(Permission.DISH_READ)
     public ResponseEntity<List<DishListDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         List<DishListDto> dishes = dishFacade.getAll(userPrincipal.restaurantId()).stream()
                 .map(dishMapper::toListDto)
@@ -55,6 +59,7 @@ public class DishController {
     }
 
     @GetMapping("{id}")
+    @SecuredByPermission(Permission.DISH_READ)
     public ResponseEntity<DishManageDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -67,6 +72,7 @@ public class DishController {
     }
 
     @PutMapping(value = "{id}")
+    @SecuredByPermission(Permission.DISH_MODIFY)
     public ResponseEntity<DishManageDto> update(
             @PathVariable UUID id,
             @RequestBody DishManageDto dto,
@@ -86,6 +92,7 @@ public class DishController {
     }
 
     @PutMapping(value = "{id}/image", consumes = "multipart/form-data")
+    @SecuredByPermission(Permission.DISH_MODIFY)
     public ResponseEntity<DishImageUrlDto> updateImage(
             @PathVariable UUID id,
             @RequestParam MultipartFile image,

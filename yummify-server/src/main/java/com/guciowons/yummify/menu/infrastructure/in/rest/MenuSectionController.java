@@ -1,6 +1,8 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.menu.application.section.port.MenuSectionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuSectionManageDto;
@@ -25,6 +27,7 @@ public class MenuSectionController {
     private final MenuSectionMapper menuSectionMapper;
 
     @PostMapping
+    @SecuredByPermission(Permission.MENU_MODIFY)
     public ResponseEntity<MenuSectionManageDto> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody CreateMenuSectionRequest request
@@ -37,6 +40,7 @@ public class MenuSectionController {
     }
 
     @PatchMapping("{id}/name")
+    @SecuredByPermission(Permission.MENU_MODIFY)
     public ResponseEntity<MenuSectionManageDto> updateName(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id,
@@ -54,6 +58,7 @@ public class MenuSectionController {
     }
 
     @PatchMapping("{id}/position")
+    @SecuredByPermission(Permission.MENU_MODIFY)
     public ResponseEntity<List<MenuSectionManageDto>> updatePosition(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id,

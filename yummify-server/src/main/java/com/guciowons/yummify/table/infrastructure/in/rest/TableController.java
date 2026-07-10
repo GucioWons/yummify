@@ -1,8 +1,8 @@
 package com.guciowons.yummify.table.infrastructure.in.rest;
 
-import com.guciowons.yummify.common.security.application.SecuredByRole;
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.common.security.domain.UserRole;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.table.application.port.TableFacadePort;
 import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.infrastructure.in.rest.dto.TableDto;
@@ -25,7 +25,7 @@ public class TableController {
     private final TableMapper tableMapper;
 
     @PostMapping
-    @SecuredByRole(UserRole.OWNER)
+    @SecuredByPermission(Permission.TABLE_CREATE)
     public ResponseEntity<TableDto> create(
             @RequestBody TableDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -38,6 +38,7 @@ public class TableController {
     }
 
     @GetMapping
+    @SecuredByPermission(Permission.TABLE_READ)
     public ResponseEntity<List<TableDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         List<TableDto> tables = tableFacade.getAll(userPrincipal.restaurantId()).stream()
                 .map(tableMapper::mapToDto)
@@ -49,6 +50,7 @@ public class TableController {
     }
 
     @GetMapping("{id}")
+    @SecuredByPermission(Permission.TABLE_READ)
     public ResponseEntity<TableDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -61,6 +63,7 @@ public class TableController {
     }
 
     @PutMapping("{id}")
+    @SecuredByPermission(Permission.TABLE_MODIFY)
     public ResponseEntity<TableDto> update(
             @PathVariable UUID id,
             @RequestBody TableDto dto,
@@ -74,6 +77,7 @@ public class TableController {
     }
 
     @PostMapping("{id}/generate-otp")
+    @SecuredByPermission(Permission.TABLE_GENERATE_OTP)
     public ResponseEntity<TableOtpDto> generateOtp(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal

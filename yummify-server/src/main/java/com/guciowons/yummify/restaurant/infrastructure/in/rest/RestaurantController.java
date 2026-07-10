@@ -1,8 +1,8 @@
 package com.guciowons.yummify.restaurant.infrastructure.in.rest;
 
-import com.guciowons.yummify.common.security.application.SecuredByRole;
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
-import com.guciowons.yummify.common.security.domain.UserRole;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDto;
@@ -24,7 +24,7 @@ public class RestaurantController {
     private final RestaurantMapper restaurantMapper;
 
     @PostMapping
-    @SecuredByRole(UserRole.ADMIN)
+    @SecuredByPermission(Permission.RESTAURANT_CREATE)
     public ResponseEntity<RestaurantManageDto> create(@RequestBody @Valid RestaurantCreateDto dto) {
         Restaurant restaurant = restaurantFacade.create(
                 dto.restaurant().name(),
@@ -48,7 +48,6 @@ public class RestaurantController {
     }
 
     @GetMapping("/manage")
-    @SecuredByRole(UserRole.ADMIN)
     public ResponseEntity<RestaurantManageDto> getForAdmin(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Restaurant restaurant = restaurantFacade.getById(userPrincipal.restaurantId());
 
@@ -58,7 +57,7 @@ public class RestaurantController {
     }
 
     @PutMapping
-    @SecuredByRole(UserRole.OWNER)
+    @SecuredByPermission(Permission.RESTAURANT_MODIFY)
     public ResponseEntity<RestaurantManageDto> update(
             @RequestBody @Valid RestaurantManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
