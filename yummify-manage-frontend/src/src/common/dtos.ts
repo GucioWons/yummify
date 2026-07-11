@@ -139,6 +139,12 @@ export namespace Dtos {
         username: string;
     }
 
+    export interface RoleManageDto {
+        id: string;
+        name: TranslatedStringDto;
+        permissions: string[];
+    }
+
     export interface TableDto {
         capacity: number;
         id: string;

@@ -1,6 +1,8 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.menu.application.version.port.MenuVersionFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuVersion;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuVersionArchivedListDto;
@@ -24,6 +26,7 @@ public class MenuVersionController {
     private final MenuVersionMapper menuVersionMapper;
 
     @PostMapping
+    @SecuredByPermission(Permission.MENU_CREATE)
     public ResponseEntity<MenuVersionManageDto> create(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion menuVersion = menuVersionFacade.create(userPrincipal.restaurantId());
 
@@ -33,6 +36,7 @@ public class MenuVersionController {
     }
 
     @GetMapping("archived")
+    @SecuredByPermission(Permission.MENU_READ)
     public ResponseEntity<List<MenuVersionArchivedListDto>> getAllArchived(
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
@@ -46,6 +50,7 @@ public class MenuVersionController {
     }
 
     @GetMapping("draft")
+    @SecuredByPermission(Permission.MENU_READ)
     public ResponseEntity<MenuVersionManageDto> getDraft(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion draft = menuVersionFacade.getDraft(userPrincipal.restaurantId());
 
@@ -55,6 +60,7 @@ public class MenuVersionController {
     }
 
     @GetMapping("published")
+    @SecuredByPermission(Permission.MENU_READ)
     public ResponseEntity<MenuVersionManageDto> getPublished(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.getPublished(userPrincipal.restaurantId());
 
@@ -64,6 +70,7 @@ public class MenuVersionController {
     }
 
     @GetMapping("archived/{id}")
+    @SecuredByPermission(Permission.MENU_READ)
     public ResponseEntity<MenuVersionManageDto> getArchived(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id
@@ -76,6 +83,7 @@ public class MenuVersionController {
     }
 
     @PostMapping("publish")
+    @SecuredByPermission(Permission.MENU_PUBLISH)
     public ResponseEntity<MenuVersionClientDto> publish(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         MenuVersion published = menuVersionFacade.publish(userPrincipal.restaurantId());
 
@@ -85,6 +93,7 @@ public class MenuVersionController {
     }
 
     @PostMapping("archived/{id}/restore")
+    @SecuredByPermission(Permission.MENU_RESTORE)
     public ResponseEntity<MenuVersionManageDto> restore(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id

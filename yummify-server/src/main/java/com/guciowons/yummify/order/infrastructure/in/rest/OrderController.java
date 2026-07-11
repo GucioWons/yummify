@@ -1,6 +1,8 @@
 package com.guciowons.yummify.order.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.order.application.port.OrderFacadePort;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.infrastructure.in.rest.model.CreateOrderDto;
@@ -23,6 +25,7 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @PostMapping
+    @SecuredByPermission(Permission.ORDER_CREATE)
     public ResponseEntity<OrderClientDto> create(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody CreateOrderDto dto

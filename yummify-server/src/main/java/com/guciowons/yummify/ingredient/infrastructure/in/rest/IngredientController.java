@@ -1,6 +1,8 @@
 package com.guciowons.yummify.ingredient.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.ingredient.application.port.IngredientFacadePort;
 import com.guciowons.yummify.ingredient.domain.entity.Ingredient;
 import com.guciowons.yummify.ingredient.infrastructure.in.rest.dto.IngredientClientDto;
@@ -23,6 +25,7 @@ public class IngredientController {
     private final IngredientMapper ingredientMapper;
 
     @PostMapping
+    @SecuredByPermission(Permission.INGREDIENT_CREATE)
     public ResponseEntity<IngredientManageDto> create(
             @RequestBody IngredientManageDto dto,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -35,6 +38,7 @@ public class IngredientController {
     }
 
     @GetMapping
+    @SecuredByPermission(Permission.INGREDIENT_READ)
     public ResponseEntity<List<IngredientClientDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         List<IngredientClientDto> ingredients = ingredientFacade.getAll(userPrincipal.restaurantId()).stream()
                 .map(ingredientMapper::mapToClientDto)
@@ -46,6 +50,7 @@ public class IngredientController {
     }
 
     @GetMapping("{id}")
+    @SecuredByPermission(Permission.INGREDIENT_READ)
     public ResponseEntity<IngredientManageDto> getById(
             @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
@@ -58,6 +63,7 @@ public class IngredientController {
     }
 
     @PutMapping("{id}")
+    @SecuredByPermission(Permission.INGREDIENT_MODIFY)
     public ResponseEntity<IngredientManageDto> updateById(
             @PathVariable UUID id,
             @RequestBody IngredientManageDto dto,

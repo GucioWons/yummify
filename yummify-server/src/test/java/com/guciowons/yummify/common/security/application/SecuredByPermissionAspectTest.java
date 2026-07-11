@@ -1,9 +1,7 @@
-package com.guciowons.yummify.common.security.aspect;
+package com.guciowons.yummify.common.security.application;
 
-import com.guciowons.yummify.common.security.application.SecuredByRole;
-import com.guciowons.yummify.common.security.application.SecuredByRoleAspect;
-import com.guciowons.yummify.common.security.domain.UserRole;
 import com.guciowons.yummify.common.security.domain.AccessDeniedException;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.common.security.domain.UnauthorizedException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.jupiter.api.AfterEach;
@@ -24,15 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SecuredByRoleAspectTest {
+class SecuredByPermissionAspectTest {
     @InjectMocks
-    private SecuredByRoleAspect aspect;
+    private SecuredByPermissionAspect aspect;
 
     @Mock
     private ProceedingJoinPoint joinPoint;
 
     @Mock
-    private SecuredByRole securedByRole;
+    private SecuredByPermission securedByPermission;
 
     @AfterEach
     void clearContext() {
@@ -41,49 +39,49 @@ class SecuredByRoleAspectTest {
 
     @Test
     void shouldAllowAccessWhenUserHasTheSameRole() throws Throwable {
-        setupSecurityContextHolder("ADMIN", true);
+        setupSecurityContextHolder("OWNER", true);
 
-        when(securedByRole.value()).thenReturn(UserRole.ADMIN);
+        when(securedByPermission.value()).thenReturn(Permission.OWNER);
         when(joinPoint.proceed()).thenReturn("OK");
 
-        Object result = aspect.checkAuthorization(joinPoint, securedByRole);
+        Object result = aspect.checkAuthorization(joinPoint, securedByPermission);
 
         assertEquals("OK", result);
     }
 
     @Test
     void shouldAllowAccessWhenUserHasHigherRole() throws Throwable {
-        setupSecurityContextHolder("ADMIN", true);
+        setupSecurityContextHolder("OWNER", true);
 
-        when(securedByRole.value()).thenReturn(UserRole.OWNER);
+        when(securedByPermission.value()).thenReturn(Permission.RESTAURANT_CREATE);
         when(joinPoint.proceed()).thenReturn("OK");
 
-        Object result = aspect.checkAuthorization(joinPoint, securedByRole);
+        Object result = aspect.checkAuthorization(joinPoint, securedByPermission);
 
         assertEquals("OK", result);
     }
 
     @Test
     void shouldDenyAccessWhenUserDoesNotHaveRole() throws Throwable {
-        setupSecurityContextHolder("OWNER", true);
+        setupSecurityContextHolder("RESTAURANT_CREATE", true);
 
-        when(securedByRole.value()).thenReturn(UserRole.ADMIN);
+        when(securedByPermission.value()).thenReturn(Permission.OWNER);
 
-        assertThrows(AccessDeniedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(AccessDeniedException.class, () -> aspect.checkAuthorization(joinPoint, securedByPermission));
 
         verify(joinPoint, never()).proceed();
     }
 
     @Test
     void shouldThrowWhenAuthenticationIsNull() {
-        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByPermission));
     }
 
     @Test
     void shouldThrowWhenNotAuthenticated() {
         setupSecurityContextHolder("ADMIN", false);
 
-        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByRole));
+        assertThrows(UnauthorizedException.class, () -> aspect.checkAuthorization(joinPoint, securedByPermission));
     }
 
     private void setupSecurityContextHolder(String role, boolean isAuthenticated) {

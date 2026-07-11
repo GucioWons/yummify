@@ -1,4 +1,4 @@
-package com.guciowons.yummify.common.security.aspect;
+package com.guciowons.yummify.common.security.application;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.guciowons.yummify.file.domain.entity;
 import com.guciowons.yummify.file.domain.exception.InvalidStorageKeyException;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.common.security.aspect.UuidConditions.validUuid;
+import static com.guciowons.yummify.common.security.application.UuidConditions.validUuid;
 import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

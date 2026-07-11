@@ -1,6 +1,8 @@
 package com.guciowons.yummify.menu.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.menu.application.entry.port.MenuEntryFacadePort;
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import com.guciowons.yummify.menu.infrastructure.in.rest.model.dto.MenuEntryDto;
@@ -22,6 +24,7 @@ public class MenuEntryController {
     private final MenuEntryMapper menuEntryMapper;
 
     @PostMapping("{sectionId}/entries")
+    @SecuredByPermission(Permission.MENU_MODIFY)
     public ResponseEntity<MenuEntryDto> createEntry(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID sectionId,
@@ -40,6 +43,7 @@ public class MenuEntryController {
     }
 
     @PutMapping("{sectionId}/entries/{id}")
+    @SecuredByPermission(Permission.MENU_MODIFY)
     public ResponseEntity<MenuEntryDto> updateEntry(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID sectionId,
