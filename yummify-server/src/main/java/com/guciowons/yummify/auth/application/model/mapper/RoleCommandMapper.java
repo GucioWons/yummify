@@ -19,6 +19,7 @@ import java.util.UUID;
 )
 public interface RoleCommandMapper {
     @Mapping(target = "name", source = "name")
+    @Mapping(target = "restaurantId", source = "restaurantId")
     @Mapping(target = "permissions", source = "permissions")
     CreateRoleCommand toCreateRoleCommand(UUID restaurantId, Map<String, String> name, Set<String> permissions);
 
