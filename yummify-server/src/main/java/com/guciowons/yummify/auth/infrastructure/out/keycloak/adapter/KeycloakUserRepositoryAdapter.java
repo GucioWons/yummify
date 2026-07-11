@@ -1,6 +1,8 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak.adapter;
 
+import com.guciowons.yummify.auth.application.service.RoleLookupService;
 import com.guciowons.yummify.auth.domain.model.Otp;
+import com.guciowons.yummify.auth.domain.model.Role;
 import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.domain.port.out.UserRepository;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.KeycloakAuthenticator;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
     private final KeycloakAuthenticator keycloakAuthenticator;
     private final KeycloakAdminClient keycloakAdminClient;
     private final UserRepresentationMapper userRepresentationMapper;
+    private final RoleLookupService roleLookupService;
 
     @Override
     public boolean existsByEmail(User.Email email) {
@@ -60,11 +64,21 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
         String customAttributesQueryParam = "restaurantId:%s".formatted(restaurantId.value());
 
         return keycloakAdminClient.getUsersByRestaurantId(getAdminToken(), customAttributesQueryParam).stream()
-                .map(userRepresentationMapper::toUser)
+                .map(userRepresentation -> toUserWithRole(userRepresentation, restaurantId))
                 .toList();
     }
 
     private String getAdminToken() {
         return keycloakAuthenticator.getAdminToken();
+    }
+
+    private User toUserWithRole(UserRepresentation userRepresentation, User.RestaurantId restaurantId) {
+        UUID roleId = userRepresentationMapper.extractUuidAttribute(userRepresentation, "roleId");
+
+        Role role = roleLookupService.getByIdAndRestaurantId(
+                Role.Id.of(roleId),
+                Role.RestaurantId.of(restaurantId.value()));
+
+        return userRepresentationMapper.toUser(userRepresentation, role);
     }
 }

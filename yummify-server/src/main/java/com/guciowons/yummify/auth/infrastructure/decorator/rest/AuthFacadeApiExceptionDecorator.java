@@ -13,8 +13,16 @@ public class AuthFacadeApiExceptionDecorator implements AuthFacadePort {
 
     @Override
     @HandleDomainExceptions(handler = AuthExceptionMapper.class)
-    public UUID createUser(String email, String username, String firstName, String lastName, UUID restaurantId, boolean withPassword) {
-        return delegate.createUser(email, username, firstName, lastName, restaurantId, withPassword);
+    public UUID createUser(
+            String email,
+            String username,
+            String firstName,
+            String lastName,
+            UUID restaurantId,
+            UUID roleId,
+            boolean withPassword
+    ) {
+        return delegate.createUser(email, username, firstName, lastName, restaurantId, roleId, withPassword);
     }
 
     @Override

@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class DishLookupService {
     private final DishRepository dishRepository;
 
-    public Dish getByIdAndRestaurantId(Dish.Id id, Dish.RestaurantId restaurantId) throws DishNotFoundException {
+    public Dish getByIdAndRestaurantId(Dish.Id id, Dish.RestaurantId restaurantId) {
         return dishRepository.findByIdAndRestaurantId(id, restaurantId)
                 .orElseThrow(() -> new DishNotFoundException(id));
     }

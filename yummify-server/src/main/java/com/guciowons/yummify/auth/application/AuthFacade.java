@@ -25,10 +25,11 @@ public class AuthFacade implements AuthFacadePort {
             String firstName,
             String lastName,
             UUID restaurantId,
+            UUID roleId,
             boolean withPassword
     ) {
         CreateUserCommand command = authCommandMapper.toCreateUserCommand(
-                email, username, firstName, lastName, restaurantId, withPassword
+                email, username, firstName, lastName, restaurantId, roleId, withPassword
         );
 
         return createUserUsecase.create(command).value();

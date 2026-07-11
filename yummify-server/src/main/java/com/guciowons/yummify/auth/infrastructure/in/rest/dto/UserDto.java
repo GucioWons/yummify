@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.in.rest.dto;
 
+import java.util.Set;
 import java.util.UUID;
 
 public record UserDto(
@@ -8,6 +9,7 @@ public record UserDto(
         String email,
         String username,
         String firstName,
-        String lastName
+        String lastName,
+        Set<String> permissions
 ) {
 }

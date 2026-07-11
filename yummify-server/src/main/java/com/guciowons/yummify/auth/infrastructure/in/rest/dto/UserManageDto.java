@@ -7,6 +7,7 @@ public record UserManageDto(
         String email,
         String username,
         String firstName,
-        String lastName
+        String lastName,
+        UUID roleId
 ) {
 }
