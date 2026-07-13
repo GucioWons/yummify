@@ -53,7 +53,7 @@ class SecuredByPermissionAspectTest {
     void shouldAllowAccessWhenUserHasHigherRole() throws Throwable {
         setupSecurityContextHolder("OWNER", true);
 
-        when(securedByPermission.value()).thenReturn(Permission.RESTAURANT_CREATE);
+        when(securedByPermission.value()).thenReturn(Permission.RESTAURANT_MODIFY);
         when(joinPoint.proceed()).thenReturn("OK");
 
         Object result = aspect.checkAuthorization(joinPoint, securedByPermission);
@@ -63,7 +63,7 @@ class SecuredByPermissionAspectTest {
 
     @Test
     void shouldDenyAccessWhenUserDoesNotHaveRole() throws Throwable {
-        setupSecurityContextHolder("RESTAURANT_CREATE", true);
+        setupSecurityContextHolder("RESTAURANT_MODIFY", true);
 
         when(securedByPermission.value()).thenReturn(Permission.OWNER);
 

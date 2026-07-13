@@ -1,7 +1,9 @@
 package com.guciowons.yummify.auth.application.usecase;
 
+import com.guciowons.yummify.auth.application.service.RoleLookupService;
 import com.guciowons.yummify.auth.domain.exception.AccountExistsByEmailException;
 import com.guciowons.yummify.auth.domain.exception.AccountExistsByUsernameException;
+import com.guciowons.yummify.auth.domain.model.Role;
 import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.domain.port.out.PasswordGeneratorPort;
 import com.guciowons.yummify.auth.domain.port.out.UserRepository;
@@ -19,18 +21,22 @@ import static org.mockito.Mockito.*;
 class CreateUserUsecaseTest {
     private final PasswordGeneratorPort passwordGenerator = mock(PasswordGeneratorPort.class);
     private final UserRepository userRepository = mock(UserRepository.class);
+    private final RoleLookupService roleLookupService = mock(RoleLookupService.class);
 
-    private final CreateUserUsecase underTest = new CreateUserUsecase(passwordGenerator, userRepository);
+    private final CreateUserUsecase underTest = new CreateUserUsecase(passwordGenerator, userRepository, roleLookupService);
 
     @Test
     void shouldCreateUserWithPassword_WhenCommandWithPasswordIsTrue() throws DomainException {
         // given
         var command = givenCreateUserCommand(true);
+        var role = givenRole(1);
         var user = givenUser(true);
         var userId = givenUserExternalId(1);
         user.assignId(userId);
         var password = givenPassword();
 
+        when(roleLookupService.getByIdAndRestaurantId(command.roleId(), Role.RestaurantId.of(command.restaurantId().value())))
+                .thenReturn(role);
         when(passwordGenerator.generate(12, 2, 2, 2)).thenReturn(password);
         when(userRepository.createUser(any())).thenReturn(user);
 
@@ -47,6 +53,7 @@ class CreateUserUsecaseTest {
         verify(userRepository).createUser(userCaptor.capture());
         var capturedUser = userCaptor.getValue();
         assertThat(capturedUser.getPassword()).isEqualTo(password);
+        assertThat(capturedUser.getRole()).isEqualTo(role);
 
         assertThat(result).isEqualTo(userId);
     }

@@ -15,9 +15,10 @@ class UserTest {
         var username = givenUserUsername();
         var personalData = givenUserPersonalData();
         var password = givenPassword();
+        var role  = givenRole(1);
 
         // when
-        var result = User.create(restaurantId, email, username, personalData, password);
+        var result = User.create(restaurantId, email, username, personalData, password, role);
 
         // then
         assertThat(result.getId()).isNull();
@@ -26,6 +27,7 @@ class UserTest {
         assertThat(result.getUsername()).isEqualTo(username);
         assertThat(result.getPersonalData()).isEqualTo(personalData);
         assertThat(result.getPassword()).isEqualTo(password);
+        assertThat(result.getRole()).isEqualTo(role);
     }
 
     @Test

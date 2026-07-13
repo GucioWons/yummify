@@ -177,6 +177,7 @@ export namespace Dtos {
         firstName: string;
         id: string;
         lastName: string;
+        permissions: string[];
         restaurantId: string;
         username: string;
     }
@@ -186,6 +187,7 @@ export namespace Dtos {
         firstName: string;
         id: string;
         lastName: string;
+        roleId: string;
         username: string;
     }
 

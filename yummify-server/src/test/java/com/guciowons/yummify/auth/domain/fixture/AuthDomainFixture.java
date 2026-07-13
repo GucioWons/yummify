@@ -25,7 +25,8 @@ public class AuthDomainFixture {
                 givenUserEmail(),
                 givenUserUsername(),
                 givenUserPersonalData(),
-                withPassword ? givenPassword() : null
+                withPassword ? givenPassword() : null,
+                givenRole(1)
         );
     }
 

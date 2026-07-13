@@ -5,7 +5,10 @@ import com.guciowons.yummify.auth.infrastructure.out.jpa.entity.mapper.JpaRoleMa
 import com.guciowons.yummify.auth.infrastructure.out.jpa.repository.JpaRoleRepository;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.givenRole;
+import java.util.Optional;
+
+import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class JpaRoleRepositoryAdapterTest {
@@ -28,6 +31,28 @@ class JpaRoleRepositoryAdapterTest {
         // then
         verify(jpaRoleMapper).toJpa(role);
         verify(jpaRoleRepository).save(jpaRole);
+    }
+
+    @Test
+    void shouldFindRole() {
+        // given
+        var id = givenRoleId(1);
+        var restaurantId = givenRoleRestaurantId(1);
+        var jpaRole = new JpaRole();
+        var role = givenRole(1);
+
+        when(jpaRoleRepository.findByIdAndRestaurantId(id.value(), restaurantId.value()))
+                .thenReturn(Optional.of(jpaRole));
+        when(jpaRoleMapper.toDomain(jpaRole)).thenReturn(role);
+
+        // when
+        var result = underTest.findByIdAndRestaurantId(id, restaurantId);
+
+        // then
+        verify(jpaRoleRepository).findByIdAndRestaurantId(id.value(), restaurantId.value());
+        verify(jpaRoleMapper).toDomain(jpaRole);
+
+        assertThat(result).hasValue(role);
     }
 
 }
