@@ -7,6 +7,7 @@ import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.domain.port.out.UserRepository;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.KeycloakAuthenticator;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.feign.KeycloakAdminClient;
+import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.RoleRepresentationMapper;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.UserRepresentationMapper;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -22,6 +23,7 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
     private final KeycloakAuthenticator keycloakAuthenticator;
     private final KeycloakAdminClient keycloakAdminClient;
     private final UserRepresentationMapper userRepresentationMapper;
+    private final RoleRepresentationMapper roleRepresentationMapper;
     private final RoleLookupService roleLookupService;
 
     @Override
@@ -42,6 +44,12 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
 
         UserRepresentation userRepresentation = keycloakAdminClient.getUserByEmail(adminToken, user.getEmail().value())
                 .getFirst();
+
+        keycloakAdminClient.assignRealmRoles(
+                userRepresentation.getId(),
+                adminToken,
+                roleRepresentationMapper.toRoleRepresentations(user.getRole().getPermissions())
+        );
 
         user.assignId(User.ExternalId.of(userRepresentation.getId()));
 

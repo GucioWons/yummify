@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak.feign;
 
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -50,5 +51,12 @@ public interface KeycloakAdminClient {
     List<UserRepresentation> getUsersByRestaurantId(
             @RequestHeader("Authorization") String authorization,
             @RequestParam("q") String customAttributes
+    );
+
+    @PostMapping(value = "/users/{id}/role-mappings/realm", produces = MediaType.APPLICATION_JSON_VALUE)
+    void assignRealmRoles(
+            @PathVariable("id") String userId,
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody List<RoleRepresentation> roles
     );
 }

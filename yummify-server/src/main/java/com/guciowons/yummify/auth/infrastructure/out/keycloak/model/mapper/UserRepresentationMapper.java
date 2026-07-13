@@ -33,8 +33,10 @@ public interface UserRepresentationMapper {
 
     @AfterMapping
     default void afterMapping(@MappingTarget UserRepresentation userRepresentation, User user) {
-        userRepresentation.setAttributes(Map.of("restaurantId", List.of(user.getRestaurantId().value().toString())));
-        userRepresentation.setAttributes(Map.of("roleId", List.of(user.getRole().getId().value().toString())));
+        userRepresentation.setAttributes(Map.of(
+                "restaurantId", List.of(user.getRestaurantId().value().toString()),
+                "roleId", List.of(user.getRole().getId().value().toString())
+        ));
     }
 
     default User toUser(UserRepresentation userRepresentation, Role role) {
