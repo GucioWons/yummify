@@ -1,9 +1,12 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak;
 
+import com.guciowons.yummify.auth.application.service.RoleLookupService;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.adapter.KeycloakUserRepositoryAdapter;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.feign.KeycloakAdminClient;
+import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.RoleRepresentationMapper;
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.UserRepresentationMapper;
 import org.junit.jupiter.api.Test;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.HashMap;
@@ -18,11 +21,15 @@ class KeycloakUserRepositoryAdapterTest {
     private final KeycloakAuthenticator keycloakAuthenticator = mock(KeycloakAuthenticator.class);
     private final KeycloakAdminClient keycloakAdminClient = mock(KeycloakAdminClient.class);
     private final UserRepresentationMapper userRepresentationMapper = mock(UserRepresentationMapper.class);
+    private final RoleRepresentationMapper roleRepresentationMapper = mock(RoleRepresentationMapper.class);
+    private final RoleLookupService roleLookupService = mock(RoleLookupService.class);
 
     private final KeycloakUserRepositoryAdapter underTest = new KeycloakUserRepositoryAdapter(
             keycloakAuthenticator,
             keycloakAdminClient,
-            userRepresentationMapper
+            userRepresentationMapper,
+            roleRepresentationMapper,
+            roleLookupService
     );
 
     @Test
@@ -102,17 +109,20 @@ class KeycloakUserRepositoryAdapterTest {
     }
 
     @Test
-    void shouldCreateUserWithPassword() {
+    void shouldCreateUserWithPasswordAndRole() {
         // given
         var token = givenAdminToken();
         var user = givenUser(true);
-        var representation = mock(UserRepresentation.class);
+        var userRepresentation = mock(UserRepresentation.class);
+        var roleRepresentation = mock(RoleRepresentation.class);
         var expectedUserId = givenUserExternalId(1);
 
         when(keycloakAuthenticator.getAdminToken()).thenReturn(token);
-        when(userRepresentationMapper.toUserRepresentation(user)).thenReturn(representation);
-        when(keycloakAdminClient.getUserByEmail(token, user.getEmail().value())).thenReturn(List.of(representation));
-        when(representation.getId()).thenReturn(expectedUserId.value().toString());
+        when(userRepresentationMapper.toUserRepresentation(user)).thenReturn(userRepresentation);
+        when(keycloakAdminClient.getUserByEmail(token, user.getEmail().value())).thenReturn(List.of(userRepresentation));
+        when(roleRepresentationMapper.toRoleRepresentations(user.getRole().getPermissions()))
+                .thenReturn(List.of(roleRepresentation));
+        when(userRepresentation.getId()).thenReturn(expectedUserId.value().toString());
 
         // when
         var result = underTest.createUser(user);
@@ -120,8 +130,10 @@ class KeycloakUserRepositoryAdapterTest {
         // then
         verify(keycloakAuthenticator).getAdminToken();
         verify(userRepresentationMapper).toUserRepresentation(user);
-        verify(keycloakAdminClient).createUser(token, representation);
+        verify(keycloakAdminClient).createUser(token, userRepresentation);
         verify(keycloakAdminClient).getUserByEmail(token, user.getEmail().value());
+        verify(roleRepresentationMapper).toRoleRepresentations(user.getRole().getPermissions());
+        verify(keycloakAdminClient).assignRealmRoles(expectedUserId.value().toString(), token, List.of(roleRepresentation));
 
         assertThat(result).isEqualTo(user);
         assertThat(result.getId()).isEqualTo(expectedUserId);
@@ -164,7 +176,7 @@ class KeycloakUserRepositoryAdapterTest {
                 .thenReturn(token);
         when(keycloakAdminClient.getUsersByRestaurantId(token, queryParam))
                 .thenReturn(List.of(userRepresentation));
-        when(userRepresentationMapper.toUser(userRepresentation))
+        when(userRepresentationMapper.toUser(userRepresentation, null))
                 .thenReturn(user);
 
         // when
@@ -172,7 +184,7 @@ class KeycloakUserRepositoryAdapterTest {
 
         // then
         verify(keycloakAdminClient).getUsersByRestaurantId(token, queryParam);
-        verify(userRepresentationMapper).toUser(userRepresentation);
+        verify(userRepresentationMapper).toUser(userRepresentation, null);
 
         assertThat(result).containsExactly(user);
     }

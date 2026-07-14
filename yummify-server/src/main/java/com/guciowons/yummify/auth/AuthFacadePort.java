@@ -6,7 +6,15 @@ import java.util.UUID;
 
 @NamedInterface(name = "AuthFacadePort")
 public interface AuthFacadePort {
-    UUID createUser(String email, String username, String firstName, String lastName, UUID restaurantId, boolean withPassword);
+    UUID createUser(
+            String email,
+            String username,
+            String firstName,
+            String lastName,
+            UUID restaurantId,
+            UUID roleId,
+            boolean withPassword
+    );
 
     String generateOtp(UUID userId);
 }

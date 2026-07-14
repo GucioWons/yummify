@@ -27,14 +27,14 @@ class CreateTableUsecaseTest {
         var userId = UUID.nameUUIDFromBytes("user".getBytes());
 
         when(tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())).thenReturn(false);
-        when(authFacadePort.createUser(any(), any(), any(), any(), any(), eq(false))).thenReturn(userId);
+        when(authFacadePort.createUser(any(), any(), any(), any(), any(), any(), eq(false))).thenReturn(userId);
 
         // when
         var result = underTest.create(command);
 
         // then
         verify(tableRepository).existsByNameAndRestaurantId(command.name(), command.restaurantId());
-        verify(authFacadePort).createUser(any(), any(), any(), any(), any(), eq(false));
+        verify(authFacadePort).createUser(any(), any(), any(), any(), any(), any(), eq(false));
         verify(tableRepository).save(any(Table.class));
 
         assertThat(result.getId()).isNotNull();
@@ -55,7 +55,7 @@ class CreateTableUsecaseTest {
 
         // then
         verify(tableRepository).existsByNameAndRestaurantId(command.name(), command.restaurantId());
-        verify(authFacadePort, never()).createUser(any(), any(), any(), any(), any(), anyBoolean());
+        verify(authFacadePort, never()).createUser(any(), any(), any(), any(), any(), any(), anyBoolean());
         verify(tableRepository, never()).save(any(Table.class));
     }
 }

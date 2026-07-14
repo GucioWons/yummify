@@ -1,5 +1,6 @@
 package com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper;
 
+import com.guciowons.yummify.auth.domain.model.Role;
 import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.domain.model.Password;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -32,16 +33,14 @@ public interface UserRepresentationMapper {
 
     @AfterMapping
     default void afterMapping(@MappingTarget UserRepresentation userRepresentation, User user) {
-        userRepresentation.setAttributes(Map.of("restaurantId", List.of(user.getRestaurantId().value().toString())));
+        userRepresentation.setAttributes(Map.of(
+                "restaurantId", List.of(user.getRestaurantId().value().toString()),
+                "roleId", List.of(user.getRole().getId().value().toString())
+        ));
     }
 
-    default User toUser(UserRepresentation userRepresentation) {
-        UUID restaurantId = userRepresentation.getAttributes()
-                .getOrDefault("restaurantId", List.of())
-                .stream()
-                .findFirst()
-                .map(UUID::fromString)
-                .orElseThrow();
+    default User toUser(UserRepresentation userRepresentation, Role role) {
+        UUID restaurantId = extractUuidAttribute(userRepresentation, "restaurantId");
 
         User user = User.create(
                 User.RestaurantId.of(restaurantId),
@@ -51,11 +50,21 @@ public interface UserRepresentationMapper {
                         userRepresentation.getFirstName(),
                         userRepresentation.getLastName()
                 ),
-                null
+                null,
+                role
         );
 
         user.assignId(User.ExternalId.of(userRepresentation.getId()));
 
         return user;
+    }
+
+    default UUID extractUuidAttribute(UserRepresentation userRepresentation, String attributeName) {
+        return userRepresentation.getAttributes()
+                .getOrDefault(attributeName, List.of())
+                .stream()
+                .findFirst()
+                .map(UUID::fromString)
+                .orElseThrow();
     }
 }

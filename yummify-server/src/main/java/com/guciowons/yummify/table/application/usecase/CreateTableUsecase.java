@@ -36,7 +36,7 @@ public class CreateTableUsecase {
         String lastName = "Fake last name";
 
         return Table.UserId.of(
-                authFacadePort.createUser(email, username, firstName, lastName, restaurantId.value(), false)
+                authFacadePort.createUser(email, username, firstName, lastName, restaurantId.value(), null, false)
         );
     }
 }

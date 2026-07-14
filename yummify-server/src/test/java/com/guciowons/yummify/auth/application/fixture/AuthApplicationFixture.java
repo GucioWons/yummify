@@ -17,6 +17,7 @@ public class AuthApplicationFixture {
                 givenUserUsername(),
                 givenUserPersonalData(),
                 givenUserRestaurantId(),
+                givenRoleId(1),
                 withPassword
         );
     }

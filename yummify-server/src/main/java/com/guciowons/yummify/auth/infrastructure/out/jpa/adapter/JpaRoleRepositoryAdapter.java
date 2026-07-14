@@ -7,6 +7,8 @@ import com.guciowons.yummify.auth.infrastructure.out.jpa.repository.JpaRoleRepos
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class JpaRoleRepositoryAdapter implements RoleRepository {
@@ -16,5 +18,11 @@ public class JpaRoleRepositoryAdapter implements RoleRepository {
     @Override
     public void save(Role role) {
         jpaRoleRepository.save(jpaRoleMapper.toJpa(role));
+    }
+
+    @Override
+    public Optional<Role> findByIdAndRestaurantId(Role.Id id, Role.RestaurantId restaurantId) {
+        return jpaRoleRepository.findByIdAndRestaurantId(id.value(), restaurantId.value())
+                .map(jpaRoleMapper::toDomain);
     }
 }

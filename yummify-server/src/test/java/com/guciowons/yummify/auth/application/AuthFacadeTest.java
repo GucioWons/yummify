@@ -31,19 +31,20 @@ class AuthFacadeTest {
         var firstName = givenUserPersonalData().firstName();
         var lastName = givenUserPersonalData().lastName();
         var restaurantId = givenUserRestaurantId().value();
+        var roleId = givenRoleId(1).value();
         var withPassword = true;
         var command = givenCreateUserCommand(true);
         var expectedUserId = givenUserExternalId(1);
 
-        when(authCommandMapper.toCreateUserCommand(email, username, firstName, lastName, restaurantId, withPassword))
+        when(authCommandMapper.toCreateUserCommand(email, username, firstName, lastName, restaurantId, roleId, withPassword))
                 .thenReturn(command);
         when(createUserUsecase.create(command)).thenReturn(expectedUserId);
 
         // when
-        var result = underTest.createUser(email, username, firstName, lastName, restaurantId, withPassword);
+        var result = underTest.createUser(email, username, firstName, lastName, restaurantId, roleId, withPassword);
 
         // then
-        verify(authCommandMapper).toCreateUserCommand(email, username, firstName, lastName, restaurantId, withPassword);
+        verify(authCommandMapper).toCreateUserCommand(email, username, firstName, lastName, restaurantId, roleId, withPassword);
         verify(createUserUsecase).create(command);
 
         assertThat(result).isEqualTo(expectedUserId.value());

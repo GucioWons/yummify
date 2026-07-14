@@ -23,6 +23,10 @@ public interface RoleCommandMapper {
     @Mapping(target = "permissions", source = "permissions")
     CreateRoleCommand toCreateRoleCommand(UUID restaurantId, Map<String, String> name, Set<String> permissions);
 
+    default Role.Id toRoleId(UUID id) {
+        return Role.Id.of(id);
+    }
+
     default Role.RestaurantId toRestaurantId(UUID id) {
         return Role.RestaurantId.of(id);
     }

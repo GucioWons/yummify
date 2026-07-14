@@ -3,12 +3,13 @@ package com.guciowons.yummify.auth.application.model.mapper;
 import com.guciowons.yummify.auth.application.model.CreateUserCommand;
 import com.guciowons.yummify.auth.application.model.GenerateOtpCommand;
 import com.guciowons.yummify.auth.domain.model.User;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = RoleCommandMapper.class)
 public interface AuthCommandMapper {
 
     @Mapping(target = "personalData", expression = "java(toPersonalData(firstName, lastName))")
@@ -18,6 +19,7 @@ public interface AuthCommandMapper {
             String firstName,
             String lastName,
             UUID restaurantId,
+            UUID roleId,
             boolean withPassword
     );
 

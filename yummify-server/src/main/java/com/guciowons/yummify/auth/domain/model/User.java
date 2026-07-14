@@ -17,15 +17,17 @@ public class User {
     private final Username username;
     private final PersonalData personalData;
     private final Password password;
+    private final Role role;
 
     public static User create(
             RestaurantId restaurantId,
             Email email,
             Username username,
             PersonalData personalData,
-            Password password
+            Password password,
+            Role role
     ) {
-        return new User(restaurantId, email, username, personalData, password);
+        return new User(restaurantId, email, username, personalData, password, role);
     }
 
     public void assignId(ExternalId id) {

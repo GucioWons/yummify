@@ -24,7 +24,7 @@ public class RestaurantController {
     private final RestaurantMapper restaurantMapper;
 
     @PostMapping
-    @SecuredByPermission(Permission.RESTAURANT_CREATE)
+    @SecuredByPermission(Permission.ADMIN)
     public ResponseEntity<RestaurantManageDto> create(@RequestBody @Valid RestaurantCreateDto dto) {
         Restaurant restaurant = restaurantFacade.create(
                 dto.restaurant().name(),
