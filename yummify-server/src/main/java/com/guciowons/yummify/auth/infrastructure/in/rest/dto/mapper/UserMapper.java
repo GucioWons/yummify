@@ -12,5 +12,6 @@ public interface UserMapper {
     @Mapping(target = "username", source = "username.value")
     @Mapping(target = "firstName", source = "personalData.firstName")
     @Mapping(target = "lastName", source = "personalData.lastName")
+    @Mapping(target = "roleId", source = "role.id.value")
     UserManageDto toManageDto(User user);
 }
