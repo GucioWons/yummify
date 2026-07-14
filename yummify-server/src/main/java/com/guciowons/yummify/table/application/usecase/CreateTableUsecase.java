@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.table.application.model.CreateTableCommand;
 import com.guciowons.yummify.table.domain.entity.Table;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateTableUsecase {
     private final TableRepository tableRepository;
-    private final AuthFacadePort authFacadePort;
+    private final UserFacadePort userFacadePort;
 
     @Transactional
     public Table create(CreateTableCommand command) throws TableExistsByNameException {
@@ -36,7 +36,7 @@ public class CreateTableUsecase {
         String lastName = "Fake last name";
 
         return Table.UserId.of(
-                authFacadePort.createUser(email, username, firstName, lastName, restaurantId.value(), null, false)
+                userFacadePort.createUserAndGetId(email, username, firstName, lastName, restaurantId.value(), null, false)
         );
     }
 }

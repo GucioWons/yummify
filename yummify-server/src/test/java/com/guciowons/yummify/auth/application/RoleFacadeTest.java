@@ -21,6 +21,28 @@ class RoleFacadeTest {
     private final RoleFacade underTest = new RoleFacade(createRoleUsecase, roleCommandMapper);
 
     @Test
+    void shouldCreateRoleAndGetId() {
+        // given
+        var restaurantId = givenRoleRestaurantId(1).value();
+        var name = Map.of("EN", "Role");
+        var permissions = Collections.singleton(Permission.OWNER.name());
+        var command = givenCreateRoleCommand();
+        var role = givenRole(1);
+
+        when(roleCommandMapper.toCreateRoleCommand(restaurantId, name, permissions)).thenReturn(command);
+        when(createRoleUsecase.create(command)).thenReturn(role);
+
+        // when
+        var result = underTest.createAndGetId(restaurantId, name, permissions);
+
+        // then
+        verify(roleCommandMapper).toCreateRoleCommand(restaurantId, name, permissions);
+        verify(createRoleUsecase).create(command);
+
+        assertThat(result).isEqualTo(role.getId().value());
+    }
+
+    @Test
     void shouldCreateRole() {
         // given
         var restaurantId = givenRoleRestaurantId(1).value();

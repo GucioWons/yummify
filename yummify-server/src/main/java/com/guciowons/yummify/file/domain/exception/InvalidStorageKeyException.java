@@ -1,30 +1,22 @@
 package com.guciowons.yummify.file.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import lombok.Getter;
+import com.guciowons.yummify.common.exception.domain.model.ErrorMessage;
+import com.guciowons.yummify.file.domain.exception.message.FileErrorMessage;
 
-@Getter
-public class InvalidStorageKeyException extends DomainException {
-    private final Reason reason;
-
-    private InvalidStorageKeyException(Reason reason) {
-        super("Invalid storage key");
-        this.reason = reason;
+public class InvalidStorageKeyException extends FileDomainException {
+    private InvalidStorageKeyException(ErrorMessage errorMessage) {
+        super(errorMessage);
     }
 
     public static InvalidStorageKeyException blank() {
-        return new InvalidStorageKeyException(Reason.BLANK);
+        return new InvalidStorageKeyException(FileErrorMessage.STORAGE_KEY_IS_BLANK);
     }
 
     public static InvalidStorageKeyException startsWithSlash() {
-        return new InvalidStorageKeyException(Reason.STARTS_WITH_SLASH);
+        return new InvalidStorageKeyException(FileErrorMessage.STORAGE_KEY_STARTS_WITH_SLASH);
     }
 
     public static InvalidStorageKeyException containsDots() {
-        return new InvalidStorageKeyException(Reason.CONTAINS_DOTS);
-    }
-
-    public enum Reason {
-        BLANK, STARTS_WITH_SLASH, CONTAINS_DOTS
+        return new InvalidStorageKeyException(FileErrorMessage.STORAGE_KEY_CONTAINS_DOTS);
     }
 }

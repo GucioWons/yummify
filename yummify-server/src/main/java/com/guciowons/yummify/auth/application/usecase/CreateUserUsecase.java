@@ -19,7 +19,7 @@ public class CreateUserUsecase {
     private final UserRepository userRepository;
     private final RoleLookupService roleLookupService;
 
-    public User.ExternalId create(CreateUserCommand command) {
+    public User create(CreateUserCommand command) {
         if (userRepository.existsByEmail(command.email())) {
             throw new AccountExistsByEmailException();
         }
@@ -42,7 +42,7 @@ public class CreateUserUsecase {
                 role
         );
 
-        return userRepository.createUser(user).getId();
+        return userRepository.createUser(user);
     }
 
     private Password generatePassword(boolean withPassword) {

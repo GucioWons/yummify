@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.table.domain.entity.Table;
 import com.guciowons.yummify.table.domain.exception.TableExistsByNameException;
 import com.guciowons.yummify.table.domain.repository.TableRepository;
@@ -16,9 +16,9 @@ import static org.mockito.Mockito.*;
 
 class CreateTableUsecaseTest {
     private final TableRepository tableRepository = mock(TableRepository.class);
-    private final AuthFacadePort authFacadePort = mock(AuthFacadePort.class);
+    private final UserFacadePort userFacadePort = mock(UserFacadePort.class);
 
-    private final CreateTableUsecase underTest = new CreateTableUsecase(tableRepository, authFacadePort);
+    private final CreateTableUsecase underTest = new CreateTableUsecase(tableRepository, userFacadePort);
 
     @Test
     void shouldCreateTable() {
@@ -27,14 +27,14 @@ class CreateTableUsecaseTest {
         var userId = UUID.nameUUIDFromBytes("user".getBytes());
 
         when(tableRepository.existsByNameAndRestaurantId(command.name(), command.restaurantId())).thenReturn(false);
-        when(authFacadePort.createUser(any(), any(), any(), any(), any(), any(), eq(false))).thenReturn(userId);
+        when(userFacadePort.createUserAndGetId(any(), any(), any(), any(), any(), any(), eq(false))).thenReturn(userId);
 
         // when
         var result = underTest.create(command);
 
         // then
         verify(tableRepository).existsByNameAndRestaurantId(command.name(), command.restaurantId());
-        verify(authFacadePort).createUser(any(), any(), any(), any(), any(), any(), eq(false));
+        verify(userFacadePort).createUserAndGetId(any(), any(), any(), any(), any(), any(), eq(false));
         verify(tableRepository).save(any(Table.class));
 
         assertThat(result.getId()).isNotNull();
@@ -55,7 +55,7 @@ class CreateTableUsecaseTest {
 
         // then
         verify(tableRepository).existsByNameAndRestaurantId(command.name(), command.restaurantId());
-        verify(authFacadePort, never()).createUser(any(), any(), any(), any(), any(), any(), anyBoolean());
+        verify(userFacadePort, never()).createUser(any(), any(), any(), any(), any(), any(), anyBoolean());
         verify(tableRepository, never()).save(any(Table.class));
     }
 }

@@ -4,16 +4,10 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.menu.application.entry.MenuEntryFacade;
-import com.guciowons.yummify.menu.application.entry.port.MenuEntryFacadePort;
-import com.guciowons.yummify.menu.application.section.MenuSectionFacade;
-import com.guciowons.yummify.menu.application.version.MenuVersionFacade;
-import com.guciowons.yummify.menu.application.section.port.MenuSectionFacadePort;
-import com.guciowons.yummify.menu.application.version.port.MenuVersionFacadePort;
-import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuEntryFacadeApiExceptionDecorator;
-import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuSectionFacadeApiExceptionDecorator;
-import com.guciowons.yummify.menu.infrastructure.decorator.rest.MenuVersionFacadeApiExceptionDecorator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 import java.time.Clock;
 
@@ -31,23 +25,5 @@ public class MenuBeansConfig {
     @Bean
     Clock clock() {
         return Clock.systemUTC();
-    }
-
-    @Bean
-    @Primary
-    MenuVersionFacadePort menuVersionFacadePort(MenuVersionFacade menuVersionFacade) {
-        return new MenuVersionFacadeApiExceptionDecorator(menuVersionFacade);
-    }
-
-    @Bean
-    @Primary
-    MenuSectionFacadePort menuSectionFacadePort(MenuSectionFacade menuSectionFacade) {
-        return new MenuSectionFacadeApiExceptionDecorator(menuSectionFacade);
-    }
-
-    @Bean
-    @Primary
-    MenuEntryFacadePort menuEntryFacadePort(MenuEntryFacade menuEntryFacade) {
-        return new MenuEntryFacadeApiExceptionDecorator(menuEntryFacade);
     }
 }

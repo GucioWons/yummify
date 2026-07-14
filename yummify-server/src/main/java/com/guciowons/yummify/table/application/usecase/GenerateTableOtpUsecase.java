@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.table.application.model.GenerateTableOtpCommand;
@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GenerateTableOtpUsecase {
     private final TableLookupService tableLookupService;
-    private final AuthFacadePort authFacadePort;
+    private final UserFacadePort userFacadePort;
 
     public String generate(GenerateTableOtpCommand command) throws DomainException {
         Table table = tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
-        return authFacadePort.generateOtp(table.getUserId().value());
+        return userFacadePort.generateOtp(table.getUserId().value());
     }
 }
