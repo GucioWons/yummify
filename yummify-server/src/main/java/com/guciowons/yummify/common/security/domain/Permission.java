@@ -9,6 +9,10 @@ public enum Permission {
     ADMIN(null, "3a47d022-a6e9-417c-ad24-184745c61b02"),
     OWNER(ADMIN, "dc952287-dc57-4480-930a-cce8a941dc07"),
 
+    USER(OWNER, "c1f25927-1432-4ad6-89e9-ddb480179d84"),
+    USER_READ(USER, "47c7843f-9735-4949-89d3-f4971a0be457"),
+    USER_CREATE(USER, "27e0ebd5-b9a8-4b8c-a4f4-f7977c816cc7"),
+
     ROLE(OWNER, "6d0a05ab-4b72-44fb-b02f-2efbccb3f71c"),
     ROLE_CREATE(ROLE, "8abb56fe-cc8d-4a1b-9c3c-b467c9182f58"),
 

@@ -4,7 +4,9 @@ import com.guciowons.yummify.auth.application.UserFacade;
 import com.guciowons.yummify.auth.domain.model.User;
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.UserManageDto;
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.UserMapper;
+import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
+import com.guciowons.yummify.common.security.domain.Permission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
+    @SecuredByPermission(Permission.USER_READ)
     public ResponseEntity<List<UserManageDto>> getUsers(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         List<UserManageDto> users = userFacade.getAllUsers(userPrincipal.restaurantId()).stream()
                 .map(userMapper::toManageDto)
@@ -32,6 +35,7 @@ public class UserController {
     }
 
     @PostMapping
+    @SecuredByPermission(Permission.USER_CREATE)
     public ResponseEntity<UserManageDto> createUser(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody UserManageDto dto
