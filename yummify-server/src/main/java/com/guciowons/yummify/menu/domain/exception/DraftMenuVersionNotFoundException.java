@@ -1,9 +1,9 @@
 package com.guciowons.yummify.menu.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.menu.domain.exception.message.MenuErrorMessage;
 
-public class DraftMenuVersionNotFoundException extends DomainException {
+public class DraftMenuVersionNotFoundException extends MenuDomainException {
     public DraftMenuVersionNotFoundException() {
-        super("Draft menu version not found");
+        super(MenuErrorMessage.DRAFT_MENU_VERSION_NOT_FOUND);
     }
 }

@@ -1,6 +1,6 @@
 package com.guciowons.yummify.table.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.table.application.service.TableLookupService;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +11,9 @@ import static org.mockito.Mockito.*;
 
 class GenerateTableOtpUsecaseTest {
     private final TableLookupService tableLookupService = mock(TableLookupService.class);
-    private final AuthFacadePort authFacadePort = mock(AuthFacadePort.class);
+    private final UserFacadePort userFacadePort = mock(UserFacadePort.class);
 
-    private final GenerateTableOtpUsecase underTest = new GenerateTableOtpUsecase(tableLookupService, authFacadePort);
+    private final GenerateTableOtpUsecase underTest = new GenerateTableOtpUsecase(tableLookupService, userFacadePort);
 
     @Test
     void shouldGenerateTableOtpUsecase() {
@@ -23,14 +23,14 @@ class GenerateTableOtpUsecaseTest {
         var otp = "otp";
 
         when(tableLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId())).thenReturn(table);
-        when(authFacadePort.generateOtp(table.getUserId().value())).thenReturn(otp);
+        when(userFacadePort.generateOtp(table.getUserId().value())).thenReturn(otp);
 
         // when
         var result = underTest.generate(command);
 
         // then
         verify(tableLookupService).getByIdAndRestaurantId(command.id(), command.restaurantId());
-        verify(authFacadePort).generateOtp(table.getUserId().value());
+        verify(userFacadePort).generateOtp(table.getUserId().value());
 
         assertEquals(otp, result);
     }

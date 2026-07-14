@@ -4,10 +4,9 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.table.application.TableFacade;
-import com.guciowons.yummify.table.application.port.TableFacadePort;
-import com.guciowons.yummify.table.infrastructure.decorator.rest.TableFacadeApiExceptionDecorator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.table",
@@ -20,9 +19,4 @@ import org.springframework.context.annotation.*;
 )
 @Configuration
 public class TableBeansConfig {
-    @Bean
-    @Primary
-    TableFacadePort tableFacadePort(TableFacade tableFacade) {
-        return new TableFacadeApiExceptionDecorator(tableFacade);
-    }
 }

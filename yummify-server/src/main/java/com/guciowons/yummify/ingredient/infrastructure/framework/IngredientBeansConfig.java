@@ -4,10 +4,9 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.ingredient.application.IngredientFacade;
-import com.guciowons.yummify.ingredient.application.port.IngredientFacadePort;
-import com.guciowons.yummify.ingredient.infrastructure.decorator.rest.IngredientFacadeApiExceptionDecorator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.ingredient",
@@ -20,9 +19,4 @@ import org.springframework.context.annotation.*;
 )
 @Configuration
 public class IngredientBeansConfig {
-    @Bean
-    @Primary
-    IngredientFacadePort ingredientFacadePort(IngredientFacade ingredientFacade) {
-        return new IngredientFacadeApiExceptionDecorator(ingredientFacade);
-    }
 }

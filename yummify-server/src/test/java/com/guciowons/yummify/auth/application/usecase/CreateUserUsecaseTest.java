@@ -55,7 +55,7 @@ class CreateUserUsecaseTest {
         assertThat(capturedUser.getPassword()).isEqualTo(password);
         assertThat(capturedUser.getRole()).isEqualTo(role);
 
-        assertThat(result).isEqualTo(userId);
+        assertThat(result).isEqualTo(user);
     }
 
     @Test
@@ -81,7 +81,7 @@ class CreateUserUsecaseTest {
         var capturedUser = userCaptor.getValue();
         assertThat(capturedUser.getPassword()).isNull();
 
-        assertThat(result).isEqualTo(userId);
+        assertThat(result).isEqualTo(user);
     }
 
     @Test

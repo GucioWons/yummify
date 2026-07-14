@@ -1,6 +1,6 @@
 package com.guciowons.yummify.restaurant.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.auth.RoleFacadePort;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.common.security.domain.Permission;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.*;
 
 class CreateRestaurantUsecaseTest {
     private final RestaurantRepository restaurantRepository = mock(RestaurantRepository.class);
-    private final AuthFacadePort authFacadePort = mock(AuthFacadePort.class);
+    private final UserFacadePort userFacadePort = mock(UserFacadePort.class);
     private final RoleFacadePort roleFacadePort = mock(RoleFacadePort.class);
 
-    private final CreateRestaurantUsecase underTest = new CreateRestaurantUsecase(restaurantRepository, authFacadePort, roleFacadePort);
+    private final CreateRestaurantUsecase underTest = new CreateRestaurantUsecase(restaurantRepository, userFacadePort, roleFacadePort);
 
     @Test
     void shouldCreateRestaurant() {
@@ -35,7 +35,7 @@ class CreateRestaurantUsecaseTest {
         var ownerId = UUID.nameUUIDFromBytes("user".getBytes());
 
         when(roleFacadePort.createAndGetId(any(), eq(ownerRoleName), eq(ownerRolePermissions))).thenReturn(ownerRoleId);
-        when(authFacadePort.createUser(
+        when(userFacadePort.createUserAndGetId(
                 eq(command.owner().email()),
                 eq(command.owner().username()),
                 eq(command.owner().firstName()),
@@ -50,7 +50,7 @@ class CreateRestaurantUsecaseTest {
 
         // then
         verify(roleFacadePort).createAndGetId(any(), eq(ownerRoleName), eq(ownerRolePermissions));
-        verify(authFacadePort).createUser(
+        verify(userFacadePort).createUserAndGetId(
                 command.owner().email(),
                 command.owner().username(),
                 command.owner().firstName(),

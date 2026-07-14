@@ -4,10 +4,9 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.order.application.OrderFacade;
-import com.guciowons.yummify.order.application.port.OrderFacadePort;
-import com.guciowons.yummify.order.infrastructure.decorator.rest.OrderFacadeApiExceptionDecorator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.order",
@@ -20,9 +19,4 @@ import org.springframework.context.annotation.*;
 )
 @Configuration
 public class OrderBeansConfig {
-    @Bean
-    @Primary
-    OrderFacadePort orderFacadePort(OrderFacade orderFacade) {
-        return new OrderFacadeApiExceptionDecorator(orderFacade);
-    }
 }

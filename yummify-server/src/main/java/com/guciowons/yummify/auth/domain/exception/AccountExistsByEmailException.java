@@ -1,9 +1,9 @@
 package com.guciowons.yummify.auth.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.auth.domain.exception.message.AuthErrorMessage;
 
-public class AccountExistsByEmailException extends DomainException {
+public class AccountExistsByEmailException extends AuthDomainException {
     public AccountExistsByEmailException() {
-        super("Account exists by email");
+        super(AuthErrorMessage.AUTH_ACCOUNT_EXISTS_BY_EMAIL);
     }
 }

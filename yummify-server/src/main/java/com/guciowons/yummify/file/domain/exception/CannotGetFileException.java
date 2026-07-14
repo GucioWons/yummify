@@ -1,9 +1,9 @@
 package com.guciowons.yummify.file.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.file.domain.exception.message.FileErrorMessage;
 
-public class CannotGetFileException extends DomainException {
+public class CannotGetFileException extends FileDomainException {
     public CannotGetFileException() {
-        super("Cannot get file");
+        super(FileErrorMessage.CANNOT_GET_FILE);
     }
 }

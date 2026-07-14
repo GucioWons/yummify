@@ -1,6 +1,6 @@
 package com.guciowons.yummify.restaurant.application.usecase;
 
-import com.guciowons.yummify.auth.AuthFacadePort;
+import com.guciowons.yummify.auth.UserFacadePort;
 import com.guciowons.yummify.auth.RoleFacadePort;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreateRestaurantUsecase {
     private final RestaurantRepository restaurantRepository;
-    private final AuthFacadePort authFacadePort;
+    private final UserFacadePort userFacadePort;
     private final RoleFacadePort roleFacadePort;
 
     @Transactional
@@ -46,7 +46,7 @@ public class CreateRestaurantUsecase {
     }
 
     private UUID createOwnerUser(RestaurantOwner owner, Restaurant.Id restaurantId, UUID roleId) {
-        return authFacadePort.createUser(
+        return userFacadePort.createUserAndGetId(
                 owner.email(),
                 owner.username(),
                 owner.firstName(),

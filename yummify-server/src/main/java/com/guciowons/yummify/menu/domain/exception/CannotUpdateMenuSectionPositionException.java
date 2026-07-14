@@ -1,9 +1,9 @@
 package com.guciowons.yummify.menu.domain.exception;
 
-import com.guciowons.yummify.common.exception.domain.exception.DomainException;
+import com.guciowons.yummify.menu.domain.exception.message.MenuErrorMessage;
 
-public class CannotUpdateMenuSectionPositionException extends DomainException {
+public class CannotUpdateMenuSectionPositionException extends MenuDomainException {
     public CannotUpdateMenuSectionPositionException() {
-        super("Cannot update menu section position");
+        super(MenuErrorMessage.CANNOT_UPDATE_MENU_SECTION_POSITION);
     }
 }

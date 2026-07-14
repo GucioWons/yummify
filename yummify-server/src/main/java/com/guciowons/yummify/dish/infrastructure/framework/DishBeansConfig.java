@@ -4,10 +4,9 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.common.core.application.annotation.ExceptionMapper;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.common.core.application.annotation.Usecase;
-import com.guciowons.yummify.dish.application.DishFacade;
-import com.guciowons.yummify.dish.application.port.DishFacadePort;
-import com.guciowons.yummify.dish.infrastructure.decorator.rest.DishFacadeApiExceptionDecorator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 
 @ComponentScan(
         basePackages = "com.guciowons.yummify.dish",
@@ -20,9 +19,4 @@ import org.springframework.context.annotation.*;
 )
 @Configuration
 public class DishBeansConfig {
-    @Bean
-    @Primary
-    DishFacadePort dishFacadePort(DishFacade facade) {
-        return new DishFacadeApiExceptionDecorator(facade);
-    }
 }
