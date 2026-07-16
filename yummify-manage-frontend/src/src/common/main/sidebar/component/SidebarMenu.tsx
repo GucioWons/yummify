@@ -1,6 +1,6 @@
 import SidebarButton from "./SidebarButton.tsx";
 import {useLocation} from "react-router-dom";
-import {BookOpen, ChefHat, CookingPot, Home, RockingChair, Users} from "lucide-react";
+import {BookOpen, ChefHat, CookingPot, Home, RockingChair, Shield, Users} from "lucide-react";
 
 function SidebarMenu() {
     const location = useLocation();
@@ -12,6 +12,7 @@ function SidebarMenu() {
         {text: "Dishes", icon: ChefHat, path: "/dishes"},
         {text: "Menu", icon: BookOpen, path: "/menu"},
         {text: "Users", icon: Users, path: "/users"},
+        {text: "Roles", icon: Shield, path: "/roles"},
     ]
 
     return (

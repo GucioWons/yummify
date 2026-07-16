@@ -1,0 +1,12 @@
+.role-list-element {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+}
+
+.role-list-element-field {
+    text-align: left;
+    padding-right: 8px;
+    padding-left: 8px;
+}
