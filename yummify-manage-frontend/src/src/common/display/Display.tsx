@@ -4,7 +4,7 @@ import "./Display.css"
 
 export interface DisplayProps {
     children: React.ReactNode;
-    onEditClick: () => void;
+    onEditClick?: () => void;
     onCloseClick: () => void;
 }
 

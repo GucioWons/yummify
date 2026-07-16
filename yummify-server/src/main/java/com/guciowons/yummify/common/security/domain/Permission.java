@@ -14,6 +14,7 @@ public enum Permission {
     USER_CREATE(USER, "27e0ebd5-b9a8-4b8c-a4f4-f7977c816cc7"),
 
     ROLE(OWNER, "6d0a05ab-4b72-44fb-b02f-2efbccb3f71c"),
+    ROLE_READ(ROLE, "3c745eb4-9180-451e-a1cc-0890c58b1bd2"),
     ROLE_CREATE(ROLE, "8abb56fe-cc8d-4a1b-9c3c-b467c9182f58"),
 
     RESTAURANT_MODIFY(OWNER, "ca934ad1-fa84-464b-b2e3-37878ff891ac"),

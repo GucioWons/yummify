@@ -7,7 +7,7 @@ import {userService} from "../service/userService.ts";
 import UserManageDto = Dtos.UserManageDto;
 
 export interface UserListProps {
-    onElementClick: (dish: UserManageDto) => void;
+    onElementClick: (user: UserManageDto) => void;
 }
 
 function UserList(props: UserListProps) {

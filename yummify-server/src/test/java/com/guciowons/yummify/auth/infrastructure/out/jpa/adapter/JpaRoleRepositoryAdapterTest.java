@@ -5,6 +5,7 @@ import com.guciowons.yummify.auth.infrastructure.out.jpa.entity.mapper.JpaRoleMa
 import com.guciowons.yummify.auth.infrastructure.out.jpa.repository.JpaRoleRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.*;
@@ -55,4 +56,27 @@ class JpaRoleRepositoryAdapterTest {
         assertThat(result).hasValue(role);
     }
 
+    @Test
+    void shouldFindAllRoles() {
+        // given
+        var restaurantId = givenRoleRestaurantId(1);
+        var jpaRoles = List.of(new JpaRole(), new JpaRole(), new JpaRole());
+        var roles = List.of(givenRole(1), givenRole(2), givenRole(3));
+
+        when(jpaRoleRepository.findAllByRestaurantId(restaurantId.value())).thenReturn(jpaRoles);
+        when(jpaRoleMapper.toDomain(jpaRoles.getFirst())).thenReturn(roles.getFirst());
+        when(jpaRoleMapper.toDomain(jpaRoles.get(1))).thenReturn(roles.get(1));
+        when(jpaRoleMapper.toDomain(jpaRoles.get(2))).thenReturn(roles.get(2));
+
+        // when
+        var result = underTest.findAllByRestaurantId(restaurantId);
+
+        // then
+        verify(jpaRoleRepository).findAllByRestaurantId(restaurantId.value());
+        verify(jpaRoleMapper).toDomain(jpaRoles.getFirst());
+        verify(jpaRoleMapper).toDomain(jpaRoles.get(1));
+        verify(jpaRoleMapper).toDomain(jpaRoles.get(2));
+
+        assertThat(result).isEqualTo(roles);
+    }
 }
