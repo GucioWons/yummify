@@ -34,4 +34,8 @@ public class AuthApplicationFixture {
     public static GetAllRolesQuery givenGetAllRolesQuery() {
         return new GetAllRolesQuery(givenRoleRestaurantId(1));
     }
+
+    public static GetRoleQuery givenGetRoleQuery() {
+        return new GetRoleQuery(givenRoleId(1), givenRoleRestaurantId(1));
+    }
 }
