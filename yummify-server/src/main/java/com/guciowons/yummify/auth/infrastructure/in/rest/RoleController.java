@@ -2,6 +2,7 @@ package com.guciowons.yummify.auth.infrastructure.in.rest;
 
 import com.guciowons.yummify.auth.application.RoleFacade;
 import com.guciowons.yummify.auth.domain.model.Role;
+import com.guciowons.yummify.auth.infrastructure.in.rest.dto.RoleListDto;
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.RoleManageDto;
 import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.RoleMapper;
 import com.guciowons.yummify.common.security.application.SecuredByPermission;
@@ -11,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/roles")
@@ -33,5 +33,17 @@ public class RoleController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(roleMapper.toManageDto(role));
+    }
+
+    @GetMapping
+    @SecuredByPermission(Permission.ROLE_READ)
+    public ResponseEntity<List<RoleListDto>> getAll(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<RoleListDto> roles = roleFacade.getAll(userPrincipal.restaurantId()).stream()
+                .map(roleMapper::toRoleListDto)
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(roles);
     }
 }

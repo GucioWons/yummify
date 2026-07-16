@@ -2,6 +2,7 @@ package com.guciowons.yummify.auth.application;
 
 import com.guciowons.yummify.auth.application.model.mapper.RoleCommandMapper;
 import com.guciowons.yummify.auth.application.usecase.CreateRoleUsecase;
+import com.guciowons.yummify.auth.application.usecase.GetAllRolesUsecase;
 import com.guciowons.yummify.common.security.domain.Permission;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +17,10 @@ import static org.mockito.Mockito.*;
 
 class RoleFacadeTest {
     private final CreateRoleUsecase createRoleUsecase = mock(CreateRoleUsecase.class);
+    private final GetAllRolesUsecase getAllRolesUsecase = mock(GetAllRolesUsecase.class);
     private final RoleCommandMapper roleCommandMapper = mock(RoleCommandMapper.class);
 
-    private final RoleFacade underTest = new RoleFacade(createRoleUsecase, roleCommandMapper);
+    private final RoleFacade underTest = new RoleFacade(createRoleUsecase, getAllRolesUsecase, roleCommandMapper);
 
     @Test
     void shouldCreateRoleAndGetId() {
