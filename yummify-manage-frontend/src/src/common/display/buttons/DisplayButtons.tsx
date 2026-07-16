@@ -1,7 +1,7 @@
 import Button from "../../button/Button.tsx";
 
 export interface DisplayButtonProps {
-    onEditClick: () => void;
+    onEditClick?: () => void;
     onCloseClick: () => void;
 }
 
@@ -11,7 +11,7 @@ function DisplayButtons(props: DisplayButtonProps) {
     return (
         <div className="display-buttons">
             <Button text='Close' outlined onClick={onCloseClick}/>
-            <Button text='Edit' onClick={onEditClick}/>
+            {onEditClick && <Button text='Edit' onClick={onEditClick}/>}
         </div>
     );
 }

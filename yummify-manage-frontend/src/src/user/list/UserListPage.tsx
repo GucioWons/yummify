@@ -3,8 +3,15 @@ import Button from "../../common/button/Button.tsx";
 import {Plus} from "lucide-react";
 import UserList from "./UserList.tsx";
 import "./UserList.css";
+import {useState} from "react";
+import {Dtos} from "../../common/dtos.ts";
+import UserManageDto = Dtos.UserManageDto;
+import UserDisplayModal from "../display/UserDisplayModal.tsx";
 
 function UserListPage() {
+    const [selectedUser, setSelectedUser] = useState<UserManageDto | null>(null);
+
+
     return (
         <>
             <PageTitle
@@ -18,7 +25,10 @@ function UserListPage() {
                     />
                 }
             />
-            <UserList onElementClick={() => {}}/>
+            <UserList onElementClick={setSelectedUser}/>
+            {selectedUser && (
+                <UserDisplayModal user={selectedUser} onClose={() => setSelectedUser(null)}/>
+            )}
         </>
     )
 }
