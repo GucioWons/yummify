@@ -7,9 +7,11 @@ import com.guciowons.yummify.common.security.domain.Permission;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenCreateRoleCommand;
+import static com.guciowons.yummify.auth.application.fixture.AuthApplicationFixture.givenGetAllRolesQuery;
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.givenRole;
 import static com.guciowons.yummify.auth.domain.fixture.AuthDomainFixture.givenRoleRestaurantId;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,5 +66,25 @@ class RoleFacadeTest {
         verify(createRoleUsecase).create(command);
 
         assertThat(result).isEqualTo(role);
+    }
+
+    @Test
+    void shouldGetAllRoles() {
+        // given
+        var restaurantId = givenRoleRestaurantId(1).value();
+        var query = givenGetAllRolesQuery();
+        var expectedResult = List.of(givenRole(1));
+
+        when(roleCommandMapper.toGetAllRolesQuery(restaurantId)).thenReturn(query);
+        when(getAllRolesUsecase.getAllRoles(query)).thenReturn(expectedResult);
+
+        // when
+        var result = underTest.getAll(restaurantId);
+
+        // then
+        verify(roleCommandMapper).toGetAllRolesQuery(restaurantId);
+        verify(getAllRolesUsecase).getAllRoles(query);
+
+        assertThat(result).isEqualTo(expectedResult);
     }
 }
