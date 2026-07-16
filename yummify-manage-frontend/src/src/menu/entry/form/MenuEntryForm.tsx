@@ -42,7 +42,6 @@ function MenuEntryForm(props: MenuEntryFormProps) {
                     placeholder="Select dish..."
                     options={dishes ?? []}
                     getOptionLabel={(option) => option.name}
-                    getOptionKey={(option) => option.id}
                     getOptionValue={(option) => option.id}
                 />
             }

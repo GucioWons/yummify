@@ -139,6 +139,11 @@ export namespace Dtos {
         username: string;
     }
 
+    export interface RoleListDto {
+        id: string;
+        name: string;
+    }
+
     export interface RoleManageDto {
         id: string;
         name: TranslatedStringDto;
