@@ -2,6 +2,7 @@ package com.guciowons.yummify.auth.application.model.mapper;
 
 import com.guciowons.yummify.auth.application.model.CreateRoleCommand;
 import com.guciowons.yummify.auth.application.model.GetAllRolesQuery;
+import com.guciowons.yummify.auth.application.model.GetRoleQuery;
 import com.guciowons.yummify.auth.domain.model.Role;
 import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
 import com.guciowons.yummify.common.security.application.mapper.PermissionMapper;
@@ -25,6 +26,8 @@ public interface RoleCommandMapper {
     CreateRoleCommand toCreateRoleCommand(UUID restaurantId, Map<String, String> name, Set<String> permissions);
 
     GetAllRolesQuery toGetAllRolesQuery(UUID restaurantId);
+
+    GetRoleQuery toGetRoleQuery(UUID id, UUID restaurantId);
 
     default Role.Id toRoleId(UUID id) {
         return Role.Id.of(id);

@@ -8,6 +8,7 @@ import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.RoleMapper;
 import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.Permission;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/roles")
@@ -45,5 +47,18 @@ public class RoleController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(roles);
+    }
+
+    @GetMapping("{id}")
+    @SecuredByPermission(Permission.ROLE_READ)
+    public ResponseEntity<RoleManageDto> getById(
+            @PathParam("id") UUID id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        Role role = roleFacade.getById(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(roleMapper.toManageDto(role));
     }
 }
