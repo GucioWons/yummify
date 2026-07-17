@@ -2,6 +2,8 @@ import Checkbox from "../../../common/input/Checkbox.tsx";
 import {Dtos} from "../../../common/dtos.ts";
 import Permission = Dtos.Permission;
 import {useCallback} from "react";
+import {PermissionMetadata} from "../../../auth/model/permissionMetadata.ts";
+import {useTranslation} from "react-i18next";
 
 export interface AppPermissionsGroupInputProps {
     parentPermission: Permission;
@@ -12,6 +14,8 @@ export interface AppPermissionsGroupInputProps {
 
 function AppPermissionsGroupInput(props: AppPermissionsGroupInputProps) {
     const {parentPermission, childPermissions, value, onChange} = props;
+
+    const { t } = useTranslation();
 
     const isParentPermissionChecked = value.has(parentPermission);
     
@@ -66,7 +70,7 @@ function AppPermissionsGroupInput(props: AppPermissionsGroupInputProps) {
     return (
         <div>
             <Checkbox
-                label={parentPermission}
+                label={t(PermissionMetadata[parentPermission].translation)}
                 checked={isParentPermissionChecked}
                 onChange={() => toggleParentPermission()}
             />
@@ -75,7 +79,7 @@ function AppPermissionsGroupInput(props: AppPermissionsGroupInputProps) {
                 {childPermissions.map(child => (
                     <Checkbox
                         key={child}
-                        label={child}
+                        label={t(PermissionMetadata[child].translation)}
                         checked={isChildPermissionChecked(child)}
                         onChange={() => toggleChildPermission(child)}
                     />
