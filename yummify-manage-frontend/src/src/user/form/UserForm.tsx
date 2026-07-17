@@ -67,7 +67,7 @@ function UserForm(props: UserFormProps) {
                 />
             }
         </AppForm>
-    )
+    );
 }
 
 export default UserForm;

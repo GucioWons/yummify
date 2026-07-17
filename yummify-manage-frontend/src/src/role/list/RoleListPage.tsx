@@ -5,8 +5,11 @@ import RoleList from "./RoleList.tsx";
 import "./RoleList.css";
 import {useState} from "react";
 import RoleDisplayModal from "../display/RoleDisplayModal.tsx";
+import RoleCreateModal from "../create/RoleCreateModal.tsx";
 
 function RoleListPage() {
+    const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+
     const [selectedRoleId, setSelectedRoleId] = useState<string | null>();
 
     return (
@@ -18,11 +21,15 @@ function RoleListPage() {
                     <Button
                         text='Add New Role'
                         icon={Plus}
-                        onClick={() => {}}
+                        onClick={() => setIsFormModalOpen(true)}
                     />
                 }
             />
             <RoleList onElementClick={(role) => setSelectedRoleId(role.id)}/>
+            {isFormModalOpen && (
+                <RoleCreateModal onClose={() => setIsFormModalOpen(false)}/>
+            )}
+
             {selectedRoleId && (
                 <RoleDisplayModal id={selectedRoleId} onClose={() => setSelectedRoleId(null)}/>
             )}
