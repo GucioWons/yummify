@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/roles")
@@ -45,5 +46,18 @@ public class RoleController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(roles);
+    }
+
+    @GetMapping("{id}")
+    @SecuredByPermission(Permission.ROLE_READ)
+    public ResponseEntity<RoleManageDto> getById(
+            @PathVariable UUID id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        Role role = roleFacade.getById(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(roleMapper.toManageDto(role));
     }
 }

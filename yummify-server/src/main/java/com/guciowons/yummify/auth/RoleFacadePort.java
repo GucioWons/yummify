@@ -13,4 +13,6 @@ public interface RoleFacadePort {
     Role create(UUID restaurantId, Map<String, String> name, Set<String> permissions);
 
     List<Role> getAll(UUID restaurantId);
+
+    Role getById(UUID roleId, UUID restaurantId);
 }
