@@ -1,0 +1,26 @@
+.permission-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.permission-group-title {
+    font-weight: 600;
+    color: #087f5b;
+    display: flex;
+}
+
+.permission-group-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.permission-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #e7f8f2;
+    color: #087f5b;
+    font-size: 14px;
+}

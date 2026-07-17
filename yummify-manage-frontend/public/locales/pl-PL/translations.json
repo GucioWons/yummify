@@ -1,5 +1,42 @@
 {
   "login": "Zaloguj",
   "logout": "Wyloguj",
-  "welcome": "Witaj, {{name}}!"
+  "welcome": "Witaj, {{name}}!",
+  "permission.user": "Użytkownicy",
+  "permission.user.read": "Wyświetlanie użytkowników",
+  "permission.user.create": "Tworzenie użytkowników",
+
+  "permission.role": "Role",
+  "permission.role.read": "Wyświetlanie ról",
+  "permission.role.create": "Tworzenie ról",
+
+  "permission.restaurant": "Restauracja",
+  "permission.restaurant.modify": "Modyfikowanie restauracji",
+
+  "permission.table": "Stoliki",
+  "permission.table.read": "Wyświetlanie stolików",
+  "permission.table.create": "Tworzenie stolików",
+  "permission.table.modify": "Modyfikowanie stolików",
+  "permission.table.generateOtp": "Generowanie kodu QR",
+
+  "permission.ingredient": "Składniki",
+  "permission.ingredient.read": "Wyświetlanie składników",
+  "permission.ingredient.create": "Tworzenie składników",
+  "permission.ingredient.modify": "Modyfikowanie składników",
+
+  "permission.dish": "Dania",
+  "permission.dish.read": "Wyświetlanie dań",
+  "permission.dish.create": "Tworzenie dań",
+  "permission.dish.modify": "Modyfikowanie dań",
+
+  "permission.menu": "Menu",
+  "permission.menu.read": "Wyświetlanie menu",
+  "permission.menu.create": "Tworzenie menu",
+  "permission.menu.modify": "Modyfikowanie menu",
+  "permission.menu.publish": "Publikowanie menu",
+  "permission.menu.restore": "Przywracanie menu",
+
+  "permission.order": "Zamówienia",
+  "permission.order.read": "Wyświetlanie zamówień",
+  "permission.order.create": "Tworzenie zamówień"
 }

@@ -8,7 +8,6 @@ import com.guciowons.yummify.auth.infrastructure.in.rest.dto.mapper.RoleMapper;
 import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.Permission;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class RoleController {
     @GetMapping("{id}")
     @SecuredByPermission(Permission.ROLE_READ)
     public ResponseEntity<RoleManageDto> getById(
-            @PathParam("id") UUID id,
+            @PathVariable UUID id,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         Role role = roleFacade.getById(id, userPrincipal.restaurantId());

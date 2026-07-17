@@ -188,6 +188,9 @@
 				</executions>
 				<configuration>
 					<jsonLibrary>jackson2</jsonLibrary>
+					<classes>
+						<class>com.guciowons.yummify.common.security.domain.Permission</class>
+					</classes>
 					<classPatterns>
 						<classPattern>com.guciowons.yummify.**.*Dto</classPattern>
 						<classPattern>com.guciowons.yummify.**.*Request</classPattern>
