@@ -3,6 +3,7 @@ package com.guciowons.yummify.order.application;
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
 import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
 import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
+import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
@@ -14,9 +15,10 @@ import static org.mockito.Mockito.*;
 class OrderFacadeTest {
     private final CreateOrderUsecase createOrderUsecase = mock(CreateOrderUsecase.class);
     private final AddOrderItemUsecase addOrderItemUsecase = mock(AddOrderItemUsecase.class);
+    private final RemoveOrderItemUsecase removeOrderItemUsecase = mock(RemoveOrderItemUsecase.class);
     private final OrderCommandMapper orderCommandMapper = mock(OrderCommandMapper.class);
 
-    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, orderCommandMapper);
+    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, removeOrderItemUsecase, orderCommandMapper);
 
     @Test
     void shouldCreateOrder() {
