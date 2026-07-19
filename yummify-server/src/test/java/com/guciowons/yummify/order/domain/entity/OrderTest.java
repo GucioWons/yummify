@@ -63,15 +63,14 @@ class OrderTest {
     void shouldRemoveItemWhenItemExists() {
         // given
         var order = givenOrder(1);
-        var dishId = givenOrderItemDishId(1);
-        var snapshot = givenOrderItemDishSnapshot(1);
-        var item = order.addItem(dishId, snapshot, 2);
+        var firstItem = order.addItem(givenOrderItemDishId(1), givenOrderItemDishSnapshot(1), 1);
+        var secondItem = order.addItem(givenOrderItemDishId(2), givenOrderItemDishSnapshot(2), 1);
 
         // when
-        order.removeItem(item.getId());
+        order.removeItem(firstItem.getId());
 
         // then
-        assertThat(order.getItems()).isEmpty();
+        assertThat(order.getItems()).containsExactly(secondItem);
     }
 
     @Test

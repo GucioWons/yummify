@@ -6,8 +6,7 @@ import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
 import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
-import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenCreateOrderCommand;
+import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.*;
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -62,5 +61,23 @@ class OrderFacadeTest {
         verify(addOrderItemUsecase).addItem(command);
 
         assertThat(result).isEqualTo(orderItem);
+    }
+
+    @Test
+    void shouldRemoveOrderItem() {
+        // given
+        var orderId = givenOrderId(1).value();
+        var restaurantId = givenOrderRestaurantId(1).value();
+        var itemId = givenOrderItemId(1).value();
+        var command = givenRemoveOrderItemCommand();
+
+        when(orderCommandMapper.toRemoveOrderItemCommand(orderId, restaurantId, itemId)).thenReturn(command);
+
+        // when
+        underTest.removeItem(orderId, restaurantId, itemId);
+
+        // then
+        verify(orderCommandMapper).toRemoveOrderItemCommand(orderId, restaurantId, itemId);
+        verify(removeOrderItemUsecase).removeOrderItem(command);
     }
 }
