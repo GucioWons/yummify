@@ -1,6 +1,7 @@
 package com.guciowons.yummify.menu.application.entry.model.mapper;
 
 import com.guciowons.yummify.menu.application.entry.model.CreateMenuEntryCommand;
+import com.guciowons.yummify.menu.application.entry.model.GetPublishedEntryByDishQuery;
 import com.guciowons.yummify.menu.application.entry.model.UpdateMenuEntryCommand;
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import com.guciowons.yummify.menu.domain.entity.MenuSection;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public interface MenuEntryCommandMapper {
     CreateMenuEntryCommand toCreateMenuEntryCommand(UUID sectionId, UUID restaurantId, UUID dishId, BigDecimal price);
     UpdateMenuEntryCommand toUpdateMenuEntryCommand(UUID sectionId, UUID id, UUID restaurantId, UUID dishId, BigDecimal price);
+    GetPublishedEntryByDishQuery toGetPublishedEntryByDishQuery(UUID restaurantId, UUID dishId);
 
     default MenuSection.Id toSectionId(UUID sectionId) {
         return MenuSection.Id.of(sectionId);

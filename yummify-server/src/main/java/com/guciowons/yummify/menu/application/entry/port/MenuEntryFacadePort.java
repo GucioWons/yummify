@@ -9,4 +9,6 @@ public interface MenuEntryFacadePort {
     MenuEntry createEntry(UUID sectionId, UUID restaurantId, UUID dishId, BigDecimal price);
 
     MenuEntry updateEntry(UUID sectionId, UUID id, UUID restaurantId, UUID dishId, BigDecimal price);
+
+    MenuEntry getByDishId(UUID restaurantId, UUID dishId);
 }

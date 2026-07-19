@@ -1,6 +1,5 @@
 package com.guciowons.yummify.dish.infrastructure.out.jpa.adapter;
 
-import com.guciowons.yummify.dish.DishExistencePort;
 import com.guciowons.yummify.dish.infrastructure.out.jpa.repository.JpaDishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,10 +11,9 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class JpaDishExistenceAdapter implements DishExistencePort {
+public class JpaDishExistenceAdapter {
     private final JpaDishRepository jpaDishRepository;
 
-    @Override
     public List<UUID> findMissing(List<UUID> ids, UUID restaurantId) {
         if (ids == null || ids.isEmpty()) {
             return Collections.emptyList();

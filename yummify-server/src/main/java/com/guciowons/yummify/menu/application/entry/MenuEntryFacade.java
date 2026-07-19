@@ -2,10 +2,12 @@ package com.guciowons.yummify.menu.application.entry;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.menu.application.entry.model.CreateMenuEntryCommand;
+import com.guciowons.yummify.menu.application.entry.model.GetPublishedEntryByDishQuery;
 import com.guciowons.yummify.menu.application.entry.model.UpdateMenuEntryCommand;
 import com.guciowons.yummify.menu.application.entry.model.mapper.MenuEntryCommandMapper;
 import com.guciowons.yummify.menu.application.entry.port.MenuEntryFacadePort;
 import com.guciowons.yummify.menu.application.entry.usecase.CreateMenuEntryUsecase;
+import com.guciowons.yummify.menu.application.entry.usecase.GetPublishedEntryByDishUsecase;
 import com.guciowons.yummify.menu.application.entry.usecase.UpdateMenuEntryUsecase;
 import com.guciowons.yummify.menu.domain.entity.MenuEntry;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class MenuEntryFacade implements MenuEntryFacadePort {
     private final CreateMenuEntryUsecase createMenuEntryUsecase;
     private final UpdateMenuEntryUsecase updateMenuEntryUsecase;
+    private final GetPublishedEntryByDishUsecase getPublishedEntryByDishUsecase;
     private final MenuEntryCommandMapper menuEntryCommandMapper;
 
     @Override
@@ -42,5 +45,11 @@ public class MenuEntryFacade implements MenuEntryFacadePort {
                 price
         );
         return updateMenuEntryUsecase.update(command);
+    }
+
+    @Override
+    public MenuEntry getByDishId(UUID restaurantId, UUID dishId) {
+        GetPublishedEntryByDishQuery query = menuEntryCommandMapper.toGetPublishedEntryByDishQuery(restaurantId, dishId);
+        return getPublishedEntryByDishUsecase.getByDish(query);
     }
 }

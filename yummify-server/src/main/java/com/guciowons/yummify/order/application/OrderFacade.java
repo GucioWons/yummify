@@ -11,8 +11,6 @@ import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-import java.util.Map;
 import java.util.UUID;
 
 @Facade
@@ -33,11 +31,9 @@ public class OrderFacade implements OrderFacadePort {
             UUID orderId,
             UUID restaurantId,
             UUID dishId,
-            Map<String, String> nameSnapshot,
-            BigDecimal priceSnapshot,
             int quantity
     ) {
-        AddOrderItemCommand command = orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, nameSnapshot, priceSnapshot, quantity);
+        AddOrderItemCommand command = orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, quantity);
         return addOrderItemUsecase.addItem(command);
     }
 }
