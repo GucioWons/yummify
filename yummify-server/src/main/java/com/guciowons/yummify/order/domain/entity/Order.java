@@ -21,6 +21,15 @@ public class Order {
         return new Order(Id.random(), restaurantId, tableId, OrderStatus.NEW);
     }
 
+    public void addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
+        items.stream()
+                .filter(item -> item.getDishId().equals(dishId))
+                .findAny()
+                .ifPresentOrElse(
+                        item -> item.changeQuantity(quantity),
+                        () -> items.add(OrderItem.create(dishId, dishSnapshot, quantity))
+                );
+    }
 
     public record Id(UUID value) implements IdValueObject {
         public static Id of(UUID value) {
