@@ -1,6 +1,7 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
 import {Dtos} from "../../common/dtos.ts";
 import TableDto = Dtos.TableDto;
+import TableOtpDto = Dtos.TableOtpDto;
 
 export const tableService = {
     async getTables() {
@@ -14,4 +15,8 @@ export const tableService = {
     async updateTable(data: TableDto) {
         return axiosInstance.put<TableDto, TableDto>(`tables/${data.id}`, data);
     },
+
+    async generateOtp(id: string) {
+        return axiosInstance.post<TableOtpDto>(`tables/${id}/generate-otp`);
+    }
 }
