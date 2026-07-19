@@ -5,9 +5,7 @@ import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import com.guciowons.yummify.order.infrastructure.out.jpa.entity.JpaOrder;
 import com.guciowons.yummify.order.infrastructure.out.jpa.entity.JpaOrderItem;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 @Mapper(
         componentModel = "spring",
@@ -36,4 +34,10 @@ public interface JpaOrderMapper {
     @Mapping(target = "nameSnapshot", source = "dishSnapshot.name")
     @Mapping(target = "price", source = "dishSnapshot.price")
     JpaOrderItem toJpa(OrderItem orderItem);
+
+    @AfterMapping
+    default void afterMapping(@MappingTarget JpaOrder jpaOrder) {
+        jpaOrder.getItems()
+                .forEach(jpaOrderItem -> jpaOrderItem.setOrder(jpaOrder));
+    }
 }

@@ -2,8 +2,7 @@ package com.guciowons.yummify.order.domain.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.givenOrderRestaurantId;
-import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.givenOrderTableId;
+import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OrderTest {
@@ -22,6 +21,40 @@ class OrderTest {
         assertThat(result.getTableId()).isEqualTo(tableId);
         assertThat(result.getItems()).isNotNull().isEmpty();
         assertThat(result.getStatus()).isEqualTo(OrderStatus.NEW);
+    }
+
+    @Test
+    void shouldAddNewItemWhenDishDoesNotExist() {
+        // given
+        var order = givenOrder(1);
+        var dishId = givenOrderItemDishId(1);
+        var snapshot = givenOrderItemDishSnapshot(1);
+
+        // when
+        var result = order.addItem(dishId, snapshot, 2);
+
+        // then
+        assertThat(order.getItems()).hasSize(1);
+        assertThat(order.getItems()).contains(result);
+        assertThat(result.getDishId()).isEqualTo(dishId);
+        assertThat(result.getDishSnapshot()).isEqualTo(snapshot);
+        assertThat(result.getQuantity()).isEqualTo(2);
+    }
+    @Test
+    void shouldIncreaseQuantityWhenDishAlreadyExists() {
+        // given
+        var order = givenOrder(1);
+        var dishId = givenOrderItemDishId(1);
+        var snapshot = givenOrderItemDishSnapshot(1);
+        order.addItem(dishId, snapshot, 2);
+
+        // when
+        var result = order.addItem(dishId, snapshot, 3);
+
+        // then
+        assertThat(order.getItems()).hasSize(1);
+        assertThat(order.getItems()).contains(result);
+        assertThat(result.getQuantity()).isEqualTo(5);
     }
 
 }

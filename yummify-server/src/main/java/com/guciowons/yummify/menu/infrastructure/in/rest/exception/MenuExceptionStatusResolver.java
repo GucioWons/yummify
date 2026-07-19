@@ -25,6 +25,7 @@ public class MenuExceptionStatusResolver implements ExceptionStatusResolver {
             case MenuVersionIsNotDraftException ignored -> HttpStatus.CONFLICT;
             case MenuVersionAlreadyExistsException ignored -> HttpStatus.CONFLICT;
             case MenuVersionIsNotPublishedException ignored -> HttpStatus.CONFLICT;
+            case MenuEntryNotFoundByDishException ignored -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
     }

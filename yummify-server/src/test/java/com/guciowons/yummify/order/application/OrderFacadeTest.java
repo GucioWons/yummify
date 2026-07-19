@@ -1,9 +1,11 @@
 package com.guciowons.yummify.order.application;
 
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
+import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
 import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
 import org.junit.jupiter.api.Test;
 
+import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenCreateOrderCommand;
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,9 +13,10 @@ import static org.mockito.Mockito.*;
 
 class OrderFacadeTest {
     private final CreateOrderUsecase createOrderUsecase = mock(CreateOrderUsecase.class);
+    private final AddOrderItemUsecase addOrderItemUsecase = mock(AddOrderItemUsecase.class);
     private final OrderCommandMapper orderCommandMapper = mock(OrderCommandMapper.class);
 
-    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, orderCommandMapper);
+    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, orderCommandMapper);
 
     @Test
     void shouldCreateOrder() {
@@ -36,4 +39,26 @@ class OrderFacadeTest {
         assertThat(result).isEqualTo(order);
     }
 
+    @Test
+    void shouldAddOrderItem() {
+        // given
+        var orderId = givenOrderId(1).value();
+        var restaurantId = givenOrderRestaurantId(1).value();
+        var dishId = givenOrderItemDishId(1).value();
+        var quantity = 1;
+        var command = givenAddOrderItemCommand();
+        var orderItem = givenOrderItem(1);
+
+        when(orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, quantity)).thenReturn(command);
+        when(addOrderItemUsecase.addItem(command)).thenReturn(orderItem);
+
+        // when
+        var result = underTest.addItem(orderId, restaurantId, dishId, quantity);
+
+        // then
+        verify(orderCommandMapper).toAddOrderItemCommand(orderId, restaurantId, dishId, quantity);
+        verify(addOrderItemUsecase).addItem(command);
+
+        assertThat(result).isEqualTo(orderItem);
+    }
 }

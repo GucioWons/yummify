@@ -2,6 +2,7 @@ package com.guciowons.yummify.menu.application.entry;
 
 import com.guciowons.yummify.menu.application.entry.model.mapper.MenuEntryCommandMapper;
 import com.guciowons.yummify.menu.application.entry.usecase.CreateMenuEntryUsecase;
+import com.guciowons.yummify.menu.application.entry.usecase.GetPublishedEntryByDishUsecase;
 import com.guciowons.yummify.menu.application.entry.usecase.UpdateMenuEntryUsecase;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +15,13 @@ import static org.mockito.Mockito.*;
 class MenuEntryFacadeTest {
     private final CreateMenuEntryUsecase createMenuEntryUsecase = mock(CreateMenuEntryUsecase.class);
     private final UpdateMenuEntryUsecase updateMenuEntryUsecase = mock(UpdateMenuEntryUsecase.class);
+    private final GetPublishedEntryByDishUsecase getPublishedEntryByDishUsecase = mock(GetPublishedEntryByDishUsecase.class);
     private final MenuEntryCommandMapper menuEntryCommandMapper = mock(MenuEntryCommandMapper.class);
 
     private final MenuEntryFacade underTest = new MenuEntryFacade(
             createMenuEntryUsecase,
             updateMenuEntryUsecase,
+            getPublishedEntryByDishUsecase,
             menuEntryCommandMapper
     );
 

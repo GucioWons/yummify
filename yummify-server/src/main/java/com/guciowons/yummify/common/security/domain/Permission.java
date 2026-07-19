@@ -45,7 +45,8 @@ public enum Permission {
 
     ORDER(OWNER, "d834be96-8972-4662-86a2-a68c4a98f3ad"),
     ORDER_READ(ORDER, "5c18e98c-a832-4599-81d9-886701f928b5"),
-    ORDER_CREATE(ORDER, "9902c0c3-267c-490e-9871-0bc40c9ea24e");
+    ORDER_CREATE(ORDER, "9902c0c3-267c-490e-9871-0bc40c9ea24e"),
+    ORDER_MODIFY(ORDER, "b414a8cd-16f8-424e-8157-3bff2eff7ba6");
 
     private final Permission parent;
     private final UUID externalId;

@@ -7,6 +7,8 @@ import com.guciowons.yummify.order.infrastructure.out.jpa.repository.JpaOrderRep
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class JpaOrderRepositoryAdapter implements OrderRepository {
@@ -16,5 +18,11 @@ public class JpaOrderRepositoryAdapter implements OrderRepository {
     @Override
     public void save(Order order) {
         jpaOrderRepository.save(jpaOrderMapper.toJpa(order));
+    }
+
+    @Override
+    public Optional<Order> findByIdAndRestaurantId(Order.Id id, Order.RestaurantId restaurantId) {
+        return jpaOrderRepository.findByIdAndRestaurantId(id.value(), restaurantId.value())
+                .map(jpaOrderMapper::toDomain);
     }
 }
