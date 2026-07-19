@@ -3,6 +3,11 @@
 
 export namespace Dtos {
 
+    export interface AddOrderItemDto {
+        dishId: string;
+        quantity: number;
+    }
+
     export interface ApiErrorDto {
         errorMessage: ErrorMessage;
         errorMessageString: string;
@@ -108,6 +113,7 @@ export namespace Dtos {
         id: string;
         name: string;
         price: number;
+        quantity: number;
     }
 
     export interface PositionedDto {
@@ -246,6 +252,7 @@ export namespace Dtos {
         ORDER = "ORDER",
         ORDER_READ = "ORDER_READ",
         ORDER_CREATE = "ORDER_CREATE",
+        ORDER_MODIFY = "ORDER_MODIFY",
     }
 
 }

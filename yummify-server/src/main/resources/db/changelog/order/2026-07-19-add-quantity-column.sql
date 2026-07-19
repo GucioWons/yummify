@@ -1,0 +1,1 @@
+ALTER TABLE orders.order_item ADD COLUMN quantity INTEGER NOT NULL;

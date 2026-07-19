@@ -7,6 +7,7 @@ public record OrderItemClientDto(
         UUID id,
         UUID dishId,
         String name,
-        BigDecimal price
+        BigDecimal price,
+        int quantity
 ) {
 }
