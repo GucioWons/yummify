@@ -21,14 +21,18 @@ public class Order {
         return new Order(Id.random(), restaurantId, tableId, OrderStatus.NEW);
     }
 
-    public void addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
-        items.stream()
+    public OrderItem addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
+        return items.stream()
                 .filter(item -> item.getDishId().equals(dishId))
                 .findAny()
-                .ifPresentOrElse(
-                        item -> item.changeQuantity(quantity),
-                        () -> items.add(OrderItem.create(dishId, dishSnapshot, quantity))
-                );
+                .map(item -> item.increaseQuantity(quantity))
+                .orElseGet(() -> createAndAddItem(dishId, dishSnapshot, quantity));
+    }
+
+    private OrderItem createAndAddItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
+        OrderItem newItem = OrderItem.create(dishId, dishSnapshot, quantity);
+        items.add(newItem);
+        return newItem;
     }
 
     public record Id(UUID value) implements IdValueObject {

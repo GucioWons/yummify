@@ -20,8 +20,9 @@ public class OrderItem {
         return new OrderItem(Id.random(), dishId, dishSnapshot, quantity);
     }
 
-    public void changeQuantity(int quantity) {
+    public OrderItem increaseQuantity(int quantity) {
         this.quantity += quantity;
+        return this;
     }
 
     public record Id(UUID value) implements IdValueObject {
@@ -41,5 +42,8 @@ public class OrderItem {
     }
 
     public record DishSnapshot(TranslatedString name, BigDecimal price) {
+        public static DishSnapshot of(TranslatedString name, BigDecimal price) {
+            return new DishSnapshot(name, price);
+        }
     }
 }
