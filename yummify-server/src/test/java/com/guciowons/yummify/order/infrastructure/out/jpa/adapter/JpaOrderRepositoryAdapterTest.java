@@ -5,7 +5,10 @@ import com.guciowons.yummify.order.infrastructure.out.jpa.entity.mapper.JpaOrder
 import com.guciowons.yummify.order.infrastructure.out.jpa.repository.JpaOrderRepository;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.givenOrder;
+import java.util.Optional;
+
+import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class JpaOrderRepositoryAdapterTest {
@@ -28,6 +31,28 @@ class JpaOrderRepositoryAdapterTest {
         // then
         verify(jpaOrderMapper).toJpa(order);
         verify(jpaOrderRepository).save(jpaOrder);
+    }
+
+    @Test
+    void shouldFindByIdAndRestaurantId() {
+        // given
+        var orderId = givenOrderId(1);
+        var restaurantId = givenOrderRestaurantId(1);
+        var jpaOrder = new JpaOrder();
+        var order = givenOrder(1);
+
+        when(jpaOrderRepository.findByIdAndRestaurantId(orderId.value(), restaurantId.value()))
+                .thenReturn(Optional.of(jpaOrder));
+        when(jpaOrderMapper.toDomain(jpaOrder)).thenReturn(order);
+
+        // when
+        var result = underTest.findByIdAndRestaurantId(orderId, restaurantId);
+
+        // then
+        verify(jpaOrderRepository).findByIdAndRestaurantId(orderId.value(), restaurantId.value());
+        verify(jpaOrderMapper).toDomain(jpaOrder);
+
+        assertThat(result).hasValue(order);
     }
 
 }
