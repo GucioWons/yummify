@@ -5,6 +5,7 @@ import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
 import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
 import org.junit.jupiter.api.Test;
 
+import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenCreateOrderCommand;
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,4 +39,26 @@ class OrderFacadeTest {
         assertThat(result).isEqualTo(order);
     }
 
+    @Test
+    void shouldAddOrderItem() {
+        // given
+        var orderId = givenOrderId(1).value();
+        var restaurantId = givenOrderRestaurantId(1).value();
+        var dishId = givenOrderItemDishId(1).value();
+        var quantity = 1;
+        var command = givenAddOrderItemCommand();
+        var orderItem = givenOrderItem(1);
+
+        when(orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, quantity)).thenReturn(command);
+        when(addOrderItemUsecase.addItem(command)).thenReturn(orderItem);
+
+        // when
+        var result = underTest.addItem(orderId, restaurantId, dishId, quantity);
+
+        // then
+        verify(orderCommandMapper).toAddOrderItemCommand(orderId, restaurantId, dishId, quantity);
+        verify(addOrderItemUsecase).addItem(command);
+
+        assertThat(result).isEqualTo(orderItem);
+    }
 }
