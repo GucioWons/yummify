@@ -14,4 +14,6 @@ public interface OrderFacadePort {
             UUID dishId,
             int quantity
     );
+
+    void removeItem(UUID orderId, UUID restaurantId, UUID orderItemId);
 }

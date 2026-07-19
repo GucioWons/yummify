@@ -3,10 +3,12 @@ package com.guciowons.yummify.order.application;
 import com.guciowons.yummify.common.core.application.annotation.Facade;
 import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
 import com.guciowons.yummify.order.application.command.CreateOrderCommand;
+import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
 import com.guciowons.yummify.order.application.port.OrderFacadePort;
 import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
 import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
+import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class OrderFacade implements OrderFacadePort {
     private final CreateOrderUsecase createOrderUsecase;
     private final AddOrderItemUsecase addOrderItemUsecase;
+    private final RemoveOrderItemUsecase removeOrderItemUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -35,5 +38,11 @@ public class OrderFacade implements OrderFacadePort {
     ) {
         AddOrderItemCommand command = orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, quantity);
         return addOrderItemUsecase.addItem(command);
+    }
+
+    @Override
+    public void removeItem(UUID orderId, UUID restaurantId, UUID orderItemId) {
+        RemoveOrderItemCommand command = orderCommandMapper.toRemoveOrderItemCommand(orderId, restaurantId, orderItemId);
+        removeOrderItemUsecase.removeOrderItem(command);
     }
 }

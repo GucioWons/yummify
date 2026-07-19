@@ -54,4 +54,18 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderItemMapper.toOrderItemClientDto(item));
     }
+
+    @DeleteMapping("{id}/items/{itemId}")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<Void> removeOrderItem(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id,
+            @PathVariable UUID itemId
+    ) {
+        orderFacade.removeItem(id, userPrincipal.restaurantId(), itemId);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
 }

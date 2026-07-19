@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.application.fixture;
 
 import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
 import com.guciowons.yummify.order.application.command.CreateOrderCommand;
+import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +16,9 @@ public class OrderApplicationFixture {
 
     public static AddOrderItemCommand givenAddOrderItemCommand() {
         return new AddOrderItemCommand(givenOrderId(1), givenOrderRestaurantId(1), givenOrderItemDishId(1), 1);
+    }
+
+    public static RemoveOrderItemCommand givenRemoveOrderItemCommand() {
+        return new RemoveOrderItemCommand(givenOrderId(1), givenOrderRestaurantId(1), givenOrderItemId(1));
     }
 }

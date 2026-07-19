@@ -3,6 +3,7 @@ package com.guciowons.yummify.order.infrastructure.in.rest.exception;
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.common.exception.infrastructure.in.rest.handler.ExceptionStatusResolver;
 import com.guciowons.yummify.order.domain.exception.OrderDomainException;
+import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
 import com.guciowons.yummify.order.domain.exception.OrderTableNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class OrderExceptionStatusResolver implements ExceptionStatusResolver {
         return switch (exception) {
             case OrderTableNotFoundException ignored -> HttpStatus.NOT_FOUND;
             case OrderNotFoundException ignored -> HttpStatus.NOT_FOUND;
+            case OrderItemNotFoundException ignored -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
     }

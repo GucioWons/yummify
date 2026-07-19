@@ -2,6 +2,8 @@ package com.guciowons.yummify.order.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
 import com.guciowons.yummify.order.domain.exception.OrderDomainException;
+import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
+import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
 import com.guciowons.yummify.order.domain.exception.OrderTableNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +13,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.stream.Stream;
 
-import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.givenOrderTableId;
+import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -55,6 +57,8 @@ class OrderExceptionStatusResolverTest {
     private static Stream<Arguments> provideExceptionsWithExpectedStatus() {
         return Stream.of(
                 Arguments.of(new OrderTableNotFoundException(givenOrderTableId(1)), HttpStatus.NOT_FOUND),
+                Arguments.of(new OrderNotFoundException(givenOrderId(1)), HttpStatus.NOT_FOUND),
+                Arguments.of(new OrderItemNotFoundException(givenOrderItemId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(mock(DomainException.class), HttpStatus.INTERNAL_SERVER_ERROR)
         );
     }

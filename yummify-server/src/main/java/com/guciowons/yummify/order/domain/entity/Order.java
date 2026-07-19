@@ -1,6 +1,7 @@
 package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
+import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -33,6 +34,14 @@ public class Order {
         OrderItem newItem = OrderItem.create(dishId, dishSnapshot, quantity);
         items.add(newItem);
         return newItem;
+    }
+
+    public void removeItem(OrderItem.Id orderItemId) {
+        boolean removed = items.removeIf(item -> item.getId().equals(orderItemId));
+
+        if (!removed) {
+            throw new OrderItemNotFoundException(orderItemId);
+        }
     }
 
     public record Id(UUID value) implements IdValueObject {

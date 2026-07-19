@@ -3,10 +3,10 @@ package com.guciowons.yummify.order.application;
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
 import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
 import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
+import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
 import org.junit.jupiter.api.Test;
 
-import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
-import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenCreateOrderCommand;
+import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.*;
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -14,9 +14,10 @@ import static org.mockito.Mockito.*;
 class OrderFacadeTest {
     private final CreateOrderUsecase createOrderUsecase = mock(CreateOrderUsecase.class);
     private final AddOrderItemUsecase addOrderItemUsecase = mock(AddOrderItemUsecase.class);
+    private final RemoveOrderItemUsecase removeOrderItemUsecase = mock(RemoveOrderItemUsecase.class);
     private final OrderCommandMapper orderCommandMapper = mock(OrderCommandMapper.class);
 
-    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, orderCommandMapper);
+    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, removeOrderItemUsecase, orderCommandMapper);
 
     @Test
     void shouldCreateOrder() {
@@ -60,5 +61,23 @@ class OrderFacadeTest {
         verify(addOrderItemUsecase).addItem(command);
 
         assertThat(result).isEqualTo(orderItem);
+    }
+
+    @Test
+    void shouldRemoveOrderItem() {
+        // given
+        var orderId = givenOrderId(1).value();
+        var restaurantId = givenOrderRestaurantId(1).value();
+        var itemId = givenOrderItemId(1).value();
+        var command = givenRemoveOrderItemCommand();
+
+        when(orderCommandMapper.toRemoveOrderItemCommand(orderId, restaurantId, itemId)).thenReturn(command);
+
+        // when
+        underTest.removeItem(orderId, restaurantId, itemId);
+
+        // then
+        verify(orderCommandMapper).toRemoveOrderItemCommand(orderId, restaurantId, itemId);
+        verify(removeOrderItemUsecase).removeOrderItem(command);
     }
 }
