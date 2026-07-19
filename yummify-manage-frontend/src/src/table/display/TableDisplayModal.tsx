@@ -4,14 +4,16 @@ import {useCallback, useState} from "react";
 import TableDisplay from "./TableDisplay.tsx";
 import TableDto = Dtos.TableDto;
 import TableUpdateForm from "./TableUpdateForm.tsx";
+import TableOtpDto = Dtos.TableOtpDto;
 
 export interface TableDisplayModalProps {
     table: TableDto;
     onClose: () => void;
+    onQrCodeChange: (qrCode: TableOtpDto) => void;
 }
 
 function TableDisplayModal(props: TableDisplayModalProps) {
-    const {table, onClose} = props;
+    const {table, onClose, onQrCodeChange} = props;
 
     const [isInEditState, setIsInEditState] = useState(false);
 
@@ -26,7 +28,12 @@ function TableDisplayModal(props: TableDisplayModalProps) {
         >
             {isInEditState
                 ? <TableUpdateForm table={table} onCancel={() => setIsInEditState(false)}/>
-                : <TableDisplay table={table} onEditClick={() => setIsInEditState(true)} onCloseClick={onClose}/>
+                : <TableDisplay
+                    table={table}
+                    onEditClick={() => setIsInEditState(true)}
+                    onCloseClick={onClose}
+                    onQrCodeChange={onQrCodeChange}
+                />
             }
         </Modal>
     )
