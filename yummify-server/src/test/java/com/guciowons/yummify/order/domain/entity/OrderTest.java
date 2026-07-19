@@ -1,9 +1,11 @@
 package com.guciowons.yummify.order.domain.entity;
 
+import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class OrderTest {
     @Test
@@ -57,4 +59,29 @@ class OrderTest {
         assertThat(result.getQuantity()).isEqualTo(5);
     }
 
+    @Test
+    void shouldRemoveItemWhenItemExists() {
+        // given
+        var order = givenOrder(1);
+        var dishId = givenOrderItemDishId(1);
+        var snapshot = givenOrderItemDishSnapshot(1);
+        var item = order.addItem(dishId, snapshot, 2);
+
+        // when
+        order.removeItem(item.getId());
+
+        // then
+        assertThat(order.getItems()).isEmpty();
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDeletingNonExistingItem() {
+        // given
+        var order = givenOrder(1);
+        var nonExistingItemId = givenOrderItemId(999);
+
+        // when + then
+        assertThatThrownBy(() -> order.removeItem(nonExistingItemId))
+                .isInstanceOf(OrderItemNotFoundException.class);
+    }
 }
