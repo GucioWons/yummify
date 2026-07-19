@@ -20,7 +20,10 @@ function TableDisplayModal(props: TableDisplayModalProps) {
     }, [isInEditState]);
     
     return (
-        <Modal title={getTitle()} onClose={onClose}>
+        <Modal
+            title={getTitle()}
+            onClose={onClose}
+        >
             {isInEditState
                 ? <TableUpdateForm table={table} onCancel={() => setIsInEditState(false)}/>
                 : <TableDisplay table={table} onEditClick={() => setIsInEditState(true)} onCloseClick={onClose}/>
