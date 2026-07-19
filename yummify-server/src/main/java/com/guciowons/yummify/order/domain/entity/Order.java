@@ -36,7 +36,7 @@ public class Order {
         return newItem;
     }
 
-    public void deleteItem(OrderItem.Id orderItemId) {
+    public void removeItem(OrderItem.Id orderItemId) {
         boolean removed = items.removeIf(item -> item.getId().equals(orderItemId));
 
         if (!removed) {
