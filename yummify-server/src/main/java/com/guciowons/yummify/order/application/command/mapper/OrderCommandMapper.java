@@ -4,6 +4,7 @@ import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.Transl
 import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
 import com.guciowons.yummify.order.application.command.CreateOrderCommand;
 import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
+import com.guciowons.yummify.order.application.command.SubmitOrderCommand;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import org.mapstruct.InjectionStrategy;
@@ -22,6 +23,8 @@ public interface OrderCommandMapper {
     AddOrderItemCommand toAddOrderItemCommand(UUID id, UUID restaurantId, UUID dishId, int quantity);
 
     RemoveOrderItemCommand toRemoveOrderItemCommand(UUID orderId, UUID restaurantId, UUID itemId);
+
+    SubmitOrderCommand toSubmitOrderCommand(UUID restaurantId, UUID dishId);
 
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);

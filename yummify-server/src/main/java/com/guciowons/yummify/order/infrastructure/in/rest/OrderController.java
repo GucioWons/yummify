@@ -68,4 +68,17 @@ public class OrderController {
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
+
+    @PostMapping("{id}/submit")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> submit(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        Order order = orderFacade.submit(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
 }

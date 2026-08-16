@@ -1,6 +1,7 @@
 package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
+import com.guciowons.yummify.order.domain.exception.InvalidOrderStatusTransitionException;
 import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,13 @@ public class Order {
         if (!removed) {
             throw new OrderItemNotFoundException(orderItemId);
         }
+    }
+
+    public void updateStatus(OrderStatus newStatus) {
+        if (!newStatus.canTransitionFrom(this.status)) {
+            throw new InvalidOrderStatusTransitionException(this.status, newStatus);
+        }
+        this.status = newStatus;
     }
 
     public record Id(UUID value) implements IdValueObject {
