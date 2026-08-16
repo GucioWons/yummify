@@ -16,5 +16,5 @@ public interface JpaTableRepository extends JpaRepository<JpaTable, UUID> {
 
     boolean existsByNameAndRestaurantId(String name, UUID restaurantId);
 
-    boolean existsByIdAndRestaurantId(UUID id, UUID restaurantId);
+    Optional<JpaTable> findByUserIdAndRestaurantId(UUID userId, UUID restaurantId);
 }

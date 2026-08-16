@@ -6,20 +6,20 @@ import com.guciowons.yummify.order.domain.entity.OrderItem;
 import java.util.UUID;
 
 public interface OrderFacadePort {
-    Order create(UUID restaurantId, UUID tableId);
+    Order create(UUID userId, UUID tableId);
 
     OrderItem addItem(
-            UUID orderId,
+            UUID userId,
             UUID restaurantId,
             UUID dishId,
             int quantity
     );
 
-    void removeItem(UUID orderId, UUID restaurantId, UUID orderItemId);
+    void removeItem(UUID userId, UUID restaurantId, UUID orderItemId);
 
-    Order submit(UUID orderId, UUID restaurantId);
+    Order submit(UUID userId, UUID restaurantId);
 
-    Order cancel(UUID id, UUID uuid);
+    Order cancel(UUID userId, UUID uuid);
 
     OrderItem startPreparation(UUID orderId, UUID restaurantId, UUID itemId);
 

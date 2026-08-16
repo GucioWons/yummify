@@ -25,37 +25,32 @@ public class OrderFacade implements OrderFacadePort {
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
-    public Order create(UUID restaurantId, UUID tableId) {
-        CreateOrderCommand command = orderCommandMapper.toCreateOrderCommand(restaurantId, tableId);
+    public Order create(UUID userId, UUID restaurantId) {
+        CreateOrderCommand command = orderCommandMapper.toCreateOrderCommand(userId, restaurantId);
         return createOrderUsecase.create(command);
     }
 
     @Override
-    public OrderItem addItem(
-            UUID orderId,
-            UUID restaurantId,
-            UUID dishId,
-            int quantity
-    ) {
-        AddOrderItemCommand command = orderCommandMapper.toAddOrderItemCommand(orderId, restaurantId, dishId, quantity);
+    public OrderItem addItem(UUID userId, UUID restaurantId, UUID dishId, int quantity) {
+        AddOrderItemCommand command = orderCommandMapper.toAddOrderItemCommand(userId, restaurantId, dishId, quantity);
         return addOrderItemUsecase.addItem(command);
     }
 
     @Override
-    public void removeItem(UUID orderId, UUID restaurantId, UUID orderItemId) {
-        RemoveOrderItemCommand command = orderCommandMapper.toRemoveOrderItemCommand(orderId, restaurantId, orderItemId);
+    public void removeItem(UUID userId, UUID restaurantId, UUID orderItemId) {
+        RemoveOrderItemCommand command = orderCommandMapper.toRemoveOrderItemCommand(userId, restaurantId, orderItemId);
         removeOrderItemUsecase.removeOrderItem(command);
     }
 
     @Override
-    public Order submit(UUID orderId, UUID restaurantId) {
-        SubmitOrderCommand command = orderCommandMapper.toSubmitOrderCommand(orderId, restaurantId);
+    public Order submit(UUID userId, UUID restaurantId) {
+        SubmitOrderCommand command = orderCommandMapper.toSubmitOrderCommand(userId, restaurantId);
         return submitOrderUsecase.submit(command);
     }
 
     @Override
-    public Order cancel(UUID orderId, UUID restaurantId) {
-        CancelOrderCommand command = orderCommandMapper.toCancelOrderCommand(orderId, restaurantId);
+    public Order cancel(UUID userId, UUID restaurantId) {
+        CancelOrderCommand command = orderCommandMapper.toCancelOrderCommand(userId, restaurantId);
         return cancelOrderUsecase.cancel(command);
     }
 

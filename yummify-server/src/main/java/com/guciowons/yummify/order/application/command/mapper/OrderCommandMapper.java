@@ -15,13 +15,13 @@ import java.util.UUID;
         uses = TranslatedStringMapper.class
 )
 public interface OrderCommandMapper {
-    CreateOrderCommand toCreateOrderCommand(UUID restaurantId, UUID tableId);
+    CreateOrderCommand toCreateOrderCommand(UUID userId, UUID restaurantId);
 
-    AddOrderItemCommand toAddOrderItemCommand(UUID id, UUID restaurantId, UUID dishId, int quantity);
+    AddOrderItemCommand toAddOrderItemCommand(UUID userId, UUID restaurantId, UUID dishId, int quantity);
 
-    RemoveOrderItemCommand toRemoveOrderItemCommand(UUID orderId, UUID restaurantId, UUID itemId);
+    RemoveOrderItemCommand toRemoveOrderItemCommand(UUID userId, UUID restaurantId, UUID itemId);
 
-    SubmitOrderCommand toSubmitOrderCommand(UUID id, UUID restaurantId);
+    SubmitOrderCommand toSubmitOrderCommand(UUID userId, UUID restaurantId);
 
     CancelOrderCommand toCancelOrderCommand(UUID id, UUID restaurantId);
 
@@ -37,10 +37,6 @@ public interface OrderCommandMapper {
 
     default Order.RestaurantId toRestaurantId(UUID restaurantId) {
         return Order.RestaurantId.of(restaurantId);
-    }
-
-    default Order.TableId toTableId(UUID tableId) {
-        return Order.TableId.of(tableId);
     }
 
     default OrderItem.Id toItemId(UUID itemId) {

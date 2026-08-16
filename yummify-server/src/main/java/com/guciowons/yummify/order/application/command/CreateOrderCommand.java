@@ -2,5 +2,7 @@ package com.guciowons.yummify.order.application.command;
 
 import com.guciowons.yummify.order.domain.entity.Order;
 
-public record CreateOrderCommand(Order.RestaurantId restaurantId, Order.TableId tableId) {
+import java.util.UUID;
+
+public record CreateOrderCommand(UUID userId, Order.RestaurantId restaurantId) {
 }

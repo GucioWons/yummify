@@ -39,4 +39,10 @@ public class JpaTableRepositoryAdapter implements TableRepository {
     public boolean existsByNameAndRestaurantId(Table.Name name, Table.RestaurantId restaurantId) {
         return jpaTableRepository.existsByNameAndRestaurantId(name.value(), restaurantId.value());
     }
+
+    @Override
+    public Optional<Table> findByUserIdAndRestaurantId(Table.UserId userId, Table.RestaurantId restaurantId) {
+        return jpaTableRepository.findByUserIdAndRestaurantId(userId.value(), restaurantId.value())
+                .map(jpaTableMapper::toDomain);
+    }
 }
