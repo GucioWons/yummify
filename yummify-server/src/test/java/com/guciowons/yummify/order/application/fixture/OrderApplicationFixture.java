@@ -1,8 +1,6 @@
 package com.guciowons.yummify.order.application.fixture;
 
-import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
-import com.guciowons.yummify.order.application.command.CreateOrderCommand;
-import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
+import com.guciowons.yummify.order.application.command.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

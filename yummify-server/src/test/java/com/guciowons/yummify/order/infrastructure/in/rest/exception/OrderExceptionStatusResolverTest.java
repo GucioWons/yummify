@@ -1,10 +1,9 @@
 package com.guciowons.yummify.order.infrastructure.in.rest.exception;
 
 import com.guciowons.yummify.common.exception.domain.exception.DomainException;
-import com.guciowons.yummify.order.domain.exception.OrderDomainException;
-import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
-import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
-import com.guciowons.yummify.order.domain.exception.OrderTableNotFoundException;
+import com.guciowons.yummify.order.domain.entity.OrderItemStatus;
+import com.guciowons.yummify.order.domain.entity.OrderStatus;
+import com.guciowons.yummify.order.domain.exception.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -59,6 +58,10 @@ class OrderExceptionStatusResolverTest {
                 Arguments.of(new OrderTableNotFoundException(givenOrderTableId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(OrderNotFoundException.byId(givenOrderId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(new OrderItemNotFoundException(givenOrderItemId(1)), HttpStatus.NOT_FOUND),
+                Arguments.of(new OrderIsEmptyException(givenOrderId(1)), HttpStatus.CONFLICT),
+                Arguments.of(new OrderIsFinishedException(givenOrderId(1)), HttpStatus.CONFLICT),
+                Arguments.of(new InvalidOrderStatusTransitionException(OrderStatus.IN_PREPARATION, OrderStatus.CANCELLED), HttpStatus.CONFLICT),
+                Arguments.of(new InvalidOrderItemStatusTransitionException(OrderItemStatus.IN_PREPARATION, OrderItemStatus.CANCELLED), HttpStatus.CONFLICT),
                 Arguments.of(mock(DomainException.class), HttpStatus.INTERNAL_SERVER_ERROR)
         );
     }

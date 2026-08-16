@@ -10,7 +10,7 @@ public class OrderIsFinishedException extends OrderDomainException {
     private final Order.Id id;
 
     public OrderIsFinishedException(Order.Id id) {
-        super(OrderErrorMessage.ORDER_TABLE_NOT_FOUND_BY_ID, ErrorProperty.of("id", id));
+        super(OrderErrorMessage.ORDER_IS_FINISHED, ErrorProperty.of("id", id));
         this.id = id;
     }
 }
