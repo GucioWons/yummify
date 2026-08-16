@@ -5,10 +5,10 @@ import java.util.Set;
 
 public enum OrderItemStatus {
     NEW(),
-    IN_PROGRESS(NEW),
-    READY(IN_PROGRESS),
+    IN_PREPARATION(NEW),
+    READY(IN_PREPARATION),
     DELIVERED(READY),
-    CANCELLED(NEW, IN_PROGRESS, READY);
+    CANCELLED(NEW, IN_PREPARATION, READY);
 
     private final Set<OrderItemStatus> allowedTransitionsFrom;
 

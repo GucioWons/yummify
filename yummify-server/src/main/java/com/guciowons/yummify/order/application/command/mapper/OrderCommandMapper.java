@@ -21,9 +21,11 @@ public interface OrderCommandMapper {
 
     RemoveOrderItemCommand toRemoveOrderItemCommand(UUID orderId, UUID restaurantId, UUID itemId);
 
-    SubmitOrderCommand toSubmitOrderCommand(UUID restaurantId, UUID dishId);
+    SubmitOrderCommand toSubmitOrderCommand(UUID id, UUID restaurantId);
 
-    CancelOrderCommand toCancelOrderCommand(UUID restaurantId, UUID dishId);
+    CancelOrderCommand toCancelOrderCommand(UUID id, UUID restaurantId);
+
+    StartOrderItemPreparationCommand toStartOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
 
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);

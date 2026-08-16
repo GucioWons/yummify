@@ -20,6 +20,7 @@ public class OrderExceptionStatusResolver implements ExceptionStatusResolver {
             case OrderNotFoundException ignored -> HttpStatus.NOT_FOUND;
             case OrderItemNotFoundException ignored -> HttpStatus.NOT_FOUND;
             case OrderIsEmptyException ignored -> HttpStatus.CONFLICT;
+            case OrderIsFinishedException ignored -> HttpStatus.CONFLICT;
             case InvalidOrderStatusTransitionException ignored -> HttpStatus.CONFLICT;
             case InvalidOrderItemStatusTransitionException ignored -> HttpStatus.CONFLICT;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;

@@ -27,6 +27,10 @@ public class OrderItem {
         return this;
     }
 
+    public void startPreparation() {
+        updateStatus(OrderItemStatus.IN_PREPARATION);
+    }
+
     public void cancel() {
         updateStatus(OrderItemStatus.CANCELLED);
     }

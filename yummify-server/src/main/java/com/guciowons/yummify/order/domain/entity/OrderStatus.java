@@ -1,18 +1,23 @@
 package com.guciowons.yummify.order.domain.entity;
 
+import lombok.Getter;
+
 import java.util.Set;
 
 public enum OrderStatus {
-    NEW(),
-    SUBMITTED(NEW),
-    IN_PREPARATION(SUBMITTED),
-    DELIVERED(IN_PREPARATION),
-    COMPLETED(DELIVERED),
-    CANCELLED(NEW, SUBMITTED, DELIVERED);
+    NEW(false),
+    SUBMITTED(false, NEW),
+    IN_PREPARATION(false, SUBMITTED),
+    DELIVERED(false, IN_PREPARATION),
+    COMPLETED(true, DELIVERED),
+    CANCELLED(true, NEW, SUBMITTED, DELIVERED);
 
+    @Getter
+    private final boolean finished;
     private final Set<OrderStatus> allowedTransitionsFrom;
 
-    OrderStatus(OrderStatus... allowedTransitionsFrom) {
+    OrderStatus(boolean finished, OrderStatus... allowedTransitionsFrom) {
+        this.finished = finished;
         this.allowedTransitionsFrom = Set.of(allowedTransitionsFrom);
     }
 

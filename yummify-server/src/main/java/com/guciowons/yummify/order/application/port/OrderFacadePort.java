@@ -20,4 +20,6 @@ public interface OrderFacadePort {
     Order submit(UUID orderId, UUID restaurantId);
 
     Order cancel(UUID id, UUID uuid);
+
+    OrderItem startPreparation(UUID orderId, UUID restaurantId, UUID itemId);
 }

@@ -12,7 +12,8 @@ public enum OrderErrorMessage implements ErrorMessage {
     ORDER_ITEM_NOT_FOUND_BY_ID("Could not find order item with ID '{{id}}'"),
     INVALID_ORDER_STATUS_TRANSITION("Could not transition order status from '{{from}}' to '{{to}}'"),
     INVALID_ORDER_ITEM_STATUS_TRANSITION("Could not transition order item status from '{{from}}' to '{{to}}'"),
-    ORDER_IS_EMPTY("Order with ID '{{id}}' is empty'"),;
+    ORDER_IS_EMPTY("Order with ID '{{id}}' is empty'"),
+    ORDER_IS_FINISHED("Order with ID '{{id}}' is finished'"),;
 
     private final String message;
 }

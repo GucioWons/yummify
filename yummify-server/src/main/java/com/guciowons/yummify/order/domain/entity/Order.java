@@ -3,6 +3,7 @@ package com.guciowons.yummify.order.domain.entity;
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.order.domain.exception.InvalidOrderStatusTransitionException;
 import com.guciowons.yummify.order.domain.exception.OrderIsEmptyException;
+import com.guciowons.yummify.order.domain.exception.OrderIsFinishedException;
 import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class Order {
     }
 
     public OrderItem addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
+        ensureOrderIsNotFinished();
+
         return items.stream()
                 .filter(item -> item.getDishId().equals(dishId))
                 .findAny()
@@ -39,6 +42,8 @@ public class Order {
     }
 
     public void removeItem(OrderItem.Id orderItemId) {
+        ensureOrderIsNotFinished();
+
         boolean removed = items.removeIf(item -> item.getId().equals(orderItemId));
 
         if (!removed) {
@@ -59,11 +64,37 @@ public class Order {
         updateStatus(OrderStatus.CANCELLED);
     }
 
+    public OrderItem startItemPreparation(OrderItem.Id itemId) {
+        ensureOrderIsNotFinished();
+
+        OrderItem item = findItem(itemId);
+        item.startPreparation();
+
+        if (!status.equals(OrderStatus.IN_PREPARATION)) {
+            updateStatus(OrderStatus.IN_PREPARATION);
+        }
+
+        return item;
+    }
+
     private void updateStatus(OrderStatus newStatus) {
         if (!newStatus.canTransitionFrom(this.status)) {
             throw new InvalidOrderStatusTransitionException(this.status, newStatus);
         }
         this.status = newStatus;
+    }
+
+    private OrderItem findItem(OrderItem.Id itemId) {
+        return items.stream()
+                .filter(section -> section.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new OrderItemNotFoundException(itemId));
+    }
+
+    private void ensureOrderIsNotFinished() {
+        if (status.isFinished()) {
+            throw new OrderIsFinishedException(id);
+        }
     }
 
     public record Id(UUID value) implements IdValueObject {
