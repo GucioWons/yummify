@@ -13,4 +13,6 @@ public interface TableRepository {
     List<Table> findAllByRestaurantId(Table.RestaurantId restaurantId);
 
     boolean existsByNameAndRestaurantId(Table.Name name, Table.RestaurantId restaurantId);
+
+    Optional<Table> findByUserIdAndRestaurantId(Table.UserId userId, Table.RestaurantId restaurantId);
 }

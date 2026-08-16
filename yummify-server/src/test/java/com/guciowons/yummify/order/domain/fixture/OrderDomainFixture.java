@@ -5,6 +5,7 @@ import com.guciowons.yummify.common.i8n.domain.entity.Translation;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
+import com.guciowons.yummify.order.domain.entity.OrderItemStatus;
 import com.guciowons.yummify.order.domain.entity.OrderStatus;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -37,7 +38,7 @@ public class OrderDomainFixture {
     }
 
     public static OrderItem givenOrderItem(int seed) {
-        return new OrderItem(givenOrderItemId(seed), givenOrderItemDishId(seed), givenOrderItemDishSnapshot(seed), seed);
+        return new OrderItem(givenOrderItemId(seed), givenOrderItemDishId(seed), givenOrderItemDishSnapshot(seed), seed, OrderItemStatus.NEW);
     }
 
     public static OrderItem.Id givenOrderItemId(int seed) {

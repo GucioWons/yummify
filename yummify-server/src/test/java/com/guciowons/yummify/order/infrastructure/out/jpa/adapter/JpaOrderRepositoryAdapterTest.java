@@ -55,4 +55,26 @@ class JpaOrderRepositoryAdapterTest {
         assertThat(result).hasValue(order);
     }
 
+    @Test
+    void shouldFindByTableIdAndRestaurantId() {
+        // given
+        var tableId = givenOrderTableId(1);
+        var restaurantId = givenOrderRestaurantId(1);
+        var jpaOrder = new JpaOrder();
+        var order = givenOrder(1);
+
+        when(jpaOrderRepository.findByTableIdAndRestaurantId(tableId.value(), restaurantId.value()))
+                .thenReturn(Optional.of(jpaOrder));
+        when(jpaOrderMapper.toDomain(jpaOrder)).thenReturn(order);
+
+        // when
+        var result = underTest.findByTableIdAndRestaurantId(tableId, restaurantId);
+
+        // then
+        verify(jpaOrderRepository).findByTableIdAndRestaurantId(tableId.value(), restaurantId.value());
+        verify(jpaOrderMapper).toDomain(jpaOrder);
+
+        assertThat(result).hasValue(order);
+    }
+
 }

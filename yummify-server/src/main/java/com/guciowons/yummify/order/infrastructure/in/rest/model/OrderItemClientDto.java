@@ -1,5 +1,7 @@
 package com.guciowons.yummify.order.infrastructure.in.rest.model;
 
+import com.guciowons.yummify.order.domain.entity.OrderItemStatus;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -8,6 +10,7 @@ public record OrderItemClientDto(
         UUID dishId,
         String name,
         BigDecimal price,
-        int quantity
+        int quantity,
+        OrderItemStatus status
 ) {
 }

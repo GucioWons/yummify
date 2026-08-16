@@ -1,9 +1,7 @@
 package com.guciowons.yummify.order.application;
 
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
-import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
-import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
-import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
+import com.guciowons.yummify.order.application.usecase.*;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.*;
@@ -15,9 +13,24 @@ class OrderFacadeTest {
     private final CreateOrderUsecase createOrderUsecase = mock(CreateOrderUsecase.class);
     private final AddOrderItemUsecase addOrderItemUsecase = mock(AddOrderItemUsecase.class);
     private final RemoveOrderItemUsecase removeOrderItemUsecase = mock(RemoveOrderItemUsecase.class);
+    private final SubmitOrderUsecase submitOrderUsecase = mock(SubmitOrderUsecase.class);
+    private final CancelOrderUsecase cancelOrderUsecase = mock(CancelOrderUsecase.class);
+    private final StartOrderItemPreparationUsecase startOrderItemPreparationUsecase = mock(StartOrderItemPreparationUsecase.class);
+    private final FinishOrderItemPreparationUsecase finishOrderItemPreparationUsecase = mock(FinishOrderItemPreparationUsecase.class);
+    private final ServeOrderItemUsecase serveOrderItemUsecase = mock(ServeOrderItemUsecase.class);
     private final OrderCommandMapper orderCommandMapper = mock(OrderCommandMapper.class);
 
-    private final OrderFacade underTest = new OrderFacade(createOrderUsecase, addOrderItemUsecase, removeOrderItemUsecase, orderCommandMapper);
+    private final OrderFacade underTest = new OrderFacade(
+            createOrderUsecase,
+            addOrderItemUsecase,
+            removeOrderItemUsecase,
+            submitOrderUsecase,
+            cancelOrderUsecase,
+            startOrderItemPreparationUsecase,
+            finishOrderItemPreparationUsecase,
+            serveOrderItemUsecase,
+            orderCommandMapper
+    );
 
     @Test
     void shouldCreateOrder() {

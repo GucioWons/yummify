@@ -1,9 +1,7 @@
 package com.guciowons.yummify.order.application.command.mapper;
 
 import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
-import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
-import com.guciowons.yummify.order.application.command.CreateOrderCommand;
-import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
+import com.guciowons.yummify.order.application.command.*;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import org.mapstruct.InjectionStrategy;
@@ -17,11 +15,21 @@ import java.util.UUID;
         uses = TranslatedStringMapper.class
 )
 public interface OrderCommandMapper {
-    CreateOrderCommand toCreateOrderCommand(UUID restaurantId, UUID tableId);
+    CreateOrderCommand toCreateOrderCommand(UUID userId, UUID restaurantId);
 
-    AddOrderItemCommand toAddOrderItemCommand(UUID id, UUID restaurantId, UUID dishId, int quantity);
+    AddOrderItemCommand toAddOrderItemCommand(UUID userId, UUID restaurantId, UUID dishId, int quantity);
 
-    RemoveOrderItemCommand toRemoveOrderItemCommand(UUID orderId, UUID restaurantId, UUID itemId);
+    RemoveOrderItemCommand toRemoveOrderItemCommand(UUID userId, UUID restaurantId, UUID itemId);
+
+    SubmitOrderCommand toSubmitOrderCommand(UUID userId, UUID restaurantId);
+
+    CancelOrderCommand toCancelOrderCommand(UUID id, UUID restaurantId);
+
+    StartOrderItemPreparationCommand toStartOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
+
+    FinishOrderItemPreparationCommand toFinishOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
+
+    ServeOrderItemCommand toServeOrderItemCommand(UUID id, UUID restaurantId, UUID itemId);
 
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);
@@ -29,10 +37,6 @@ public interface OrderCommandMapper {
 
     default Order.RestaurantId toRestaurantId(UUID restaurantId) {
         return Order.RestaurantId.of(restaurantId);
-    }
-
-    default Order.TableId toTableId(UUID tableId) {
-        return Order.TableId.of(tableId);
     }
 
     default OrderItem.Id toItemId(UUID itemId) {

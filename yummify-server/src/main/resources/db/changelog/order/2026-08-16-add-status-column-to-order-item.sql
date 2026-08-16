@@ -1,0 +1,1 @@
+ALTER TABLE orders.order_item ADD COLUMN status VARCHAR(50) NOT NULL;

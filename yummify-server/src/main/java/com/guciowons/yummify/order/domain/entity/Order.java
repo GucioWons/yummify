@@ -1,6 +1,9 @@
 package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
+import com.guciowons.yummify.order.domain.exception.InvalidOrderStatusTransitionException;
+import com.guciowons.yummify.order.domain.exception.OrderIsEmptyException;
+import com.guciowons.yummify.order.domain.exception.OrderIsFinishedException;
 import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +26,8 @@ public class Order {
     }
 
     public OrderItem addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
+        ensureOrderIsNotFinished();
+
         return items.stream()
                 .filter(item -> item.getDishId().equals(dishId))
                 .findAny()
@@ -37,10 +42,73 @@ public class Order {
     }
 
     public void removeItem(OrderItem.Id orderItemId) {
+        ensureOrderIsNotFinished();
+
         boolean removed = items.removeIf(item -> item.getId().equals(orderItemId));
 
         if (!removed) {
             throw new OrderItemNotFoundException(orderItemId);
+        }
+    }
+
+    public void submit() {
+        if (items.isEmpty()) {
+            throw new OrderIsEmptyException(id);
+        }
+
+        updateStatus(OrderStatus.SUBMITTED);
+    }
+
+    public void cancel() {
+        items.forEach(OrderItem::cancel);
+        updateStatus(OrderStatus.CANCELLED);
+    }
+
+    public OrderItem startItemPreparation(OrderItem.Id itemId) {
+        OrderItem item = findItem(itemId);
+        item.startPreparation();
+
+        if (!status.equals(OrderStatus.IN_PREPARATION)) {
+            updateStatus(OrderStatus.IN_PREPARATION);
+        }
+
+        return item;
+    }
+
+    public OrderItem finishItemPreparation(OrderItem.Id itemId) {
+        OrderItem item = findItem(itemId);
+        item.finishPreparation();
+        return item;
+    }
+
+    public OrderItem serveItem(OrderItem.Id itemId) {
+        OrderItem item = findItem(itemId);
+        item.serve();
+
+        if (items.stream().allMatch(OrderItem::isDelivered)) {
+            updateStatus(OrderStatus.DELIVERED);
+        }
+
+        return item;
+    }
+
+    private void updateStatus(OrderStatus newStatus) {
+        if (!newStatus.canTransitionFrom(this.status)) {
+            throw new InvalidOrderStatusTransitionException(this.status, newStatus);
+        }
+        this.status = newStatus;
+    }
+
+    private OrderItem findItem(OrderItem.Id itemId) {
+        return items.stream()
+                .filter(section -> section.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new OrderItemNotFoundException(itemId));
+    }
+
+    private void ensureOrderIsNotFinished() {
+        if (status.isFinished()) {
+            throw new OrderIsFinishedException(id);
         }
     }
 

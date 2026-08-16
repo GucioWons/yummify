@@ -11,8 +11,13 @@ import lombok.RequiredArgsConstructor;
 public class TableLookupService {
     private final TableRepository tableRepository;
 
-    public Table getByIdAndRestaurantId(Table.Id id, Table.RestaurantId restaurantId) throws TableNotFoundException {
+    public Table getByIdAndRestaurantId(Table.Id id, Table.RestaurantId restaurantId) {
         return tableRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(() -> new TableNotFoundException(id));
+                .orElseThrow(() -> TableNotFoundException.byId(id));
+    }
+
+    public Table getByUserIdAndRestaurantId(Table.UserId userId, Table.RestaurantId restaurantId) {
+        return tableRepository.findByUserIdAndRestaurantId(userId, restaurantId)
+                .orElseThrow(() -> TableNotFoundException.byUserId(userId));
     }
 }

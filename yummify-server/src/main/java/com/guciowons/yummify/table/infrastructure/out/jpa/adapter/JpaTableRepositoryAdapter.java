@@ -16,7 +16,6 @@ public class JpaTableRepositoryAdapter implements TableRepository {
     private final JpaTableRepository jpaTableRepository;
     private final JpaTableMapper jpaTableMapper;
 
-
     @Override
     public void save(Table table) {
         jpaTableRepository.save(jpaTableMapper.toJpa(table));
@@ -38,5 +37,11 @@ public class JpaTableRepositoryAdapter implements TableRepository {
     @Override
     public boolean existsByNameAndRestaurantId(Table.Name name, Table.RestaurantId restaurantId) {
         return jpaTableRepository.existsByNameAndRestaurantId(name.value(), restaurantId.value());
+    }
+
+    @Override
+    public Optional<Table> findByUserIdAndRestaurantId(Table.UserId userId, Table.RestaurantId restaurantId) {
+        return jpaTableRepository.findByUserIdAndRestaurantId(userId.value(), restaurantId.value())
+                .map(jpaTableMapper::toDomain);
     }
 }

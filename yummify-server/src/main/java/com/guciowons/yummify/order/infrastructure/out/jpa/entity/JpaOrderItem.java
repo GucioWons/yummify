@@ -1,5 +1,6 @@
 package com.guciowons.yummify.order.infrastructure.out.jpa.entity;
 
+import com.guciowons.yummify.order.domain.entity.OrderItemStatus;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,4 +35,8 @@ public class JpaOrderItem {
 
     @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderItemStatus status;
 }

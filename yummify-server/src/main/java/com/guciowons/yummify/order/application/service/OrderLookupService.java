@@ -13,6 +13,11 @@ public class OrderLookupService {
 
     public Order getByIdAndRestaurantId(Order.Id id, Order.RestaurantId restaurantId) {
         return orderRepository.findByIdAndRestaurantId(id, restaurantId)
-                .orElseThrow(() -> new OrderNotFoundException(id));
+                .orElseThrow(() -> OrderNotFoundException.byId(id));
+    }
+
+    public Order getByTableIdAndRestaurantId(Order.TableId tableId, Order.RestaurantId restaurantId) {
+        return orderRepository.findByTableIdAndRestaurantId(tableId, restaurantId)
+                .orElseThrow(() -> OrderNotFoundException.byTableId(tableId));
     }
 }

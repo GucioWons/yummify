@@ -8,7 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TableErrorMessage implements ErrorMessage {
     TABLE_EXISTS_BY_NAME("Table with name '{{name}}' already exists"),
-    TABLE_NOT_FOUND_BY_ID("Could not find table with ID '{{id}}'");
+    TABLE_NOT_FOUND_BY_ID("Could not find table with ID '{{id}}'"),
+    TABLE_NOT_FOUND_BY_USER_ID("Could not find table for user with ID '{{id}}'");
 
     private final String message;
 }

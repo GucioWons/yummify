@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.order.domain.exception.InvalidOrderItemStatusTransitionException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,14 +16,42 @@ public class OrderItem {
     private final DishId dishId;
     private final DishSnapshot dishSnapshot;
     private int quantity;
+    private OrderItemStatus status;
 
     public static OrderItem create(DishId dishId, DishSnapshot dishSnapshot, Integer quantity) {
-        return new OrderItem(Id.random(), dishId, dishSnapshot, quantity);
+        return new OrderItem(Id.random(), dishId, dishSnapshot, quantity, OrderItemStatus.NEW);
     }
 
     public OrderItem increaseQuantity(int quantity) {
         this.quantity += quantity;
         return this;
+    }
+
+    public void startPreparation() {
+        updateStatus(OrderItemStatus.IN_PREPARATION);
+    }
+
+    public void finishPreparation() {
+        updateStatus(OrderItemStatus.READY);
+    }
+
+    public void serve() {
+        updateStatus(OrderItemStatus.DELIVERED);
+    }
+
+    public void cancel() {
+        updateStatus(OrderItemStatus.CANCELLED);
+    }
+
+    public boolean isDelivered() {
+        return status.equals(OrderItemStatus.DELIVERED);
+    }
+
+    private void updateStatus(OrderItemStatus newStatus) {
+        if (!newStatus.canTransitionFrom(this.status)) {
+            throw new InvalidOrderItemStatusTransitionException(this.status, newStatus);
+        }
+        this.status = newStatus;
     }
 
     public record Id(UUID value) implements IdValueObject {

@@ -4,5 +4,5 @@ import com.guciowons.yummify.order.domain.entity.Order;
 
 import java.util.UUID;
 
-public record CreateOrderCommand(UUID userId, Order.RestaurantId restaurantId) {
+public record CancelOrderCommand(UUID userId, Order.RestaurantId restaurantId) {
 }
