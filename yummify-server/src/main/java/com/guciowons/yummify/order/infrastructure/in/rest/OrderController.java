@@ -81,4 +81,17 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderMapper.toClientDto(order));
     }
+
+    @PostMapping("{id}/cancel")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> cancel(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        Order order = orderFacade.cancel(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
 }

@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.order.domain.exception.InvalidOrderItemStatusTransitionException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,6 +25,17 @@ public class OrderItem {
     public OrderItem increaseQuantity(int quantity) {
         this.quantity += quantity;
         return this;
+    }
+
+    public void cancel() {
+        updateStatus(OrderItemStatus.CANCELLED);
+    }
+
+    private void updateStatus(OrderItemStatus newStatus) {
+        if (!newStatus.canTransitionFrom(this.status)) {
+            throw new InvalidOrderItemStatusTransitionException(this.status, newStatus);
+        }
+        this.status = newStatus;
     }
 
     public record Id(UUID value) implements IdValueObject {

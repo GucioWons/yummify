@@ -1,16 +1,10 @@
 package com.guciowons.yummify.order.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
-import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
-import com.guciowons.yummify.order.application.command.CreateOrderCommand;
-import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
-import com.guciowons.yummify.order.application.command.SubmitOrderCommand;
+import com.guciowons.yummify.order.application.command.*;
 import com.guciowons.yummify.order.application.command.mapper.OrderCommandMapper;
 import com.guciowons.yummify.order.application.port.OrderFacadePort;
-import com.guciowons.yummify.order.application.usecase.AddOrderItemUsecase;
-import com.guciowons.yummify.order.application.usecase.CreateOrderUsecase;
-import com.guciowons.yummify.order.application.usecase.RemoveOrderItemUsecase;
-import com.guciowons.yummify.order.application.usecase.SubmitOrderUsecase;
+import com.guciowons.yummify.order.application.usecase.*;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +18,7 @@ public class OrderFacade implements OrderFacadePort {
     private final AddOrderItemUsecase addOrderItemUsecase;
     private final RemoveOrderItemUsecase removeOrderItemUsecase;
     private final SubmitOrderUsecase submitOrderUsecase;
+    private final CancelOrderUsecase cancelOrderUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -53,5 +48,11 @@ public class OrderFacade implements OrderFacadePort {
     public Order submit(UUID orderId, UUID restaurantId) {
         SubmitOrderCommand command = orderCommandMapper.toSubmitOrderCommand(orderId, restaurantId);
         return submitOrderUsecase.submit(command);
+    }
+
+    @Override
+    public Order cancel(UUID orderId, UUID restaurantId) {
+        CancelOrderCommand command = orderCommandMapper.toCancelOrderCommand(orderId, restaurantId);
+        return cancelOrderUsecase.cancel(command);
     }
 }

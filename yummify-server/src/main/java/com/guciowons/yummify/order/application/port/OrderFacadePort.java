@@ -18,4 +18,6 @@ public interface OrderFacadePort {
     void removeItem(UUID orderId, UUID restaurantId, UUID orderItemId);
 
     Order submit(UUID orderId, UUID restaurantId);
+
+    Order cancel(UUID id, UUID uuid);
 }

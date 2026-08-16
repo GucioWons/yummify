@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.order.domain.exception.InvalidOrderStatusTransitionException;
+import com.guciowons.yummify.order.domain.exception.OrderIsEmptyException;
 import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,7 +46,20 @@ public class Order {
         }
     }
 
-    public void updateStatus(OrderStatus newStatus) {
+    public void submit() {
+        if (items.isEmpty()) {
+            throw new OrderIsEmptyException(id);
+        }
+
+        updateStatus(OrderStatus.SUBMITTED);
+    }
+
+    public void cancel() {
+        items.forEach(OrderItem::cancel);
+        updateStatus(OrderStatus.CANCELLED);
+    }
+
+    private void updateStatus(OrderStatus newStatus) {
         if (!newStatus.canTransitionFrom(this.status)) {
             throw new InvalidOrderStatusTransitionException(this.status, newStatus);
         }
