@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface JpaOrderRepository extends JpaRepository<JpaOrder, UUID> {
     Optional<JpaOrder> findByIdAndRestaurantId(UUID id, UUID restaurantId);
+
+    Optional<JpaOrder> findByTableIdAndRestaurantId(UUID tableId, UUID restaurantId);
 }

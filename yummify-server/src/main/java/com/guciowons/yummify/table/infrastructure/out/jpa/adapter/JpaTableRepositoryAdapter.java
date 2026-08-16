@@ -16,7 +16,6 @@ public class JpaTableRepositoryAdapter implements TableRepository {
     private final JpaTableRepository jpaTableRepository;
     private final JpaTableMapper jpaTableMapper;
 
-
     @Override
     public void save(Table table) {
         jpaTableRepository.save(jpaTableMapper.toJpa(table));

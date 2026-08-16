@@ -25,4 +25,10 @@ public class JpaOrderRepositoryAdapter implements OrderRepository {
         return jpaOrderRepository.findByIdAndRestaurantId(id.value(), restaurantId.value())
                 .map(jpaOrderMapper::toDomain);
     }
+
+    @Override
+    public Optional<Order> findByTableIdAndRestaurantId(Order.TableId id, Order.RestaurantId restaurantId) {
+        return jpaOrderRepository.findByTableIdAndRestaurantId(id.value(), restaurantId.value())
+                .map(jpaOrderMapper::toDomain);
+    }
 }

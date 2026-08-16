@@ -57,7 +57,7 @@ class TableExceptionStatusResolverTest {
     private static Stream<Arguments> provideExceptionsWithExpectedStatus() {
         return Stream.of(
                 Arguments.of(new TableExistsByNameException(givenTableName(1)), HttpStatus.CONFLICT),
-                Arguments.of(new TableNotFoundException(givenTableId(1)), HttpStatus.NOT_FOUND),
+                Arguments.of(TableNotFoundException.byId(givenTableId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(mock(DomainException.class), HttpStatus.INTERNAL_SERVER_ERROR)
         );
     }

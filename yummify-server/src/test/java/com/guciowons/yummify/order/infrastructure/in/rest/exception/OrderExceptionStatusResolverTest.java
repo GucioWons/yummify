@@ -57,7 +57,7 @@ class OrderExceptionStatusResolverTest {
     private static Stream<Arguments> provideExceptionsWithExpectedStatus() {
         return Stream.of(
                 Arguments.of(new OrderTableNotFoundException(givenOrderTableId(1)), HttpStatus.NOT_FOUND),
-                Arguments.of(new OrderNotFoundException(givenOrderId(1)), HttpStatus.NOT_FOUND),
+                Arguments.of(OrderNotFoundException.byId(givenOrderId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(new OrderItemNotFoundException(givenOrderItemId(1)), HttpStatus.NOT_FOUND),
                 Arguments.of(mock(DomainException.class), HttpStatus.INTERNAL_SERVER_ERROR)
         );
