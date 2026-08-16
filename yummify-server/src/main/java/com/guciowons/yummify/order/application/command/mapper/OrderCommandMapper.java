@@ -27,6 +27,8 @@ public interface OrderCommandMapper {
 
     StartOrderItemPreparationCommand toStartOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
 
+    FinishOrderItemPreparationCommand toFinishOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
+
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);
     }

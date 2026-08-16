@@ -108,4 +108,18 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderItemMapper.toOrderItemClientDto(item));
     }
+
+    @PostMapping("{id}/items/{itemId}/finish")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderItemClientDto> finishPreparation(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id,
+            @PathVariable UUID itemId
+    ) {
+        OrderItem item = orderFacade.finishPreparation(id, userPrincipal.restaurantId(), itemId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderItemMapper.toOrderItemClientDto(item));
+    }
 }

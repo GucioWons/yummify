@@ -65,8 +65,6 @@ public class Order {
     }
 
     public OrderItem startItemPreparation(OrderItem.Id itemId) {
-        ensureOrderIsNotFinished();
-
         OrderItem item = findItem(itemId);
         item.startPreparation();
 
@@ -74,6 +72,12 @@ public class Order {
             updateStatus(OrderStatus.IN_PREPARATION);
         }
 
+        return item;
+    }
+
+    public OrderItem finishItemPreparation(OrderItem.Id itemId) {
+        OrderItem item = findItem(itemId);
+        item.finishPreparation();
         return item;
     }
 

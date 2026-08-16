@@ -20,6 +20,7 @@ public class OrderFacade implements OrderFacadePort {
     private final SubmitOrderUsecase submitOrderUsecase;
     private final CancelOrderUsecase cancelOrderUsecase;
     private final StartOrderItemPreparationUsecase startOrderItemPreparationUsecase;
+    private final FinishOrderItemPreparationUsecase finishOrderItemPreparationUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -65,5 +66,15 @@ public class OrderFacade implements OrderFacadePort {
                 itemId
         );
         return startOrderItemPreparationUsecase.startPreparation(command);
+    }
+
+    @Override
+    public OrderItem finishPreparation(UUID orderId, UUID restaurantId, UUID itemId) {
+        FinishOrderItemPreparationCommand command = orderCommandMapper.toFinishOrderItemPreparationCommand(
+                orderId,
+                restaurantId,
+                itemId
+        );
+        return finishOrderItemPreparationUsecase.finishPreparation(command);
     }
 }

@@ -31,6 +31,10 @@ public class OrderItem {
         updateStatus(OrderItemStatus.IN_PREPARATION);
     }
 
+    public void finishPreparation() {
+        updateStatus(OrderItemStatus.READY);
+    }
+
     public void cancel() {
         updateStatus(OrderItemStatus.CANCELLED);
     }
