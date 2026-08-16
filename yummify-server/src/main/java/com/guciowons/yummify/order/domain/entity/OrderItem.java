@@ -35,8 +35,16 @@ public class OrderItem {
         updateStatus(OrderItemStatus.READY);
     }
 
+    public void serve() {
+        updateStatus(OrderItemStatus.DELIVERED);
+    }
+
     public void cancel() {
         updateStatus(OrderItemStatus.CANCELLED);
+    }
+
+    public boolean isDelivered() {
+        return status.equals(OrderItemStatus.DELIVERED);
     }
 
     private void updateStatus(OrderItemStatus newStatus) {

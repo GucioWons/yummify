@@ -81,6 +81,17 @@ public class Order {
         return item;
     }
 
+    public OrderItem serveItem(OrderItem.Id itemId) {
+        OrderItem item = findItem(itemId);
+        item.serve();
+
+        if (items.stream().allMatch(OrderItem::isDelivered)) {
+            updateStatus(OrderStatus.DELIVERED);
+        }
+
+        return item;
+    }
+
     private void updateStatus(OrderStatus newStatus) {
         if (!newStatus.canTransitionFrom(this.status)) {
             throw new InvalidOrderStatusTransitionException(this.status, newStatus);
