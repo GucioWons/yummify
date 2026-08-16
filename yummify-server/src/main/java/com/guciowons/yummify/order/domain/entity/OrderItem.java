@@ -15,9 +15,10 @@ public class OrderItem {
     private final DishId dishId;
     private final DishSnapshot dishSnapshot;
     private int quantity;
+    private OrderItemStatus status;
 
     public static OrderItem create(DishId dishId, DishSnapshot dishSnapshot, Integer quantity) {
-        return new OrderItem(Id.random(), dishId, dishSnapshot, quantity);
+        return new OrderItem(Id.random(), dishId, dishSnapshot, quantity, OrderItemStatus.NEW);
     }
 
     public OrderItem increaseQuantity(int quantity) {
