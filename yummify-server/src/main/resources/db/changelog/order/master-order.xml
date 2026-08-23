@@ -9,5 +9,6 @@
     <include file="db/changelog/order/2026-07-19-add-quantity-column.sql" relativeToChangelogFile="false"/>
     <include file="db/changelog/order/2026-08-16-add-status-column-to-order-item.sql" relativeToChangelogFile="false"/>
     <include file="db/changelog/order/2026-08-23-add-request-assistance-column-to-order.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/order/2026-08-23-add-request-payment-column-to-order.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

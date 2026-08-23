@@ -32,4 +32,7 @@ public class JpaOrder {
 
     @Column(nullable = false)
     private boolean assistanceRequested;
+
+    @Column(nullable = false)
+    private boolean paymentRequested;
 }

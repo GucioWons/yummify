@@ -134,4 +134,14 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderMapper.toClientDto(order));
     }
+
+    @PatchMapping("payment")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> requestPayment(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Order order = orderFacade.requestPayment(userPrincipal.id(), userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
 }
