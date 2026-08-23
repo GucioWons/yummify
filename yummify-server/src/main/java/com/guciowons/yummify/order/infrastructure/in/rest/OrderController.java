@@ -124,4 +124,14 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderItemMapper.toOrderItemClientDto(item));
     }
+
+    @PatchMapping("assistance")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> requestAssistance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Order order = orderFacade.requestAssistance(userPrincipal.id(), userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
 }

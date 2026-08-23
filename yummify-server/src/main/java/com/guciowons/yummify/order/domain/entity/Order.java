@@ -20,9 +20,10 @@ public class Order {
     private final TableId tableId;
     private final List<OrderItem> items = new ArrayList<>();
     private OrderStatus status;
+    private boolean assistanceRequested;
 
     public static Order create(RestaurantId restaurantId, TableId tableId) {
-        return new Order(Id.random(), restaurantId, tableId, OrderStatus.NEW);
+        return new Order(Id.random(), restaurantId, tableId, OrderStatus.NEW, false);
     }
 
     public OrderItem addItem(OrderItem.DishId dishId, OrderItem.DishSnapshot dishSnapshot, Integer quantity) {
@@ -90,6 +91,11 @@ public class Order {
         }
 
         return item;
+    }
+
+    public void requestAssistance() {
+        ensureOrderIsNotFinished();
+        this.assistanceRequested = true;
     }
 
     private void updateStatus(OrderStatus newStatus) {

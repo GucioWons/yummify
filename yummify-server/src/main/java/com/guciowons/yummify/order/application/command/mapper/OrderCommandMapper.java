@@ -31,6 +31,8 @@ public interface OrderCommandMapper {
 
     ServeOrderItemCommand toServeOrderItemCommand(UUID id, UUID restaurantId, UUID itemId);
 
+    RequestAssistanceCommand toRequestAssistanceCommand(UUID id, UUID restaurantId);
+
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);
     }

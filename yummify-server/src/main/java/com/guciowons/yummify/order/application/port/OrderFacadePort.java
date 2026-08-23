@@ -26,4 +26,6 @@ public interface OrderFacadePort {
     OrderItem finishPreparation(UUID orderId, UUID restaurantId, UUID itemId);
 
     OrderItem serve(UUID orderId, UUID restaurantId, UUID itemId);
+
+    Order requestAssistance(UUID userId, UUID restaurantId);
 }
