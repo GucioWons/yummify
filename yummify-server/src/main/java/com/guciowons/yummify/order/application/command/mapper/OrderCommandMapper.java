@@ -35,6 +35,8 @@ public interface OrderCommandMapper {
 
     RequestPaymentCommand toRequestPaymentCommand(UUID userId, UUID restaurantId);
 
+    CompleteOrderCommand toCompleteOrderCommand(UUID userId, UUID restaurantId);
+
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);
     }

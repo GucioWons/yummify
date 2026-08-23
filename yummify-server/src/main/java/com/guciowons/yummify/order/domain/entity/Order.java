@@ -1,10 +1,7 @@
 package com.guciowons.yummify.order.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
-import com.guciowons.yummify.order.domain.exception.InvalidOrderStatusTransitionException;
-import com.guciowons.yummify.order.domain.exception.OrderIsEmptyException;
-import com.guciowons.yummify.order.domain.exception.OrderIsFinishedException;
-import com.guciowons.yummify.order.domain.exception.OrderItemNotFoundException;
+import com.guciowons.yummify.order.domain.exception.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -102,6 +99,16 @@ public class Order {
     public void requestPayment() {
         ensureOrderIsNotFinished();
         this.paymentRequested = true;
+    }
+
+    public void complete() {
+        ensureOrderIsNotFinished();
+
+        if (!paymentRequested) {
+            throw new PaymentIsNotRequestedException(id);
+        }
+
+        updateStatus(OrderStatus.COMPLETED);
     }
 
     private void updateStatus(OrderStatus newStatus) {

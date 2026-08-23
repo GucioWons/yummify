@@ -30,4 +30,6 @@ public interface OrderFacadePort {
     Order requestAssistance(UUID userId, UUID restaurantId);
 
     Order requestPayment(UUID userId, UUID restaurantId);
+
+    Order complete(UUID id, UUID restaurantId);
 }

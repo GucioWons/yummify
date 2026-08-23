@@ -144,4 +144,17 @@ public class OrderController {
                 .status(HttpStatus.OK)
                 .body(orderMapper.toClientDto(order));
     }
+
+    @PostMapping("{id}/complete")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> complete(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        Order order = orderFacade.complete(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
 }
