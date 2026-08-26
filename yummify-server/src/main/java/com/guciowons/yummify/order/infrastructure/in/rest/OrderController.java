@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -156,5 +157,29 @@ public class OrderController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(orderMapper.toClientDto(order));
+    }
+
+    @GetMapping("current")
+    @SecuredByPermission(Permission.ORDER_READ)
+    public ResponseEntity<List<OrderClientDto>> getCurrent(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderClientDto> result = orderFacade.getCurrent(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toClientDto)
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(result);
+    }
+
+    @GetMapping("old")
+    @SecuredByPermission(Permission.ORDER_READ)
+    public ResponseEntity<List<OrderClientDto>> getOld(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderClientDto> result = orderFacade.getOld(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toClientDto)
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(result);
     }
 }

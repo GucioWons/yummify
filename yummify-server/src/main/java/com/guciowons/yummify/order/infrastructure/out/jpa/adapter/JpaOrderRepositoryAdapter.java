@@ -1,12 +1,14 @@
 package com.guciowons.yummify.order.infrastructure.out.jpa.adapter;
 
 import com.guciowons.yummify.order.domain.entity.Order;
+import com.guciowons.yummify.order.domain.entity.OrderStatus;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
 import com.guciowons.yummify.order.infrastructure.out.jpa.entity.mapper.JpaOrderMapper;
 import com.guciowons.yummify.order.infrastructure.out.jpa.repository.JpaOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -30,5 +32,12 @@ public class JpaOrderRepositoryAdapter implements OrderRepository {
     public Optional<Order> findByTableIdAndRestaurantId(Order.TableId id, Order.RestaurantId restaurantId) {
         return jpaOrderRepository.findByTableIdAndRestaurantId(id.value(), restaurantId.value())
                 .map(jpaOrderMapper::toDomain);
+    }
+
+    @Override
+    public List<Order> findAllByStatusInAndRestaurantId(List<OrderStatus> statuses, Order.RestaurantId restaurantId) {
+        return jpaOrderRepository.findAllByStatusInAndRestaurantId(statuses, restaurantId.value()).stream()
+                .map(jpaOrderMapper::toDomain)
+                .toList();
     }
 }

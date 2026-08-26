@@ -9,6 +9,7 @@ import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Facade
@@ -25,6 +26,8 @@ public class OrderFacade implements OrderFacadePort {
     private final RequestAssistanceUsecase requestAssistanceUsecase;
     private final RequestPaymentUsecase requestPaymentUsecase;
     private final CompleteOrderUsecase completeOrderUsecase;
+    private final GetCurrentOrdersUsecase getCurrentOrdersUsecase;
+    private final GetOldOrdersUsecase getOldOrdersUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -99,5 +102,17 @@ public class OrderFacade implements OrderFacadePort {
     public Order complete(UUID id, UUID restaurantId) {
         CompleteOrderCommand command = orderCommandMapper.toCompleteOrderCommand(id, restaurantId);
         return completeOrderUsecase.complete(command);
+    }
+
+    @Override
+    public List<Order> getCurrent(UUID restaurantId) {
+        GetOrdersQuery query = orderCommandMapper.toGetOrdersQuery(restaurantId);
+        return getCurrentOrdersUsecase.get(query);
+    }
+
+    @Override
+    public List<Order> getOld(UUID restaurantId) {
+        GetOrdersQuery query = orderCommandMapper.toGetOrdersQuery(restaurantId);
+        return getOldOrdersUsecase.get(query);
     }
 }
