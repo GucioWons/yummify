@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.application.service;
 
 import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
+import com.guciowons.yummify.table.PublicTableFacadePort;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -12,8 +13,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class OrderLookupServiceTest {
+    private final PublicTableFacadePort publicTableFacadePort = mock(PublicTableFacadePort.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
-    private final OrderLookupService underTest = new OrderLookupService(orderRepository);
+    private final OrderLookupService underTest = new OrderLookupService(publicTableFacadePort, orderRepository);
 
     @Test
     void shouldGetOrder_WhenExists() {

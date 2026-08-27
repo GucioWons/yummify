@@ -7,6 +7,7 @@ function SidebarMenu() {
 
     const sidebarItems = [
         {text: "Dashboard", icon: Home, path: "/dashboard"},
+        {text: "Orders", icon: RockingChair, path: "/orders"},
         {text: "Tables", icon: RockingChair, path: "/tables"},
         {text: "Ingredients", icon: CookingPot, path: "/ingredients"},
         {text: "Dishes", icon: ChefHat, path: "/dishes"},

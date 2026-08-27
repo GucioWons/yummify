@@ -1,1 +1,1 @@
-ALTER TABLE orders."order" ADD COLUMN assistance_requested BOOLEAN NOT NULL;
+ALTER TABLE orders."order" ADD COLUMN assistance_requested BOOLEAN NOT NULL DEFAULT FALSE;

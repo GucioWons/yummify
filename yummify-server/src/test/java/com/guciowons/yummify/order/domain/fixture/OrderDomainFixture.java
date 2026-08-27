@@ -21,7 +21,9 @@ public class OrderDomainFixture {
                 givenOrderId(seed),
                 givenOrderRestaurantId(seed),
                 givenOrderTableId(seed),
-                OrderStatus.NEW
+                OrderStatus.NEW,
+                false,
+                false
         );
     }
 
