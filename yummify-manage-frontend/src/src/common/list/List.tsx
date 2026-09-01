@@ -9,12 +9,7 @@ export interface ListProps<T> {
 }
 
 function List<T>(props: ListProps<T>) {
-    const {
-        items,
-        onItemClick,
-        renderItem,
-        firstElement
-    } = props;
+    const {items, onItemClick, renderItem, firstElement} = props;
 
     return (
         <div
@@ -34,7 +29,6 @@ function List<T>(props: ListProps<T>) {
             )}
         </div>
     );
-
 }
 
 export default List;

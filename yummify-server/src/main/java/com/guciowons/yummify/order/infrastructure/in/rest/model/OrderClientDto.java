@@ -9,6 +9,8 @@ public record OrderClientDto(
         UUID id,
         UUID tableId,
         List<OrderItemClientDto> items,
-        OrderStatus status
+        OrderStatus status,
+        boolean assistanceRequested,
+        boolean paymentRequested
 ) {
 }

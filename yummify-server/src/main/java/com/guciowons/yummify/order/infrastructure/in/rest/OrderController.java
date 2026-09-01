@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -123,5 +124,62 @@ public class OrderController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(orderItemMapper.toOrderItemClientDto(item));
+    }
+
+    @PatchMapping("assistance")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> requestAssistance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Order order = orderFacade.requestAssistance(userPrincipal.id(), userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
+
+    @PatchMapping("payment")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> requestPayment(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Order order = orderFacade.requestPayment(userPrincipal.id(), userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
+
+    @PostMapping("{id}/complete")
+    @SecuredByPermission(Permission.ORDER_MODIFY)
+    public ResponseEntity<OrderClientDto> complete(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable UUID id
+    ) {
+        Order order = orderFacade.complete(id, userPrincipal.restaurantId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(orderMapper.toClientDto(order));
+    }
+
+    @GetMapping("current")
+    @SecuredByPermission(Permission.ORDER_READ)
+    public ResponseEntity<List<OrderClientDto>> getCurrent(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderClientDto> result = orderFacade.getCurrent(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toClientDto)
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(result);
+    }
+
+    @GetMapping("old")
+    @SecuredByPermission(Permission.ORDER_READ)
+    public ResponseEntity<List<OrderClientDto>> getOld(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderClientDto> result = orderFacade.getOld(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toClientDto)
+                .toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(result);
     }
 }

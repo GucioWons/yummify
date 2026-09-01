@@ -98,8 +98,10 @@ export namespace Dtos {
     }
 
     export interface OrderClientDto {
+        assistanceRequested: boolean;
         id: string;
         items: OrderItemClientDto[];
+        paymentRequested: boolean;
         status: OrderStatus;
         tableId: string;
     }

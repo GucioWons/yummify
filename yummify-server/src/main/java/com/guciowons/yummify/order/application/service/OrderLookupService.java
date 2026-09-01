@@ -4,11 +4,15 @@ import com.guciowons.yummify.common.core.application.annotation.ApplicationServi
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
+import com.guciowons.yummify.table.PublicTableFacadePort;
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @ApplicationService
 @RequiredArgsConstructor
 public class OrderLookupService {
+    private final PublicTableFacadePort publicTableFacadePort;
     private final OrderRepository orderRepository;
 
     public Order getByIdAndRestaurantId(Order.Id id, Order.RestaurantId restaurantId) {
@@ -16,7 +20,9 @@ public class OrderLookupService {
                 .orElseThrow(() -> OrderNotFoundException.byId(id));
     }
 
-    public Order getByTableIdAndRestaurantId(Order.TableId tableId, Order.RestaurantId restaurantId) {
+    public Order getByUserIdAndRestaurantId(UUID userId, Order.RestaurantId restaurantId) {
+        Order.TableId tableId = Order.TableId.of(publicTableFacadePort.getTableIdByUserId(userId, restaurantId.value()));
+
         return orderRepository.findByTableIdAndRestaurantId(tableId, restaurantId)
                 .orElseThrow(() -> OrderNotFoundException.byTableId(tableId));
     }

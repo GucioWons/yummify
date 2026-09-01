@@ -12,12 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class RemoveOrderItemUsecaseTest {
-    private final PublicTableFacadePort publicTableFacadePort = mock(PublicTableFacadePort.class);
     private final OrderLookupService orderLookupService = mock(OrderLookupService.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
 
     private final RemoveOrderItemUsecase underTest = new RemoveOrderItemUsecase(
-            publicTableFacadePort,
             orderLookupService,
             orderRepository
     );
@@ -30,16 +28,13 @@ class RemoveOrderItemUsecaseTest {
         var item = order.addItem(givenOrderItemDishId(1), givenOrderItemDishSnapshot(1), 2);
         var command = new RemoveOrderItemCommand(givenUserId(), givenOrderRestaurantId(1), item.getId());
 
-
-        when(publicTableFacadePort.getTableIdByUserId(command.userId(), command.restaurantId().value()))
-                .thenReturn(tableId.value());
-        when(orderLookupService.getByTableIdAndRestaurantId(tableId, command.restaurantId())).thenReturn(order);
+        when(orderLookupService.getByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
 
         // when
         underTest.removeOrderItem(command);
 
         // then
-        verify(orderLookupService).getByTableIdAndRestaurantId(tableId, command.restaurantId());
+        verify(orderLookupService).getByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
         verify(orderRepository).save(order);
 
         assertThat(order.getItems()).isEmpty();

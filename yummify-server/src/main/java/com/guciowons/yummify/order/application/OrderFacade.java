@@ -9,6 +9,7 @@ import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Facade
@@ -22,6 +23,11 @@ public class OrderFacade implements OrderFacadePort {
     private final StartOrderItemPreparationUsecase startOrderItemPreparationUsecase;
     private final FinishOrderItemPreparationUsecase finishOrderItemPreparationUsecase;
     private final ServeOrderItemUsecase serveOrderItemUsecase;
+    private final RequestAssistanceUsecase requestAssistanceUsecase;
+    private final RequestPaymentUsecase requestPaymentUsecase;
+    private final CompleteOrderUsecase completeOrderUsecase;
+    private final GetCurrentOrdersUsecase getCurrentOrdersUsecase;
+    private final GetOldOrdersUsecase getOldOrdersUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -78,5 +84,35 @@ public class OrderFacade implements OrderFacadePort {
     public OrderItem serve(UUID orderId, UUID restaurantId, UUID itemId) {
         ServeOrderItemCommand command = orderCommandMapper.toServeOrderItemCommand(orderId, restaurantId, itemId);
         return serveOrderItemUsecase.serve(command);
+    }
+
+    @Override
+    public Order requestAssistance(UUID userId, UUID restaurantId) {
+        RequestAssistanceCommand command = orderCommandMapper.toRequestAssistanceCommand(userId, restaurantId);
+        return requestAssistanceUsecase.request(command);
+    }
+
+    @Override
+    public Order requestPayment(UUID userId, UUID restaurantId) {
+        RequestPaymentCommand command = orderCommandMapper.toRequestPaymentCommand(userId, restaurantId);
+        return requestPaymentUsecase.request(command);
+    }
+
+    @Override
+    public Order complete(UUID id, UUID restaurantId) {
+        CompleteOrderCommand command = orderCommandMapper.toCompleteOrderCommand(id, restaurantId);
+        return completeOrderUsecase.complete(command);
+    }
+
+    @Override
+    public List<Order> getCurrent(UUID restaurantId) {
+        GetOrdersQuery query = orderCommandMapper.toGetOrdersQuery(restaurantId);
+        return getCurrentOrdersUsecase.get(query);
+    }
+
+    @Override
+    public List<Order> getOld(UUID restaurantId) {
+        GetOrdersQuery query = orderCommandMapper.toGetOrdersQuery(restaurantId);
+        return getOldOrdersUsecase.get(query);
     }
 }

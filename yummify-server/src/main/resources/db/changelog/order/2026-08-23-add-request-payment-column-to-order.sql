@@ -1,0 +1,1 @@
+ALTER TABLE orders."order" ADD COLUMN payment_requested BOOLEAN NOT NULL DEFAULT FALSE;

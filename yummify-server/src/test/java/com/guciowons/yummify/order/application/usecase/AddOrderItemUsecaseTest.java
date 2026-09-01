@@ -14,14 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class AddOrderItemUsecaseTest {
-    private final PublicTableFacadePort publicTableFacadePort = mock(PublicTableFacadePort.class);
     private final OrderLookupService orderLookupService = mock(OrderLookupService.class);
     private final PublicDishFacadePort publicDishFacadePort = mock(PublicDishFacadePort.class);
     private final PublicMenuFacadePort publicMenuFacadePort = mock(PublicMenuFacadePort.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
 
     private final AddOrderItemUsecase underTest = new AddOrderItemUsecase(
-            publicTableFacadePort,
             orderLookupService,
             publicDishFacadePort,
             publicMenuFacadePort,
@@ -37,9 +35,7 @@ class AddOrderItemUsecaseTest {
         var dishSnapshot = givenOrderItemDishSnapshot(1);
         var dishContract = DishContract.of(dishSnapshot.name());
 
-        when(publicTableFacadePort.getTableIdByUserId(command.userId(), command.restaurantId().value()))
-                .thenReturn(tableId.value());
-        when(orderLookupService.getByTableIdAndRestaurantId(tableId, command.restaurantId())).thenReturn(order);
+        when(orderLookupService.getByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
         when(publicDishFacadePort.get(command.dishId().value(), command.restaurantId().value())).thenReturn(dishContract);
         when(publicMenuFacadePort.getPriceByDishId(command.restaurantId().value(), command.dishId().value()))
                 .thenReturn(dishSnapshot.price());
@@ -48,7 +44,7 @@ class AddOrderItemUsecaseTest {
         var result = underTest.addItem(command);
 
         // then
-        verify(orderLookupService).getByTableIdAndRestaurantId(tableId, command.restaurantId());
+        verify(orderLookupService).getByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
         verify(publicDishFacadePort).get(command.dishId().value(), command.restaurantId().value());
         verify(publicMenuFacadePort).getPriceByDishId(command.restaurantId().value(), command.dishId().value());
         verify(orderRepository).save(order);

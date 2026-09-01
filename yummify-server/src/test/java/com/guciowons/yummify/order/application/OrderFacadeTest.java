@@ -19,6 +19,11 @@ class OrderFacadeTest {
     private final FinishOrderItemPreparationUsecase finishOrderItemPreparationUsecase = mock(FinishOrderItemPreparationUsecase.class);
     private final ServeOrderItemUsecase serveOrderItemUsecase = mock(ServeOrderItemUsecase.class);
     private final OrderCommandMapper orderCommandMapper = mock(OrderCommandMapper.class);
+    private final RequestAssistanceUsecase requestAssistanceUsecase = mock(RequestAssistanceUsecase.class);
+    private final RequestPaymentUsecase requestPaymentUsecase = mock(RequestPaymentUsecase.class);
+    private final CompleteOrderUsecase completeOrderUsecase = mock(CompleteOrderUsecase.class);
+    private final GetCurrentOrdersUsecase getCurrentOrdersUsecase = mock(GetCurrentOrdersUsecase.class);
+    private final GetOldOrdersUsecase getOldOrdersUsecase = mock(GetOldOrdersUsecase.class);
 
     private final OrderFacade underTest = new OrderFacade(
             createOrderUsecase,
@@ -29,6 +34,11 @@ class OrderFacadeTest {
             startOrderItemPreparationUsecase,
             finishOrderItemPreparationUsecase,
             serveOrderItemUsecase,
+            requestAssistanceUsecase,
+            requestPaymentUsecase,
+            completeOrderUsecase,
+            getCurrentOrdersUsecase,
+            getOldOrdersUsecase,
             orderCommandMapper
     );
 
