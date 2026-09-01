@@ -1,9 +1,12 @@
 import {Dtos} from "../../common/dtos.ts";
+import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
+import CurrentOrderItemLabel from "./CurrentOrderItemLabel.tsx";
+import {useCallback} from "react";
+import CurrentOrderButton from "./CurrentOrderButton.tsx";
+import {Check, Play, Truck} from "lucide-react";
 import OrderItemClientDto = Dtos.OrderItemClientDto;
 import OrderStatus = Dtos.OrderStatus;
-import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
-import CurrentOrderLabel from "./CurrentOrderLabel.tsx";
-import {WebcamIcon} from "lucide-react";
+import OrderItemStatus = Dtos.OrderItemStatus;
 
 export interface CurrentOrderItemProps {
     item: OrderItemClientDto;
@@ -12,6 +15,26 @@ export interface CurrentOrderItemProps {
 
 function CurrentOrderItem(props: CurrentOrderItemProps) {
     const {item, orderStatus} = props;
+
+    const getButton = useCallback(() => {
+        switch (item.status) {
+            case OrderItemStatus.NEW: {
+                if (orderStatus !== OrderStatus.NEW) {
+                    return <CurrentOrderButton text="Start" color='ORANGE' icon={Play} onClick={() => {}}/>;
+                }
+                return undefined;
+            }
+
+            case OrderItemStatus.IN_PREPARATION:
+                return <CurrentOrderButton text="Ready" color='GREEN' icon={Check} onClick={() => {}}/>;
+
+            case OrderItemStatus.READY:
+                return <CurrentOrderButton text="Serve" color='BLUE' icon={Truck} onClick={() => {}}/>;
+
+            default:
+                return undefined;
+        }
+    }, [item.status, orderStatus]);
 
     return (
         <div className="current-order-item">
@@ -25,11 +48,9 @@ function CurrentOrderItem(props: CurrentOrderItemProps) {
             </div>
             <div className="current-order-item-right">
                 <div>
-                    <CurrentOrderLabel text={item.status} icon={WebcamIcon} color="RED" />
+                    <CurrentOrderItemLabel status={item.status} />
                 </div>
-                <div>
-                    Przycisk
-                </div>
+                {getButton()}
             </div>
         </div>
     );

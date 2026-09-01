@@ -1,13 +1,13 @@
 import SidebarButton from "./SidebarButton.tsx";
 import {useLocation} from "react-router-dom";
-import {BookOpen, ChefHat, CookingPot, Home, RockingChair, Shield, Users} from "lucide-react";
+import {BookOpen, ChefHat, CookingPot, Home, Receipt, RockingChair, Shield, Users} from "lucide-react";
 
 function SidebarMenu() {
     const location = useLocation();
 
     const sidebarItems = [
         {text: "Dashboard", icon: Home, path: "/dashboard"},
-        {text: "Orders", icon: RockingChair, path: "/orders"},
+        {text: "Orders", icon: Receipt, path: "/orders"},
         {text: "Tables", icon: RockingChair, path: "/tables"},
         {text: "Ingredients", icon: CookingPot, path: "/ingredients"},
         {text: "Dishes", icon: ChefHat, path: "/dishes"},

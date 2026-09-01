@@ -59,3 +59,46 @@
     display: flex;
     gap: 12px;
 }
+
+.current-order-button {
+    border-radius: 6px;
+    padding: 4px 10px;
+    border: 0;
+    font-size: 14px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    color: white;
+}
+
+.current-order-button-blue {
+    background-color: #1E88E5;
+}
+
+.current-order-button-blue:hover {
+    background-color: #0D47A1;
+}
+
+.current-order-button-orange {
+    background-color: #FB8C00;
+}
+
+.current-order-button-orange:hover {
+    background-color: #E65100;
+}
+
+.current-order-button-green {
+    background-color: #43A047;
+}
+
+.current-order-button-green:hover {
+    background-color: #1B5E20;
+}
+
+.current-order-button-purple {
+    background-color: #8E24AA;
+}
+
+.current-order-button-purple:hover {
+    background-color: #4A148C;
+}

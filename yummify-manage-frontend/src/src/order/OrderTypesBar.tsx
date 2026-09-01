@@ -7,18 +7,18 @@ function OrderTypesBar(props: OrderTypesBarProps) {
     const {selectedTab, setSelectedTab} = props;
 
     return (
-        <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 12}}>
+        <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 12, justifyContent: "center"}}>
             <button
                 onClick={() => setSelectedTab('CURRENT')}
                 className={`menu-section-bar-item ${selectedTab === 'CURRENT' ? "active" : ""}`}
             >
-                CURRENT
+                Active
             </button>
             <button
                 onClick={() => setSelectedTab('OLD')}
                 className={`menu-section-bar-item ${selectedTab === 'OLD' ? "active" : ""}`}
             >
-                OLD
+                Old
             </button>
         </div>
     );
