@@ -34,7 +34,7 @@ public class OrderController {
             @PathVariable UUID id,
             @PathVariable UUID itemId
     ) {
-        OrderItem item = orderFacade.startPreparation(id, userPrincipal.restaurantId(), itemId);
+        OrderItem item = orderFacade.startPreparation(id, userPrincipal.id(), userPrincipal.restaurantId(), itemId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -48,7 +48,7 @@ public class OrderController {
             @PathVariable UUID id,
             @PathVariable UUID itemId
     ) {
-        OrderItem item = orderFacade.finishPreparation(id, userPrincipal.restaurantId(), itemId);
+        OrderItem item = orderFacade.finishPreparation(id, userPrincipal.id(), userPrincipal.restaurantId(), itemId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -62,7 +62,7 @@ public class OrderController {
             @PathVariable UUID id,
             @PathVariable UUID itemId
     ) {
-        OrderItem item = orderFacade.serve(id, userPrincipal.restaurantId(), itemId);
+        OrderItem item = orderFacade.serve(id, userPrincipal.id(), userPrincipal.restaurantId(), itemId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -75,7 +75,7 @@ public class OrderController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id
     ) {
-        Order order = orderFacade.complete(id, userPrincipal.restaurantId());
+        Order order = orderFacade.complete(id, userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

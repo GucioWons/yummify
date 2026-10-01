@@ -21,7 +21,7 @@ public class SubmitOrderUsecase {
         order.submit();
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
 
         return order;
     }

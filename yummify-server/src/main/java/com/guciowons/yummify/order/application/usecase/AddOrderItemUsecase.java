@@ -32,7 +32,7 @@ public class AddOrderItemUsecase {
         OrderItem item = order.addItem(command.dishId(), dishSnapshot, command.quantity());
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
 
         return item;
     }

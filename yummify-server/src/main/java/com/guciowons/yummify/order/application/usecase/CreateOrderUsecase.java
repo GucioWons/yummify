@@ -22,7 +22,7 @@ public class CreateOrderUsecase {
         Order order = Order.create(command.restaurantId(), tableId);
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderCreatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderCreatedEvent.of(order, command.userId()));
 
         return order;
     }

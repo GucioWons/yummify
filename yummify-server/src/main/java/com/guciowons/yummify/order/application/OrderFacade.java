@@ -62,9 +62,10 @@ public class OrderFacade implements OrderFacadePort {
     }
 
     @Override
-    public OrderItem startPreparation(UUID orderId, UUID restaurantId, UUID itemId) {
+    public OrderItem startPreparation(UUID orderId, UUID userId, UUID restaurantId, UUID itemId) {
         StartOrderItemPreparationCommand command = orderCommandMapper.toStartOrderItemPreparationCommand(
                 orderId,
+                userId,
                 restaurantId,
                 itemId
         );
@@ -72,9 +73,10 @@ public class OrderFacade implements OrderFacadePort {
     }
 
     @Override
-    public OrderItem finishPreparation(UUID orderId, UUID restaurantId, UUID itemId) {
+    public OrderItem finishPreparation(UUID orderId, UUID userId, UUID restaurantId, UUID itemId) {
         FinishOrderItemPreparationCommand command = orderCommandMapper.toFinishOrderItemPreparationCommand(
                 orderId,
+                userId,
                 restaurantId,
                 itemId
         );
@@ -82,8 +84,8 @@ public class OrderFacade implements OrderFacadePort {
     }
 
     @Override
-    public OrderItem serve(UUID orderId, UUID restaurantId, UUID itemId) {
-        ServeOrderItemCommand command = orderCommandMapper.toServeOrderItemCommand(orderId, restaurantId, itemId);
+    public OrderItem serve(UUID orderId, UUID userId, UUID restaurantId, UUID itemId) {
+        ServeOrderItemCommand command = orderCommandMapper.toServeOrderItemCommand(orderId, userId, restaurantId, itemId);
         return serveOrderItemUsecase.serve(command);
     }
 
@@ -100,8 +102,8 @@ public class OrderFacade implements OrderFacadePort {
     }
 
     @Override
-    public Order complete(UUID id, UUID restaurantId) {
-        CompleteOrderCommand command = orderCommandMapper.toCompleteOrderCommand(id, restaurantId);
+    public Order complete(UUID id, UUID userId, UUID restaurantId) {
+        CompleteOrderCommand command = orderCommandMapper.toCompleteOrderCommand(id, userId, restaurantId);
         return completeOrderUsecase.complete(command);
     }
 

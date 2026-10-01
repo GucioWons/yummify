@@ -2,8 +2,10 @@ package com.guciowons.yummify.order.domain.event;
 
 import com.guciowons.yummify.order.domain.entity.Order;
 
-public record OrderUpdatedEvent(Order order) {
-    public static OrderUpdatedEvent of(Order order) {
-        return new OrderUpdatedEvent(order);
+import java.util.UUID;
+
+public record OrderUpdatedEvent(Order order, UUID userId) {
+    public static OrderUpdatedEvent of(Order order, UUID userId) {
+        return new OrderUpdatedEvent(order, userId);
     }
 }

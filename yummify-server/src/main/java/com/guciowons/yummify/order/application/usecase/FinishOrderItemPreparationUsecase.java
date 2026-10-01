@@ -23,7 +23,7 @@ public class FinishOrderItemPreparationUsecase {
 
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
 
         return item;
     }

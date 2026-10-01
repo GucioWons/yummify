@@ -3,5 +3,7 @@ package com.guciowons.yummify.order.application.command;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 
-public record StartOrderItemPreparationCommand(Order.Id id, Order.RestaurantId restaurantId, OrderItem.Id itemId) {
+import java.util.UUID;
+
+public record StartOrderItemPreparationCommand(Order.Id id, UUID userId, Order.RestaurantId restaurantId, OrderItem.Id itemId) {
 }

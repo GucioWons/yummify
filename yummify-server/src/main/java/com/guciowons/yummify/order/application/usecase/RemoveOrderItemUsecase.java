@@ -22,6 +22,6 @@ public class RemoveOrderItemUsecase {
 
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
     }
 }

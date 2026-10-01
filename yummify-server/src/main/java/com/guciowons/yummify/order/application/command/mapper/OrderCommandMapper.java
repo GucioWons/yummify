@@ -25,17 +25,17 @@ public interface OrderCommandMapper {
 
     CancelOrderCommand toCancelOrderCommand(UUID id, UUID restaurantId);
 
-    StartOrderItemPreparationCommand toStartOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
+    StartOrderItemPreparationCommand toStartOrderItemPreparationCommand(UUID id, UUID userId, UUID restaurantId, UUID itemId);
 
-    FinishOrderItemPreparationCommand toFinishOrderItemPreparationCommand(UUID id, UUID restaurantId, UUID itemId);
+    FinishOrderItemPreparationCommand toFinishOrderItemPreparationCommand(UUID id, UUID userId, UUID restaurantId, UUID itemId);
 
-    ServeOrderItemCommand toServeOrderItemCommand(UUID id, UUID restaurantId, UUID itemId);
+    ServeOrderItemCommand toServeOrderItemCommand(UUID id, UUID userId, UUID restaurantId, UUID itemId);
 
     RequestAssistanceCommand toRequestAssistanceCommand(UUID userId, UUID restaurantId);
 
     RequestPaymentCommand toRequestPaymentCommand(UUID userId, UUID restaurantId);
 
-    CompleteOrderCommand toCompleteOrderCommand(UUID userId, UUID restaurantId);
+    CompleteOrderCommand toCompleteOrderCommand(UUID id, UUID userId, UUID restaurantId);
 
     GetOrdersQuery toGetOrdersQuery(UUID restaurantId);
 

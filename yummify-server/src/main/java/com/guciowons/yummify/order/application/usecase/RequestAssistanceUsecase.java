@@ -22,7 +22,7 @@ public class RequestAssistanceUsecase {
 
         orderRepository.save(order);
 
-        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
 
         return order;
     }
