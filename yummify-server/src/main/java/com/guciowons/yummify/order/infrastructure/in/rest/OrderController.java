@@ -6,8 +6,8 @@ import com.guciowons.yummify.common.security.domain.Permission;
 import com.guciowons.yummify.order.application.port.OrderFacadePort;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
-import com.guciowons.yummify.order.infrastructure.model.OrderClientDto;
-import com.guciowons.yummify.order.infrastructure.model.OrderItemClientDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderItemDto;
 import com.guciowons.yummify.order.infrastructure.model.mapper.OrderItemMapper;
 import com.guciowons.yummify.order.infrastructure.model.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class OrderController {
 
     @PostMapping("{id}/items/{itemId}/start")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderItemClientDto> startPreparation(
+    public ResponseEntity<OrderItemDto> startPreparation(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id,
             @PathVariable UUID itemId
@@ -38,12 +38,12 @@ public class OrderController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderItemMapper.toOrderItemClientDto(item));
+                .body(orderItemMapper.toDto(item));
     }
 
     @PostMapping("{id}/items/{itemId}/finish")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderItemClientDto> finishPreparation(
+    public ResponseEntity<OrderItemDto> finishPreparation(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id,
             @PathVariable UUID itemId
@@ -52,12 +52,12 @@ public class OrderController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderItemMapper.toOrderItemClientDto(item));
+                .body(orderItemMapper.toDto(item));
     }
 
     @PostMapping("{id}/items/{itemId}/serve")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderItemClientDto> serve(
+    public ResponseEntity<OrderItemDto> serve(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id,
             @PathVariable UUID itemId
@@ -66,12 +66,12 @@ public class OrderController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderItemMapper.toOrderItemClientDto(item));
+                .body(orderItemMapper.toDto(item));
     }
 
     @PostMapping("{id}/complete")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderClientDto> complete(
+    public ResponseEntity<OrderDto> complete(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID id
     ) {
@@ -79,14 +79,14 @@ public class OrderController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @GetMapping("current")
     @SecuredByPermission(Permission.ORDER_READ)
-    public ResponseEntity<List<OrderClientDto>> getCurrent(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<OrderClientDto> result = orderFacade.getCurrent(userPrincipal.restaurantId()).stream()
-                .map(orderMapper::toClientDto)
+    public ResponseEntity<List<OrderDto>> getCurrent(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderDto> result = orderFacade.getCurrent(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toDto)
                 .toList();
 
         return ResponseEntity
@@ -96,9 +96,9 @@ public class OrderController {
 
     @GetMapping("old")
     @SecuredByPermission(Permission.ORDER_READ)
-    public ResponseEntity<List<OrderClientDto>> getOld(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        List<OrderClientDto> result = orderFacade.getOld(userPrincipal.restaurantId()).stream()
-                .map(orderMapper::toClientDto)
+    public ResponseEntity<List<OrderDto>> getOld(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        List<OrderDto> result = orderFacade.getOld(userPrincipal.restaurantId()).stream()
+                .map(orderMapper::toDto)
                 .toList();
 
         return ResponseEntity

@@ -7,8 +7,8 @@ import com.guciowons.yummify.order.application.port.OrderFacadePort;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
 import com.guciowons.yummify.order.infrastructure.model.AddOrderItemDto;
-import com.guciowons.yummify.order.infrastructure.model.OrderClientDto;
-import com.guciowons.yummify.order.infrastructure.model.OrderItemClientDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderItemDto;
 import com.guciowons.yummify.order.infrastructure.model.mapper.OrderItemMapper;
 import com.guciowons.yummify.order.infrastructure.model.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,27 +27,27 @@ public class OrderClientController {
 
     @PostMapping
     @SecuredByPermission(Permission.ORDER_CREATE)
-    public ResponseEntity<OrderClientDto> create(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> create(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.create(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @GetMapping
     @SecuredByPermission(Permission.ORDER_READ)
-    public ResponseEntity<OrderClientDto> get(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> get(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.get(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @PostMapping("items")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderItemClientDto> addItem(
+    public ResponseEntity<OrderItemDto> addItem(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody AddOrderItemDto dto
     ) {
@@ -55,46 +55,46 @@ public class OrderClientController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderItemMapper.toOrderItemClientDto(item));
+                .body(orderItemMapper.toDto(item));
     }
 
     @PostMapping("submit")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderClientDto> submit(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> submit(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.submit(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @PostMapping("cancel")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderClientDto> cancel(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> cancel(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.cancel(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @PatchMapping("assistance")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderClientDto> requestAssistance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> requestAssistance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.requestAssistance(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 
     @PatchMapping("payment")
     @SecuredByPermission(Permission.ORDER_MODIFY)
-    public ResponseEntity<OrderClientDto> requestPayment(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<OrderDto> requestPayment(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Order order = orderFacade.requestPayment(userPrincipal.id(), userPrincipal.restaurantId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(orderMapper.toClientDto(order));
+                .body(orderMapper.toDto(order));
     }
 }
