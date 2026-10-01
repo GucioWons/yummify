@@ -1,4 +1,4 @@
-package com.guciowons.yummify.order.infrastructure.in.rest.model;
+package com.guciowons.yummify.order.infrastructure.model;
 
 import java.util.UUID;
 

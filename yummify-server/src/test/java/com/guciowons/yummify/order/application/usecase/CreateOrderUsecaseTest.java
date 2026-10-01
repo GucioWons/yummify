@@ -16,7 +16,7 @@ class CreateOrderUsecaseTest {
     private final PublicTableFacadePort publicTableFacadePort = mock(PublicTableFacadePort.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
 
-    private final CreateOrderUsecase underTest = new CreateOrderUsecase(publicTableFacadePort, orderRepository);
+    private final CreateOrderUsecase underTest = new CreateOrderUsecase(publicTableFacadePort, orderRepository, null);
 
     @Test
     void shouldCreateOrder() {

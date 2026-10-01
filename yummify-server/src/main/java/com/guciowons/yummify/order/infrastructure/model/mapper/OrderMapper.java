@@ -1,7 +1,7 @@
-package com.guciowons.yummify.order.infrastructure.in.rest.model.mapper;
+package com.guciowons.yummify.order.infrastructure.model.mapper;
 
 import com.guciowons.yummify.order.domain.entity.Order;
-import com.guciowons.yummify.order.infrastructure.in.rest.model.OrderClientDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderClientDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
