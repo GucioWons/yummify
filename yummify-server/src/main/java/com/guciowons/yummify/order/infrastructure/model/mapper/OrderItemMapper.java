@@ -1,8 +1,8 @@
-package com.guciowons.yummify.order.infrastructure.in.rest.model.mapper;
+package com.guciowons.yummify.order.infrastructure.model.mapper;
 
 import com.guciowons.yummify.common.i8n.infrastructure.in.rest.dto.mapper.TranslatedStringMapper;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
-import com.guciowons.yummify.order.infrastructure.in.rest.model.OrderItemClientDto;
+import com.guciowons.yummify.order.infrastructure.model.OrderItemDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,5 +17,5 @@ public interface OrderItemMapper {
     @Mapping(target = "dishId", source = "dishId.value")
     @Mapping(target = "name", source = "dishSnapshot.name")
     @Mapping(target = "price", source = "dishSnapshot.price")
-    OrderItemClientDto toOrderItemClientDto(OrderItem orderItem);
+    OrderItemDto toDto(OrderItem orderItem);
 }

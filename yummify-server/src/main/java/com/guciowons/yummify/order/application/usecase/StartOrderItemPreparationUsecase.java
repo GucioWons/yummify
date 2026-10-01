@@ -5,20 +5,26 @@ import com.guciowons.yummify.order.application.command.StartOrderItemPreparation
 import com.guciowons.yummify.order.application.service.OrderLookupService;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
+import com.guciowons.yummify.order.domain.event.OrderUpdatedEvent;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 @Usecase
 @RequiredArgsConstructor
 public class StartOrderItemPreparationUsecase {
     private final OrderLookupService orderLookupService;
     private final OrderRepository orderRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public OrderItem startPreparation(StartOrderItemPreparationCommand command) {
         Order order = orderLookupService.getByIdAndRestaurantId(command.id(), command.restaurantId());
         OrderItem orderItem = order.startItemPreparation(command.itemId());
 
         orderRepository.save(order);
+
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order, command.userId()));
+
         return orderItem;
     }
 }

@@ -22,17 +22,17 @@ public interface OrderFacadePort {
 
     Order cancel(UUID userId, UUID uuid);
 
-    OrderItem startPreparation(UUID orderId, UUID restaurantId, UUID itemId);
+    OrderItem startPreparation(UUID orderId, UUID userId, UUID restaurantId, UUID itemId);
 
-    OrderItem finishPreparation(UUID orderId, UUID restaurantId, UUID itemId);
+    OrderItem finishPreparation(UUID orderId, UUID userId, UUID restaurantId, UUID itemId);
 
-    OrderItem serve(UUID orderId, UUID restaurantId, UUID itemId);
+    OrderItem serve(UUID orderId, UUID userId, UUID restaurantId, UUID itemId);
 
     Order requestAssistance(UUID userId, UUID restaurantId);
 
     Order requestPayment(UUID userId, UUID restaurantId);
 
-    Order complete(UUID id, UUID restaurantId);
+    Order complete(UUID id, UUID userId, UUID restaurantId);
 
     List<Order> getCurrent(UUID restaurantId);
 

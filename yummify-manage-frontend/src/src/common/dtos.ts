@@ -97,16 +97,16 @@ export namespace Dtos {
         sections: MenuSectionManageDto[];
     }
 
-    export interface OrderClientDto {
+    export interface OrderDto {
         assistanceRequested: boolean;
         id: string;
-        items: OrderItemClientDto[];
+        items: OrderItemDto[];
         paymentRequested: boolean;
         status: OrderStatus;
         tableId: string;
     }
 
-    export interface OrderItemClientDto {
+    export interface OrderItemDto {
         dishId: string;
         id: string;
         name: string;

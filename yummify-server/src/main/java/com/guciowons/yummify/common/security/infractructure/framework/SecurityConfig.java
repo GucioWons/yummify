@@ -38,7 +38,13 @@ public class SecurityConfig {
         issuers.forEach(issuer -> addManager(authenticationManagers, issuer, userPrincipalJwtConverter));
 
         http.cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authz -> authz.anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/ws/**", "/api/ws/**")
+                )
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/ws/**", "/api/ws/**").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .authenticationManagerResolver(authenticationManagerResolver)
                 );
