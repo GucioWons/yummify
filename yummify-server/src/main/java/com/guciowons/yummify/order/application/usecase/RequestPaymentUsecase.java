@@ -14,7 +14,7 @@ public class RequestPaymentUsecase {
     private final OrderRepository orderRepository;
 
     public Order request(RequestPaymentCommand command) {
-        Order order = orderLookupService.getByUserIdAndRestaurantId(command.userId(), command.restaurantId());
+        Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
         order.requestPayment();
 
         orderRepository.save(order);

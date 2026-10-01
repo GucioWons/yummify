@@ -24,6 +24,7 @@ class OrderFacadeTest {
     private final CompleteOrderUsecase completeOrderUsecase = mock(CompleteOrderUsecase.class);
     private final GetCurrentOrdersUsecase getCurrentOrdersUsecase = mock(GetCurrentOrdersUsecase.class);
     private final GetOldOrdersUsecase getOldOrdersUsecase = mock(GetOldOrdersUsecase.class);
+    private final GetOrderUsecase getOrderUsecase = mock(GetOrderUsecase.class);
 
     private final OrderFacade underTest = new OrderFacade(
             createOrderUsecase,
@@ -39,6 +40,7 @@ class OrderFacadeTest {
             completeOrderUsecase,
             getCurrentOrdersUsecase,
             getOldOrdersUsecase,
+            getOrderUsecase,
             orderCommandMapper
     );
 

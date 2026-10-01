@@ -19,7 +19,7 @@ public class AddOrderItemUsecase {
     private final OrderRepository orderRepository;
 
     public OrderItem addItem(AddOrderItemCommand command) {
-        Order order = orderLookupService.getByUserIdAndRestaurantId(command.userId(), command.restaurantId());
+        Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
 
         OrderItem.DishSnapshot dishSnapshot = OrderItem.DishSnapshot.of(
                 publicDishFacadePort.get(command.dishId().value(), command.restaurantId().value()).name(),

@@ -5,7 +5,6 @@ import com.guciowons.yummify.dish.PublicDishFacadePort;
 import com.guciowons.yummify.menu.PublicMenuFacadePort;
 import com.guciowons.yummify.order.application.service.OrderLookupService;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
-import com.guciowons.yummify.table.PublicTableFacadePort;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
@@ -35,7 +34,7 @@ class AddOrderItemUsecaseTest {
         var dishSnapshot = givenOrderItemDishSnapshot(1);
         var dishContract = DishContract.of(dishSnapshot.name());
 
-        when(orderLookupService.getByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
+        when(orderLookupService.getActiveByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
         when(publicDishFacadePort.get(command.dishId().value(), command.restaurantId().value())).thenReturn(dishContract);
         when(publicMenuFacadePort.getPriceByDishId(command.restaurantId().value(), command.dishId().value()))
                 .thenReturn(dishSnapshot.price());
@@ -44,7 +43,7 @@ class AddOrderItemUsecaseTest {
         var result = underTest.addItem(command);
 
         // then
-        verify(orderLookupService).getByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
+        verify(orderLookupService).getActiveByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
         verify(publicDishFacadePort).get(command.dishId().value(), command.restaurantId().value());
         verify(publicMenuFacadePort).getPriceByDishId(command.restaurantId().value(), command.dishId().value());
         verify(orderRepository).save(order);

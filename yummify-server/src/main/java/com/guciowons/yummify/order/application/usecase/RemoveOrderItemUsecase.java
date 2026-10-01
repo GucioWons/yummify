@@ -14,7 +14,7 @@ public class RemoveOrderItemUsecase {
     private final OrderRepository orderRepository;
 
     public void removeOrderItem(RemoveOrderItemCommand command) {
-        Order order = orderLookupService.getByUserIdAndRestaurantId(command.userId(), command.restaurantId());
+        Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
         order.removeItem(command.itemId());
 
         orderRepository.save(order);

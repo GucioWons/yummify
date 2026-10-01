@@ -1,40 +1,70 @@
 import {Dtos} from "../../common/dtos.ts";
 import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
 import CurrentOrderItemLabel from "./CurrentOrderItemLabel.tsx";
-import {useCallback} from "react";
-import CurrentOrderButton from "./CurrentOrderButton.tsx";
-import {Check, Play, Truck} from "lucide-react";
+import CurrentOrderButton, {CurrentOrderButtonProps} from "./CurrentOrderButton.tsx";
+import {Check, LucideIcon, Play, Truck} from "lucide-react";
 import OrderItemClientDto = Dtos.OrderItemClientDto;
 import OrderStatus = Dtos.OrderStatus;
 import OrderItemStatus = Dtos.OrderItemStatus;
+import {orderService} from "../service/orderService.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+
+interface OrderItemAction {
+    text: string;
+    color: CurrentOrderButtonProps['color'];
+    icon: LucideIcon;
+    mutation: (item: OrderItemClientDto, orderId: string) => Promise<unknown>;
+    shouldShow?: (orderStatus: OrderStatus) => boolean;
+}
+
+const ORDER_ITEM_ACTIONS: Partial<Record<OrderItemStatus, OrderItemAction>> = {
+    [OrderItemStatus.NEW]: {
+        text: 'Start',
+        color: 'ORANGE',
+        icon: Play,
+        mutation: (item, orderId) => orderService.startPreparation(orderId, item.id),
+        shouldShow: orderStatus => orderStatus !== OrderStatus.NEW
+    },
+
+    [OrderItemStatus.IN_PREPARATION]: {
+        text: 'Ready',
+        color: 'GREEN',
+        icon: Check,
+        mutation: (item, orderId) => orderService.finishPreparation(orderId, item.id),
+    },
+
+    [OrderItemStatus.READY]: {
+        text: 'Serve',
+        color: 'BLUE',
+        icon: Truck,
+        mutation: (item, orderId) => orderService.serve(orderId, item.id),
+    },
+};
 
 export interface CurrentOrderItemProps {
     item: OrderItemClientDto;
     orderStatus: OrderStatus;
+    orderId: string;
 }
 
 function CurrentOrderItem(props: CurrentOrderItemProps) {
-    const {item, orderStatus} = props;
+    const {item, orderStatus, orderId} = props;
 
-    const getButton = useCallback(() => {
-        switch (item.status) {
-            case OrderItemStatus.NEW: {
-                if (orderStatus !== OrderStatus.NEW) {
-                    return <CurrentOrderButton text="Start" color='ORANGE' icon={Play} onClick={() => {}}/>;
-                }
-                return undefined;
+    const action = ORDER_ITEM_ACTIONS[item.status];
+
+    const queryClient = useQueryClient();
+
+    const handleAction = useMutation({
+        mutationFn: () => {
+            if (!action) {
+                throw new Error('No action defined for item status');
             }
 
-            case OrderItemStatus.IN_PREPARATION:
-                return <CurrentOrderButton text="Ready" color='GREEN' icon={Check} onClick={() => {}}/>;
-
-            case OrderItemStatus.READY:
-                return <CurrentOrderButton text="Serve" color='BLUE' icon={Truck} onClick={() => {}}/>;
-
-            default:
-                return undefined;
-        }
-    }, [item.status, orderStatus]);
+            return action.mutation(item, orderId);
+        },
+        onSuccess: () => queryClient.invalidateQueries({queryKey: ["orders", "current"]}),
+        onError: () => {}
+    });
 
     return (
         <div className="current-order-item">
@@ -50,7 +80,15 @@ function CurrentOrderItem(props: CurrentOrderItemProps) {
                 <div>
                     <CurrentOrderItemLabel status={item.status} />
                 </div>
-                {getButton()}
+
+                {action && (!action.shouldShow || action.shouldShow(orderStatus)) &&
+                    <CurrentOrderButton
+                        text={action.text}
+                        color={action.color}
+                        icon={action.icon}
+                        onClick={handleAction.mutate}
+                    />
+                }
             </div>
         </div>
     );

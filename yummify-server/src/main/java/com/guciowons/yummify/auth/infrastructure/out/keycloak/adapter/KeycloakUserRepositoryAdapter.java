@@ -11,8 +11,11 @@ import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.RoleR
 import com.guciowons.yummify.auth.infrastructure.out.keycloak.model.mapper.UserRepresentationMapper;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -62,8 +65,10 @@ public class KeycloakUserRepositoryAdapter implements UserRepository {
 
         UserRepresentation userResponse = keycloakAdminClient.getUser(userId.value().toString(), adminToken);
 
-        userResponse.getAttributes().put("otp", Collections.singletonList(otp.password().value()));
-        userResponse.getAttributes().put("otpExpirationDate", Collections.singletonList(otp.expiresAt().toString()));
+        String hashedOtp = BCrypt.hashpw(otp.password().value(), BCrypt.gensalt());
+        Instant expiresAt = otp.expiresAt().toInstant(ZoneOffset.UTC);
+        userResponse.getAttributes().put("otp", Collections.singletonList(hashedOtp));
+        userResponse.getAttributes().put("otp_expiration_date", Collections.singletonList(expiresAt.toString()));
         keycloakAdminClient.updateUser(userId.value().toString(), adminToken, userResponse);
     }
 

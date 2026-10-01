@@ -46,8 +46,10 @@ public class CreateUserUsecase {
     }
 
     private Password generatePassword(boolean withPassword) {
-        return withPassword
-                ? passwordGenerator.generate(12, 2, 2, 2)
-                : null;
+        return Password.of("test");
+        //TODO uncomment
+//        return withPassword
+//                ? passwordGenerator.generate(12, 2, 2, 2)
+//                : null;
     }
 }
