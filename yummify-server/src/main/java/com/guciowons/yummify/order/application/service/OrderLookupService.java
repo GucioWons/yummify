@@ -2,6 +2,7 @@ package com.guciowons.yummify.order.application.service;
 
 import com.guciowons.yummify.common.core.application.annotation.ApplicationService;
 import com.guciowons.yummify.order.domain.entity.Order;
+import com.guciowons.yummify.order.domain.entity.OrderStatus;
 import com.guciowons.yummify.order.domain.exception.OrderNotFoundException;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
 import com.guciowons.yummify.table.PublicTableFacadePort;
@@ -20,10 +21,10 @@ public class OrderLookupService {
                 .orElseThrow(() -> OrderNotFoundException.byId(id));
     }
 
-    public Order getByUserIdAndRestaurantId(UUID userId, Order.RestaurantId restaurantId) {
+    public Order getActiveByUserIdAndRestaurantId(UUID userId, Order.RestaurantId restaurantId) {
         Order.TableId tableId = Order.TableId.of(publicTableFacadePort.getTableIdByUserId(userId, restaurantId.value()));
 
-        return orderRepository.findByTableIdAndRestaurantId(tableId, restaurantId)
+        return orderRepository.findByTableIdAndStatusInAndRestaurantId(tableId, OrderStatus.CURRENT_STATUSES, restaurantId)
                 .orElseThrow(() -> OrderNotFoundException.byTableId(tableId));
     }
 }

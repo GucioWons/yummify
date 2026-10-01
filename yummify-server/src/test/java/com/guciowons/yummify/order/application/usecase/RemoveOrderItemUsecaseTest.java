@@ -3,7 +3,6 @@ package com.guciowons.yummify.order.application.usecase;
 import com.guciowons.yummify.order.application.command.RemoveOrderItemCommand;
 import com.guciowons.yummify.order.application.service.OrderLookupService;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
-import com.guciowons.yummify.table.PublicTableFacadePort;
 import org.junit.jupiter.api.Test;
 
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenUserId;
@@ -28,13 +27,13 @@ class RemoveOrderItemUsecaseTest {
         var item = order.addItem(givenOrderItemDishId(1), givenOrderItemDishSnapshot(1), 2);
         var command = new RemoveOrderItemCommand(givenUserId(), givenOrderRestaurantId(1), item.getId());
 
-        when(orderLookupService.getByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
+        when(orderLookupService.getActiveByUserIdAndRestaurantId(tableId.value(), command.restaurantId())).thenReturn(order);
 
         // when
         underTest.removeOrderItem(command);
 
         // then
-        verify(orderLookupService).getByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
+        verify(orderLookupService).getActiveByUserIdAndRestaurantId(tableId.value(), command.restaurantId());
         verify(orderRepository).save(order);
 
         assertThat(order.getItems()).isEmpty();

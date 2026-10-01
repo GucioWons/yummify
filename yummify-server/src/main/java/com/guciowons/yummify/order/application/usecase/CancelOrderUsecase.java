@@ -14,7 +14,7 @@ public class CancelOrderUsecase {
     private final OrderRepository orderRepository;
 
     public Order cancel(CancelOrderCommand command) {
-        Order order = orderLookupService.getByUserIdAndRestaurantId(command.userId(), command.restaurantId());
+        Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
         order.cancel();
 
         orderRepository.save(order);

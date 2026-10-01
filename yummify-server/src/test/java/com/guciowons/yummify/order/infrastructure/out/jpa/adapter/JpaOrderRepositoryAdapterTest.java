@@ -1,5 +1,6 @@
 package com.guciowons.yummify.order.infrastructure.out.jpa.adapter;
 
+import com.guciowons.yummify.order.domain.entity.OrderStatus;
 import com.guciowons.yummify.order.infrastructure.out.jpa.entity.JpaOrder;
 import com.guciowons.yummify.order.infrastructure.out.jpa.entity.mapper.JpaOrderMapper;
 import com.guciowons.yummify.order.infrastructure.out.jpa.repository.JpaOrderRepository;
@@ -59,19 +60,20 @@ class JpaOrderRepositoryAdapterTest {
     void shouldFindByTableIdAndRestaurantId() {
         // given
         var tableId = givenOrderTableId(1);
+        var statuses = OrderStatus.CURRENT_STATUSES;
         var restaurantId = givenOrderRestaurantId(1);
         var jpaOrder = new JpaOrder();
         var order = givenOrder(1);
 
-        when(jpaOrderRepository.findByTableIdAndRestaurantId(tableId.value(), restaurantId.value()))
+        when(jpaOrderRepository.findByTableIdAndStatusInAndRestaurantId(tableId.value(), statuses, restaurantId.value()))
                 .thenReturn(Optional.of(jpaOrder));
         when(jpaOrderMapper.toDomain(jpaOrder)).thenReturn(order);
 
         // when
-        var result = underTest.findByTableIdAndRestaurantId(tableId, restaurantId);
+        var result = underTest.findByTableIdAndStatusInAndRestaurantId(tableId, statuses, restaurantId);
 
         // then
-        verify(jpaOrderRepository).findByTableIdAndRestaurantId(tableId.value(), restaurantId.value());
+        verify(jpaOrderRepository).findByTableIdAndStatusInAndRestaurantId(tableId.value(), statuses, restaurantId.value());
         verify(jpaOrderMapper).toDomain(jpaOrder);
 
         assertThat(result).hasValue(order);

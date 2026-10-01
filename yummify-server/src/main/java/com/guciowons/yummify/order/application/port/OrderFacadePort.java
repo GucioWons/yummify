@@ -37,4 +37,6 @@ public interface OrderFacadePort {
     List<Order> getCurrent(UUID restaurantId);
 
     List<Order> getOld(UUID restaurantId);
+
+    Order get(UUID userId, UUID restaurantId);
 }

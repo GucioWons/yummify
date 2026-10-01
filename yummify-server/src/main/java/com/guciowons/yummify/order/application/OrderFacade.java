@@ -28,6 +28,7 @@ public class OrderFacade implements OrderFacadePort {
     private final CompleteOrderUsecase completeOrderUsecase;
     private final GetCurrentOrdersUsecase getCurrentOrdersUsecase;
     private final GetOldOrdersUsecase getOldOrdersUsecase;
+    private final GetOrderUsecase getOrderUsecase;
     private final OrderCommandMapper orderCommandMapper;
 
     @Override
@@ -114,5 +115,11 @@ public class OrderFacade implements OrderFacadePort {
     public List<Order> getOld(UUID restaurantId) {
         GetOrdersQuery query = orderCommandMapper.toGetOrdersQuery(restaurantId);
         return getOldOrdersUsecase.get(query);
+    }
+
+    @Override
+    public Order get(UUID userId, UUID restaurantId) {
+        GetOrderQuery query = orderCommandMapper.toGetOrderQuery(userId, restaurantId);
+        return getOrderUsecase.get(query);
     }
 }

@@ -18,7 +18,7 @@ function CurrentOrderItemList(props: CurrentOrderItemProps) {
             {order.items
                 .map((item, index) => (
                     <>
-                        <CurrentOrderItem item={item} orderStatus={order.status}/>
+                        <CurrentOrderItem item={item} orderStatus={order.status} orderId={order.id} />
                         {index !== order.items.length - 1 && <Divider/>}
                     </>
                 ))}

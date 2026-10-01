@@ -39,6 +39,8 @@ public interface OrderCommandMapper {
 
     GetOrdersQuery toGetOrdersQuery(UUID restaurantId);
 
+    GetOrderQuery toGetOrderQuery(UUID userId, UUID restaurantId);
+
     default Order.Id toId(UUID id) {
         return Order.Id.of(id);
     }

@@ -14,7 +14,7 @@ public class SubmitOrderUsecase {
     private final OrderRepository orderRepository;
 
     public Order submit(SubmitOrderCommand command) {
-        Order order = orderLookupService.getByUserIdAndRestaurantId(command.userId(), command.restaurantId());
+        Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
         order.submit();
         orderRepository.save(order);
         return order;

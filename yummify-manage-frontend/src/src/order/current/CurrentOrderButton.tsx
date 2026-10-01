@@ -12,7 +12,7 @@ function CurrentOrderButton(props: CurrentOrderButtonProps) {
     const {text, color, onClick, icon} = props;
 
     return (
-        <button className={`current-order-button current-order-button-${color.toLowerCase()}`}>
+        <button className={`current-order-button current-order-button-${color.toLowerCase()}`} onClick={onClick}>
             {React.createElement(icon, { width: 16, height: 16, strokeWidth: 2 })} {text}
         </button>
     )

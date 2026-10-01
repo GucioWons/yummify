@@ -29,8 +29,8 @@ public class JpaOrderRepositoryAdapter implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findByTableIdAndRestaurantId(Order.TableId id, Order.RestaurantId restaurantId) {
-        return jpaOrderRepository.findByTableIdAndRestaurantId(id.value(), restaurantId.value())
+    public Optional<Order> findByTableIdAndStatusInAndRestaurantId(Order.TableId id, List<OrderStatus> statuses, Order.RestaurantId restaurantId) {
+        return jpaOrderRepository.findByTableIdAndStatusInAndRestaurantId(id.value(), statuses, restaurantId.value())
                 .map(jpaOrderMapper::toDomain);
     }
 
