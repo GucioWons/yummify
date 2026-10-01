@@ -40,4 +40,9 @@ public class JpaOrderRepositoryAdapter implements OrderRepository {
                 .map(jpaOrderMapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public boolean existsByIdAndTableId(Order.Id id, Order.TableId tableId) {
+        return jpaOrderRepository.existsByIdAndTableId(id.value(), tableId.value());
+    }
 }

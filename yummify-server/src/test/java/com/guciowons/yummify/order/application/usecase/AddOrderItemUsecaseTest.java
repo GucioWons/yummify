@@ -6,6 +6,7 @@ import com.guciowons.yummify.menu.PublicMenuFacadePort;
 import com.guciowons.yummify.order.application.service.OrderLookupService;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationEventPublisher;
 
 import static com.guciowons.yummify.order.application.fixture.OrderApplicationFixture.givenAddOrderItemCommand;
 import static com.guciowons.yummify.order.domain.fixture.OrderDomainFixture.*;
@@ -17,12 +18,14 @@ class AddOrderItemUsecaseTest {
     private final PublicDishFacadePort publicDishFacadePort = mock(PublicDishFacadePort.class);
     private final PublicMenuFacadePort publicMenuFacadePort = mock(PublicMenuFacadePort.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
+    private final ApplicationEventPublisher applicationEventPublisher = mock(ApplicationEventPublisher.class);
 
     private final AddOrderItemUsecase underTest = new AddOrderItemUsecase(
             orderLookupService,
             publicDishFacadePort,
             publicMenuFacadePort,
-            orderRepository
+            orderRepository,
+            applicationEventPublisher
     );
 
     @Test

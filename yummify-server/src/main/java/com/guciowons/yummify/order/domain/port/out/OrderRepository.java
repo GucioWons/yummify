@@ -14,4 +14,6 @@ public interface OrderRepository {
     Optional<Order> findByTableIdAndStatusInAndRestaurantId(Order.TableId id, List<OrderStatus> statuses, Order.RestaurantId restaurantId);
 
     List<Order> findAllByStatusInAndRestaurantId(List<OrderStatus> statuses, Order.RestaurantId restaurantId);
+
+    boolean existsByIdAndTableId(Order.Id id, Order.TableId tableId);
 }

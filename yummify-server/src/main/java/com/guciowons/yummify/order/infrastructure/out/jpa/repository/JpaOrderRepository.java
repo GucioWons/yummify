@@ -16,4 +16,6 @@ public interface JpaOrderRepository extends JpaRepository<JpaOrder, UUID> {
     Optional<JpaOrder> findByTableIdAndStatusInAndRestaurantId(UUID tableId, List<OrderStatus> statuses, UUID restaurantId);
 
     List<JpaOrder> findAllByStatusInAndRestaurantId(List<OrderStatus> statuses, UUID restaurantId);
+
+    boolean existsByIdAndTableId(UUID id, UUID tableId);
 }
