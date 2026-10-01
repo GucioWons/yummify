@@ -7,8 +7,10 @@ import com.guciowons.yummify.order.application.command.AddOrderItemCommand;
 import com.guciowons.yummify.order.application.service.OrderLookupService;
 import com.guciowons.yummify.order.domain.entity.Order;
 import com.guciowons.yummify.order.domain.entity.OrderItem;
+import com.guciowons.yummify.order.domain.event.OrderUpdatedEvent;
 import com.guciowons.yummify.order.domain.port.out.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 @Usecase
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class AddOrderItemUsecase {
     private final PublicDishFacadePort publicDishFacadePort;
     private final PublicMenuFacadePort publicMenuFacadePort;
     private final OrderRepository orderRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public OrderItem addItem(AddOrderItemCommand command) {
         Order order = orderLookupService.getActiveByUserIdAndRestaurantId(command.userId(), command.restaurantId());
@@ -28,6 +31,8 @@ public class AddOrderItemUsecase {
 
         OrderItem item = order.addItem(command.dishId(), dishSnapshot, command.quantity());
         orderRepository.save(order);
+
+        applicationEventPublisher.publishEvent(OrderUpdatedEvent.of(order));
 
         return item;
     }
