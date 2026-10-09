@@ -1,5 +1,6 @@
 package com.guciowons.yummify.dish.application.port;
 
+import com.guciowons.yummify.common.file.domain.model.File;
 import com.guciowons.yummify.dish.domain.entity.Dish;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,5 +17,5 @@ public interface DishFacadePort {
 
     Dish update(UUID id, UUID restaurantId, Map<String, String> name, Map<String, String> description, List<UUID> ingredientIds);
 
-    Dish.ImageId updateImage(UUID id, UUID restaurantId, MultipartFile image);
+    File updateImage(UUID id, UUID restaurantId, MultipartFile image);
 }

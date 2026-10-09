@@ -23,7 +23,6 @@ public interface JpaDishRepository extends JpaRepository<JpaDish, UUID> {
        and d.restaurantId = :restaurantId
        """)
     Set<UUID> findExistingIdsByRestaurantId(List<UUID> ids, UUID restaurantId);
-
 }
 
 

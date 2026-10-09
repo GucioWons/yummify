@@ -38,6 +38,7 @@ public class JpaDish {
     @Column(name = "ingredient_id")
     private List<UUID> ingredientIds;
 
-    @Column
-    private UUID imageId;
+    @JoinColumn
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    private JpaDishImage image;
 }

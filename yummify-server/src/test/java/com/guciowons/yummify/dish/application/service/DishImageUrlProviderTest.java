@@ -1,46 +1,41 @@
 package com.guciowons.yummify.dish.application.service;
 
-import com.guciowons.yummify.file.FileFacadePort;
+import com.guciowons.yummify.common.file.application.FileUrlProviderPort;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 
-import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishImageId;
-import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.givenDishRestaurantId;
-import static com.guciowons.yummify.file.domain.fixture.FileDomainFixture.givenFileUrl;
+import static com.guciowons.yummify.common.file.domain.fixture.FileDomainFixture.givenFile;
+import static com.guciowons.yummify.common.file.domain.fixture.FileDomainFixture.givenFileUrl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 class DishImageUrlProviderTest {
-    private final FileFacadePort fileFacadePort = mock(FileFacadePort.class);
+    private final FileUrlProviderPort fileUrlProviderPort = mock(FileUrlProviderPort.class);
 
-    private final DishImageUrlProvider underTest = new DishImageUrlProvider(fileFacadePort);
+    private final DishImageUrlProvider underTest = new DishImageUrlProvider(fileUrlProviderPort);
 
     @Test
     void shouldGetDishImageUrl() throws MalformedURLException {
         // given
-        var imageId = givenDishImageId(1);
-        var restaurantId = givenDishRestaurantId(1);
-        var imageUrl = givenFileUrl(1).value();
+        var image = givenFile(1);
+        var imageUrl = givenFileUrl(1);
 
-        when(fileFacadePort.getUrl(imageId.value(), restaurantId.value())).thenReturn(imageUrl);
+        when(fileUrlProviderPort.getUrl(image.getStorageKey())).thenReturn(imageUrl);
 
         // when
-        var result = underTest.get(imageId, restaurantId);
+        var result = underTest.get(image);
 
         // then
-        verify(fileFacadePort).getUrl(imageId.value(), restaurantId.value());
+        verify(fileUrlProviderPort).getUrl(image.getStorageKey());
 
         assertThat(result).isEqualTo(imageUrl.toString());
     }
 
     @Test
     void shouldNotGetDishImageUrl_WhenImageIdIsNull() {
-        // given
-        var restaurantId = givenDishRestaurantId(1);
-
         // when
-        var result = underTest.get(null, restaurantId);
+        var result = underTest.get(null);
 
         // then
         assertThat(result).isNull();

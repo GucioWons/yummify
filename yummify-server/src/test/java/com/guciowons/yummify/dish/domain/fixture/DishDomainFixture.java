@@ -47,8 +47,4 @@ public class DishDomainFixture {
                 UUID.nameUUIDFromBytes("ingredient-%s".formatted(seed + 2).getBytes())
         );
     }
-
-    public static Dish.ImageId givenDishImageId(int seed) {
-        return Dish.ImageId.of(UUID.nameUUIDFromBytes("image-%s".formatted(seed).getBytes()));
-    }
 }

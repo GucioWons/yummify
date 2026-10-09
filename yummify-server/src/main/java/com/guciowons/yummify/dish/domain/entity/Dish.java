@@ -1,6 +1,7 @@
 package com.guciowons.yummify.dish.domain.entity;
 
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
+import com.guciowons.yummify.common.file.domain.model.File;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class Dish {
     private TranslatedString name;
     private TranslatedString description;
     private List<UUID> ingredientIds;
-    private Dish.ImageId imageId;
+    private File image;
 
     public static Dish create(
             RestaurantId restaurantId,
@@ -33,8 +34,12 @@ public class Dish {
         this.ingredientIds = ingredientIds;
     }
 
-    public void changeImage(ImageId imageId) {
-        this.imageId = imageId;
+    public boolean hasImage() {
+        return image != null;
+    }
+
+    public void changeImage(File image) {
+        this.image = image;
     }
 
     public record Id(UUID value) implements IdValueObject {
@@ -50,12 +55,6 @@ public class Dish {
     public record RestaurantId(UUID value) implements IdValueObject {
         public static RestaurantId of(UUID value) {
             return new RestaurantId(value);
-        }
-    }
-
-    public record ImageId(UUID value) implements IdValueObject {
-        public static ImageId of(UUID value) {
-            return new ImageId(value);
         }
     }
 }
