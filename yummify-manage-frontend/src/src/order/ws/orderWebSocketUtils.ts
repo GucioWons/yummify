@@ -1,25 +1,22 @@
 import {Dtos} from "../../common/dtos.ts";
-import OrderDto = Dtos.OrderDto;
 import {QueryClient} from "@tanstack/react-query";
+import OrderDto = Dtos.OrderDto;
 import OrderStatus = Dtos.OrderStatus;
+import OrderWebSocketMessage = Dtos.OrderWebSocketMessage;
+import Type = Dtos.Type;
 
 const CURRENT_ORDERS_KEY = ['orders', 'current'];
 const OLD_ORDERS_KEY = ['orders', 'old'];
-
-type OrderWebSocketMessage = {
-    type: 'CREATED' | 'UPDATED';
-    order: OrderDto;
-};
 
 export function handleOrderMessage(
     event: OrderWebSocketMessage,
     queryClient: QueryClient,
 ): void {
     switch (event.type) {
-        case 'CREATED':
+        case Type.CREATED:
             addOrder(event.order, queryClient);
             break;
-        case 'UPDATED':
+        case Type.UPDATED:
             updateOrder(event.order, queryClient);
             break;
     }

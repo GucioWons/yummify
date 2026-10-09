@@ -115,6 +115,12 @@ export namespace Dtos {
         status: OrderItemStatus;
     }
 
+    export interface OrderWebSocketMessage {
+        order: OrderDto;
+        type: Type;
+        userId: string;
+    }
+
     export interface PositionedDto {
     }
 
@@ -260,6 +266,11 @@ export namespace Dtos {
         ORDER_READ = "ORDER_READ",
         ORDER_CREATE = "ORDER_CREATE",
         ORDER_MODIFY = "ORDER_MODIFY",
+    }
+
+    export enum Type {
+        CREATED = "CREATED",
+        UPDATED = "UPDATED",
     }
 
 }
