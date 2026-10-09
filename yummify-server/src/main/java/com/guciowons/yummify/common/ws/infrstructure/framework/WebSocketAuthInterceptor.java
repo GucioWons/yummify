@@ -4,11 +4,13 @@ import com.guciowons.yummify.common.security.domain.AccessDeniedException;
 import com.guciowons.yummify.common.security.domain.UnauthorizedException;
 import com.guciowons.yummify.common.security.infractructure.framework.UserPrincipalJwtConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class WebSocketAuthInterceptor implements ChannelInterceptor {
     private final JwtDecoder jwtDecoder;
@@ -25,13 +28,20 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             authenticate(accessor);
         } else if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
             authorizeSubscription(accessor);
         }
+
+        log.info(
+                "command={}, sessionId={}, user={}",
+                accessor.getCommand(),
+                accessor.getSessionId(),
+                accessor.getUser()
+        );
 
         return message;
     }
@@ -48,6 +58,7 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
         Authentication authentication = jwtConverter.convert(jwt);
 
         accessor.setUser(authentication);
+        accessor.setUserChangeCallback(user -> {});
     }
 
     private void authorizeSubscription(StompHeaderAccessor accessor) {
