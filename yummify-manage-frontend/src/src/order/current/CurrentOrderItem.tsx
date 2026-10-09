@@ -3,7 +3,7 @@ import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
 import CurrentOrderItemLabel from "./CurrentOrderItemLabel.tsx";
 import CurrentOrderButton, {CurrentOrderButtonProps} from "./CurrentOrderButton.tsx";
 import {Check, LucideIcon, Play, Truck} from "lucide-react";
-import OrderItemClientDto = Dtos.OrderItemClientDto;
+import OrderItemDto = Dtos.OrderItemDto;
 import OrderStatus = Dtos.OrderStatus;
 import OrderItemStatus = Dtos.OrderItemStatus;
 import {orderService} from "../service/orderService.ts";
@@ -13,7 +13,7 @@ interface OrderItemAction {
     text: string;
     color: CurrentOrderButtonProps['color'];
     icon: LucideIcon;
-    mutation: (item: OrderItemClientDto, orderId: string) => Promise<unknown>;
+    mutation: (item: OrderItemDto, orderId: string) => Promise<unknown>;
     shouldShow?: (orderStatus: OrderStatus) => boolean;
 }
 
@@ -42,7 +42,7 @@ const ORDER_ITEM_ACTIONS: Partial<Record<OrderItemStatus, OrderItemAction>> = {
 };
 
 export interface CurrentOrderItemProps {
-    item: OrderItemClientDto;
+    item: OrderItemDto;
     orderStatus: OrderStatus;
     orderId: string;
 }

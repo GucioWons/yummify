@@ -1,10 +1,10 @@
 import {Dtos} from "../../common/dtos.ts";
 import CurrentOrderHeader from "./CurrentOrderHeader.tsx";
 import CurrentOrderItemList from "./CurrentOrderItemList.tsx";
-import OrderClientDto = Dtos.OrderClientDto;
+import OrderDto = Dtos.OrderDto;
 
 export interface CurrentOrderProps {
-    order: OrderClientDto;
+    order: OrderDto;
 }
 
 function CurrentOrder(props: CurrentOrderProps) {

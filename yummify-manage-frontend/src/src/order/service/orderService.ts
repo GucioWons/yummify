@@ -1,26 +1,26 @@
 import axiosInstance from "../../common/api/axiosInstance.ts";
 import {Dtos} from "../../common/dtos.ts";
-import OrderClientDto = Dtos.OrderClientDto;
-import OrderItemClientDto = Dtos.OrderItemClientDto;
+import OrderDto = Dtos.OrderDto;
+import OrderItemDto = Dtos.OrderItemDto;
 
 export const orderService = {
     async getCurrent() {
-        return axiosInstance.get<OrderClientDto[]>('orders/current');
+        return axiosInstance.get<OrderDto[]>('orders/current');
     },
 
     async getOld() {
-        return axiosInstance.get<OrderClientDto[]>(`orders/old`);
+        return axiosInstance.get<OrderDto[]>(`orders/old`);
     },
 
     async startPreparation(id: string, itemId: string) {
-        return axiosInstance.post<OrderItemClientDto>(`orders/${id}/items/${itemId}/start`);
+        return axiosInstance.post<OrderItemDto>(`orders/${id}/items/${itemId}/start`);
     },
 
     async finishPreparation(id: string, itemId: string) {
-        return axiosInstance.post<OrderItemClientDto>(`orders/${id}/items/${itemId}/finish`);
+        return axiosInstance.post<OrderItemDto>(`orders/${id}/items/${itemId}/finish`);
     },
 
     async serve(id: string, itemId: string) {
-        return axiosInstance.post<OrderItemClientDto>(`orders/${id}/items/${itemId}/serve`);
+        return axiosInstance.post<OrderItemDto>(`orders/${id}/items/${itemId}/serve`);
     },
 }

@@ -1,5 +1,5 @@
 import {Dtos} from "../../common/dtos.ts";
-import OrderClientDto = Dtos.OrderClientDto;
+import OrderDto = Dtos.OrderDto;
 import {useCallback} from "react";
 import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
 import CurrentOrderLabel from "./CurrentOrderLabel.tsx";
@@ -7,7 +7,7 @@ import {BanknoteArrowDown, BellRing} from "lucide-react";
 import Label from "../../common/label/Label.tsx";
 
 export interface CurrentOrderHeaderProps {
-    order: OrderClientDto;
+    order: OrderDto;
 }
 
 function CurrentOrderHeader(props: CurrentOrderHeaderProps) {

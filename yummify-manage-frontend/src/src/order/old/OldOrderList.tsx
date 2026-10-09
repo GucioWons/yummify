@@ -1,9 +1,11 @@
 import {orderService} from "../service/orderService.ts";
 import {useQuery} from "@tanstack/react-query";
 import LoadingSpinner from "../../common/loading/LoadingSpinner.tsx";
+import {Dtos} from "../../common/dtos.ts";
+import OrderDto = Dtos.OrderDto;
 
 function OldOrderList() {
-    const {data: orders, isLoading, isError} = useQuery<OrderClientDto[]>({
+    const {data: orders, isLoading, isError} = useQuery<OrderDto[]>({
         queryKey: ["orders", "old"],
         queryFn: () => orderService.getOld().then(res => res.data),
         staleTime: 1000 * 60 * 5,
@@ -13,7 +15,7 @@ function OldOrderList() {
     if (isError) return <div>Błąd podczas pobierania zamówień.</div>;
 
     return(
-        <div>{orders.length}</div>
+        <div>{orders!.length}</div>
     )
 }
 
