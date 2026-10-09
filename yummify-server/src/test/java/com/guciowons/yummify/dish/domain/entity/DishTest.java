@@ -2,6 +2,7 @@ package com.guciowons.yummify.dish.domain.entity;
 
 import org.junit.jupiter.api.Test;
 
+import static com.guciowons.yummify.common.file.domain.fixture.FileDomainFixture.givenFile;
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,12 +47,12 @@ class DishTest {
     void shouldChangeImage() {
         // given
         var dish = givenDish(1);
-        var imageId = givenDishImageId(1);
+        var image = givenFile(1);
 
         // when
-        dish.changeImage(imageId);
+        dish.changeImage(image);
 
         // then
-        assertThat(dish.getImageId()).isEqualTo(imageId);
+        assertThat(dish.getImage()).isEqualTo(image);
     }
 }

@@ -1,5 +1,6 @@
 package com.guciowons.yummify.dish.infrastructure.in.rest;
 
+import com.guciowons.yummify.common.file.domain.model.File;
 import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.Permission;
@@ -98,15 +99,15 @@ public class DishController {
             @RequestParam MultipartFile image,
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
-        Dish.ImageId updatedImageId = dishFacade.updateImage(id, userPrincipal.restaurantId(), image);
+        File file = dishFacade.updateImage(id, userPrincipal.restaurantId(), image);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new DishImageUrlDto(dishImageUrlProvider.get(updatedImageId, Dish.RestaurantId.of(userPrincipal.restaurantId()))));
+                .body(new DishImageUrlDto(dishImageUrlProvider.get(file)));
     }
 
     private DishManageDto mapToManageDto(Dish dish) {
-        String imageUrl = dishImageUrlProvider.get(dish.getImageId(), dish.getRestaurantId());
+        String imageUrl = dishImageUrlProvider.get(dish.getImage());
         return dishMapper.toManageDto(dish, imageUrl);
     }
 }

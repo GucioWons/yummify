@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+import static com.guciowons.yummify.common.file.domain.fixture.FileDomainFixture.givenFile;
 import static com.guciowons.yummify.dish.application.fixture.DishApplicationFixture.*;
 import static com.guciowons.yummify.dish.domain.fixture.DishDomainFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -126,10 +127,10 @@ class DishFacadeTest {
         var restaurantId = givenDishRestaurantId(1).value();
         var image = mock(MultipartFile.class);
         var command = givenUpdateDishImageCommand();
-        var imageId = givenDishImageId(1);
+        var file = givenFile(1);
 
         when(dishCommandMapper.toUpdateDishImageCommand(dishId, image, restaurantId)).thenReturn(command);
-        when(updateDishImageUsecase.updateImage(command)).thenReturn(imageId);
+        when(updateDishImageUsecase.updateImage(command)).thenReturn(file);
 
         // when
         var result = underTest.updateImage(dishId, restaurantId, image);
@@ -138,6 +139,6 @@ class DishFacadeTest {
         verify(dishCommandMapper).toUpdateDishImageCommand(dishId, image, restaurantId);
         verify(updateDishImageUsecase).updateImage(command);
 
-        assertThat(result).isEqualTo(imageId);
+        assertThat(result).isEqualTo(file);
     }
 }

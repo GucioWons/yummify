@@ -1,6 +1,7 @@
 package com.guciowons.yummify.dish.application;
 
 import com.guciowons.yummify.common.core.application.annotation.Facade;
+import com.guciowons.yummify.common.file.domain.model.File;
 import com.guciowons.yummify.dish.application.model.CreateDishCommand;
 import com.guciowons.yummify.dish.application.model.GetDishQuery;
 import com.guciowons.yummify.dish.application.model.UpdateDishCommand;
@@ -45,7 +46,7 @@ public class DishFacade implements DishFacadePort {
         return updateDishUsecase.update(command);
     }
 
-    public Dish.ImageId updateImage(UUID id, UUID restaurantId, MultipartFile image) {
+    public File updateImage(UUID id, UUID restaurantId, MultipartFile image) {
         UpdateDishImageCommand command = dishCommandMapper.toUpdateDishImageCommand(id, image, restaurantId);
         return updateDishImageUsecase.updateImage(command);
     }

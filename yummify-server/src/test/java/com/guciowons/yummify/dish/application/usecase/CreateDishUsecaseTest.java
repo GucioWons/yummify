@@ -31,7 +31,7 @@ class CreateDishUsecaseTest {
         assertThat(result.getName()).isEqualTo(command.name());
         assertThat(result.getDescription()).isEqualTo(command.description());
         assertThat(result.getIngredientIds()).isEqualTo(command.ingredientIds());
-        assertThat(result.getImageId()).isNull();
+        assertThat(result.getImage()).isNull();
     }
 
 }

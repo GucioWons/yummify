@@ -39,7 +39,7 @@ public class DishClientController {
     }
 
     private DishClientDto mapToClientDto(Dish dish) {
-        String imageUrl = dishImageUrlProvider.get(dish.getImageId(), dish.getRestaurantId());
+        String imageUrl = dishImageUrlProvider.get(dish.getImage());
         return dishMapper.toClientDto(dish, imageUrl);
     }
 }

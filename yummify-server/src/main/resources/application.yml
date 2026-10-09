@@ -26,8 +26,8 @@ spring:
           jwk-set-uri: http://localhost:8080/realms/yummify/protocol/openid-connect/certs
           issuers: http://localhost:8080/realms/yummify
 
-minio:
-  minio-url: http://localhost:9000
+file:
+  url: http://localhost:9000
   access-key: FQT6M88SSBiGJ6LhZ6vq
   secret-key: vhdLjxpVntXfjP4mhhbEiAfmFteRVm0kt7wvF0mZ
   bucket-name: yummify
