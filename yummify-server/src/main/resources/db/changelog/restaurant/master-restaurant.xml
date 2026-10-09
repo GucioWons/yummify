@@ -7,5 +7,6 @@
 
     <include file="db/changelog/restaurant/2025-09-10-create-restaurant-table.sql" relativeToChangelogFile="false"/>
     <include file="/db/changelog/restaurant/2026-01-18-backend-refactor.sql" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/restaurant/2026-10-09-currency-column.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

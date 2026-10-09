@@ -3,9 +3,8 @@ package com.guciowons.yummify.restaurant.infrastructure.in.rest;
 import com.guciowons.yummify.common.security.application.SecuredByPermission;
 import com.guciowons.yummify.common.security.application.UserPrincipal;
 import com.guciowons.yummify.common.security.domain.Permission;
-import com.guciowons.yummify.restaurant.application.port.RestaurantFacadePort;
+import com.guciowons.yummify.restaurant.application.RestaurantFacade;
 import com.guciowons.yummify.restaurant.domain.entity.Restaurant;
-import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantClientDto;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantCreateDto;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.RestaurantManageDto;
 import com.guciowons.yummify.restaurant.infrastructure.in.rest.dto.mapper.RestaurantMapper;
@@ -17,10 +16,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("restaurants")
+@RequestMapping("manage/restaurants")
 @RequiredArgsConstructor
 public class RestaurantController {
-    private final RestaurantFacadePort restaurantFacade;
+    private final RestaurantFacade restaurantFacade;
     private final RestaurantMapper restaurantMapper;
 
     @PostMapping
@@ -30,6 +29,7 @@ public class RestaurantController {
                 dto.restaurant().name(),
                 dto.restaurant().description().translations(),
                 dto.restaurant().defaultLanguage(),
+                dto.restaurant().currency(),
                 restaurantMapper.toOwner(dto.owner())
         );
 
@@ -39,15 +39,6 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public ResponseEntity<RestaurantClientDto> getForClient(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        Restaurant restaurant = restaurantFacade.getById(userPrincipal.restaurantId());
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(restaurantMapper.toClientDto(restaurant));
-    }
-
-    @GetMapping("/manage")
     public ResponseEntity<RestaurantManageDto> getForAdmin(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         Restaurant restaurant = restaurantFacade.getById(userPrincipal.restaurantId());
 

@@ -9,6 +9,7 @@ public record RestaurantManageDto(
         UUID id,
         @NotNull String name,
         @NotNull String defaultLanguage,
+        @NotNull String currency,
         @NotNull TranslatedStringDto description
 ) {
 }

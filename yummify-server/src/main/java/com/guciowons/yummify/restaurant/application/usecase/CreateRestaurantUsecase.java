@@ -25,7 +25,7 @@ public class CreateRestaurantUsecase {
 
     @Transactional
     public Restaurant create(CreateRestaurantCommand command) {
-        Restaurant restaurant = Restaurant.create(command.name(), command.description(), command.defaultLanguage());
+        Restaurant restaurant = Restaurant.create(command.name(), command.description(), command.defaultLanguage(), command.currency());
 
         UUID roleId = createOwnerRole(restaurant.getId());
         UUID ownerId = createOwnerUser(command.owner(), restaurant.getId(), roleId);

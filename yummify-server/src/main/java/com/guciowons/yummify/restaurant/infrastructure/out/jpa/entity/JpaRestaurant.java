@@ -32,4 +32,7 @@ public class JpaRestaurant {
 
     @Column(nullable = false)
     private String defaultLanguage;
+
+    @Column(nullable = false)
+    private String currency;
 }

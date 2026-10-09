@@ -22,11 +22,13 @@ public interface RestaurantCommandMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "defaultLanguage", source = "defaultLanguage")
+    @Mapping(target = "currency", source = "currency")
     @Mapping(target = "owner", source = "owner")
     CreateRestaurantCommand toCreateRestaurantCommand(
             String name,
             Map<String, String> description,
             String defaultLanguage,
+            String currency,
             RestaurantOwner owner
     );
 

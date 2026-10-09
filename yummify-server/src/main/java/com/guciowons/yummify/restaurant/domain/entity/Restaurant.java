@@ -3,6 +3,7 @@ package com.guciowons.yummify.restaurant.domain.entity;
 import com.guciowons.yummify.common.core.domain.entity.IdValueObject;
 import com.guciowons.yummify.common.core.domain.entity.ValueObject;
 import com.guciowons.yummify.common.i8n.domain.entity.TranslatedString;
+import com.guciowons.yummify.common.i8n.domain.enumerated.Currency;
 import com.guciowons.yummify.common.i8n.domain.enumerated.Language;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +18,10 @@ public class Restaurant {
     private Name name;
     private TranslatedString description;
     private Language defaultLanguage;
+    private final Currency currency;
 
-    public static Restaurant create(Name name, TranslatedString description, Language defaultLanguage) {
-        return new Restaurant(Id.random(), null, name, description, defaultLanguage);
+    public static Restaurant create(Name name, TranslatedString description, Language defaultLanguage, Currency currency) {
+        return new Restaurant(Id.random(), null, name, description, defaultLanguage, currency);
     }
 
     public void changeOwner(OwnerId newOwnerId) {
