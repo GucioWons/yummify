@@ -1,13 +1,13 @@
 import {ChefHat, CircleCheck, CircleX, Clock, Flame, Truck} from "lucide-react";
-import Label from "../../common/label/Label.tsx";
-import {Dtos} from "../../common/dtos.ts";
+import Label from "../common/label/Label.tsx";
+import {Dtos} from "../common/dtos.ts";
 import OrderStatus = Dtos.OrderStatus;
 
-export interface CurrentOrderLabel {
+export interface OrderStatusLabel {
     status: OrderStatus;
 }
 
-function CurrentOrderLabel(props: CurrentOrderLabel) {
+function CurrentOrderLabel(props: OrderStatusLabel) {
     const {status} = props;
 
     const text = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();

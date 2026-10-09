@@ -1,13 +1,13 @@
 import {Dtos} from "../../common/dtos.ts";
 import CurrentOrderItem from "./CurrentOrderItem.tsx";
-import OrderClientDto = Dtos.OrderClientDto;
+import OrderDto = Dtos.OrderDto;
 import Divider from "../../common/divider/Divider.tsx";
 import CurrentOrderButton from "./CurrentOrderButton.tsx";
 import {CheckCircle} from "lucide-react";
 import OrderStatus = Dtos.OrderStatus;
 
 export interface CurrentOrderItemProps {
-    order: OrderClientDto;
+    order: OrderDto;
 }
 
 function CurrentOrderItemList(props: CurrentOrderItemProps) {

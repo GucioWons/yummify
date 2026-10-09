@@ -102,3 +102,22 @@
 .current-order-button-purple:hover {
     background-color: #4A148C;
 }
+
+.old-order-list-element {
+    display: flex;
+    justify-content: space-between;
+}
+
+.old-order-list-element-left {
+    display: flex;
+    gap: 16px;
+}
+
+.old-order-list-element-left-table {
+    font-weight: 600;
+}
+
+.old-order-list-element-right {
+    display: flex;
+    gap: 12px;
+}
