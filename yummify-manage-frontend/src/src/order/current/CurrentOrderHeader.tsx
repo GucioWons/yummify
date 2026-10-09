@@ -2,7 +2,7 @@ import {Dtos} from "../../common/dtos.ts";
 import OrderDto = Dtos.OrderDto;
 import {useCallback} from "react";
 import {formatCurrency} from "../../common/useCurrencyFormatter.ts";
-import CurrentOrderLabel from "./CurrentOrderLabel.tsx";
+import CurrentOrderLabel from "../OrderStatusLabel.tsx";
 import {BanknoteArrowDown, BellRing} from "lucide-react";
 import Label from "../../common/label/Label.tsx";
 
